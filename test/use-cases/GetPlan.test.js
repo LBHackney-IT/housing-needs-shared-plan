@@ -1,28 +1,12 @@
 import GetPlan from '../../lib/use-cases/getPlan';
 
 describe('GetPlan', () => {
-  const createGateway = planExists => {
-    const plans = [
-      { firstName: 'Nate', lastName: 'Tate', id: 1 },
-      { firstName: 'Simon', lastName: 'ThePieman', id: 2 }
-    ];
-    return {
-      create: jest.fn(id => {
-        return { id, firstName: 'new', lastName: 'name' };
-      }),
-      get: jest.fn(id => {
-        return planExists ? plans.filter(x => x.id === id)[0] : null;
-      })
-    };
-  };
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('creates a new plan if plan does not exist', async () => {
-    const id = 1;
-    const planGateway = createGateway(false);
+    const id = 2;
+    const planGateway = {
+      create: jest.fn(() => ({ id, firstName: '', lastName: '' })),
+      get: jest.fn(() => null)
+    };
     const getPlan = new GetPlan({ planGateway });
 
     const result = await getPlan.execute({ id });
@@ -33,18 +17,17 @@ describe('GetPlan', () => {
   });
 
   it('does not create a plan if one already exists', async () => {
-    const id = 2;
-    const planGateway = createGateway(true);
+    const id = 1;
+    const planGateway = {
+      create: jest.fn(),
+      get: jest.fn(() => ({ id, firstName: 'Simon', lastName: 'ThePieman' }))
+    };
     const getPlan = new GetPlan({ planGateway });
 
     const result = await getPlan.execute({ id });
 
     expect(planGateway.get).toHaveBeenCalledWith(id);
     expect(planGateway.create).not.toHaveBeenCalled();
-    expect(result).toEqual({
-      id,
-      firstName: 'Simon',
-      lastName: 'ThePieman'
-    });
+    expect(result).toEqual({ id, firstName: 'Simon', lastName: 'ThePieman' });
   });
 });
