@@ -1,16 +1,18 @@
-import GetPlan from '../../lib/use-cases/GetPlan';
+import GetPlan from '../../lib/use-cases/getPlan';
 
 describe('GetPlan', () => {
-  const createGateway = (planExists) => {
+  const createGateway = planExists => {
     const plans = [
       { firstName: 'Nate', lastName: 'Tate', id: 1 },
-      { firstName: 'Simon', lastName: 'ThePieman', id: 2 },
+      { firstName: 'Simon', lastName: 'ThePieman', id: 2 }
     ];
     return {
-      create: jest.fn(),
-      get: jest.fn((id) => {
-        return planExists ? plans.filter((x) => x.id === id)[0] : null;
+      create: jest.fn(id => {
+        return { id, firstName: 'new', lastName: 'name' };
       }),
+      get: jest.fn(id => {
+        return planExists ? plans.filter(x => x.id === id)[0] : null;
+      })
     };
   };
 
@@ -28,11 +30,7 @@ describe('GetPlan', () => {
 
     expect(planGateway.get).toHaveBeenCalledWith(id);
     expect(planGateway.create).toHaveBeenCalledWith(id);
-    expect(result).toEqual({
-      id: 1,
-      firstName: 'Nate',
-      lastName: 'Tate',
-    });
+    expect(result.id).toEqual(id);
   });
 
   it('Does not create a plan if one already exists', async () => {
@@ -48,7 +46,7 @@ describe('GetPlan', () => {
     expect(result).toEqual({
       id,
       firstName: 'Simon',
-      lastName: 'ThePieman',
+      lastName: 'ThePieman'
     });
   });
 });
