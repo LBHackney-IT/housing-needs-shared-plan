@@ -1,13 +1,25 @@
-const GetPlan = require('../../lib/use-cases/GetPlan');
-import 'regenerator-runtime/runtime.js';
+import GetPlan from '../../lib/use-cases/GetPlan';
+
 describe('GetPlan', () => {
   it('Creates a new plan if plan does not exist', async () => {
-    const usecase = GetPlan({ firstName, lastName });
+    const firstName = 'Bill';
+    const lastName = 'Hohepa';
 
-    const result = await usecase();
+    const planGateway = {
+      createPlan: jest.fn(),
+      getPlan: jest.fn(),
+    };
 
-    expect(result).toBe({
-      id: 'x'
+    const usecase = GetPlan({ planGateway });
+
+    const result = await usecase({ firstName, lastName });
+
+    expect(planGateway.getPlan).toHaveBeenCalled();
+    expect(planGateway.createPlan).toHaveBeenCalled();
+    expect(result).toEqual({
+      id: 1,
+      firstName,
+      lastName,
     });
   });
 });
