@@ -20,7 +20,7 @@ describe('GetPlan', () => {
     jest.clearAllMocks();
   });
 
-  it('Creates a new plan if plan does not exist', async () => {
+  it('creates a new plan if plan does not exist', async () => {
     const id = 1;
     const planGateway = createGateway(false);
     const getPlan = new GetPlan({ planGateway });
@@ -32,7 +32,7 @@ describe('GetPlan', () => {
     expect(result.id).toEqual(id);
   });
 
-  it('Does not create a plan if one already exists', async () => {
+  it('does not create a plan if one already exists', async () => {
     const id = 2;
     const planGateway = createGateway(true);
     const getPlan = new GetPlan({ planGateway });

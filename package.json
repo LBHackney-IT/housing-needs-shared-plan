@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "unit-test": "jest --watch",
-    "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js ./*.js && echo 'Lint complete.'"
+    "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
   "dependencies": {
     "next": "9.3.6",
