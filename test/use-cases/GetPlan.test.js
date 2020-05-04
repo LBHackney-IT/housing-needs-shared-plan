@@ -22,11 +22,10 @@ describe('GetPlan', () => {
 
   it('Creates a new plan if plan does not exist', async () => {
     const id = 1;
-
     const planGateway = createGateway(false);
-    const usecase = GetPlan({ planGateway });
+    const getPlan = new GetPlan({ planGateway });
 
-    const result = await usecase({ id });
+    const result = await getPlan.execute({ id });
 
     expect(planGateway.get).toHaveBeenCalledWith(id);
     expect(planGateway.create).toHaveBeenCalledWith(id);
@@ -35,11 +34,10 @@ describe('GetPlan', () => {
 
   it('Does not create a plan if one already exists', async () => {
     const id = 2;
-
     const planGateway = createGateway(true);
-    const usecase = GetPlan({ planGateway });
+    const getPlan = new GetPlan({ planGateway });
 
-    const result = await usecase({ id });
+    const result = await getPlan.execute({ id });
 
     expect(planGateway.get).toHaveBeenCalledWith(id);
     expect(planGateway.create).not.toHaveBeenCalled();
