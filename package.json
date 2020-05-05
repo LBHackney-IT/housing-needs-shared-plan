@@ -11,5 +11,8 @@
     "next": "9.3.6",
     "react": "16.13.1",
     "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "serverless-nextjs-plugin": "^2.4.10"
   }
 }
