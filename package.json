@@ -10,6 +10,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
   "dependencies": {
+    "aws-sdk": "^2.669.0",
     "next": "9.3.6",
     "react": "16.13.1",
     "react-dom": "16.13.1"
