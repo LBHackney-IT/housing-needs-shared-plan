@@ -91,3 +91,67 @@ describe('PlanGateway', () => {
       expect(result).toBeNull();
     });
   });
+
+  describe('find', () => {
+    it('throws an error if first name is missing', async () => {
+      const planGateway = new PlanGateway({ client });
+
+      await expect(async () => {
+        await planGateway.find({});
+      }).rejects.toThrow('first name cannot be null.');
+      expect(client.query).not.toHaveBeenCalled();
+    });
+
+    it('throws an error if last name is missing', async () => {
+      const planGateway = new PlanGateway({ client });
+
+      await expect(async () => {
+        await planGateway.find({ firstName: 'Linda' });
+      }).rejects.toThrow('last name cannot be null.');
+      expect(client.query).not.toHaveBeenCalled();
+    });
+
+    it('can find matching plans when first name and last name match', async () => {
+      const customerData = {
+        firstName: 'Barry',
+        lastName: 'Jones'
+      };
+      client.query = jest.fn(() => ({
+        promise: jest.fn(() => ({ Items: [customerData] }))
+      }));
+      const expectedRequest = {
+        TableName,
+        IndexName: 'name_idx',
+        KeyConditionExpression: 'lastName = :l',
+        ExpressionAttributeValues: { ':l': customerData.lastName }
+      };
+      const planGateway = new PlanGateway({ client });
+
+      const result = await planGateway.find(customerData);
+
+      expect(client.query).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toEqual([customerData]);
+    });
+
+    it('cant find matching plans when only the last name matches', async () => {
+      client.query = jest.fn(() => ({
+        promise: jest.fn(() => ({
+          Items: [
+            {
+              firstName: 'Jane',
+              lastName: 'Brown'
+            }
+          ]
+        }))
+      }));
+      const planGateway = new PlanGateway({ client });
+
+      const result = await planGateway.find({
+        firstName: 'Sarah',
+        lastName: 'Brown'
+      });
+
+      expect(result).toEqual([]);
+    });
+  });
+});
