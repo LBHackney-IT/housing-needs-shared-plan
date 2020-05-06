@@ -11,8 +11,8 @@ describe('GetPlan', () => {
 
     const result = await getPlan.execute({ id });
 
-    expect(planGateway.get).toHaveBeenCalledWith(id);
-    expect(planGateway.create).toHaveBeenCalledWith(id);
+    expect(planGateway.get).toHaveBeenCalledWith({ id });
+    expect(planGateway.create).toHaveBeenCalledWith({ id });
     expect(result.id).toEqual(id);
   });
 
@@ -26,7 +26,7 @@ describe('GetPlan', () => {
 
     const result = await getPlan.execute({ id });
 
-    expect(planGateway.get).toHaveBeenCalledWith(id);
+    expect(planGateway.get).toHaveBeenCalledWith({ id });
     expect(planGateway.create).not.toHaveBeenCalled();
     expect(result).toEqual({ id, firstName: 'Simon', lastName: 'ThePieman' });
   });
