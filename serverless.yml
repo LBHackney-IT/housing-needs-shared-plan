@@ -1,27 +1,7 @@
-service: housing-needs-shared-plan
-
-provider:
-  name: aws
-  runtime: nodejs12.x
-  stage: staging
-  region: eu-west-2
-  role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
-  s3:
-    bucketOne:
-      name: 'housing-needs-shared-plan-${self:provider.stage}'
-  environment:
-    NODE_ENV: staging
-
-plugins:
-  - serverless-nextjs-plugin
-
-custom:
-  name: 'housing-needs-shared-plan-${self:provider.stage}'
-  serverless-nextjs:
-    assetsBucketName: 'housing-needs-shared-plan-${self:provider.stage}'
-
-package: # <- add here
-  # exclude everything
-  # page handlers are automatically included by the plugin
-  exclude:
-    - ./**
+housingNeedsSharedPlan:
+  component: serverless-next.js
+  inputs:
+    bucketName: 'housing-needs-shared-plan'
+    name:
+      defaultLambda: 'housing-needs-shared-plan'
+      apiLambda: 'housing-needs-shared-plan-api'
