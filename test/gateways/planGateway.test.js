@@ -1,19 +1,15 @@
 import PlanGateway from '../../lib/gateways/planGateway';
-import { JestEnvironment } from '@jest/environment/build/';
 
 describe('PlanGateway', () => {
-  const db = {
-    getPlan: jest.fn(params => {
-      return params;
-    }),
-    createPlan: jest.fn(params => {
-      return params;
-    })
+  const client = {
+    put: jest.fn(() => ({ promise: jest.fn() }))
   };
+
+  const TableName = 'plans';
 
   describe('create', () => {
     it('throws an error if id is null', async () => {
-      const planGateway = new PlanGateway({ db });
+      const planGateway = new PlanGateway({ client });
 
       await expect(async () => {
         await planGateway.create(null);
@@ -21,22 +17,29 @@ describe('PlanGateway', () => {
       expect(db.getPlan).not.toHaveBeenCalled();
     });
 
-    it('creates a plan', async () => {
-      const planGateway = new PlanGateway({ db });
+    it('can create a plan', async () => {
       const id = 2;
+      const firstName = 'Trevor';
+      const lastName = 'McLevor';
+      const expectedRequest = {
+        TableName,
+        Item: {
+          id,
+          firstName,
+          lastName
+        }
+      };
+      const planGateway = new PlanGateway({ client });
 
-      const plan = await planGateway.create(id);
-      expect(db.createPlan).toHaveBeenCalledWith({
-        id
-      });
+      await planGateway.create({ id, firstName, lastName });
 
-      expect(plan).toEqual({ id });
+      expect(client.put).toHaveBeenCalledWith(expectedRequest);
     });
   });
 
   describe('get', () => {
     it('throws an error if id is null', async () => {
-      const planGateway = new PlanGateway({ db });
+      const planGateway = new PlanGateway({ client });
 
       await expect(async () => {
         await planGateway.get(null);
@@ -45,7 +48,7 @@ describe('PlanGateway', () => {
     });
   });
 
-  it('queries the database for a plan', async () => {
+  it('can get a plan', async () => {
     const planGateway = new PlanGateway({ db });
     const id = 1;
 
