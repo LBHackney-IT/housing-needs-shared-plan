@@ -1,9 +1,16 @@
 import PlanGateway from '../../lib/gateways/planGateway';
 
 describe('PlanGateway', () => {
-  const client = {
-    put: jest.fn(() => ({ promise: jest.fn() }))
-  };
+  let client;
+
+  beforeEach(() => {
+    client = {
+      put: jest.fn(request => ({
+        promise: jest.fn(() => ({ Items: [request.Item] }))
+      })),
+      query: jest.fn(() => ({ promise: jest.fn() }))
+    };
+  });
 
   const TableName = 'plans';
 
@@ -14,7 +21,7 @@ describe('PlanGateway', () => {
       await expect(async () => {
         await planGateway.create(null);
       }).rejects.toThrow();
-      expect(db.getPlan).not.toHaveBeenCalled();
+      expect(client.put).not.toHaveBeenCalled();
     });
 
     it('can create a plan', async () => {
@@ -31,9 +38,10 @@ describe('PlanGateway', () => {
       };
       const planGateway = new PlanGateway({ client });
 
-      await planGateway.create({ id, firstName, lastName });
+      const result = await planGateway.create({ id, firstName, lastName });
 
       expect(client.put).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toEqual({ id, firstName, lastName });
     });
   });
 
@@ -44,17 +52,42 @@ describe('PlanGateway', () => {
       await expect(async () => {
         await planGateway.get(null);
       }).rejects.toThrow();
-      expect(db.getPlan).not.toHaveBeenCalled();
+      expect(client.query).not.toHaveBeenCalled();
     });
   });
 
   it('can get a plan', async () => {
-    const planGateway = new PlanGateway({ db });
     const id = 1;
+    const firstName = 'Trevor';
+    const lastName = 'McLevor';
+    const expectedRequest = {
+      TableName,
+      KeyConditionExpression: 'id = :id',
+      ExpressionAttributeValues: {
+        ':id': id
+      }
+    };
+    client.query = jest.fn(() => ({
+      promise: jest.fn(() => ({ Items: [{ id, firstName, lastName }] }))
+    }));
 
-    const result = await planGateway.get(id);
-    expect(db.getPlan).toHaveBeenCalledWith({ id });
+    const planGateway = new PlanGateway({ client });
 
-    expect(result).toEqual({ id });
+    const result = await planGateway.get({ id });
+
+    expect(client.query).toHaveBeenCalledWith(expectedRequest);
+    expect(result).toEqual({ id, firstName, lastName });
+  });
+
+  it('can return null if plan does not exist', async () => {
+    client.query = jest.fn(() => ({
+      promise: jest.fn(() => ({ Items: [] }))
+    }));
+
+    const planGateway = new PlanGateway({ client });
+
+    const result = await planGateway.get({ id: 1 });
+
+    expect(result).toBeNull();
   });
 });
