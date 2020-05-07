@@ -68,6 +68,7 @@ jobs:
           command: |
             echo "staging deploy"
             pwd
+            cd repo
             echo '---------'
             ./node_modules/serverless/bin/serverless
 
