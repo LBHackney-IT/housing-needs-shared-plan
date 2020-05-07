@@ -92,7 +92,13 @@ jobs:
 
       - run:
           name: deploy
-          command: ./node_modules/serverless/bin/serverless
+          command: |
+            echo "production deploy"
+            pwd
+            cd ..
+            cd repo
+            echo '---------'
+            ./node_modules/serverless/bin/serverless
 
 workflows:
   version: 2
