@@ -925,20 +925,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@mapbox/eslint-config-mapbox@^1.0.0":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@mapbox/eslint-config-mapbox/-/eslint-config-mapbox-1.2.1.tgz#f0dc80d29a336a5477b146d9d32a75afc310a5e4"
-  integrity sha512-hhE2sN7L/RO+MhdHIhmpL0KLhA/sWxV1WWH998fmGimI40XDbBgG1Z4d8nTlfuf9jaRDJ88/uklSBvFRhvMeDA==
-
-"@mapbox/s3urls@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@mapbox/s3urls/-/s3urls-1.5.3.tgz#8578f51941af2ba836623f4941a761515ce92ff1"
-  integrity sha1-hXj1GUGvK6g2Yj9JQadhUVzpL/E=
-  dependencies:
-    "@mapbox/eslint-config-mapbox" "^1.0.0"
-    minimist "^1.1.0"
-    s3signed "^0.1.0"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -965,6 +951,15 @@
     "@serverless/core" "^1.0.0"
     aws-sdk "^2.499.0"
     ramda "^0.26.1"
+
+"@serverless/aws-dynamodb@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@serverless/aws-dynamodb/-/aws-dynamodb-4.0.0.tgz#a8e53647741001fedd63d4f483ffcac74974f57d"
+  integrity sha512-oZCBI8mV/O61LpzBgiI8ZkOYPYv8M6mb2pnGx/qyRfZQSaUHghmSr0dbod9ACQq2Fwv38Bt4deJGga+3P/9efQ==
+  dependencies:
+    "@serverless/core" "^1.0.0"
+    aws-sdk "^2.0.0"
+    ramda "^0.26.0"
 
 "@serverless/aws-iam-role@^1.0.0":
   version "1.0.0"
@@ -1482,22 +1477,7 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@^2.0.4:
-  version "2.669.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.669.0.tgz#7e8e7985120102da6bdbf40a18d8b9d692dea1ba"
-  integrity sha512-kuVcSRpDzvkgmeSmMX6Q32eTOb8UeihhUdavMrvUOP6fzSU19cNWS9HAIkYOi/jrEDK85cCZxXjxqE3JGZIGcw==
-  dependencies:
-    buffer "4.9.1"
-    events "1.1.1"
-    ieee754 "1.1.13"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
-
-aws-sdk@^2.387.0, aws-sdk@^2.474.0, aws-sdk@^2.488.0, aws-sdk@^2.499.0, aws-sdk@^2.664.0:
+aws-sdk@^2.0.0, aws-sdk@^2.387.0, aws-sdk@^2.474.0, aws-sdk@^2.488.0, aws-sdk@^2.499.0, aws-sdk@^2.664.0:
   version "2.670.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.670.0.tgz#d54d18b9245df7b89bea96102e5bdebd99587701"
   integrity sha512-hGRnZtp1wDUh6hZRBHO0Ki7thx/xbRlIEiTKlWes+f/0E1Nhm3KpelsBZ3L/Q6y1ragwkQd4Q720AmWEqemLyA==
@@ -2395,7 +2375,7 @@ debug@^2.2.0, debug@^2.3.3:
   dependencies:
     ms "2.0.0"
 
-debug@^4.1.0, debug@^4.1.1:
+debug@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
@@ -3536,7 +3516,7 @@ js-tokens@^3.0.2:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
   integrity sha1-mGbfOVECEw449/mWvOtlRDIJwls=
 
-js-yaml@^3.12.1, js-yaml@^3.13.1:
+js-yaml@^3.13.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -3706,11 +3686,6 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash.clonedeep@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-  integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
-
 lodash.defaults@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
@@ -3735,11 +3710,6 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
-
-lodash.merge@^4.6.1:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
-  integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
 lodash.union@^4.6.0:
   version "4.6.0"
@@ -3896,11 +3866,6 @@ mime-types@^2.1.22, mime-types@^2.1.27:
   dependencies:
     mime-db "1.44.0"
 
-mime@^2.4.0:
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-2.4.5.tgz#d8de2ecb92982dedbb6541c9b6841d7f218ea009"
-  integrity sha512-3hQhEUF027BuxZjQA3s7rIv/7VCQPa27hN9u9g87sEkWaKwQPuXOkVKtOeiyUrnWqTDiOs8Ed2rwg733mB0R5w==
-
 mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
@@ -3938,7 +3903,7 @@ minimatch@^3.0.4:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.5:
+minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
@@ -4041,11 +4006,6 @@ next-aws-cloudfront@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/next-aws-cloudfront/-/next-aws-cloudfront-1.1.0.tgz#5f413c2144b6ee86d3b70c632802e39af41ae021"
   integrity sha512-wqwefYlaOScqofWWN/ZLH/xqskNRCWGqarWBQB8cLuaPDaE4gl8oka26pzALbJOGM33EjZDmWoGGZvdKfiq6Kg==
-
-next-aws-lambda@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/next-aws-lambda/-/next-aws-lambda-2.4.0.tgz#fca491597b063a40f4637c9175e06c44e7cecaf6"
-  integrity sha512-R1fnYRVtY2SWt0UmFTYa5t8XG7QlRICg+CgPWr0xjLTaGqRrNxUxsu2U8FUc1dnA09PsgzttYVcx3Bymff4/tA==
 
 next-tick@~1.0.0:
   version "1.0.0"
@@ -5252,13 +5212,6 @@ s3-stream-upload@^2.0.2:
     buffer-queue "~1.0.0"
     readable-stream "^2.3.0"
 
-s3signed@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/s3signed/-/s3signed-0.1.0.tgz#ae03b86259413215ed43e99285c8c347579735fb"
-  integrity sha1-rgO4YllBMhXtQ+mShcjDR1eXNfs=
-  dependencies:
-    aws-sdk "^2.0.4"
-
 safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@~5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.0.tgz#b74daec49b1148f88c64b68d49b1e815c1f2f519"
@@ -5356,22 +5309,6 @@ serverless-next.js@^1.11.2:
     "@sls-next/s3-static-assets" "^1.0.2"
     fs-extra "^8.1.0"
     next-aws-cloudfront "^1.1.0"
-
-serverless-nextjs-plugin@^2.4.10:
-  version "2.4.10"
-  resolved "https://registry.yarnpkg.com/serverless-nextjs-plugin/-/serverless-nextjs-plugin-2.4.10.tgz#d77b4873b703464ef9629f331fad26101fe06852"
-  integrity sha512-Vh3KLRFE6GG5/bKWiUxkQrL8xhTAf8U/vKOOTmqu2VK//eba2sObsygxgO8wJUMV+R7KJsEHsvHXTI+qB+LhPg==
-  dependencies:
-    "@mapbox/s3urls" "^1.5.3"
-    chalk "^2.4.2"
-    debug "^4.1.1"
-    fs-extra "^7.0.1"
-    js-yaml "^3.12.1"
-    klaw "^3.0.0"
-    lodash.clonedeep "^4.5.0"
-    lodash.merge "^4.6.1"
-    mime "^2.4.0"
-    next-aws-lambda "^2.4.0"
 
 set-value@^2.0.0, set-value@^2.0.1:
   version "2.0.1"

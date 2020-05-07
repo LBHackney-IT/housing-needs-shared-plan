@@ -1,0 +1,105 @@
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@1.0.0
+
+executors:
+  my-executor:
+    docker:
+      - image: circleci/node:12.9.1-browsers
+
+    working_directory: ~/repo
+
+commands:
+  set-env:
+    description: "Resplaces the stage in serverless.yaml"
+    parameters:
+      to:
+        type: string
+        default: "dev"
+    steps:
+      - run: sed -i "" "/^\([[:space:]]*stage: \).*/s//\1<< parameters.to >>/" serverless.yml
+
+jobs:
+  install-dependencies-and-test:
+    executor: my-executor
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn install
+
+      - run:
+          name: Run tests
+          command: |
+            echo "CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run cypress"
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
+  build-deploy-staging:
+    executor: my-executor
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - aws-cli/install
+
+      - aws-cli/configure:
+          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          aws-region: eu-west-2
+
+      - set-env:
+          to: "staging"
+
+      - run:
+          name: deploy
+          command: serverless
+
+  build-deploy-production:
+    executor: my-executor
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - aws-cli/install
+
+      - aws-cli/configure:
+          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          aws-region: eu-west-2
+
+      - set-env:
+          to: "production"
+
+      - run:
+          name: deploy
+          command: serverless
+
+workflows:
+  version: 2
+  continuous-delivery:
+    jobs:
+      - install-dependencies-and-test
+      - build-deploy-staging:
+          requires:
+            - install-dependencies-and-test
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
+      - permit-deploy-production:
+          type: approval
+          requires:
+            - build-deploy-staging
+      - build-deploy-production:
+          requires:
+            - permit-deploy-production

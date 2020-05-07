@@ -1,7 +1,17 @@
-housingNeedsSharedPlan:
+stage: dev
+
+housingNeedsSharedPlanApp:
   component: serverless-next.js
+  name: housing-needs-shared-plan-${stage}
   inputs:
-    bucketName: 'housing-needs-shared-plan'
+    # domain: ["sharedplan", "hackney.gov.uk"]
+    bucketName: housing-needs-shared-plan-${stage}
     name:
-      defaultLambda: 'housing-needs-shared-plan'
-      apiLambda: 'housing-needs-shared-plan-api'
+      defaultLambda: housing-needs-shared-plan-${stage}
+      apiLambda: housing-needs-shared-plan-api-${stage}
+
+dynamoDB:
+  component: '@serverless/aws-dynamodb'
+  inputs:
+    name: SharedPlans-${stage}
+    region: eu-west-2
