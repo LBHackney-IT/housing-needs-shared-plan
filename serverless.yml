@@ -10,8 +10,8 @@ housingNeedsSharedPlanApp:
       defaultLambda: housing-needs-shared-plan-${stage}
       apiLambda: housing-needs-shared-plan-api-${stage}
 
-dynamoDB:
-  component: '@serverless/aws-dynamodb'
-  inputs:
-    name: SharedPlans-${stage}
-    region: eu-west-2
+#dynamoDB:
+#  component: '@serverless/aws-dynamodb'
+#  inputs:
+#    name: SharedPlans-${stage}
+#    region: eu-west-2
