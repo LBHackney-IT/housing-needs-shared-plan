@@ -65,7 +65,11 @@ jobs:
 
       - run:
           name: deploy
-          command: ./node_modules/serverless/bin/serverless
+          command: |
+          echo "staging deploy"
+          pwd
+          echo '---------'
+          ./node_modules/serverless/bin/serverless
 
   build-deploy-production:
     executor: aws-cli/default
