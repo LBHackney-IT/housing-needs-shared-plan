@@ -15,33 +15,37 @@ describe('PlanGateway', () => {
   const TableName = 'plans';
 
   describe('create', () => {
-    it('throws an error if id is null', async () => {
+    it('throws an error if firstName or lastName is null', async () => {
       const planGateway = new PlanGateway({ client });
 
       await expect(async () => {
-        await planGateway.create(null);
+        await planGateway.create({ firstName: null, lastName: 'name' });
       }).rejects.toThrow();
+
+      await expect(async () => {
+        await planGateway.create({ firstName: 'name', lastName: null });
+      }).rejects.toThrow();
+
       expect(client.put).not.toHaveBeenCalled();
     });
 
     it('can create a plan', async () => {
-      const id = 2;
       const firstName = 'Trevor';
       const lastName = 'McLevor';
       const expectedRequest = {
         TableName,
         Item: {
-          id,
+          id: expect.anything(),
           firstName,
           lastName
         }
       };
       const planGateway = new PlanGateway({ client });
 
-      const result = await planGateway.create({ id, firstName, lastName });
+      const result = await planGateway.create({ firstName, lastName });
 
       expect(client.put).toHaveBeenCalledWith(expectedRequest);
-      expect(result).toEqual({ id, firstName, lastName });
+      expect(result).toEqual({ id: expect.anything(), firstName, lastName });
     });
   });
 
