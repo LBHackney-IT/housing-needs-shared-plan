@@ -12,15 +12,17 @@ executors:
 
 commands:
   set-env:
-    description: "Resplaces the stage in serverless.yaml"
+    description: "Replaces the stage in serverless.yaml"
     parameters:
       to:
         type: string
         default: "dev"
     steps:
-      - run: |
-          cd ../repo/
-          sed -i "/^\([[:space:]]*stage:\).*/s//\1<< parameters.to >>/" serverless.yml
+      - run:
+          name: Setting enviroment to << parameters.to >>
+          command: |
+            cd ../repo/
+            sed -i "/^\([[:space:]]*stage:\).*/s//\1 << parameters.to >>/" serverless.yml
 
 jobs:
   install-dependencies-and-test:
@@ -63,7 +65,7 @@ jobs:
 
       - run:
           name: deploy
-          command: serverless
+          command: ./node_modules/serverless/bin/serverless
 
   build-deploy-production:
     executor: aws-cli/default
@@ -84,7 +86,7 @@ jobs:
 
       - run:
           name: deploy
-          command: serverless echo "somethign"
+          command: ./node_modules/serverless/bin/serverless
 
 workflows:
   version: 2

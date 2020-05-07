@@ -12,6 +12,7 @@
     "next": "9.3.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "serverless": "^1.69.0",
     "serverless-next.js": "^1.11.2"
   }
 }
