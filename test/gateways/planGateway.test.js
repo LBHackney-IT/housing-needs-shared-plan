@@ -58,40 +58,41 @@ describe('PlanGateway', () => {
       }).rejects.toThrow();
       expect(client.query).not.toHaveBeenCalled();
     });
-  });
 
-  it('can get a plan', async () => {
-    const id = 1;
-    const firstName = 'Trevor';
-    const lastName = 'McLevor';
-    const expectedRequest = {
-      TableName,
-      KeyConditionExpression: 'id = :id',
-      ExpressionAttributeValues: {
-        ':id': id
-      }
-    };
-    client.query = jest.fn(() => ({
-      promise: jest.fn(() => ({ Items: [{ id, firstName, lastName }] }))
-    }));
+    it('can get a plan', async () => {
+      const customerData = {
+        id: 1,
+        firstName: 'Trevor',
+        lastName: 'McLevor'
+      };
+      client.query = jest.fn(() => ({
+        promise: jest.fn(() => ({ Items: [customerData] }))
+      }));
+      const expectedRequest = {
+        TableName,
+        KeyConditionExpression: 'id = :id',
+        ExpressionAttributeValues: {
+          ':id': customerData.id
+        }
+      };
+      const planGateway = new PlanGateway({ client });
 
-    const planGateway = new PlanGateway({ client });
+      const result = await planGateway.get({ id: customerData.id });
 
-    const result = await planGateway.get({ id });
+      expect(client.query).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toEqual(customerData);
+    });
 
-    expect(client.query).toHaveBeenCalledWith(expectedRequest);
-    expect(result).toEqual({ id, firstName, lastName });
-  });
+    it('can return null if plan does not exist', async () => {
+      client.query = jest.fn(() => ({
+        promise: jest.fn(() => ({ Items: [] }))
+      }));
 
-  it('can return null if plan does not exist', async () => {
-    client.query = jest.fn(() => ({
-      promise: jest.fn(() => ({ Items: [] }))
-    }));
+      const planGateway = new PlanGateway({ client });
 
-    const planGateway = new PlanGateway({ client });
+      const result = await planGateway.get({ id: 1 });
 
-    const result = await planGateway.get({ id: 1 });
-
-    expect(result).toBeNull();
+      expect(result).toBeNull();
+    });
   });
 });
