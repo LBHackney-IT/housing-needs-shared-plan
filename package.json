@@ -16,6 +16,11 @@
     "start-server-and-test": "^1.11.0"
   },
   "scripts": {
-    "test": "npx cypress open"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "npx cypress open",
+    "cy:run": "cypress run",
+    "cypress": "start-server-and-test start http://localhost:3000 cy:run"
   }
 }

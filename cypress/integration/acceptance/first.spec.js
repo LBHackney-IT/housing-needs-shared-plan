@@ -1,5 +1,14 @@
-describe('First Test', () => {
-  it('Does not do much!', () => {
-    expect(true).to.equal(true)
-  });
-});
+/// <reference types="cypress" />
+
+context('Home page', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000/')
+  })
+
+  describe('Loads page', () => {
+    it('has shared plan heading', () => {
+      cy.get('h1')
+        .should('have.text', 'Welcome to Shared Plan!')
+    })
+  })
+})
