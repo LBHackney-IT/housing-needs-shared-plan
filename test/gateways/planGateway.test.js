@@ -111,7 +111,7 @@ describe('PlanGateway', () => {
       expect(client.query).not.toHaveBeenCalled();
     });
 
-    it('can find matching plans when first name and last name match', async () => {
+    it('can find matching plans', async () => {
       const customerData = {
         firstName: 'Barry',
         lastName: 'Jones'
@@ -123,7 +123,11 @@ describe('PlanGateway', () => {
         TableName,
         IndexName: 'name_idx',
         KeyConditionExpression: 'lastName = :l',
-        ExpressionAttributeValues: { ':l': customerData.lastName }
+        FilterExpression: 'firstName = :f',
+        ExpressionAttributeValues: {
+          ':f': customerData.firstName,
+          ':l': customerData.lastName
+        }
       };
       const planGateway = new PlanGateway({ client });
 
@@ -133,22 +137,15 @@ describe('PlanGateway', () => {
       expect(result).toEqual([customerData]);
     });
 
-    it('cant find matching plans when only the last name matches', async () => {
+    it('returns empty array when no matching plans', async () => {
       client.query = jest.fn(() => ({
-        promise: jest.fn(() => ({
-          Items: [
-            {
-              firstName: 'Jane',
-              lastName: 'Brown'
-            }
-          ]
-        }))
+        promise: jest.fn(() => ({ Items: [] }))
       }));
       const planGateway = new PlanGateway({ client });
 
       const result = await planGateway.find({
-        firstName: 'Sarah',
-        lastName: 'Brown'
+        firstName: 'Janos',
+        lastName: 'Manos'
       });
 
       expect(result).toEqual([]);
