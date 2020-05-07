@@ -73,8 +73,8 @@ jobs:
           name: deploy
           command: |
             cd ../repo/
+            echo '{"id": "968wwza"}' < .serverless/_.json
             ./node_modules/serverless/bin/serverless
-            cat .serverless/_.json
 
   build-deploy-production:
     executor: aws-cli/default
@@ -97,8 +97,8 @@ jobs:
           name: deploy
           command: |
             cd ../repo/
+            echo '{"id": "o792856"}' < .serverless/_.json
             ./node_modules/serverless/bin/serverless
-            cat .serverless/_.json
 
 workflows:
   version: 2
