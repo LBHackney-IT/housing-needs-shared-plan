@@ -38,9 +38,12 @@ jobs:
           command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn install
 
       - run:
+          name: Build
+          command: yarn build
+
+      - run:
           name: Run tests
-          command: |
-            echo "CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run cypress"
+          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run cypress
 
       - persist_to_workspace:
           root: ~/repo
