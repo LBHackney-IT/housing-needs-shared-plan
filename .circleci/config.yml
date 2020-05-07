@@ -45,6 +45,9 @@ jobs:
           name: Run tests
           command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run cypress
 
+      - store_artifacts:
+          path: ~/repo/cypress/screenshots
+
       - persist_to_workspace:
           root: ~/repo
           paths: .
