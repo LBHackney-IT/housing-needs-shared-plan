@@ -72,12 +72,9 @@ jobs:
       - run:
           name: deploy
           command: |
-            echo "staging deploy"
-            pwd
-            cd ..
-            cd repo
-            echo '---------'
+            cd ../repo/
             ./node_modules/serverless/bin/serverless
+            cat .serverless/_.json
 
   build-deploy-production:
     executor: aws-cli/default
@@ -99,12 +96,9 @@ jobs:
       - run:
           name: deploy
           command: |
-            echo "production deploy"
-            pwd
-            cd ..
-            cd repo
-            echo '---------'
+            cd ../repo/
             ./node_modules/serverless/bin/serverless
+            cat .serverless/_.json
 
 workflows:
   version: 2
