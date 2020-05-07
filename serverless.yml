@@ -4,7 +4,7 @@ housingNeedsSharedPlanApp:
   component: serverless-next.js
   name: housing-needs-shared-plan-${stage}
   inputs:
-    # domain: ["sharedplan", "hackney.gov.uk"]
+    domain: ["d3n7rtbt0ted3x", "cloudfront.net"]
     bucketName: housing-needs-shared-plan-${stage}
     name:
       defaultLambda: housing-needs-shared-plan-${stage}
