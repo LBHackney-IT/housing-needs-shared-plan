@@ -78,7 +78,7 @@ jobs:
           aws-region: eu-west-2
 
       - set-env:
-          to: "production"
+          to: "production" 
 
       - run:
           name: deploy
