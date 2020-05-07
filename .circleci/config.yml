@@ -73,7 +73,7 @@ jobs:
           name: deploy
           command: |
             cd ../repo/
-            echo '{"id": "968wwza"}' < .serverless/_.json
+            echo '{"id": "968wwza"}' > .serverless/_.json
             ./node_modules/serverless/bin/serverless
 
   build-deploy-production:
@@ -97,7 +97,7 @@ jobs:
           name: deploy
           command: |
             cd ../repo/
-            echo '{"id": "o792856"}' < .serverless/_.json
+            echo '{"id": "o792856"}' > .serverless/_.json
             ./node_modules/serverless/bin/serverless
 
 workflows:
