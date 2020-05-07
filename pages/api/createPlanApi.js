@@ -7,10 +7,12 @@ export default async (req, res) => {
       lastName: req.params.lastName
     });
 
-    res.statusCode = 200;
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
-    res.statusCode = 400;
-    res.json({ error: err });
+    res
+      .status(500)
+      .json({
+        error: `could not create a plan with first name: ${req.params.firstName}, last name: ${req.params.lastName}`
+      });
   }
 };

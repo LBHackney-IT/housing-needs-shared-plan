@@ -5,9 +5,9 @@ describe('createPlan Endpoint', () => {
   const firstName = 'James';
   const lastName = 'Bond';
   const id = '1';
-  const res = {
-    json: jest.fn()
-  };
+
+  let json;
+  let res;
 
   const req = {
     params: {
@@ -15,6 +15,15 @@ describe('createPlan Endpoint', () => {
       lastName
     }
   };
+
+  beforeEach(() => {
+    json = jest.fn();
+    res = {
+      status: jest.fn(() => {
+        return { json };
+      })
+    };
+  });
 
   it('Can get a plan', async () => {
     const expectedResponse = { id, firstName, lastName };
@@ -27,12 +36,14 @@ describe('createPlan Endpoint', () => {
 
     expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
 
-    expect(res.json).toHaveBeenCalledWith(expectedResponse);
-    expect(res.statusCode).toEqual(200);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
   it('Catches an error if one is thrown', async () => {
-    const expectedResponse = { id, firstName, lastName };
+    const expectedResponse = {
+      error: 'could not create a plan with first name: James, last name: Bond'
+    };
 
     createPlan.execute = jest.fn(x => {
       throw new Error('cannot get');
@@ -42,7 +53,7 @@ describe('createPlan Endpoint', () => {
 
     expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
 
-    expect(res.json).toHaveBeenCalledWith(expectedResponse); //this should not pass. createPlan gets called in the previous test and doesnt get reset
-    expect(res.statusCode).toEqual(400);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 });

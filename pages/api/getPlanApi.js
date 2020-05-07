@@ -4,10 +4,11 @@ export default async (req, res) => {
   try {
     const result = await getPlan.execute({ id: req.params.id });
 
-    res.statusCode = 200;
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
-    res.statusCode = 400;
-    res.json({ error: err });
+    //log error here
+    res
+      .status(500)
+      .json({ error: `could not get plan with id: ${req.params.id}` });
   }
 };
