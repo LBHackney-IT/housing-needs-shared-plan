@@ -15,13 +15,6 @@ describe('getPlan Endpoint', () => {
       }
     };
 
-    const config = {
-      region: 'localhost',
-      endpoint: 'http://localhost:8000',
-      accessKeyId: 'foo',
-      secretAccessKey: 'bar'
-    };
-
     getPlan.execute = jest.fn();
 
     const response = await getPlanApi(req, res);
