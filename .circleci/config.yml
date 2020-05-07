@@ -19,9 +19,7 @@ commands:
         default: "dev"
     steps:
       - run: |
-          pwd
-          ls -la
-          cd repo/
+          cd ../repo/
           sed -i "/^\([[:space:]]*stage:\).*/s//\1<< parameters.to >>/" serverless.yml
 
 jobs:
