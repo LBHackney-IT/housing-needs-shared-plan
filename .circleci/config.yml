@@ -18,7 +18,7 @@ commands:
         type: string
         default: "dev"
     steps:
-      - run: sed -i "/^\([[:space:]]*stage: \).*/s//\1<< parameters.to >>/" serverless.yml
+      - run: sed -i "/^\([[:space:]]*stage:\).*/s//\1<< parameters.to >>/" serverless.yml
 
 jobs:
   install-dependencies-and-test:
@@ -82,9 +82,7 @@ jobs:
 
       - run:
           name: deploy
-          command: |
-          serverless \
-          echo "somethign"
+          command: serverless echo "somethign"
 
 workflows:
   version: 2
