@@ -18,7 +18,8 @@ commands:
         type: string
         default: "dev"
     steps:
-      - run: sed -i "" "/^\([[:space:]]*stage: \).*/s//\1<< parameters.to >>/" serverless.yml
+      # - run: sed -i "" "/^\([[:space:]]*stage: \).*/s//\1<< parameters.to >>/" serverless.yml
+      - run: sed -i "" 's/dev/<< parameters.to >>/g' serverless.yml
 
 jobs:
   install-dependencies-and-test:
@@ -78,7 +79,7 @@ jobs:
           aws-region: eu-west-2
 
       - set-env:
-          to: "production" 
+          to: "production"
 
       - run:
           name: deploy
