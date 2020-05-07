@@ -44,7 +44,7 @@ jobs:
           paths: .
 
   build-deploy-staging:
-    executor: my-executor
+    executor: aws-cli/default
 
     steps:
       - attach_workspace:
@@ -65,7 +65,7 @@ jobs:
           command: serverless
 
   build-deploy-production:
-    executor: my-executor
+    executor: aws-cli/default
 
     steps:
       - attach_workspace:
