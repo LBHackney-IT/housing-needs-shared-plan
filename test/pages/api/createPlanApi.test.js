@@ -1,20 +1,13 @@
 import createPlanApi from '../../../pages/api/createPlanApi';
-import createPlan from '../../../lib/libDependencies';
+import createPlan from '../../../lib/dependencies';
 
-describe('createPlan Endpoint', () => {
+describe('CreatePlanApi', () => {
   const firstName = 'James';
   const lastName = 'Bond';
   const id = '1';
 
   let json;
   let res;
-
-  const req = {
-    params: {
-      firstName,
-      lastName
-    }
-  };
 
   beforeEach(() => {
     json = jest.fn();
@@ -25,8 +18,20 @@ describe('createPlan Endpoint', () => {
     };
   });
 
-  it('Can get a plan', async () => {
-    const expectedResponse = { id, firstName, lastName };
+  const req = {
+    method: 'POST',
+    body: {
+      firstName,
+      lastName
+    }
+  };
+
+  it('can get a plan', async () => {
+    const expectedResponse = expect.objectContaining({
+      id,
+      firstName,
+      lastName
+    });
 
     createPlan.execute = jest.fn(x => {
       return expectedResponse;
@@ -35,12 +40,11 @@ describe('createPlan Endpoint', () => {
     await createPlanApi(req, res);
 
     expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
-
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
-  it('Catches an error if one is thrown', async () => {
+  it('handles error if one is thrown', async () => {
     const expectedResponse = {
       error: 'could not create a plan with first name: James, last name: Bond'
     };
@@ -52,7 +56,6 @@ describe('createPlan Endpoint', () => {
     await createPlanApi(req, res);
 
     expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
-
     expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });

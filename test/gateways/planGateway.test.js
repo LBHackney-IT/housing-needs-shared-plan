@@ -15,15 +15,21 @@ describe('PlanGateway', () => {
   const TableName = 'plans';
 
   describe('create', () => {
-    it('throws an error if firstName or lastName is null', async () => {
+    it('throws an error if firstName is not provided', async () => {
       const planGateway = new PlanGateway({ client });
 
       await expect(async () => {
-        await planGateway.create({ firstName: null, lastName: 'name' });
+        await planGateway.create({ lastName: 'name' });
       }).rejects.toThrow();
 
+      expect(client.put).not.toHaveBeenCalled();
+    });
+
+    it('throws an error if lastName is not provided', async () => {
+      const planGateway = new PlanGateway({ client });
+
       await expect(async () => {
-        await planGateway.create({ firstName: 'name', lastName: null });
+        await planGateway.create({ firstName: 'name' });
       }).rejects.toThrow();
 
       expect(client.put).not.toHaveBeenCalled();
@@ -34,18 +40,21 @@ describe('PlanGateway', () => {
       const lastName = 'McLevor';
       const expectedRequest = {
         TableName,
-        Item: {
-          id: expect.anything(),
+        Item: expect.objectContaining({
+          id: expect.any(String),
           firstName,
           lastName
-        }
+        })
       };
       const planGateway = new PlanGateway({ client });
 
       const result = await planGateway.create({ firstName, lastName });
 
       expect(client.put).toHaveBeenCalledWith(expectedRequest);
-      expect(result).toEqual({ id: expect.anything(), firstName, lastName });
+      expect(result.id).toStrictEqual(expect.any(String));
+      expect(result.id.length).toBe(20);
+      expect(result.firstName).toEqual(firstName);
+      expect(result.lastName).toEqual(lastName);
     });
   });
 
@@ -87,7 +96,6 @@ describe('PlanGateway', () => {
       client.query = jest.fn(() => ({
         promise: jest.fn(() => ({ Items: [] }))
       }));
-
       const planGateway = new PlanGateway({ client });
 
       const result = await planGateway.get({ id: 1 });

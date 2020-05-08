@@ -1,17 +1,19 @@
-import createPlan from '../../lib/libDependencies';
+import createPlan from '../../lib/dependencies';
 
 export default async (req, res) => {
-  try {
-    const result = await createPlan.execute({
-      firstName: req.params.firstName,
-      lastName: req.params.lastName
-    });
+  if (req.method === 'POST') {
+    try {
+      const result = await createPlan.execute({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
+      });
 
-    res.status(200).json(result);
-  } catch (err) {
-    //log error here
-    res.status(500).json({
-      error: `could not create a plan with first name: ${req.params.firstName}, last name: ${req.params.lastName}`
-    });
+      res.status(200).json(result);
+    } catch (err) {
+      //log error here
+      res.status(500).json({
+        error: `could not create a plan with first name: ${req.body.firstName}, last name: ${req.body.lastName}`
+      });
+    }
   }
 };

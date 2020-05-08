@@ -1,16 +1,9 @@
 import getPlanApi from '../../../pages/api/getPlanApi';
-import getPlan from '../../../lib/libDependencies';
+import getPlan from '../../../lib/dependencies';
 
-describe('getPlan Endpoint', () => {
-  const id = '1';
+describe('GetPlanApi', () => {
   let json;
   let res;
-
-  const req = {
-    params: {
-      id
-    }
-  };
 
   beforeEach(() => {
     json = jest.fn();
@@ -20,8 +13,19 @@ describe('getPlan Endpoint', () => {
       })
     };
   });
-  it('Can get a plan', async () => {
-    const expectedResponse = { id, firstName: 'Nick', lastName: 'Dove' };
+
+  const req = {
+    params: {
+      id: 1
+    }
+  };
+
+  it('can get a plan', async () => {
+    const expectedResponse = expect.objectContaining({
+      id: req.params.id,
+      firstName: 'Nick',
+      lastName: 'Dove'
+    });
 
     getPlan.execute = jest.fn(x => {
       return expectedResponse;
@@ -29,13 +33,12 @@ describe('getPlan Endpoint', () => {
 
     await getPlanApi(req, res);
 
-    expect(getPlan.execute).toHaveBeenCalledWith({ id });
-
+    expect(getPlan.execute).toHaveBeenCalledWith({ id: req.params.id });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
-  it('Catches an error if one is thrown', async () => {
+  it('handles error if one is thrown', async () => {
     const expectedResponse = { error: 'could not get plan with id: 1' };
 
     getPlan.execute = jest.fn(x => {
@@ -44,9 +47,7 @@ describe('getPlan Endpoint', () => {
 
     await getPlanApi(req, res);
 
-    expect(getPlan.execute).toHaveBeenCalledWith({ id });
-
-    expect(json).toHaveBeenCalledWith(expectedResponse);
     expect(res.status).toHaveBeenCalledWith(500);
+    expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 });

@@ -1,4 +1,4 @@
-import getPlan from '../../lib/libDependencies';
+import getPlan from '../../lib/dependencies';
 
 export default async (req, res) => {
   try {
