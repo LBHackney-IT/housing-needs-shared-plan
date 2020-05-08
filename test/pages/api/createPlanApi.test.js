@@ -55,7 +55,6 @@ describe('CreatePlanApi', () => {
 
     await createPlanApi(req, res);
 
-    expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
     expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });

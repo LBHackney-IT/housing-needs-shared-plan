@@ -1,4 +1,5 @@
 import PlanGateway from '../../lib/gateways/planGateway';
+import Plan from '../../lib/domain/plan';
 
 describe('PlanGateway', () => {
   let client;
@@ -51,6 +52,7 @@ describe('PlanGateway', () => {
       const result = await planGateway.create({ firstName, lastName });
 
       expect(client.put).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toBeInstanceOf(Plan);
       expect(result.id).toStrictEqual(expect.any(String));
       expect(result.id.length).toBe(20);
       expect(result.firstName).toEqual(firstName);
@@ -69,27 +71,29 @@ describe('PlanGateway', () => {
     });
 
     it('can get a plan', async () => {
-      const customerData = {
-        id: 1,
-        firstName: 'Trevor',
-        lastName: 'McLevor'
-      };
+      const id = 1;
+      const firstName = 'Trevor';
+      const lastName = 'McLevor';
+
       client.query = jest.fn(() => ({
-        promise: jest.fn(() => ({ Items: [customerData] }))
+        promise: jest.fn(() => ({ Items: [{ id, firstName, lastName }] }))
       }));
       const expectedRequest = {
         TableName,
         KeyConditionExpression: 'id = :id',
         ExpressionAttributeValues: {
-          ':id': customerData.id
+          ':id': id
         }
       };
       const planGateway = new PlanGateway({ client });
 
-      const result = await planGateway.get({ id: customerData.id });
+      const result = await planGateway.get({ id });
 
       expect(client.query).toHaveBeenCalledWith(expectedRequest);
-      expect(result).toEqual(customerData);
+      expect(result).toBeInstanceOf(Plan);
+      expect(result.id).toEqual(id);
+      expect(result.firstName).toEqual(firstName);
+      expect(result.lastName).toEqual(lastName);
     });
 
     it('can return null if plan does not exist', async () => {

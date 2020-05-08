@@ -1,11 +1,13 @@
 import GetPlan from '../../lib/use-cases/getPlan';
+import Plan from '../../lib/domain/plan';
 
 describe('GetPlan', () => {
   it('gets a plan with id', async () => {
     const id = 1;
     const planGateway = {
-      create: jest.fn(),
-      get: jest.fn(() => ({ id, firstName: 'Simon', lastName: 'ThePieman' }))
+      get: jest.fn(
+        () => new Plan({ id, firstName: 'Simon', lastName: 'ThePieman' })
+      )
     };
     const getPlan = new GetPlan({ planGateway });
 
@@ -17,7 +19,6 @@ describe('GetPlan', () => {
 
   it('returns null if plan does not exist', async () => {
     const planGateway = {
-      create: jest.fn(),
       get: jest.fn(() => null)
     };
     const getPlan = new GetPlan({ planGateway });
