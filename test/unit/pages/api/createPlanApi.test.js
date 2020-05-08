@@ -1,5 +1,5 @@
-import createPlanApi from '../../../pages/api/createPlanApi';
-import createPlan from '../../../lib/dependencies';
+import createPlanApi from '../../../../pages/api/createPlanApi';
+import createPlan from '../../../../lib/dependencies';
 
 describe('CreatePlanApi', () => {
   const firstName = 'James';

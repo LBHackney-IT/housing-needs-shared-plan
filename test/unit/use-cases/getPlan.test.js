@@ -1,5 +1,5 @@
-import GetPlan from '../../lib/use-cases/getPlan';
-import Plan from '../../lib/domain/plan';
+import GetPlan from '../../../lib/use-cases/getPlan';
+import Plan from '../../../lib/domain/plan';
 
 describe('GetPlan', () => {
   it('gets a plan with id', async () => {

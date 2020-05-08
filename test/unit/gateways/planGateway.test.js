@@ -1,5 +1,5 @@
-import PlanGateway from '../../lib/gateways/planGateway';
-import Plan from '../../lib/domain/plan';
+import PlanGateway from '../../../lib/gateways/planGateway';
+import Plan from '../../../lib/domain/plan';
 
 describe('PlanGateway', () => {
   let client;

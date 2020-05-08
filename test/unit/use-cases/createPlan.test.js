@@ -1,5 +1,5 @@
-import CreatePlan from '../../lib/use-cases/createPlan';
-import Plan from '../../lib/domain/plan';
+import CreatePlan from '../../../lib/use-cases/createPlan';
+import Plan from '../../../lib/domain/plan';
 
 describe('CreatePlan', () => {
   it('creates a new plan', async () => {

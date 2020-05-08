@@ -1,5 +1,5 @@
-import getPlanApi from '../../../pages/api/getPlanApi';
-import getPlan from '../../../lib/dependencies';
+import getPlanApi from '../../../../pages/api/getPlanApi';
+import getPlan from '../../../../lib/dependencies';
 
 describe('GetPlanApi', () => {
   let json;
