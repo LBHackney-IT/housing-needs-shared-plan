@@ -156,7 +156,9 @@ describe('Plan Gateway', () => {
       });
 
       expect(client.query).toHaveBeenCalledWith(expectedRequest);
-      expect(result).toEqual([customerData]);
+      expect(result).toStrictEqual(
+        expect.arrayContaining([expect.objectContaining(customerData)])
+      );
     });
 
     it('filters plans using system ids', async () => {
@@ -199,7 +201,9 @@ describe('Plan Gateway', () => {
 
       const planGateway = new PlanGateway({ client });
       const result = await planGateway.find(customerData);
-      expect(result).toEqual([customerData]);
+      expect(result).toStrictEqual(
+        expect.arrayContaining([expect.objectContaining(customerData)])
+      );
     });
 
     it('returns empty array when no matching plans', async () => {
