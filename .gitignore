@@ -17,6 +17,9 @@
 
 # misc
 .DS_Store
+.vscode
+.idea
+.dynamodb
 
 # debug
 npm-debug.log*
