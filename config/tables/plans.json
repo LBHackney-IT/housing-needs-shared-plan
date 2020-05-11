@@ -21,7 +21,7 @@
       ],
       "Projection": {
         "ProjectionType": "INCLUDE",
-        "NonKeyAttributes": "id"
+        "NonKeyAttributes": "id,systemIds"
       }
     }
   ]
