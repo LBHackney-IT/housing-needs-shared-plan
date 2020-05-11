@@ -1,5 +1,6 @@
 import getPlanApi from '../../../../pages/api/getPlanApi';
 import getPlan from '../../../../lib/dependencies';
+import { ArgumentError } from '../../../../lib/domain';
 
 describe('GetPlanApi', () => {
   let json;
@@ -38,11 +39,24 @@ describe('GetPlanApi', () => {
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
-  it('handles error if one is thrown', async () => {
-    const expectedResponse = { error: 'could not get plan with id: 1' };
+  it('handles bad requests', async () => {
+    const expectedResponse = { error: 'could not get plan' };
 
     getPlan.execute = jest.fn(x => {
-      throw new Error('cannot get');
+      throw new ArgumentError('something is missing');
+    });
+
+    await getPlanApi(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(json).toHaveBeenCalledWith(expectedResponse);
+  });
+
+  it('handles general errors', async () => {
+    const expectedResponse = { error: 'could not get plan with id=1' };
+
+    getPlan.execute = jest.fn(x => {
+      throw new Error('bang!');
     });
 
     await getPlanApi(req, res);

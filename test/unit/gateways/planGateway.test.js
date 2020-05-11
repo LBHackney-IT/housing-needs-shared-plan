@@ -1,5 +1,5 @@
 import PlanGateway from '../../../lib/gateways/planGateway';
-import Plan from '../../../lib/domain/plan';
+import { ArgumentError, Plan } from '../../../lib/domain';
 
 describe('PlanGateway', () => {
   let client;
@@ -21,7 +21,7 @@ describe('PlanGateway', () => {
 
       await expect(async () => {
         await planGateway.create({ lastName: 'name' });
-      }).rejects.toThrow();
+      }).rejects.toThrow(ArgumentError);
 
       expect(client.put).not.toHaveBeenCalled();
     });
@@ -31,7 +31,7 @@ describe('PlanGateway', () => {
 
       await expect(async () => {
         await planGateway.create({ firstName: 'name' });
-      }).rejects.toThrow();
+      }).rejects.toThrow(ArgumentError);
 
       expect(client.put).not.toHaveBeenCalled();
     });
@@ -65,8 +65,8 @@ describe('PlanGateway', () => {
       const planGateway = new PlanGateway({ client });
 
       await expect(async () => {
-        await planGateway.get(null);
-      }).rejects.toThrow();
+        await planGateway.get({ id: null });
+      }).rejects.toThrow(ArgumentError);
       expect(client.query).not.toHaveBeenCalled();
     });
 

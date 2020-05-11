@@ -1,10 +1,10 @@
 import createPlanApi from '../../../../pages/api/createPlanApi';
 import createPlan from '../../../../lib/dependencies';
+import { ArgumentError } from '../../../../lib/domain';
 
 describe('CreatePlanApi', () => {
   const firstName = 'James';
   const lastName = 'Bond';
-  const id = '1';
 
   let json;
   let res;
@@ -27,6 +27,7 @@ describe('CreatePlanApi', () => {
   };
 
   it('can get a plan', async () => {
+    const id = '1';
     const expectedResponse = expect.objectContaining({
       id,
       firstName,
@@ -44,13 +45,26 @@ describe('CreatePlanApi', () => {
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
-  it('handles error if one is thrown', async () => {
+  it('handles bad requests', async () => {
+    const expectedResponse = { error: 'could not create plan' };
+
+    createPlan.execute = jest.fn(x => {
+      throw new ArgumentError('something is missing');
+    });
+
+    await createPlanApi(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(json).toHaveBeenCalledWith(expectedResponse);
+  });
+
+  it('handles general errors', async () => {
     const expectedResponse = {
-      error: 'could not create a plan with first name: James, last name: Bond'
+      error: 'could not create plan with firstName=James, lastName=Bond'
     };
 
     createPlan.execute = jest.fn(x => {
-      throw new Error('cannot get');
+      throw new Error('bang!');
     });
 
     await createPlanApi(req, res);
