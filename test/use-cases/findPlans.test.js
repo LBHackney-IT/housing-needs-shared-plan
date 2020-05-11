@@ -1,15 +1,17 @@
 import FindPlans from '../../lib/use-cases/findPlans';
 
-describe('FindPlans', () => {
+describe('Find plans', () => {
   it('can find matching plans', async () => {
-    const planGateway = {
-      find: jest.fn()
-    };
+    const planGateway = { find: jest.fn() };
     const findPlans = new FindPlans({ planGateway });
-    const metadata = { firstName: 'Joe', lastName: 'Bro', systemId: '123' };
 
-    await findPlans.execute(metadata);
+    const findPlansRequest = {
+      firstName: 'Joe',
+      lastName: 'Bro',
+      systemIds: ['123']
+    };
 
-    expect(planGateway.find).toHaveBeenCalledWith(metadata);
+    await findPlans.execute(findPlansRequest);
+    expect(planGateway.find).toHaveBeenCalledWith(findPlansRequest);
   });
 });

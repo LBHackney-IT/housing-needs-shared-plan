@@ -127,29 +127,78 @@ describe('Plan Gateway', () => {
       expect(client.query).not.toHaveBeenCalled();
     });
 
-    it('can find matching plans', async () => {
+    it('can find matching plans by name', async () => {
       const customerData = {
+        id: '123',
         firstName: 'Barry',
         lastName: 'Jones'
       };
+
       client.query = jest.fn(() => ({
         promise: jest.fn(() => ({ Items: [customerData] }))
       }));
+
       const expectedRequest = {
         TableName,
         IndexName: 'name_idx',
-        KeyConditionExpression: 'lastName = :l',
-        FilterExpression: 'firstName = :f',
+        KeyConditionExpression: 'lastName = :l and firstName = :f',
         ExpressionAttributeValues: {
           ':f': customerData.firstName,
           ':l': customerData.lastName
         }
       };
+
       const planGateway = new PlanGateway({ client });
 
-      const result = await planGateway.find(customerData);
+      const result = await planGateway.find({
+        firstName: customerData.firstName,
+        lastName: customerData.lastName
+      });
 
       expect(client.query).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toEqual([customerData]);
+    });
+
+    it('filters plans using system ids', async () => {
+      const customerData = {
+        firstName: 'Tom',
+        lastName: 'Jones',
+        systemIds: ['HH123456']
+      };
+
+      client.query.mockImplementation(request => {
+        if (request.KeyConditionExpression === 'id = :id') {
+          return {
+            promise: () =>
+              Promise.resolve({
+                Items: [customerData]
+              })
+          };
+        }
+
+        return {
+          promise: () =>
+            Promise.resolve({
+              Items: [
+                {
+                  id: '123',
+                  firstName: customerData.firstName,
+                  lastName: customerData.lastName,
+                  systemIds: ['ABC123456']
+                },
+                {
+                  id: '456',
+                  firstName: customerData.firstName,
+                  lastName: customerData.lastName,
+                  systemIds: ['HH123456']
+                }
+              ]
+            })
+        };
+      });
+
+      const planGateway = new PlanGateway({ client });
+      const result = await planGateway.find(customerData);
       expect(result).toEqual([customerData]);
     });
 
