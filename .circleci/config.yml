@@ -117,6 +117,10 @@ workflows:
       - build-deploy-staging:
           requires:
             - install-dependencies-and-test
+            filters:
+              branches:
+                only:
+                  - master
       - permit-deploy-production:
           type: approval
           requires:
