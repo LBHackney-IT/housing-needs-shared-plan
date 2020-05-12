@@ -2,14 +2,10 @@
   "name": "housing-needs-shared-plan",
   "version": "0.1.0",
   "private": true,
-
   "dependencies": {
-    "@serverless/aws-dynamodb": "^4.0.0",
     "next": "9.3.6",
     "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "serverless": "^1.69.0",
-    "serverless-next.js": "^1.11.2"
+    "react-dom": "16.13.1"
   },
   "devDependencies": {
     "cypress": "^4.5.0",
