@@ -1,12 +1,14 @@
 {
   "name": "housing-needs-shared-plan",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s dev --noPrependStageInUrl",
-    "deploy": "yarn && next build && yarn --production=true && sls deploy -s staging",
     "build": "next build",
     "start": "next start",
+    "deploy": "yarn && next build && yarn --production=true && sls deploy -s staging",
+    "cypress-open": "npx cypress open",
+    "cypress-run": "cypress run",
+    "int-test": "npm run build && start-server-and-test start http://localhost:3000 cypress-run",
     "unit-test": "jest --watch",
     "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
@@ -23,6 +25,8 @@
   "devDependencies": {
     "aws-sdk": "^2.669.0",
     "@babel/preset-react": "^7.9.4",
+    "cypress": "^4.5.0",
+    "start-server-and-test": "^1.11.0",
     "@babel/runtime": "^7.9.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",

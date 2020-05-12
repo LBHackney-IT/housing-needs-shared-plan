@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Hello</div>;
+  return <h1>Welcome to Shared Plan!</h1>;
 }
