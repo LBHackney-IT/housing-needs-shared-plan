@@ -3,7 +3,8 @@
   "KeySchema": [{ "AttributeName": "id", "KeyType": "HASH" }],
   "AttributeDefinitions": [
     { "AttributeName": "id", "AttributeType": "S" },
-    { "AttributeName": "lastName", "AttributeType": "S" }
+    { "AttributeName": "queryLastName", "AttributeType": "S" },
+    { "AttributeName": "queryFirstName", "AttributeType": "S" }
   ],
   "BillingMode": "PAY_PER_REQUEST",
   "GlobalSecondaryIndexes": [
@@ -11,11 +12,11 @@
       "IndexName": "name_idx",
       "KeySchema": [
         {
-          "AttributeName": "lastName",
+          "AttributeName": "queryLastName",
           "KeyType": "HASH"
         },
         {
-          "AttributeName": "firstName",
+          "AttributeName": "queryFirstName",
           "KeyType": "RANGE"
         }
       ],

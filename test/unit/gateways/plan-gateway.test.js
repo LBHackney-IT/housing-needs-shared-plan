@@ -39,12 +39,15 @@ describe('Plan Gateway', () => {
     it('can create a plan', async () => {
       const firstName = 'Trevor';
       const lastName = 'McLevor';
+
       const expectedRequest = {
         TableName,
         Item: expect.objectContaining({
           id: expect.any(String),
           firstName,
-          lastName
+          lastName,
+          queryFirstName: firstName.toLowerCase(),
+          queryLastName: lastName.toLowerCase()
         })
       };
       const planGateway = new PlanGateway({ client });
@@ -143,8 +146,8 @@ describe('Plan Gateway', () => {
         IndexName: 'name_idx',
         KeyConditionExpression: 'lastName = :l and firstName = :f',
         ExpressionAttributeValues: {
-          ':f': customerData.firstName,
-          ':l': customerData.lastName
+          ':f': customerData.firstName.toLowerCase(),
+          ':l': customerData.lastName.toLowerCase()
         }
       };
 
