@@ -14,11 +14,6 @@ package:
   individually: true
   exclude:
     - ./**
-    - ./node_modules/aws-sdk/**
-    - ./node_modules/serverless/**
-    - ./node_modules/typescript/**
-    - ./node_modules/@serverless/**
-    - ./node_modules/prettier/**
 
 functions:
   hn-shared-plan:
@@ -27,9 +22,12 @@ functions:
     package:
       include:
         - lambda.js
+        - next.config.js
         - lib/**
         - pages/**
+        - build/_next/**
         - node_modules/**
+
     events:
       - http: ANY /
       - http: ANY /{proxy+}
