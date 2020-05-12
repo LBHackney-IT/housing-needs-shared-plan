@@ -1,7 +1,7 @@
-import PlanGateway from '../../../lib/gateways/planGateway';
+import PlanGateway from '../../../lib/gateways/plan-gateway';
 import { ArgumentError, Plan } from '../../../lib/domain';
 
-describe('PlanGateway', () => {
+describe('Plan Gateway', () => {
   let client;
 
   beforeEach(() => {

@@ -10,20 +10,6 @@ executors:
 
     working_directory: ~/repo
 
-commands:
-  set-env:
-    description: "Replaces the stage in serverless.yaml"
-    parameters:
-      to:
-        type: string
-        default: "dev"
-    steps:
-      - run:
-          name: Setting enviroment to << parameters.to >>
-          command: |
-            cd ../repo/
-            sed -i "/^\([[:space:]]*stage:\).*/s//\1 << parameters.to >>/" serverless.yml
-
 jobs:
   install-dependencies-and-test:
     executor: my-executor
@@ -42,8 +28,8 @@ jobs:
           command: yarn build
 
       - run:
-          name: Run tests
-          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run cypress
+          name: Run integration tests
+          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
 
       - store_artifacts:
           path: ~/repo/cypress/screenshots
@@ -69,9 +55,6 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
 
-      - set-env:
-          to: "staging"
-
       - run:
           name: deploy
           command: |
@@ -95,9 +78,6 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
-
-      - set-env:
-          to: "production"
 
       - run:
           name: deploy

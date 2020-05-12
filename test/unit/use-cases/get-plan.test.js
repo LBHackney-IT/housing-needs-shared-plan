@@ -1,7 +1,7 @@
-import GetPlan from '../../../lib/use-cases/getPlan';
+import GetPlan from '../../../lib/use-cases/get-plan';
 import Plan from '../../../lib/domain/plan';
 
-describe('GetPlan', () => {
+describe('Get Plan Use Case', () => {
   it('gets a plan with id', async () => {
     const id = 1;
     const planGateway = {
