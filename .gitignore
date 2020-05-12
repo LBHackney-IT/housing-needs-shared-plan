@@ -9,7 +9,6 @@
 /coverage
 
 # next.js
-/.next/
 /out/
 
 # production
@@ -20,6 +19,7 @@
 .vscode
 .idea
 .dynamodb
+.serverless
 
 # debug
 npm-debug.log*

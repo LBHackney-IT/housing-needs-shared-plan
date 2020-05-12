@@ -1,4 +1,4 @@
-import createPlan from '../../lib/dependencies';
+import { createPlan } from '../../lib/dependencies';
 import { ArgumentError } from '../../lib/domain';
 
 export default async (req, res) => {

@@ -1,8 +1,11 @@
-import getPlanApi from '../../../../pages/api/getPlanApi';
-import getPlan from '../../../../lib/dependencies';
+import createPlanApi from '../../../../pages/api/create-plan';
+import { createPlan } from '../../../../lib/dependencies';
 import { ArgumentError } from '../../../../lib/domain';
 
-describe('GetPlanApi', () => {
+describe('Create Plan Api', () => {
+  const firstName = 'James';
+  const lastName = 'Bond';
+
   let json;
   let res;
 
@@ -16,50 +19,55 @@ describe('GetPlanApi', () => {
   });
 
   const req = {
-    params: {
-      id: 1
+    method: 'POST',
+    body: {
+      firstName,
+      lastName
     }
   };
 
   it('can get a plan', async () => {
+    const id = '1';
     const expectedResponse = expect.objectContaining({
-      id: req.params.id,
-      firstName: 'Nick',
-      lastName: 'Dove'
+      id,
+      firstName,
+      lastName
     });
 
-    getPlan.execute = jest.fn(x => {
+    createPlan.execute = jest.fn(x => {
       return expectedResponse;
     });
 
-    await getPlanApi(req, res);
+    await createPlanApi(req, res);
 
-    expect(getPlan.execute).toHaveBeenCalledWith({ id: req.params.id });
+    expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
   it('handles bad requests', async () => {
-    const expectedResponse = { error: 'could not get plan' };
+    const expectedResponse = { error: 'could not create plan' };
 
-    getPlan.execute = jest.fn(x => {
+    createPlan.execute = jest.fn(x => {
       throw new ArgumentError('something is missing');
     });
 
-    await getPlanApi(req, res);
+    await createPlanApi(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
   it('handles general errors', async () => {
-    const expectedResponse = { error: 'could not get plan with id=1' };
+    const expectedResponse = {
+      error: 'could not create plan with firstName=James, lastName=Bond'
+    };
 
-    getPlan.execute = jest.fn(x => {
+    createPlan.execute = jest.fn(x => {
       throw new Error('bang!');
     });
 
-    await getPlanApi(req, res);
+    await createPlanApi(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);

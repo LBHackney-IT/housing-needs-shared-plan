@@ -1,7 +1,7 @@
-import CreatePlan from '../../../lib/use-cases/createPlan';
+import CreatePlan from '../../../lib/use-cases/create-plan';
 import Plan from '../../../lib/domain/plan';
 
-describe('CreatePlan', () => {
+describe('Create Plan Use Case', () => {
   it('creates a new plan', async () => {
     const id = 1;
     const firstName = 'Bart';
