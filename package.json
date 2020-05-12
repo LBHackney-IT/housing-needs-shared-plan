@@ -1,13 +1,15 @@
 {
   "name": "housing-needs-shared-plan",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "unit-test": "jest --watch",
-    "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
+    "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'",
+    "test": "npx cypress open",
+    "cy:run": "cypress run",
+    "cypress": "npm run build && start-server-and-test start http://localhost:3000 cy:run"
   },
   "dependencies": {
     "aws-sdk": "^2.669.0",
@@ -17,6 +19,8 @@
     "react-dom": "16.13.1"
   },
   "devDependencies": {
+    "cypress": "^4.5.0",
+    "start-server-and-test": "^1.11.0",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/runtime": "^7.9.6",
     "babel-core": "^6.26.3",
