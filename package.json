@@ -9,7 +9,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'",
     "test": "npx cypress open",
     "cy:run": "cypress run",
-    "cypress": "start-server-and-test start http://localhost:3000 cy:run"
+    "cypress": "npm run build && start-server-and-test start http://localhost:3000 cy:run"
   },
   "dependencies": {
     "aws-sdk": "^2.669.0",
