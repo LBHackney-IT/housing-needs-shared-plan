@@ -2,25 +2,37 @@
   "name": "housing-needs-shared-plan",
   "version": "0.1.0",
   "private": true,
-
-  "dependencies": {
-    "@serverless/aws-dynamodb": "^4.0.0",
-    "next": "9.3.6",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "serverless": "^1.69.0",
-    "serverless-next.js": "^1.11.2"
-  },
-  "devDependencies": {
-    "cypress": "^4.5.0",
-    "start-server-and-test": "^1.11.0"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "unit-test": "jest --watch",
+    "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'",
     "test": "npx cypress open",
     "cy:run": "cypress run",
     "cypress": "start-server-and-test start http://localhost:3000 cy:run"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.669.0",
+    "nanoid": "^3.1.5",
+    "next": "9.3.6",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "cypress": "^4.5.0",
+    "start-server-and-test": "^1.11.0",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/runtime": "^7.9.6",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.5.1",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-jest": "^23.9.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^25.5.4",
+    "prettier": "^1.18.2"
   }
 }
