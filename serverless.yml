@@ -7,9 +7,6 @@ provider:
   stage: ${opt:stage}
   profile: hnserverless
 
-plugins:
-  - serverless-offline
-
 package:
   individually: true
   exclude:
@@ -29,6 +26,10 @@ functions:
         - node_modules/**
 
     events:
+      - http:
+          path: api/{proxy+}
+          method: ANY
+          authorizer: aws_iam # replace this with our authorizer
       - http: ANY /
       - http: ANY /{proxy+}
 
