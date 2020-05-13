@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy": "yarn && next build && yarn --production=true && sls deploy -s staging && yarn",
+    "deploy": "yarn && next build && yarn --production=true && sls deploy --aws-profile hnserverless -s staging && yarn",
     "cypress-open": "npx cypress open",
     "cypress-run": "cypress run",
     "int-test": "npm run build && start-server-and-test start http://localhost:3000 cypress-run",

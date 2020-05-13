@@ -5,7 +5,6 @@ provider:
   runtime: nodejs12.x
   region: eu-west-2
   stage: ${opt:stage}
-  profile: hnserverless
 
 package:
   individually: true
@@ -68,4 +67,3 @@ custom:
       type: request
       identitySource: ''
       resultTtlInSeconds: 0
-

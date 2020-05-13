@@ -61,7 +61,7 @@ jobs:
 
       - run:
           name: deploy
-          command: yarn build && yarn --production=true && sls deploy -s staging
+          command: cd ../repo && yarn build && yarn --production=true && sudo npm i -g serverless && sls deploy -s staging
 
   build-deploy-production:
     executor: aws-cli/default
@@ -79,7 +79,7 @@ jobs:
 
       - run:
           name: deploy
-          command: yarn build && yarn --production=true && sls deploy -s production
+          command: cd ../repo && yarn build && yarn --production=true && sudo npm i -g serverless && sls deploy -s production
 
 workflows:
   version: 2
