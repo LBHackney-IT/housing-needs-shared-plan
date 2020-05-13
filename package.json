@@ -24,6 +24,7 @@
   "devDependencies": {
     "aws-sdk": "^2.669.0",
     "@babel/preset-react": "^7.9.4",
+    "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/runtime": "^7.9.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
