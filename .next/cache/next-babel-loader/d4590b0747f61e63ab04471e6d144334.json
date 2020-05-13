@@ -1,0 +1,1 @@
+{"ast":null,"code":"var __jsx = React.createElement;\nimport React from \"react\";\nexport default function Home() {\n  return __jsx(\"h1\", null, \"Welcome to Shared Plan!\");\n}","map":null,"metadata":{},"sourceType":"module"}

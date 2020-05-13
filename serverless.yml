@@ -29,9 +29,31 @@ functions:
       - http:
           path: api/{proxy+}
           method: ANY
-          authorizer: aws_iam # replace this with our authorizer
+          authorizer: ${self:custom.authorizer.hn-shared-plan-authorizer}
       - http: ANY /
       - http: ANY /{proxy+}
 
     environment:
       ENV: ${self:provider.stage}
+
+  hn-shared-plan-authorizer:
+    name: hn-shared-plan-authorizer-${self:provider.stage}
+    handler: authorizer.handler
+    package:
+      include:
+        - authorizer.js
+        - node_modules/**
+
+    environment:
+      jwtsecret: ${ssm:/common/hackney-jwt-secret}
+      allowedGroups: 'housingneeds-singleview-beta'
+
+custom:
+  stage: ${self:provider.stage}
+  authorizer:
+    hn-shared-plan-authorizer:
+      name: hn-shared-plan-authorizer
+      type: request
+      identitySource: ''
+      resultTtlInSeconds: 0
+
