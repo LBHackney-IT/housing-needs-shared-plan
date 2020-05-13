@@ -4,6 +4,7 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**'
   ],
+  testMatch: ['<rootDir>/test/**/*.[jt]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/build/'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest'
