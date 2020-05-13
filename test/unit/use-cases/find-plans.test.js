@@ -1,4 +1,4 @@
-import FindPlans from '../../lib/use-cases/findPlans';
+import FindPlans from '../../../lib/use-cases/find-plans';
 
 describe('Find plans', () => {
   it('can find matching plans', async () => {
