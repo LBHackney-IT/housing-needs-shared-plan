@@ -1,0 +1,29 @@
+{
+  "TableName": "plans",
+  "KeySchema": [{ "AttributeName": "id", "KeyType": "HASH" }],
+  "AttributeDefinitions": [
+    { "AttributeName": "id", "AttributeType": "S" },
+    { "AttributeName": "queryLastName", "AttributeType": "S" },
+    { "AttributeName": "queryFirstName", "AttributeType": "S" }
+  ],
+  "BillingMode": "PAY_PER_REQUEST",
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "name_idx",
+      "KeySchema": [
+        {
+          "AttributeName": "queryLastName",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "queryFirstName",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "INCLUDE",
+        "NonKeyAttributes": "id,systemIds"
+      }
+    }
+  ]
+}
