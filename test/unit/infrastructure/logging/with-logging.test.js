@@ -1,4 +1,4 @@
-import { withLogging } from '../../../lib/infrastructure/logging';
+import { withLogging } from '../../../../lib/infrastructure/logging';
 
 describe('withLogging', () => {
   class ExampleUseCase {
