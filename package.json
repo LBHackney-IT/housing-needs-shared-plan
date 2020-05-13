@@ -9,7 +9,7 @@
     "cypress-open": "npx cypress open",
     "cypress-run": "cypress run",
     "int-test": "npm run build && start-server-and-test start http://localhost:3000 cypress-run",
-    "unit-test": "jest --watch",
+    "unit-test": "jest",
     "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
   "dependencies": {

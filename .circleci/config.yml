@@ -21,11 +21,15 @@ jobs:
 
       - run:
           name: Install dependencies
-          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn install
+          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn
 
       - run:
-          name: Build
+          name: Build the application
           command: yarn build
+
+      - run:
+          name: Run unit tests
+          command: yarn run unit-test
 
       - run:
           name: Run integration tests
@@ -57,13 +61,7 @@ jobs:
 
       - run:
           name: deploy
-          command: |
-            echo "staging deploy"
-            pwd
-            cd ..
-            cd repo
-            echo '---------'
-            ./node_modules/serverless/bin/serverless
+          command: yarn build && yarn --production=true && sls deploy -s staging
 
   build-deploy-production:
     executor: aws-cli/default
@@ -81,13 +79,7 @@ jobs:
 
       - run:
           name: deploy
-          command: |
-            echo "production deploy"
-            pwd
-            cd ..
-            cd repo
-            echo '---------'
-            ./node_modules/serverless/bin/serverless
+          command: yarn build && yarn --production=true && sls deploy -s production
 
 workflows:
   version: 2
