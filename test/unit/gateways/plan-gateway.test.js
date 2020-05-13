@@ -3,6 +3,7 @@ import { ArgumentError, Plan } from '../../../lib/domain';
 
 describe('Plan Gateway', () => {
   let client;
+  const tableName = 'plans';
 
   beforeEach(() => {
     client = {
@@ -13,11 +14,9 @@ describe('Plan Gateway', () => {
     };
   });
 
-  const TableName = 'plans';
-
   describe('create', () => {
     it('throws an error if firstName is not provided', async () => {
-      const planGateway = new PlanGateway({ client });
+      const planGateway = new PlanGateway({ client, tableName });
 
       await expect(async () => {
         await planGateway.create({ lastName: 'name' });
@@ -39,15 +38,18 @@ describe('Plan Gateway', () => {
     it('can create a plan', async () => {
       const firstName = 'Trevor';
       const lastName = 'McLevor';
+
       const expectedRequest = {
-        TableName,
+        TableName: tableName,
         Item: expect.objectContaining({
           id: expect.any(String),
           firstName,
-          lastName
+          lastName,
+          queryFirstName: firstName.toLowerCase(),
+          queryLastName: lastName.toLowerCase()
         })
       };
-      const planGateway = new PlanGateway({ client });
+      const planGateway = new PlanGateway({ client, tableName });
 
       const result = await planGateway.create({ firstName, lastName });
 
@@ -62,7 +64,7 @@ describe('Plan Gateway', () => {
 
   describe('get', () => {
     it('throws an error if id is null', async () => {
-      const planGateway = new PlanGateway({ client });
+      const planGateway = new PlanGateway({ client, tableName });
 
       await expect(async () => {
         await planGateway.get({ id: null });
@@ -79,13 +81,13 @@ describe('Plan Gateway', () => {
         promise: jest.fn(() => ({ Items: [{ id, firstName, lastName }] }))
       }));
       const expectedRequest = {
-        TableName,
+        TableName: tableName,
         KeyConditionExpression: 'id = :id',
         ExpressionAttributeValues: {
           ':id': id
         }
       };
-      const planGateway = new PlanGateway({ client });
+      const planGateway = new PlanGateway({ client, tableName });
 
       const result = await planGateway.get({ id });
 
@@ -100,11 +102,124 @@ describe('Plan Gateway', () => {
       client.query = jest.fn(() => ({
         promise: jest.fn(() => ({ Items: [] }))
       }));
-      const planGateway = new PlanGateway({ client });
+      const planGateway = new PlanGateway({ client, tableName });
 
       const result = await planGateway.get({ id: 1 });
 
       expect(result).toBeNull();
+    });
+  });
+
+  describe('find', () => {
+    it('throws an error if first name is missing', async () => {
+      const planGateway = new PlanGateway({ client, tableName });
+
+      await expect(async () => {
+        await planGateway.find({});
+      }).rejects.toThrow('first name cannot be null.');
+      expect(client.query).not.toHaveBeenCalled();
+    });
+
+    it('throws an error if last name is missing', async () => {
+      const planGateway = new PlanGateway({ client, tableName });
+
+      await expect(async () => {
+        await planGateway.find({ firstName: 'Linda' });
+      }).rejects.toThrow('last name cannot be null.');
+      expect(client.query).not.toHaveBeenCalled();
+    });
+
+    it('can find matching plans by name', async () => {
+      const customerData = {
+        id: '123',
+        firstName: 'Barry',
+        lastName: 'Jones'
+      };
+
+      client.query = jest.fn(() => ({
+        promise: jest.fn(() => ({ Items: [customerData] }))
+      }));
+
+      const expectedRequest = {
+        TableName: tableName,
+        IndexName: 'name_idx',
+        KeyConditionExpression: 'lastName = :l and firstName = :f',
+        ExpressionAttributeValues: {
+          ':f': customerData.firstName.toLowerCase(),
+          ':l': customerData.lastName.toLowerCase()
+        }
+      };
+
+      const planGateway = new PlanGateway({ client, tableName });
+
+      const result = await planGateway.find({
+        firstName: customerData.firstName,
+        lastName: customerData.lastName
+      });
+
+      expect(client.query).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toStrictEqual(
+        expect.arrayContaining([expect.objectContaining(customerData)])
+      );
+    });
+
+    it('filters plans using system ids', async () => {
+      const customerData = {
+        firstName: 'Tom',
+        lastName: 'Jones',
+        systemIds: ['HH123456']
+      };
+
+      client.query.mockImplementation(request => {
+        if (request.KeyConditionExpression === 'id = :id') {
+          return {
+            promise: () =>
+              Promise.resolve({
+                Items: [customerData]
+              })
+          };
+        }
+
+        return {
+          promise: () =>
+            Promise.resolve({
+              Items: [
+                {
+                  id: '123',
+                  firstName: customerData.firstName,
+                  lastName: customerData.lastName,
+                  systemIds: ['ABC123456']
+                },
+                {
+                  id: '456',
+                  firstName: customerData.firstName,
+                  lastName: customerData.lastName,
+                  systemIds: ['HH123456']
+                }
+              ]
+            })
+        };
+      });
+
+      const planGateway = new PlanGateway({ client, tableName });
+      const result = await planGateway.find(customerData);
+      expect(result).toStrictEqual(
+        expect.arrayContaining([expect.objectContaining(customerData)])
+      );
+    });
+
+    it('returns empty array when no matching plans', async () => {
+      client.query = jest.fn(() => ({
+        promise: jest.fn(() => ({ Items: [] }))
+      }));
+      const planGateway = new PlanGateway({ client, tableName });
+
+      const result = await planGateway.find({
+        firstName: 'Janos',
+        lastName: 'Manos'
+      });
+
+      expect(result).toEqual([]);
     });
   });
 });
