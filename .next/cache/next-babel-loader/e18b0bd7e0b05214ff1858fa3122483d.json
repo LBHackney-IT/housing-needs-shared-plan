@@ -1,1 +1,0 @@
-{"ast":null,"code":"export default class ArgumentError extends Error {\n  constructor(...params) {\n    super(...params);\n\n    if (Error.captureStackTrace) {\n      Error.captureStackTrace(this, ArgumentError);\n    }\n\n    this.name = 'ArgumentError';\n    this.date = new Date();\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

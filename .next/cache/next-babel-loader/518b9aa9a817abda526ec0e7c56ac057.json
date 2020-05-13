@@ -1,1 +1,0 @@
-{"ast":null,"code":"export default class Plan {\n  constructor({\n    id,\n    created,\n    firstName,\n    lastName\n  }) {\n    this.id = id;\n    this.created = created;\n    this.firstName = firstName;\n    this.lastName = lastName;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
