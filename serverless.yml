@@ -6,6 +6,9 @@ provider:
   region: eu-west-2
   stage: ${opt:stage}
 
+plugins:
+  - serverless-offline
+
 package:
   individually: true
   exclude:
@@ -34,6 +37,7 @@ functions:
 
     environment:
       ENV: ${self:provider.stage}
+      allowedGroups: 'housingneeds-singleview-beta'
 
   hn-shared-plan-authorizer:
     name: hn-shared-plan-authorizer-${self:provider.stage}
