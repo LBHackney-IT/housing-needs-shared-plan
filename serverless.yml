@@ -23,6 +23,7 @@ functions:
         - next.config.js
         - lib/**
         - pages/**
+        - public/**
         - build/_next/**
         - node_modules/**
 
