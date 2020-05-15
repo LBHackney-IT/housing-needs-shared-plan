@@ -18,7 +18,7 @@ server.all('/api/*', (req, res) => handle(req, res));
 
 server.use((req, res, next) => {
   const checkAuth = new CheckAuth({
-    allowedGroups: process.env.allowedGroups.split(","),
+    allowedGroups: process.env.allowedGroups.split(','),
     jwt: require('jsonwebtoken')
   });
   if (!checkAuth.execute({ token: req.cookies.hackneyToken}) && req.url !== '/loggedout') {
