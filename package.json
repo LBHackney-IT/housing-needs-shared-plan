@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "deploy": "yarn && next build && yarn --production=true && sls deploy --aws-profile hnserverless -s staging && yarn",
+    "sls-debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s staging --noAuth --noPrependStageInUrl",
     "cypress-open": "npx cypress open",
     "cypress-run": "cypress run",
     "int-test": "npm run build && start-server-and-test start http://localhost:3000 cypress-run",
@@ -42,6 +43,7 @@
     "prettier": "^1.18.2",
     "sass": "^1.26.5",
     "serverless": "^1.70.1",
+    "serverless-offline": "^6.1.5",
     "start-server-and-test": "^1.11.0"
   }
 }
