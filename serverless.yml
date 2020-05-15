@@ -26,7 +26,6 @@ functions:
         - public/**
         - build/_next/**
         - node_modules/**
-
     events:
       - http:
           path: api/{proxy+}
@@ -34,11 +33,10 @@ functions:
           authorizer: ${self:custom.authorizer.hn-shared-plan-authorizer}
       - http: ANY /
       - http: ANY /{proxy+}
-
     environment:
       ENV: ${self:provider.stage}
-      allowedGroups: 'housingneeds-singleview-beta'
-      PLANS_TABLE_NAME: ${self:provider.environment.DROPBOXES_TABLE}
+      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
 
   hn-shared-plan-authorizer:
     name: hn-shared-plan-authorizer-${self:provider.stage}
@@ -47,10 +45,9 @@ functions:
       include:
         - authorizer.js
         - node_modules/**
-
     environment:
-      jwtsecret: ${ssm:/common/hackney-jwt-secret}
-      allowedGroups: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
 
 resources:
   Resources:
