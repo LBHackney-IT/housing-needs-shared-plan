@@ -5,6 +5,8 @@ provider:
   runtime: nodejs12.x
   region: eu-west-2
   stage: ${opt:stage}
+  environment:
+    PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
 
 package:
   individually: true
@@ -21,6 +23,7 @@ functions:
         - next.config.js
         - lib/**
         - pages/**
+        - public/**
         - build/_next/**
         - node_modules/**
 
@@ -35,6 +38,7 @@ functions:
     environment:
       ENV: ${self:provider.stage}
       allowedGroups: 'housingneeds-singleview-beta'
+      PLANS_TABLE_NAME: ${self:provider.environment.DROPBOXES_TABLE}
 
   hn-shared-plan-authorizer:
     name: hn-shared-plan-authorizer-${self:provider.stage}
@@ -50,6 +54,37 @@ functions:
 
 resources:
   Resources:
+    PlansTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DROPBOXES_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification:
+          SSEEnabled: true
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: queryLastName
+            AttributeType: S
+          - AttributeName: queryFirstName
+            AttributeType: S
+        GlobalSecondaryIndexes:
+          - IndexName: NamesIndex
+            KeySchema:
+              - AttributeName: queryLastName
+                KeyType: HASH
+              - AttributeName: queryFirstName
+                KeyType: RANGE
+            Projection:
+              ProjectionType: INCLUDE
+              NonKeyAttributes:
+                - id
+                - systemIds
     GatewayResponseDefault4XX:
       Type: 'AWS::ApiGateway::GatewayResponse'
       Properties:
