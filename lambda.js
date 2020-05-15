@@ -4,7 +4,7 @@ const files = require('serve-static');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const handle = app.getRequestHandler();
-const jwt = require('jsonwebtoken');
+const CheckAuth = require('./lib/use-cases/check-auth');
 
 server.use(cookieParser());
 server.use(files(path.join(__dirname, 'build')));
@@ -14,23 +14,14 @@ server.use(async (req, res, next) => {
   next();
 });
 
-const isLoggedIn = function(hackneyToken) {
-  if (!hackneyToken) return false;
-
-  const allowedGroups = process.env.allowedGroups.split(",");
-
-  const payload = jwt.decode(hackneyToken);
-  return (
-    payload &&
-    payload.groups &&
-    payload.groups.some(g => allowedGroups.includes(g))
-  );
-};
-
 server.all('/api/*', (req, res) => handle(req, res));
 
 server.use((req, res, next) => {
-  if (!isLoggedIn(req.cookies.hackneyToken) && req.url !== '/loggedout') {
+  const checkAuth = new CheckAuth({
+    allowedGroups: process.env.allowedGroups.split(","),
+    jwt: require('jsonwebtoken')
+  });
+  if (!checkAuth.execute({ token: req.cookies.hackneyToken}) && req.url !== '/loggedout') {
     res.writeHead(302, {'Location': '/loggedout'});
     return res.end();
   }

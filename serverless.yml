@@ -6,9 +6,6 @@ provider:
   region: eu-west-2
   stage: ${opt:stage}
 
-plugins:
-  - serverless-offline
-
 package:
   individually: true
   exclude:
