@@ -1,4 +1,5 @@
 import App from 'next/app';
+import Layout from 'components/Layout';
 import './stylesheets/all.scss';
 
 export default class MyApp extends App {
@@ -10,7 +11,9 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         <script src="js/govuk.js"></script>
       </>
     );

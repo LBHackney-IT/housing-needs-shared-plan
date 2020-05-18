@@ -1,1 +1,27 @@
 @import 'node_modules/govuk-frontend/govuk/all';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+html.lbh-template > body.lbh-template__body * {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.govuk-header__container {
+  border-bottom-color: #00513f;
+}
+
+.govuk-tag {
+  background-color: #00513f;
+}
+
+.lbh-header__container {
+  display: flex;
+  align-items: center;
+}
+
+.lbh-header__logotype {
+  svg {
+    width: 100%;
+    max-width: 12rem;
+    padding-top: 0.25rem;        
+  }
+}
