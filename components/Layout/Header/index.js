@@ -1,5 +1,5 @@
 import React from 'react';
-import HackneyLogo from 'components/HackneyLogo';
+import HackneyLogo from './HackneyLogo';
 
 const Header = ({ serviceName }) => (
   <header className="govuk-header" role="banner" data-module="govuk-header">
