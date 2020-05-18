@@ -8,6 +8,9 @@ provider:
   environment:
     PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
 
+plugins:
+  - serverless-offline
+
 package:
   individually: true
   exclude:
@@ -26,7 +29,6 @@ functions:
         - public/**
         - build/_next/**
         - node_modules/**
-
     events:
       - http:
           path: api/{proxy+}
@@ -34,10 +36,11 @@ functions:
           authorizer: ${self:custom.authorizer.hn-shared-plan-authorizer}
       - http: ANY /
       - http: ANY /{proxy+}
-
     environment:
       ENV: ${self:provider.stage}
-      PLANS_TABLE_NAME: ${self:provider.environment.DROPBOXES_TABLE}
+      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
+      PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
 
   hn-shared-plan-authorizer:
     name: hn-shared-plan-authorizer-${self:provider.stage}
@@ -46,17 +49,16 @@ functions:
       include:
         - authorizer.js
         - node_modules/**
-
     environment:
-      jwtsecret: ${ssm:/common/hackney-jwt-secret}
-      allowedGroups: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
 
 resources:
   Resources:
     PlansTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.DROPBOXES_TABLE}
+        TableName: ${self:provider.environment.PLANS_TABLE}
         BillingMode: PAY_PER_REQUEST
         SSESpecification:
           SSEEnabled: true
@@ -84,15 +86,6 @@ resources:
               NonKeyAttributes:
                 - id
                 - systemIds
-    GatewayResponseDefault4XX:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-        ResponseType: DEFAULT_4XX
-        RestApiId:
-          Ref: 'ApiGatewayRestApi'
 
 custom:
   stage: ${self:provider.stage}

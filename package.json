@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "deploy": "yarn && next build && yarn --production=true && sls deploy --aws-profile hnserverless -s staging && yarn",
+    "sls-debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline -s staging --noAuth --noPrependStageInUrl",
     "cypress-open": "npx cypress open",
     "cypress-run": "cypress run",
     "int-test": "npm run build && start-server-and-test start http://localhost:3000 cypress-run",
@@ -13,13 +14,14 @@
     "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "jsonwebtoken": "^8.5.1",
     "nanoid": "^3.1.5",
     "next": "^9.4.0",
     "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#39044cd",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "restana": "^4.3.4",
-    "sass": "^1.26.5",
     "serve-static": "^1.14.1",
     "serverless-http": "^2.4.1"
   },
@@ -39,7 +41,9 @@
     "govuk-frontend": "^3.6.0",
     "jest": "^25.5.4",
     "prettier": "^1.18.2",
+    "sass": "^1.26.5",
     "serverless": "^1.70.1",
+    "serverless-offline": "^6.1.5",
     "start-server-and-test": "^1.11.0"
   }
 }
