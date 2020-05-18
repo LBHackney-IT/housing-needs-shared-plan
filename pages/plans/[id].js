@@ -7,7 +7,9 @@ const PlanSummary = ({ plan }) => {
 PlanSummary.getInitialProps = async ({ query }) => {
   // fetch plan /api/get-plan?id=123
   // fetch plan /api/plans/123
-  const response = await fetch(`http://localhost:3000/api/plans/${query.id}`);
+  const response = await fetch(
+    `${process.env.SHARED_PLAN_API_URL}/plans/${query.id}`
+  );
   const plan = await response.json();
 
   return {
