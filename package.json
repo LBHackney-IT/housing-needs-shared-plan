@@ -11,7 +11,7 @@
     "cypress-run": "cypress run",
     "int-test": "npm run build && start-server-and-test start http://localhost:3000 cypress-run",
     "unit-test": "jest",
-    "lint": "./node_modules/eslint/bin/eslint.js --fix --ext js lib/ pages/ && echo 'Lint complete.'"
+    "lint": "eslint --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
@@ -43,7 +43,6 @@
     "prettier": "^1.18.2",
     "sass": "^1.26.5",
     "serverless": "^1.70.1",
-    "serverless-offline": "^6.1.5",
     "start-server-and-test": "^1.11.0"
   }
 }
