@@ -32,6 +32,10 @@ jobs:
           command: yarn run unit-test
 
       - run:
+          name: Run linting
+          command: yarn lint
+
+      - run:
           name: Run integration tests
           command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
 
