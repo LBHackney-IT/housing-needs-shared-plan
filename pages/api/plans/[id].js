@@ -1,9 +1,9 @@
-import { getPlan } from '../../lib/dependencies';
-import { ArgumentError } from '../../lib/domain';
+import { getPlan } from 'lib/dependencies';
+import { ArgumentError } from 'lib/domain';
 
 export default async (req, res) => {
   try {
-    const result = await getPlan.execute({ id: req.params.id });
+    const result = await getPlan({ id: req.query.id });
 
     res.status(200).json(result);
   } catch (err) {
