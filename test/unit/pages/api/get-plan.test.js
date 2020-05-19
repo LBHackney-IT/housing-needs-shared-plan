@@ -1,6 +1,6 @@
-import getPlanApi from '../../../../pages/api/get-plan';
-import { getPlan } from '../../../../lib/dependencies';
-import { ArgumentError } from '../../../../lib/domain';
+import getPlanApi from 'pages/api/plans/[id]';
+import { getPlan } from 'lib/dependencies';
+import { ArgumentError } from 'lib/domain';
 
 describe('Get Plan Api', () => {
   let json;
@@ -16,14 +16,12 @@ describe('Get Plan Api', () => {
   });
 
   const req = {
-    params: {
-      id: 1
-    }
+    url: 'localdev/api/plans/1'
   };
 
   it('can get a plan', async () => {
     const expectedResponse = expect.objectContaining({
-      id: req.params.id,
+      id: 1,
       firstName: 'Nick',
       lastName: 'Dove'
     });
@@ -34,13 +32,13 @@ describe('Get Plan Api', () => {
 
     await getPlanApi(req, res);
 
-    expect(getPlan.execute).toHaveBeenCalledWith({ id: req.params.id });
+    expect(getPlan.execute).toHaveBeenCalledWith({ id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
   it('handles bad requests', async () => {
-    const expectedResponse = { error: 'could not get plan' };
+    const expectedResponse = { error: 'could not get plan with id=1' };
 
     getPlan.execute = jest.fn(x => {
       throw new ArgumentError('something is missing');
@@ -48,7 +46,7 @@ describe('Get Plan Api', () => {
 
     await getPlanApi(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
