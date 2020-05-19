@@ -1,12 +1,22 @@
 import React from 'react';
 
-const PlanSummary = ({ plan }) => {
-  return <h1>{plan.id}</h1>;
+const PlanSummary = ({ plan: { firstName, lastName } }) => {
+  const getPossessiveName = name => {
+    let baseString = `${name}'`;
+    if (name[name.length - 1] !== 's') {
+      baseString += 's';
+    }
+    return baseString;
+  };
+
+  return (
+    <h1>
+      {firstName} {getPossessiveName(lastName)} shared plan
+    </h1>
+  );
 };
 
 PlanSummary.getInitialProps = async ({ query }) => {
-  // fetch plan /api/get-plan?id=123
-  // fetch plan /api/plans/123
   const response = await fetch(
     `${process.env.SHARED_PLAN_API_URL}/plans/${query.id}`
   );
@@ -14,7 +24,9 @@ PlanSummary.getInitialProps = async ({ query }) => {
 
   return {
     plan: {
-      id: plan.id
+      id: plan.id,
+      firstName: plan.firstName,
+      lastName: plan.lastName
     }
   };
 };
