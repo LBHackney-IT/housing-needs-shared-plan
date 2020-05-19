@@ -7,6 +7,8 @@ executors:
   my-executor:
     docker:
       - image: circleci/node:12.9.1-browsers
+      - image: dwmkerr/dynamodb:41
+        entrypoint: ['java', '-Xmx1G', '-jar', 'DynamoDBLocal.jar']
 
     working_directory: ~/repo
 
@@ -22,6 +24,10 @@ jobs:
       - run:
           name: Install dependencies
           command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn
+
+      - run:
+          name: Create local DynamoDB plans table
+          command: aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
 
       - run:
           name: Build the application
