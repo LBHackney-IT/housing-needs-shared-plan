@@ -1,7 +1,7 @@
 import { getPlan } from 'lib/dependencies';
 import { ArgumentError } from 'lib/domain';
 
-export default async (req, res) => {
+export const endpoint = ({ getPlan }) => async (req, res) => {
   const id = req.url.split('/')[3];
 
   try {
@@ -18,3 +18,5 @@ export default async (req, res) => {
     res.status(500).json({ error: `could not get plan with id=${id}` });
   }
 };
+
+export default endpoint({ getPlan });

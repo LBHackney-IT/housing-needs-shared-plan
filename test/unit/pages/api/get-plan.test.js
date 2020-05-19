@@ -1,5 +1,4 @@
-import getPlanApi from 'pages/api/plans/[id]';
-import { getPlan } from 'lib/dependencies';
+import { endpoint } from 'pages/api/plans/[id]';
 import { ArgumentError } from 'lib/domain';
 
 describe('Get Plan Api', () => {
@@ -26,38 +25,38 @@ describe('Get Plan Api', () => {
       lastName: 'Dove'
     });
 
-    getPlan.execute = jest.fn(x => {
+    const getPlan = jest.fn(x => {
       return expectedResponse;
     });
 
-    await getPlanApi(req, res);
+    await endpoint({ getPlan })(req, res);
 
-    expect(getPlan.execute).toHaveBeenCalledWith({ id: 1 });
+    expect(getPlan).toHaveBeenCalledWith({ id: '1' });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
   it('handles bad requests', async () => {
-    const expectedResponse = { error: 'could not get plan with id=1' };
+    const expectedResponse = { error: 'could not get plan' };
 
-    getPlan.execute = jest.fn(x => {
+    const getPlan = jest.fn(x => {
       throw new ArgumentError('something is missing');
     });
 
-    await getPlanApi(req, res);
+    await endpoint({ getPlan })(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
   it('handles general errors', async () => {
     const expectedResponse = { error: 'could not get plan with id=1' };
 
-    getPlan.execute = jest.fn(x => {
+    const getPlan = jest.fn(x => {
       throw new Error('bang!');
     });
 
-    await getPlanApi(req, res);
+    await endpoint({ getPlan })(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);
