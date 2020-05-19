@@ -26,7 +26,7 @@ describe('Create Plan Api', () => {
     }
   };
 
-  it('can get a plan', async () => {
+  it('can create a plan', async () => {
     const id = '1';
     const expectedResponse = expect.objectContaining({
       id,
