@@ -41,7 +41,7 @@ describe('Create Plan Api', () => {
     await createPlanApi(req, res);
 
     expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
