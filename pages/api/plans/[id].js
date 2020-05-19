@@ -7,7 +7,11 @@ export const endpoint = ({ getPlan }) => async (req, res) => {
   try {
     const result = await getPlan({ id });
 
-    res.status(200).json(result);
+    if (!result) {
+      return res.status(404).end();
+    }
+
+    return res.status(200).json(result);
   } catch (err) {
     //log error here
 

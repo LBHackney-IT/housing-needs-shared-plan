@@ -15,10 +15,16 @@ const PlanSummary = ({ plan: { firstName, lastName } }) => {
   return <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>;
 };
 
-PlanSummary.getInitialProps = async ({ query }) => {
+PlanSummary.getInitialProps = async ({ query, res }) => {
   const response = await fetch(
     `${process.env.SHARED_PLAN_API_URL}/plans/${query.id}`
   );
+  console.log(response);
+  if (response.status === 404) {
+    res.statusCode = 404;
+    return res.end('Not found');
+  }
+
   const plan = await response.json();
 
   return {
