@@ -1,7 +1,7 @@
 import PlanGateway from '../lib/gateways/plan-gateway';
 import CreatePlan from '../lib/use-cases/create-plan';
 import AWS from 'aws-sdk';
-import { Goal } from '../lib/domain/plan';
+import Goal from '../lib/domain/goal';
 
 const config = {
   region: 'local',
