@@ -10,6 +10,13 @@ describe('Create Plan Use Case', () => {
       secretAccessKey: process.env.CYPRESS_AWS_SECRET_ACCESS_KEY
     });
 
+    console.log({
+      client,
+      CYPRESS_AWS_ACCESS_KEY_ID: process.env.CYPRESS_AWS_ACCESS_KEY_ID,
+      CYPRESS_AWS_REGION: process.env.CYPRESS_AWS_REGION,
+      CYPRESS_AWS_SECRET_ACCESS_KEY: process.env.CYPRESS_AWS_SECRET_ACCESS_KEY
+    });
+
     const TableName = 'plans';
 
     client
