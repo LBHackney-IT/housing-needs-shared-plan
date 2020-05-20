@@ -17,10 +17,10 @@
 import { DynamoDB } from 'aws-sdk';
 
 const client = new DynamoDB.DocumentClient({
-  region: 'localhost',
+  region: process.env.AWS_REGION,
   endpoint: 'http://localhost:8000',
-  accessKeyId: 'foo',
-  secretAccessKey: 'bar'
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
 const TableName = 'plans';
