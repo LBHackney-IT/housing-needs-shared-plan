@@ -1,5 +1,5 @@
 import PlanGateway from '../../../lib/gateways/plan-gateway';
-import { ArgumentError, Plan } from '../../../lib/domain';
+import { ArgumentError, Goal, Plan } from '../../../lib/domain';
 
 describe('Plan Gateway', () => {
   let client;
@@ -10,7 +10,8 @@ describe('Plan Gateway', () => {
       put: jest.fn(request => ({
         promise: jest.fn(() => ({ Items: [request.Item] }))
       })),
-      query: jest.fn(() => ({ promise: jest.fn() }))
+      query: jest.fn(() => ({ promise: jest.fn() })),
+      update: jest.fn(() => ({ promise: jest.fn() }))
     };
   });
 
@@ -232,11 +233,40 @@ describe('Plan Gateway', () => {
         systemIds: ['5']
       });
 
+      plan.goal = new Goal({
+        targetReviewDate: { year: 2021, month: 3, day: 3 },
+        text: 'hello',
+        useAsPhp: true
+      });
+
+      const expectedRequest = {
+        TableName: tableName,
+        Key: {
+          id: plan.id
+        },
+        UpdateExpression: 'set goal = :g',
+        ExpressionAttributeValues: {
+          ':g': plan.goal
+        },
+        ReturnValues: 'UPDATED_NEW'
+      };
+
       const planGateway = new PlanGateway({ client, tableName });
 
       const result = await planGateway.save({ plan });
 
-      expect(result).toEqual(plan);
+      expect(client.update).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toBeInstanceOf(Plan);
+      expect(result.goal).not.toBeNull();
+    });
+
+    it('throws an error if plan is null', async () => {
+      const planGateway = new PlanGateway({ client, tableName });
+
+      await expect(async () => {
+        await planGateway.save({});
+      }).rejects.toThrow('plan cannot be null.');
+      expect(client.update).not.toHaveBeenCalled();
     });
   });
 });

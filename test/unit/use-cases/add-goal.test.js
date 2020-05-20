@@ -1,5 +1,6 @@
 import AddGoal from '../../../lib/use-cases/add-goal';
-import { Goal, Plan } from '../../../lib/domain/plan';
+import Plan from '../../../lib/domain/plan';
+import Goal from '../../../lib/domain/goal';
 
 describe('Add Goal Use Case', () => {
   const logger = { info: jest.fn(), error: jest.fn() };
@@ -33,5 +34,15 @@ describe('Add Goal Use Case', () => {
     expect(result.goal.toString()).toEqual(
       new Goal({ targetReviewDate, text, useAsPhp }).toString()
     );
+  });
+
+  it('returns null if plan does not exist', async () => {
+    const planGateway = {
+      get: jest.fn(() => null)
+    };
+
+    const addGoal = new AddGoal({ planGateway, logger });
+    const result = await addGoal.execute({ planId: '1' });
+    expect(result).toEqual(null);
   });
 });

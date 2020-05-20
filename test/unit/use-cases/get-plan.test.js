@@ -1,5 +1,5 @@
 import GetPlan from '../../../lib/use-cases/get-plan';
-import { Plan } from '../../../lib/domain/plan';
+import Plan from '../../../lib/domain/plan';
 
 describe('Get Plan Use Case', () => {
   const logger = { info: jest.fn(), error: jest.fn() };

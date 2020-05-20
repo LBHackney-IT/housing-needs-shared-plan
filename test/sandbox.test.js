@@ -24,32 +24,30 @@ const createPlan = new CreatePlan({ planGateway, logger });
 
 describe('my sandbox', () => {
   it('does stuff', async () => {
-    const plan = await createPlan.execute({
-      firstName: 'me',
-      lastName: 'me',
-      systemIds: ['xyx']
-    });
-
-    plan.goal = new Goal({
-      targetReviewDate: { year: 2021, month: 3, day: 3 },
-      text: 'hello',
-      useAsPhp: true
-    });
-
-    const request = {
-      TableName: 'plans',
-      Key: {
-        id: plan.id
-      },
-      UpdateExpression: 'set goal = :g',
-      ExpressionAttributeValues: {
-        ':g': plan.goal
-      },
-      ReturnValues: 'UPDATED_NEW'
-    };
-
-    const result = await client.update(request).promise();
-
-    console.log(result);
+  //   const plan = await createPlan.execute({
+  //     firstName: 'me',
+  //     lastName: 'me',
+  //     systemIds: ['xyx']
+  //   });
+  //
+  //   plan.goal = new Goal({
+  //     targetReviewDate: { year: 2021, month: 3, day: 3 },
+  //     text: 'hello',
+  //     useAsPhp: true
+  //   });
+  //
+  //   const request = {
+  //     TableName: 'plans',
+  //     Key: {
+  //       id: plan.id
+  //     },
+  //     UpdateExpression: 'set goal = :g',
+  //     ExpressionAttributeValues: {
+  //       ':g': plan.goal
+  //     },
+  //     ReturnValues: 'UPDATED_NEW'
+  //   };
+  //
+  //   const result = await client.update(request).promise();
   });
 });
