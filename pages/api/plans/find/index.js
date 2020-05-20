@@ -3,7 +3,7 @@ import { ArgumentError } from '../../../../lib/domain';
 
 export default async (req, res) => {
   try {
-    const result = await findPlans.execute({
+    const result = await findPlans({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       systemIds: req.body.systemIds
