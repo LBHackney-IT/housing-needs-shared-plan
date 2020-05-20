@@ -27,10 +27,6 @@ jobs:
 
       - aws-cli/install
 
-      - run:
-          name: Install 'less'
-          command: sudo apt-get install -yy less
-
       - aws-cli/setup:
           aws-access-key-id: CYPRESS_AWS_ACCESS_KEY_ID
           aws-secret-access-key: CYPRESS_AWS_SECRET_ACCESS_KEY
@@ -39,10 +35,6 @@ jobs:
       - run:
           name: Create local DynamoDB plans table
           command: aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000 > /dev/null
-
-      - run:
-          name: List DynamoDB tables
-          command: aws dynamodb list-tables --endpoint-url http://localhost:8000
 
       - run:
           name: Build the application
