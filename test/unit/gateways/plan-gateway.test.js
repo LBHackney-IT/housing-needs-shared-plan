@@ -222,4 +222,21 @@ describe('Plan Gateway', () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe('save', () => {
+    it('saves the plan', async () => {
+      const plan = new Plan({
+        id: 1,
+        firstName: 'John',
+        lastName: 'Smith',
+        systemIds: ['5']
+      });
+
+      const planGateway = new PlanGateway({ client, tableName });
+
+      const result = await planGateway.save({ plan });
+
+      expect(result).toEqual(plan);
+    });
+  });
 });
