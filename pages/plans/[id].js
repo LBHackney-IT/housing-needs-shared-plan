@@ -19,7 +19,6 @@ PlanSummary.getInitialProps = async ({ query, res }) => {
   const response = await fetch(
     `${process.env.SHARED_PLAN_API_URL}/plans/${query.id}`
   );
-  console.log(response);
   if (response.status === 404) {
     res.statusCode = 404;
     return res.end('Not found');

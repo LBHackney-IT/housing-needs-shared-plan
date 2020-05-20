@@ -8,9 +8,6 @@ provider:
   environment:
     PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
 
-plugins:
-  - serverless-offline
-
 package:
   individually: true
   exclude:
