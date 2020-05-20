@@ -37,6 +37,10 @@ jobs:
           command: aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000 > /dev/null
 
       - run:
+          name: List DynamoDB tables
+          command: aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+      - run:
           name: Build the application
           command: yarn build
 
