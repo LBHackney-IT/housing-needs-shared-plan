@@ -9,7 +9,7 @@
   "BillingMode": "PAY_PER_REQUEST",
   "GlobalSecondaryIndexes": [
     {
-      "IndexName": "name_idx",
+      "IndexName": "NamesIndex",
       "KeySchema": [
         {
           "AttributeName": "queryLastName",
