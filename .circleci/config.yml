@@ -39,9 +39,9 @@ jobs:
       - run:
           name: Export cypress env vars
           command: |
-            export CYPRESS_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
-            export CYPRESS_AWS_REGION=AWS_REGION
-            export CYPRESS_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+            export CYPRESS_AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            export CYPRESS_AWS_REGION=${AWS_REGION}
+            export CYPRESS_AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 
       - run:
           name: Create local DynamoDB plans table
