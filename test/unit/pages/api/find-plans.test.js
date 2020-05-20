@@ -30,7 +30,7 @@ describe('Create Plan Api', () => {
 
   it('can find a plan', async () => {
     const id = '1';
-    const expectedResponse = expect.objectContaining({ plans: [id] });
+    const expectedResponse = expect.objectContaining({ planIds: [id] });
 
     findPlans.execute = jest.fn(x => {
       return expectedResponse;
