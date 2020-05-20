@@ -1,19 +1,18 @@
 import React from 'react';
 
 const PlanSummary = ({ plan: { firstName, lastName } }) => {
-  const getPossessiveName = name => {
-    let baseString = `${name}'`;
-    if (name[name.length - 1] !== 's') {
+  const getPossessiveName = (firstName, lastName) => {
+    let baseString = `${firstName} ${lastName}'`;
+    if (lastName === '') {
+      baseString = `${firstName}'`;
+    }
+    if (baseString[baseString.length - 2] !== 's') {
       baseString += 's';
     }
     return baseString;
   };
 
-  return (
-    <h1>
-      {firstName} {getPossessiveName(lastName)} shared plan
-    </h1>
-  );
+  return <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>;
 };
 
 PlanSummary.getInitialProps = async ({ query }) => {

@@ -1,5 +1,5 @@
-import { createPlan } from '../../lib/dependencies';
-import { ArgumentError } from '../../lib/domain';
+import { createPlan } from '../../../lib/dependencies';
+import { ArgumentError } from '../../../lib/domain';
 
 export default async (req, res) => {
   if (req.method === 'POST') {
@@ -23,3 +23,7 @@ export default async (req, res) => {
     }
   }
 };
+
+POST / api / plans;
+{
+}
