@@ -14,7 +14,34 @@
 //
 //
 // -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
+import { DynamoDB } from 'aws-sdk';
+
+const client = new DynamoDB.DocumentClient({
+  region: 'localhost',
+  endpoint: 'http://localhost:8000',
+  accessKeyId: 'foo',
+  secretAccessKey: 'bar'
+});
+
+const TableName = 'plans';
+
+Cypress.Commands.add('createSharedPlan', plan => {
+  return client
+    .put({
+      TableName,
+      Item: plan
+    })
+    .promise();
+});
+
+Cypress.Commands.add('deleteSharedPlan', id => {
+  return client
+    .delete({
+      TableName,
+      Key: { id }
+    })
+    .promise();
+});
 //
 //
 // -- This is a dual command --

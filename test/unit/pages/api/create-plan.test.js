@@ -1,6 +1,6 @@
-import createPlanApi from '../../../../pages/api/create-plan';
-import { createPlan } from '../../../../lib/dependencies';
-import { ArgumentError } from '../../../../lib/domain';
+import createPlanApi from 'pages/api/plans';
+import { createPlan } from 'lib/dependencies';
+import { ArgumentError } from 'lib/domain';
 
 describe('Create Plan Api', () => {
   const firstName = 'James';

@@ -23,7 +23,3 @@ export default async (req, res) => {
     }
   }
 };
-
-POST / api / plans;
-{
-}
