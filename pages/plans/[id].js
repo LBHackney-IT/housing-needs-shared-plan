@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PlanSummary = ({ plan: { firstName, lastName } }) => {
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
