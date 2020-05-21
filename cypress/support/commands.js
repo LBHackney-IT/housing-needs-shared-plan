@@ -14,7 +14,34 @@
 //
 //
 // -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
+import { DynamoDB } from 'aws-sdk';
+
+const client = new DynamoDB.DocumentClient({
+  region: Cypress.env('AWS_REGION'),
+  endpoint: 'http://localhost:8000',
+  accessKeyId: Cypress.env('AWS_ACCESS_KEY_ID'),
+  secretAccessKey: Cypress.env('AWS_SECRET_ACCESS_KEY')
+});
+
+const TableName = 'plans';
+
+Cypress.Commands.add('createSharedPlan', plan => {
+  return client
+    .put({
+      TableName,
+      Item: plan
+    })
+    .promise();
+});
+
+Cypress.Commands.add('deleteSharedPlan', id => {
+  return client
+    .delete({
+      TableName,
+      Key: { id }
+    })
+    .promise();
+});
 //
 //
 // -- This is a dual command --
@@ -23,3 +50,25 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+function terminalLog(violations) {
+  cy.task(
+    'log',
+    `${violations.length} accessibility violation${
+      violations.length === 1 ? '' : 's'
+    } ${violations.length === 1 ? 'was' : 'were'} detected`
+  );
+  // pluck specific keys to keep the table readable
+  const violationData = violations.map(
+    ({ id, impact, description, nodes }) => ({
+      id,
+      impact,
+      description,
+      nodes: nodes.length
+    })
+  );
+
+  cy.task('table', violationData);
+}
+
+Cypress.Commands.add('terminalLog', terminalLog);

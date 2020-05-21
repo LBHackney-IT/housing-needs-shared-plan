@@ -4,8 +4,10 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**'
   ],
+  setupFiles: ['dotenv/config'],
   testMatch: ['<rootDir>/test/**/*.[jt]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/build/'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest'
   },
@@ -15,5 +17,6 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy'
-  }
+  },
+  moduleDirectories: ['node_modules', '.']
 };

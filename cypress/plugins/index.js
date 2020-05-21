@@ -15,9 +15,22 @@
 /**
  * @type {Cypress.PluginConfig}
  */
+//axe console printing
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  config.ignoreTestFiles = "**/examples/*.spec.js";
+  on('task', {
+    log(message) {
+      console.log(message);
+
+      return null;
+    },
+    table(message) {
+      console.table(message);
+
+      return null;
+    }
+  });
+  config.ignoreTestFiles = '**/examples/*.spec.js';
   return config;
 };
