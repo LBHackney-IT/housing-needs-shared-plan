@@ -31,13 +31,13 @@ describe('Find Plans Api', () => {
     const id = '1';
     const expectedResponse = expect.objectContaining({ planIds: [id] });
 
-    const findPlans = jest.fn(x => {
-      return expectedResponse;
-    });
+    const findPlans = {
+        execute: jest.fn(() => expectedResponse)
+      };
 
     await endpoint({ findPlans })(req, res);
 
-    expect(findPlans).toHaveBeenCalledWith({
+    expect(findPlans.execute).toHaveBeenCalledWith({
       firstName,
       lastName,
       systemIds
@@ -49,7 +49,10 @@ describe('Find Plans Api', () => {
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not find plans' };
 
-    const findPlans = jest.fn(x => {
+    const findPlans = {
+      execute: jest.fn()
+    };
+    findPlans.execute.mockImplementation(() => {
       throw new ArgumentError('something is missing');
     });
 
@@ -64,7 +67,10 @@ describe('Find Plans Api', () => {
       error: 'could not find plans with firstName=James, lastName=Bond'
     };
 
-    const findPlans = jest.fn(x => {
+    const findPlans = {
+      execute: jest.fn()
+    };
+    findPlans.execute.mockImplementation(() => {
       throw new Error('bang!');
     });
 

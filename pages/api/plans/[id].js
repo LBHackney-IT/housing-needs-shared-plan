@@ -6,7 +6,7 @@ export const endpoint = ({ getPlan }) => async (req, res) => {
   const id = req.url.split('/')[3];
 
   try {
-    const result = await getPlan({ id });
+    const result = await getPlan.execute({ id });
 
     if (!result) {
       return res.status(404).end();

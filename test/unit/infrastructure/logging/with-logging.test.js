@@ -15,16 +15,16 @@ describe('withLogging', () => {
   const expectedResponse = { some: 'value' };
 
   it('executes the use case and passes through the result', async () => {
-    const execute = withLogging(new ExampleUseCase(), logger);
-    const result = await execute();
+    const useCase = withLogging(new ExampleUseCase(), logger);
+    const result = await useCase.execute();
     expect(result).toBe(expectedResponse);
   });
 
   it('logs the request and response from a use case', async () => {
     const expectedRequest = { my: 'request' };
-    const execute = withLogging(new ExampleUseCase(), logger);
+    const useCase = withLogging(new ExampleUseCase(), logger);
 
-    await execute(expectedRequest);
+    await useCase.execute(expectedRequest);
 
     expect(logger.info).toHaveBeenCalledWith(
       expect.any(String),
@@ -52,8 +52,8 @@ describe('withLogging', () => {
       }
     }
 
-    const execute = withLogging(new FailingUseCase(), logger);
-    await expect(execute()).rejects.toThrow(expectedError);
+    const useCase = withLogging(new FailingUseCase(), logger);
+    await expect(useCase.execute()).rejects.toThrow(expectedError);
 
     expect(logger.error).toHaveBeenCalledWith(
       expectedError.message,
