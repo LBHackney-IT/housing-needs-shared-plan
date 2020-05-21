@@ -3,7 +3,6 @@ import Plan from '../../../lib/domain/plan';
 import Goal from '../../../lib/domain/goal';
 
 describe('Add Goal Use Case', () => {
-  const logger = { info: jest.fn(), error: jest.fn() };
 
   const planGateway = {
     get: jest.fn(({ id }) => new Plan({ id })),
@@ -19,7 +18,7 @@ describe('Add Goal Use Case', () => {
       year: 2030
     };
     const useAsPhp = true;
-    const addGoal = new AddGoal({ planGateway, logger });
+    const addGoal = new AddGoal({ planGateway });
 
     const result = await addGoal.execute({
       planId,
@@ -36,13 +35,16 @@ describe('Add Goal Use Case', () => {
     );
   });
 
-  it('returns null if plan does not exist', async () => {
+  it('throws if plan does not exist', async () => {
     const planGateway = {
       get: jest.fn(() => null)
     };
 
-    const addGoal = new AddGoal({ planGateway, logger });
-    const result = await addGoal.execute({ planId: '1' });
-    expect(result).toEqual(null);
+    const addGoal = new AddGoal({ planGateway });
+    //const result = await addGoal.execute({ planId: '1' });
+    //expect(result).toThrowError(new Error('no plan found.'));
+    await expect(async () => {
+      await addGoal.execute({ planId: '1' });
+    }).rejects.toThrow('no plan found.');
   });
 });
