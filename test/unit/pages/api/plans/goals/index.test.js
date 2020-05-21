@@ -1,4 +1,4 @@
-import { endpoint } from '../../../../../../pages/api/plans/goal';
+import { endpoint } from '../../../../../../pages/api/plans/goals';
 import { ArgumentError } from '../../../../../../lib/domain';
 import Goal from "../../../../../../lib/domain/goal";
 
@@ -32,13 +32,15 @@ describe('Add goal API', () => {
   it('can add a goal to a plan', async () => {
     const expectedResponse = { id: planId, goal };
 
-    const addGoal = jest.fn(() => {
-      return expectedResponse;
-    });
+    const addGoal = {
+      execute: jest.fn(() => {
+        return expectedResponse;
+      })
+    };
 
     await endpoint({addGoal})(req,res);
 
-    expect(addGoal).toHaveBeenCalledWith({ planId, goal });
+    expect(addGoal.execute).toHaveBeenCalledWith({ planId, goal });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
@@ -46,7 +48,10 @@ describe('Add goal API', () => {
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not add goal to plan' };
 
-    const addGoal = jest.fn(x => {
+    const addGoal = {
+      execute: jest.fn()
+    };
+    addGoal.execute.mockImplementation(() => {
       throw new ArgumentError('something is missing');
     });
 
@@ -61,7 +66,10 @@ describe('Add goal API', () => {
       error: 'could not add goal to plan with id=1'
     };
 
-    const addGoal = jest.fn(x => {
+    const addGoal = {
+      execute: jest.fn()
+    };
+    addGoal.execute.mockImplementation(() => {
       throw new Error('bang!');
     });
 

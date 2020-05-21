@@ -25,13 +25,15 @@ describe('Get Plan Api', () => {
       lastName: 'Dove'
     });
 
-    const getPlan = jest.fn(x => {
-      return expectedResponse;
-    });
+    const getPlan = {
+      execute: jest.fn(x => {
+        return expectedResponse;
+      })
+  }
 
     await endpoint({ getPlan })(req, res);
 
-    expect(getPlan).toHaveBeenCalledWith({ id: '1' });
+    expect(getPlan.execute).toHaveBeenCalledWith({ id: '1' });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
@@ -39,7 +41,10 @@ describe('Get Plan Api', () => {
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not get plan' };
 
-    const getPlan = jest.fn(x => {
+    const getPlan = {
+      execute: jest.fn()
+    };
+    getPlan.execute.mockImplementation(() => {
       throw new ArgumentError('something is missing');
     });
 
@@ -52,7 +57,10 @@ describe('Get Plan Api', () => {
   it('handles general errors', async () => {
     const expectedResponse = { error: 'could not get plan with id=1' };
 
-    const getPlan = jest.fn(x => {
+    const getPlan = {
+      execute: jest.fn()
+    };
+    getPlan.execute.mockImplementation(() => {
       throw new Error('bang!');
     });
 
