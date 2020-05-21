@@ -5,7 +5,9 @@ context('Summary page', async () => {
     await cy.createSharedPlan({
       id: '1',
       firstName: 'Bart',
-      lastName: 'Simpson'
+      lastName: 'Simpson',
+      queryFirstName: 'bart',
+      queryLastName: 'simpson'
     });
   });
 
@@ -26,6 +28,18 @@ context('Summary page', async () => {
         failOnStatusCode: false
       }).then(response => {
         expect(response.status).to.equal(404);
+      });
+    });
+
+    it('can find the correct record', () => {
+      cy.request({
+        method: 'GET',
+        url: 'http://localhost:3000/api/plans/find',
+        failOnStatusCode: false,
+        body: { firstName: 'Bart', lastName: 'Simpson' }
+      }).then(response => {
+        cy.visit(`http://localhost:3000/plans/${response.body.planIds[0]}`);
+        cy.get('h1').should('have.text', "Bart Simpson's shared plan");
       });
     });
   });
