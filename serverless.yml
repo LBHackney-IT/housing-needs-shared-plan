@@ -138,5 +138,5 @@ custom:
         - eu-west-2
         - amazonaws.com
   aliases:
-    staging: staging-sharedplan.hackney.gov.uk
+    staging: staging.sharedplan.hackney.gov.uk
     production: sharedplan.hackney.gov.uk
