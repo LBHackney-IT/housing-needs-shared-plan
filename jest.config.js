@@ -4,7 +4,6 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**'
   ],
-  clearMocks: true,
   setupFiles: ['dotenv/config'],
   testMatch: ['<rootDir>/test/**/*.[jt]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/build/'],
