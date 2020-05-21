@@ -144,7 +144,7 @@ describe('Plan Gateway', () => {
       const expectedRequest = {
         TableName: tableName,
         IndexName: 'NamesIndex',
-        KeyConditionExpression: 'lastName = :l and firstName = :f',
+        KeyConditionExpression: 'queryLastName = :l and queryFirstName = :f',
         ExpressionAttributeValues: {
           ':f': customerData.firstName.toLowerCase(),
           ':l': customerData.lastName.toLowerCase()
@@ -159,9 +159,7 @@ describe('Plan Gateway', () => {
       });
 
       expect(client.query).toHaveBeenCalledWith(expectedRequest);
-      expect(result).toStrictEqual(
-        expect.arrayContaining([expect.objectContaining(customerData)])
-      );
+      expect(result).toStrictEqual({ planIds: ['123'] });
     });
 
     it('filters plans using system ids', async () => {
@@ -204,9 +202,7 @@ describe('Plan Gateway', () => {
 
       const planGateway = new PlanGateway({ client, tableName });
       const result = await planGateway.find(customerData);
-      expect(result).toStrictEqual(
-        expect.arrayContaining([expect.objectContaining(customerData)])
-      );
+      expect(result).toEqual({ planIds: ['456'] });
     });
 
     it('returns empty array when no matching plans', async () => {
@@ -220,7 +216,7 @@ describe('Plan Gateway', () => {
         lastName: 'Manos'
       });
 
-      expect(result).toEqual([]);
+      expect(result).toEqual({ planIds: [] });
     });
   });
 
