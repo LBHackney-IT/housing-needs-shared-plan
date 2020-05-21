@@ -1,5 +1,5 @@
-import { createPlan } from '../../lib/dependencies';
-import { ArgumentError } from '../../lib/domain';
+import { createPlan } from '../../../lib/dependencies';
+import { ArgumentError } from '../../../lib/domain';
 
 export default async (req, res) => {
   if (req.method === 'POST') {
@@ -9,7 +9,7 @@ export default async (req, res) => {
         lastName: req.body.lastName
       });
 
-      res.status(200).json(result);
+      res.status(201).json(result);
     } catch (err) {
       //log error here
 
