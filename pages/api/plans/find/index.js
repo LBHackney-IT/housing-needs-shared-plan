@@ -1,7 +1,7 @@
 import { findPlans } from '../../../../lib/dependencies';
 import { ArgumentError } from '../../../../lib/domain';
 
-export default async (req, res) => {
+export const endpoint = ({ findPlans }) => async (req, res) => {
   try {
     const result = await findPlans({
       firstName: req.body.firstName,
@@ -21,3 +21,5 @@ export default async (req, res) => {
     });
   }
 };
+
+export default endpoint({ findPlans });

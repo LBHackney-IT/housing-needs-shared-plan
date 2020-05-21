@@ -1,10 +1,10 @@
 import { createPlan } from '../../../lib/dependencies';
 import { ArgumentError } from '../../../lib/domain';
 
-export default async (req, res) => {
+export const endpoint = ({ createPlan }) => async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const result = await createPlan.execute({
+      const result = await createPlan({
         firstName: req.body.firstName,
         lastName: req.body.lastName
       });
@@ -23,3 +23,5 @@ export default async (req, res) => {
     }
   }
 };
+
+export default endpoint({ createPlan });

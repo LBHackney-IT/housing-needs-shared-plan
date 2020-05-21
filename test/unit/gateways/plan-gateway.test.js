@@ -143,7 +143,7 @@ describe('Plan Gateway', () => {
       const expectedRequest = {
         TableName: tableName,
         IndexName: 'NamesIndex',
-        KeyConditionExpression: 'lastName = :l and firstName = :f',
+        KeyConditionExpression: 'queryLastName = :l and queryFirstName = :f',
         ExpressionAttributeValues: {
           ':f': customerData.firstName.toLowerCase(),
           ':l': customerData.lastName.toLowerCase()

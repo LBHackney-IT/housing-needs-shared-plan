@@ -1,5 +1,4 @@
-import createPlanApi from 'pages/api/plans';
-import { createPlan } from 'lib/dependencies';
+import { endpoint } from 'pages/api/plans';
 import { ArgumentError } from 'lib/domain';
 
 describe('Create Plan Api', () => {
@@ -34,13 +33,13 @@ describe('Create Plan Api', () => {
       lastName
     });
 
-    createPlan.execute = jest.fn(x => {
+    const createPlan = jest.fn(x => {
       return expectedResponse;
     });
 
-    await createPlanApi(req, res);
+    await endpoint({ createPlan })(req, res);
 
-    expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
+    expect(createPlan).toHaveBeenCalledWith({ firstName, lastName });
     expect(res.status).toHaveBeenCalledWith(201);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
@@ -48,11 +47,11 @@ describe('Create Plan Api', () => {
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not create plan' };
 
-    createPlan.execute = jest.fn(x => {
+    const createPlan = jest.fn(x => {
       throw new ArgumentError('something is missing');
     });
 
-    await createPlanApi(req, res);
+    await endpoint({ createPlan })(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(json).toHaveBeenCalledWith(expectedResponse);
@@ -63,11 +62,11 @@ describe('Create Plan Api', () => {
       error: 'could not create plan with firstName=James, lastName=Bond'
     };
 
-    createPlan.execute = jest.fn(x => {
+    const createPlan = jest.fn(x => {
       throw new Error('bang!');
     });
 
-    await createPlanApi(req, res);
+    await endpoint({ createPlan })(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);

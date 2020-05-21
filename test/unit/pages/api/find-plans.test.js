@@ -1,8 +1,7 @@
-import findPlansApi from '../../../../pages/api/plans/find';
-import { findPlans } from '../../../../lib/dependencies';
+import { endpoint } from '../../../../pages/api/plans/find';
 import { ArgumentError } from '../../../../lib/domain';
 
-describe('Create Plan Api', () => {
+describe('Find Plans Api', () => {
   const firstName = 'James';
   const lastName = 'Bond';
   const systemIds = [{ JigsawId: '15' }];
@@ -32,13 +31,13 @@ describe('Create Plan Api', () => {
     const id = '1';
     const expectedResponse = expect.objectContaining({ planIds: [id] });
 
-    findPlans.execute = jest.fn(x => {
+    const findPlans = jest.fn(x => {
       return expectedResponse;
     });
 
-    await findPlansApi(req, res);
+    await endpoint({ findPlans })(req, res);
 
-    expect(findPlans.execute).toHaveBeenCalledWith({
+    expect(findPlans).toHaveBeenCalledWith({
       firstName,
       lastName,
       systemIds
@@ -50,11 +49,11 @@ describe('Create Plan Api', () => {
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not find plans' };
 
-    findPlans.execute = jest.fn(x => {
+    const findPlans = jest.fn(x => {
       throw new ArgumentError('something is missing');
     });
 
-    await findPlansApi(req, res);
+    await endpoint({ findPlans })(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(json).toHaveBeenCalledWith(expectedResponse);
@@ -65,11 +64,11 @@ describe('Create Plan Api', () => {
       error: 'could not find plans with firstName=James, lastName=Bond'
     };
 
-    findPlans.execute = jest.fn(x => {
+    const findPlans = jest.fn(x => {
       throw new Error('bang!');
     });
 
-    await findPlansApi(req, res);
+    await endpoint({ findPlans })(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(json).toHaveBeenCalledWith(expectedResponse);
