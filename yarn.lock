@@ -8335,9 +8335,9 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-lambda-authorizer@LBHackney-IT/node-lambda-authorizer.git#39044cd:
-  version "1.0.4"
-  resolved "https://codeload.github.com/LBHackney-IT/node-lambda-authorizer/tar.gz/39044cd0246e0011e819f095b54ee25405147ef0"
+node-lambda-authorizer@LBHackney-IT/node-lambda-authorizer.git#dfc45f0:
+  version "1.0.3"
+  resolved "https://codeload.github.com/LBHackney-IT/node-lambda-authorizer/tar.gz/dfc45f0391d6523d27c130dedcaced855fdc2ee6"
   dependencies:
     cookie "^0.4.0"
     jsonwebtoken "^8.5.1"
