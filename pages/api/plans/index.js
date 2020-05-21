@@ -1,5 +1,6 @@
 import { createPlan } from '../../../lib/dependencies';
 import { ArgumentError } from '../../../lib/domain';
+import { logger } from './infrastructure/logging';
 
 export const endpoint = ({ createPlan }) => async (req, res) => {
   if (req.method === 'POST') {
@@ -8,10 +9,11 @@ export const endpoint = ({ createPlan }) => async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName
       });
+      logger.info(`Success`, { result });
 
       res.status(201).json(result);
     } catch (err) {
-      //log error here
+      logger.error(err.message, { err });
 
       if (err instanceof ArgumentError) {
         return res.status(400).json({ error: `could not create plan` });

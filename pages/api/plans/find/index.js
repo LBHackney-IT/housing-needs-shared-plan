@@ -1,5 +1,6 @@
 import { findPlans } from '../../../../lib/dependencies';
 import { ArgumentError } from '../../../../lib/domain';
+import { logger } from './infrastructure/logging';
 
 export const endpoint = ({ findPlans }) => async (req, res) => {
   try {
@@ -8,10 +9,11 @@ export const endpoint = ({ findPlans }) => async (req, res) => {
       lastName: req.body.lastName,
       systemIds: req.body.systemIds
     });
+    logger.info(`Success`, { result });
 
     res.status(200).json(result);
   } catch (err) {
-    //log error here
+    logger.error(err.message, { err });
     if (err instanceof ArgumentError) {
       return res.status(400).json({ error: `could not find plans` });
     }
