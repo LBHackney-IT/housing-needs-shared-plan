@@ -1,6 +1,6 @@
 import { createPlan } from '../../../lib/dependencies';
 import { ArgumentError } from '../../../lib/domain';
-import { logger } from './infrastructure/logging';
+import { logger } from '../../../lib/infrastructure/logging';
 
 export const endpoint = ({ createPlan }) => async (req, res) => {
   if (req.method === 'POST') {

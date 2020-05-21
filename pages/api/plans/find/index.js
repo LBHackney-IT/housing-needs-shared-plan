@@ -1,6 +1,6 @@
 import { findPlans } from '../../../../lib/dependencies';
 import { ArgumentError } from '../../../../lib/domain';
-import { logger } from './infrastructure/logging';
+import { logger } from '../../../../lib/infrastructure/logging';
 
 export const endpoint = ({ findPlans }) => async (req, res) => {
   try {
