@@ -1,5 +1,5 @@
-import { endpoint } from '../../../../pages/api/plans/find';
-import { ArgumentError } from '../../../../lib/domain';
+import { endpoint } from '../../../../../../pages/api/plans/find';
+import { ArgumentError } from '../../../../../../lib/domain';
 
 describe('Find Plans Api', () => {
   const firstName = 'James';
