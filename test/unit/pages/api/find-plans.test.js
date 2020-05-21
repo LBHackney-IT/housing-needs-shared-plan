@@ -42,7 +42,7 @@ describe('Find Plans Api', () => {
       lastName,
       systemIds
     });
-    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 

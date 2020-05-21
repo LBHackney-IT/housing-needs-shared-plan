@@ -9,7 +9,7 @@ export const endpoint = ({ findPlans }) => async (req, res) => {
       systemIds: req.body.systemIds
     });
 
-    res.status(201).json(result);
+    res.status(200).json(result);
   } catch (err) {
     //log error here
     if (err instanceof ArgumentError) {
