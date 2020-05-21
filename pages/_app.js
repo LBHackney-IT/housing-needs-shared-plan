@@ -14,7 +14,7 @@ export default class MyApp extends App {
         <Layout>
           <Component {...pageProps} />
         </Layout>
-        <script src="js/govuk.js"></script>
+        <script src="/js/govuk.js"></script>
       </>
     );
   }

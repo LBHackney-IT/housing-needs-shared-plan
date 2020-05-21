@@ -1,6 +1,6 @@
-import createPlanApi from '../../../../pages/api/create-plan';
-import { createPlan } from '../../../../lib/dependencies';
-import { ArgumentError } from '../../../../lib/domain';
+import createPlanApi from 'pages/api/plans';
+import { createPlan } from 'lib/dependencies';
+import { ArgumentError } from 'lib/domain';
 
 describe('Create Plan Api', () => {
   const firstName = 'James';
@@ -26,7 +26,7 @@ describe('Create Plan Api', () => {
     }
   };
 
-  it('can get a plan', async () => {
+  it('can create a plan', async () => {
     const id = '1';
     const expectedResponse = expect.objectContaining({
       id,
@@ -41,7 +41,7 @@ describe('Create Plan Api', () => {
     await createPlanApi(req, res);
 
     expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(201);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
 
