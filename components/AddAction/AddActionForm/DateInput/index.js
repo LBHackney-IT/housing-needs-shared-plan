@@ -1,22 +1,26 @@
-const DueDateInput = () => (
+const getTitle = title => {
+  return title.toLowerCase().replace(' ', '-');
+};
+
+const DueDateInput = props => (
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset" role="group">
       <label class="govuk-label" for="full-description">
-        <h3> Due Date</h3>
+        <h3>{props.title}</h3>
       </label>
-      <div class="govuk-date-input" id="due-date">
+      <div class="govuk-date-input" id={`${getTitle(props.title)}`}>
         <div class="govuk-date-input__item">
           <div class="govuk-form-group">
             <label
               class="govuk-label govuk-date-input__label"
-              for="due-date-day"
+              for={`${getTitle(props.title)}-day`}
             >
               Day
             </label>
             <input
               class="govuk-input govuk-date-input__input govuk-input--width-2"
-              id="due-date-day"
-              name="due-date-day"
+              id={`${getTitle(props.title)}-day`}
+              name={`${getTitle(props.title)}-day`}
               type="text"
               pattern="[0-9]*"
               inputmode="numeric"
@@ -27,14 +31,14 @@ const DueDateInput = () => (
           <div class="govuk-form-group">
             <label
               class="govuk-label govuk-date-input__label"
-              for="due-date-month"
+              for={`${getTitle(props.title)}-month`}
             >
               Month
             </label>
             <input
               class="govuk-input govuk-date-input__input govuk-input--width-2"
-              id="due-date-month"
-              name="due-date-month"
+              id={`${getTitle(props.title)}-month`}
+              name={`${getTitle(props.title)}-month`}
               type="text"
               pattern="[0-9]*"
               inputmode="numeric"
@@ -45,14 +49,14 @@ const DueDateInput = () => (
           <div class="govuk-form-group">
             <label
               class="govuk-label govuk-date-input__label"
-              for="due-date-year"
+              for={`${getTitle(props.title)}-year`}
             >
               Year
             </label>
             <input
               class="govuk-input govuk-date-input__input govuk-input--width-4"
-              id="due-date-year"
-              name="due-date-year"
+              id={`${getTitle(props.title)}-year`}
+              name={`${getTitle(props.title)}-year`}
               type="text"
               pattern="[0-9]*"
               inputmode="numeric"
