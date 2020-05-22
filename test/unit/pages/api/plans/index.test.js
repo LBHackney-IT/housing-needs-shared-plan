@@ -4,6 +4,7 @@ import { ArgumentError } from 'lib/domain';
 describe('Create Plan Api', () => {
   const firstName = 'James';
   const lastName = 'Bond';
+  const systemIds = ['xyz']
 
   let json;
   let res;
@@ -21,7 +22,8 @@ describe('Create Plan Api', () => {
     method: 'POST',
     body: {
       firstName,
-      lastName
+      lastName,
+      systemIds
     }
   };
 
@@ -39,7 +41,7 @@ describe('Create Plan Api', () => {
 
     await endpoint({ createPlan })(req, res);
 
-    expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName });
+    expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName, systemIds });
     expect(res.status).toHaveBeenCalledWith(201);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
