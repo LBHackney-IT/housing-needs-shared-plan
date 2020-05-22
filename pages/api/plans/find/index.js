@@ -4,7 +4,7 @@ import { logger } from '../../../../lib/infrastructure/logging';
 
 export const endpoint = ({ findPlans }) => async (req, res) => {
   try {
-    const result = await findPlans({
+    const result = await findPlans.execute({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       systemIds: req.body.systemIds

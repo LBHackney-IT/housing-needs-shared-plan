@@ -5,9 +5,10 @@ import { logger } from '../../../lib/infrastructure/logging';
 export const endpoint = ({ createPlan }) => async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const result = await createPlan({
+      const result = await createPlan.execute({
         firstName: req.body.firstName,
-        lastName: req.body.lastName
+        lastName: req.body.lastName,
+        systemIds: req.body.systemIds
       });
       logger.info(`Success`, { result });
 

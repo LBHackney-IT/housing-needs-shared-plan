@@ -6,15 +6,16 @@ describe('Create Plan Use Case', () => {
     const id = 1;
     const firstName = 'Bart';
     const lastName = 'Simpson';
+    const systemIds = ['xyz']
 
     const planGateway = {
       create: jest.fn(() => new Plan({ id, firstName, lastName }))
     };
     const createPlan = new CreatePlan({ planGateway });
 
-    const result = await createPlan.execute({ firstName, lastName });
+    const result = await createPlan.execute({ firstName, lastName, systemIds });
 
-    expect(planGateway.create).toHaveBeenCalledWith({ firstName, lastName });
+    expect(planGateway.create).toHaveBeenCalledWith({ firstName, lastName, systemIds });
     expect(result).toEqual({ id, firstName, lastName });
   });
 });
