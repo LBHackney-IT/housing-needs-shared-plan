@@ -2,7 +2,7 @@ const getTitle = title => {
   return title.toLowerCase().replace(' ', '-');
 };
 
-const DueDateInput = props => (
+const DateInput = props => (
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset" role="group">
       <label class="govuk-label" for="full-description">
@@ -67,4 +67,4 @@ const DueDateInput = props => (
     </fieldset>
   </div>
 );
-export default DueDateInput;
+export default DateInput;
