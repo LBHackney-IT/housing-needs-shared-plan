@@ -5,7 +5,10 @@ module.exports = {
     '!**/node_modules/**'
   ],
   setupFiles: ['dotenv/config'],
-  testMatch: ['<rootDir>/test/**/*.[jt]s?(x)'],
+  testMatch: [
+    '<rootDir>/test/**/*.[jt]s?(x)',
+    '<rootDir>/components/**/*.test.[jt]s?(x)'
+  ],
   testPathIgnorePatterns: ['/node_modules/', '/build/'],
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   transform: {
