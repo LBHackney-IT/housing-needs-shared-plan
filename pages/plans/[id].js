@@ -1,4 +1,7 @@
-const PlanSummary = ({ plan: { firstName, lastName } }) => {
+import AddGoal from '../../components/Feature/AddGoal';
+import SummaryList from '../../components/Form/SummaryList';
+
+const PlanSummary = ({ editGoal, plan: { firstName, lastName, goal } }) => {
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
     if (lastName === '') {
@@ -10,7 +13,21 @@ const PlanSummary = ({ plan: { firstName, lastName } }) => {
     return baseString;
   };
 
-  return <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>;
+  return (
+    <>
+      <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
+      {editGoal ? (
+        <AddGoal />
+      ) : (
+        <SummaryList
+          name="goal-summary"
+          listObject={{
+            Goal: goal.text
+          }}
+        />
+      )}
+    </>
+  );
 };
 
 PlanSummary.getInitialProps = async ({ query, res }) => {
@@ -25,10 +42,12 @@ PlanSummary.getInitialProps = async ({ query, res }) => {
   const plan = await response.json();
 
   return {
+    editGoal: plan.goal === null,
     plan: {
       id: plan.id,
       firstName: plan.firstName,
-      lastName: plan.lastName
+      lastName: plan.lastName,
+      goal: plan.goal
     }
   };
 };
