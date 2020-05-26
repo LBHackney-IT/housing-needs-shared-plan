@@ -1,6 +1,6 @@
 import AddAction from 'components/feature/AddAction';
 
-const AddGoal = ({ plan: { firstName, lastName } }) => {
+const AddGoal = ({ plan: { firstName, lastName, id } }) => {
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
     if (lastName === '') {
@@ -15,7 +15,7 @@ const AddGoal = ({ plan: { firstName, lastName } }) => {
   return (
     <div>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
-      <AddAction />
+      <AddAction id={id} />
     </div>
   );
 };

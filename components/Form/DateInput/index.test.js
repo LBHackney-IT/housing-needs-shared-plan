@@ -62,9 +62,9 @@ describe('DateInput', () => {
     let month = -1;
     let year = -1;
     const myAction = jest.fn(e => {
-      if (e.target.name.indexOf('day') > -1) day = e.target.value;
-      if (e.target.name.indexOf('month') > -1) month = e.target.value;
-      if (e.target.name.indexOf('year') > -1) year = e.target.value;
+      if (e.target.name.includes('day')) day = e.target.value;
+      if (e.target.name.includes('month')) month = e.target.value;
+      if (e.target.name.includes('year')) year = e.target.value;
     });
     const { getByLabelText } = render(
       <DateInput name={inputName} onChange={myAction} />
