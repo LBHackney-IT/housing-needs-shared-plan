@@ -1,4 +1,5 @@
 import DueDate from './DueDate';
+import ExpandingText from 'components/ExpandingText';
 import Heading from 'components/Heading';
 import Table, {
   TableHead,
@@ -9,7 +10,7 @@ import Table, {
 } from 'components/Table';
 
 const ActionsList = ({ actions }) => (
-  <Table>
+  <Table className="lbh-actions-list__table">
     <TableHead>
       <TableRow className="lbh-actions-list__header">
         <TableHeader scope="col">Description</TableHeader>
@@ -21,10 +22,16 @@ const ActionsList = ({ actions }) => (
     <TableBody>
       {actions.map(action => (
         <TableRow key={action.title}>
-          <TableData>
+          <TableData className="lbh-actions-list__description">
             <Heading as="h2" size="m">
               {action.title}
             </Heading>
+            <ExpandingText
+              expandButtonText="Show details"
+              contractButtonText="Hide details"
+            >
+              {action.description}
+            </ExpandingText>
           </TableData>
           <TableData className="lbh-actions-list__due-date">
             <DueDate dateTime={action.dueDate} />

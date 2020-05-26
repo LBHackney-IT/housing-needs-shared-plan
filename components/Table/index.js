@@ -28,8 +28,8 @@ const TableData = ({ children, className }) => (
   <td className={classNames('govuk-table__cell', className)}>{children}</td>
 );
 
-const Table = ({ children }) => (
-  <table className="govuk-table">{children}</table>
+const Table = ({ children, className }) => (
+  <table className={classNames('govuk-table', className)}>{children}</table>
 );
 
 export default Table;

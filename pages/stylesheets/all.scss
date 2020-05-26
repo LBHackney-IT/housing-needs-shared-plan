@@ -26,6 +26,14 @@ html.lbh-template > body.lbh-template__body * {
   }
 }
 
+.lbh-actions-list__table {
+  tr {
+    td, th {
+      padding: 1em 0;
+    }
+  }
+}
+
 .lbh-actions-list__header {
   th {
     font-weight: normal;
@@ -33,6 +41,49 @@ html.lbh-template > body.lbh-template__body * {
   }
 }
 
+.lbh-actions-list__description {
+  h2 {
+    margin-bottom: 0.25em;
+  }
+}
+
 .lbh-actions-list__due-date {
   width: 12rem;
+}
+
+.lbh-link-button {
+  display: block;
+  font-family: inherit;
+  font-size: 1em;
+  color: #00513f;
+  background: none;
+  border: 0 none;
+  padding: 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.lbh-link-button:hover, .lbh-link-button:focus {
+  text-decoration: underline;
+}
+
+.lbh-link-button::after {
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.lbh-link-button:hover::after {
+  text-decoration: none;
+}
+
+.lbh-link-button__down::after {
+  content: '▾';
+}
+
+.lbh-link-button__up {
+  margin-top: 0.5em;
+}
+
+.lbh-link-button__up::after {
+  content: '▴';
 }
