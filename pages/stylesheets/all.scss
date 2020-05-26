@@ -25,3 +25,14 @@ html.lbh-template > body.lbh-template__body * {
     padding-top: 0.25rem;        
   }
 }
+
+.lbh-actions-list__header {
+  th {
+    font-weight: normal;
+    font-size: 1rem;
+  }
+}
+
+.lbh-actions-list__due-date {
+  width: 12rem;
+}
