@@ -16,10 +16,31 @@ context('Add-goal page', async () => {
     await cy.deleteSharedPlan('1');
   });
 
-  describe('Loads page', () => {
+  describe('Add acion', () => {
     it('Adds an action to a goal', () => {
-      cy.visit(`http://localhost:3000/plans/add-goal/1`);
+      cy.visit(`http://localhost:3000/plans/1`);
       cy.get('h1').should('have.text', "Bart Simpson's shared plan");
+
+      cy.get('#summary-text.govuk-input')
+        .click()
+        .type('Summary');
+
+      cy.get('#full-description.govuk-textarea')
+        .click()
+        .type('Description');
+
+      cy.get('#due-date-day.govuk-input')
+        .click()
+        .type('10');
+      cy.get('#due-date-month.govuk-input')
+        .click()
+        .type('5');
+      cy.get('#due-date-year.govuk-input')
+        .click()
+        .type('2010');
+      cy.get('button')
+        .last()
+        .click();
     });
   });
 });
