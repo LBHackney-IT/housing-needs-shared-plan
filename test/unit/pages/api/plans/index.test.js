@@ -4,6 +4,7 @@ import { ArgumentError } from 'lib/domain';
 describe('Create Plan Api', () => {
   const firstName = 'James';
   const lastName = 'Bond';
+  const systemIds = ['xyz']
 
   let json;
   let res;
@@ -21,7 +22,8 @@ describe('Create Plan Api', () => {
     method: 'POST',
     body: {
       firstName,
-      lastName
+      lastName,
+      systemIds
     }
   };
 
@@ -33,13 +35,13 @@ describe('Create Plan Api', () => {
       lastName
     });
 
-    const createPlan = jest.fn(x => {
-      return expectedResponse;
-    });
+    const createPlan = {
+      execute: jest.fn(() => expectedResponse)
+    }
 
     await endpoint({ createPlan })(req, res);
 
-    expect(createPlan).toHaveBeenCalledWith({ firstName, lastName });
+    expect(createPlan.execute).toHaveBeenCalledWith({ firstName, lastName, systemIds });
     expect(res.status).toHaveBeenCalledWith(201);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
@@ -47,7 +49,10 @@ describe('Create Plan Api', () => {
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not create plan' };
 
-    const createPlan = jest.fn(x => {
+    const createPlan = {
+      execute: jest.fn()
+    };
+    createPlan.execute.mockImplementation(() => {
       throw new ArgumentError('something is missing');
     });
 
@@ -62,7 +67,10 @@ describe('Create Plan Api', () => {
       error: 'could not create plan with firstName=James, lastName=Bond'
     };
 
-    const createPlan = jest.fn(x => {
+    const createPlan = {
+      execute: jest.fn()
+    };
+    createPlan.execute.mockImplementation(() => {
       throw new Error('bang!');
     });
 
