@@ -1,4 +1,4 @@
-import AddAction from 'components/AddAction';
+import AddAction from 'components/feature/AddAction';
 
 const AddGoal = ({ plan: { firstName, lastName } }) => {
   const getPossessiveName = (firstName, lastName) => {

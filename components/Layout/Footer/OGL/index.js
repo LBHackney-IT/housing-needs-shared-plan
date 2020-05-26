@@ -6,7 +6,7 @@ const OGL = () => (
     focusable="false"
     className="govuk-footer__licence-logo"
     xmlns="http://www.w3.org/2000/svg"
-    viewbox="0 0 483.2 195.7"
+    viewBox="0 0 483.2 195.7"
     height="17"
     width="41"
   >
