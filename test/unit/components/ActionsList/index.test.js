@@ -20,7 +20,7 @@ describe('<ActionsList />', () => {
   });
 
   it('displays the due date of the action', () => {
-    const { getByText } = render(component);
-    expect(getByText('26 May 2020')).toBeInTheDocument();
+    const { getAllByText } = render(component);
+    expect(getAllByText('26 May 2020')[0]).toBeInTheDocument();
   });
 });

@@ -32,6 +32,9 @@ const ActionsList = ({ actions }) => (
             >
               {action.description}
             </ExpandingText>
+            <div className="lbh-actions-list__descriptions-mobile">
+              Due <DueDate dateTime={action.dueDate} />
+            </div>
           </TableData>
           <TableData className="lbh-actions-list__due-date">
             <DueDate dateTime={action.dueDate} />
