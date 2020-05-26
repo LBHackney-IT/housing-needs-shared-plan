@@ -1,4 +1,4 @@
-import { withLogging } from '../../../../lib/infrastructure/logging';
+import { withLogging } from 'lib/infrastructure/logging';
 
 describe('withLogging', () => {
   class ExampleUseCase {
@@ -31,7 +31,7 @@ describe('withLogging', () => {
       expect.objectContaining({
         usecase: 'ExampleUseCase',
         arguments: [expectedRequest]
-      }),
+      })
     );
 
     expect(logger.info).toHaveBeenCalledWith(

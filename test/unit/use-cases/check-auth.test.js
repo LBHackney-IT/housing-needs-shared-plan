@@ -1,4 +1,4 @@
-import CheckAuth from '../../../lib/use-cases/check-auth';
+import CheckAuth from 'lib/use-cases/check-auth';
 
 describe('Check Auth Use Case', () => {
   it('should verify a token', () => {

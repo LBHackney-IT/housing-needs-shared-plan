@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Checkbox, DateInput, TextInput } from '../../Form';
+import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
 
 const AddGoal = ({ planId, updatePlan }) => {
   const [text, setGoalText] = useState('');

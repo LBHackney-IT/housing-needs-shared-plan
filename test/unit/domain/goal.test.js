@@ -1,4 +1,4 @@
-import Goal from '../../../lib/domain/goal';
+import Goal from 'lib/domain/goal';
 
 describe('Goal', () => {
   it('sets the agreed date to todays date', () => {
@@ -18,7 +18,7 @@ describe('Goal', () => {
 
   it('does not set the review date if previously set', () => {
     const agreedDate = '2030-02-12T00:00:00.000Z';
-    const targetReviewDate = '2040-02-12T00:00:00.000Z'
+    const targetReviewDate = '2040-02-12T00:00:00.000Z';
     const goal = new Goal({ agreedDate, targetReviewDate });
 
     expect(goal.agreedDate).toEqual('2030-02-12T00:00:00.000Z');

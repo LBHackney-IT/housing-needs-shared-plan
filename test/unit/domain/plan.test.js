@@ -1,4 +1,4 @@
-import Plan from '../../../lib/domain/plan';
+import Plan from 'lib/domain/plan';
 
 describe('Plan', () => {
   it('sets the created date to the current date/time when no date is received', async () => {

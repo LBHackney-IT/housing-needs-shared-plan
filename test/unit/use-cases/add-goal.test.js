@@ -1,9 +1,8 @@
-import AddGoal from '../../../lib/use-cases/add-goal';
-import Plan from '../../../lib/domain/plan';
-import Goal from '../../../lib/domain/goal';
+import AddGoal from 'lib/use-cases/add-goal';
+import Plan from 'lib/domain/plan';
+import Goal from 'lib/domain/goal';
 
 describe('Add Goal Use Case', () => {
-
   const planGateway = {
     get: jest.fn(({ id }) => new Plan({ id })),
     save: jest.fn(({ plan }) => plan)
