@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
-import AddAction, { onClick } from './index';
+import AddAction from './index';
 import { enableFetchMocks } from 'jest-fetch-mock';
+import userEvent from '@testing-library/user-event';
 
 describe('AddAction', () => {
   it('renders the add action form', () => {
@@ -17,19 +18,26 @@ describe('AddAction', () => {
 describe('OnClick', () => {
   it('Adds an action', async () => {
     enableFetchMocks();
-    Object.defineProperty(global, 'document', {
-      getElementById: jest.fn(id => {
-        return 'text';
+    const expectedRequest = {
+      body: JSON.stringify({
+        summary: 'summary',
+        description: 'description',
+        dueDate: { day: 1, month: 1, year: 1991 }
       })
-    });
-
+    };
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
     fetch.mockResponse(JSON.stringify(expectedResponse));
+    const { getByTestId } = render(<AddAction id="1" />);
+    userEvent.type(getByTestId('summary-text'), 'summary');
+    userEvent.type(getByTestId('full-description'), 'description');
+    userEvent.type(getByTestId('due-date-day'), '01');
+    userEvent.type(getByTestId('due-date-month'), '01');
+    userEvent.type(getByTestId('due-date-year'), '1991');
+    getByTestId('add-action-button-test').click();
 
-    const action = await onClick({ id: '1' });
-    // expect(fetch).toHaveBeenCalledWith(
-    //   expect.stringContaining('/plans/1/action')
-    // );
-    expect(action).toStrictEqual(expectedResponse);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/plans/1/action'),
+      expect.objectContaining(expectedRequest)
+    );
   });
 });

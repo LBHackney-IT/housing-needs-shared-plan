@@ -6,6 +6,7 @@ const TextInput = ({ label, name, onChange }) => (
     <input
       className="govuk-input"
       id={name}
+      data-testid={name}
       name={name}
       type="text"
       onChange={onChange}

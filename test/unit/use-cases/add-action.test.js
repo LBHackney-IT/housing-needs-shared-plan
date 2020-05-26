@@ -1,5 +1,6 @@
 import AddAction from '../../../lib/use-cases/add-action';
 import { Plan } from 'lib/domain';
+import { add } from 'winston';
 jest.mock('lib/domain/goal', () => {
   return jest.fn().mockImplementation(() => {
     return {
@@ -52,6 +53,31 @@ describe('Add Action Use Case', () => {
 
     await expect(async () => {
       await await addAction.execute({}).rejects.toThrow('no plan found.');
+    });
+  });
+
+  it('handles an error if no goal is found', async () => {
+    const expectedPlan = new Plan({ id: '1', lastName: 'one' });
+    const planGateway = {
+      get: jest.fn(() => Promise.resolve(expectedPlan)),
+      save: jest.fn(({ plan }) => Promise.resolve(plan))
+    };
+
+    const addAction = new AddAction({ planGateway });
+
+    addAction.execute({
+      planId: '1',
+      action
+    });
+
+    expect(planGateway.save).not.toHaveBeenCalled();
+    await expect(async () => {
+      await addAction
+        .execute({
+          planId: '1',
+          action
+        })
+        .rejects.toThrow('no goal found.');
     });
   });
 });

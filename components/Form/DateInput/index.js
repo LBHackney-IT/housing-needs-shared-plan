@@ -27,6 +27,7 @@ const DateInput = ({ name, onChange, showHint, title }) => (
             <input
               className="govuk-input govuk-date-input__input govuk-input--width-2"
               id={`${name}-day`}
+              data-testid={`${name}-day`}
               name={`${name}-day`}
               type="text"
               pattern="[0-9]*"
@@ -47,6 +48,7 @@ const DateInput = ({ name, onChange, showHint, title }) => (
               className="govuk-input govuk-date-input__input govuk-input--width-2"
               id={`${name}-month`}
               name={`${name}-month`}
+              data-testid={`${name}-month`}
               type="text"
               pattern="[0-9]*"
               inputMode="numeric"
@@ -66,6 +68,7 @@ const DateInput = ({ name, onChange, showHint, title }) => (
               className="govuk-input govuk-date-input__input govuk-input--width-4"
               id={`${name}-year`}
               name={`${name}-year`}
+              data-testid={`${name}-year`}
               type="text"
               pattern="[0-9]*"
               inputMode="numeric"
