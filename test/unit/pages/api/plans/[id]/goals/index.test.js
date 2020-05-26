@@ -1,9 +1,7 @@
-import { endpoint } from '../../../../../../pages/api/plans/goals';
-import { ArgumentError } from '../../../../../../lib/domain';
-import Goal from "../../../../../../lib/domain/goal";
+import { endpoint } from 'pages/api/plans/[id]/goals';
+import { ArgumentError } from 'lib/domain';
 
 describe('Add goal API', () => {
-
   let json;
   let res;
 
@@ -23,8 +21,8 @@ describe('Add goal API', () => {
 
   const req = {
     method: 'POST',
+    url: `localdev/api/plans/${planId}/goals`,
     body: {
-      planId,
       goal
     }
   };
@@ -38,7 +36,7 @@ describe('Add goal API', () => {
       })
     };
 
-    await endpoint({addGoal})(req,res);
+    await endpoint({ addGoal })(req, res);
 
     expect(addGoal.execute).toHaveBeenCalledWith({ planId, goal });
     expect(res.status).toHaveBeenCalledWith(200);

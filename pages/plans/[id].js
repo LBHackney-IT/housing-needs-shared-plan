@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import AddGoal from '../../components/Feature/AddGoal';
 import SummaryList from '../../components/Form/SummaryList';
 
-const PlanSummary = ({ editGoal, plan: { firstName, lastName, goal } }) => {
+const PlanSummary = ({ plan }) => {
+  const [_plan, setPlan] = useState(plan);
+  const [editGoal, setEditGoal] = useState(!_plan.goal ? true : false);
+  const { id, firstName, lastName, goal } = _plan;
+
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
     if (lastName === '') {
@@ -13,19 +18,30 @@ const PlanSummary = ({ editGoal, plan: { firstName, lastName, goal } }) => {
     return baseString;
   };
 
+  const updatePlan = async newPlan => {
+    setPlan(newPlan);
+    setEditGoal(false);
+  };
+
+  const goalComponent = () => {
+    if (editGoal) {
+      return <AddGoal planId={id} updatePlan={updatePlan} />;
+    } else {
+      let listObject = {
+        Goal: goal.text,
+        'Target review date': goal.targetReviewDate
+      };
+      if (goal.useAsPhp) {
+        listObject['Legal stuff'] = 'This is the legal text';
+      }
+      return <SummaryList name="goal-summary" listObject={listObject} />;
+    }
+  };
+
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
-      {editGoal ? (
-        <AddGoal />
-      ) : (
-        <SummaryList
-          name="goal-summary"
-          listObject={{
-            Goal: goal.text
-          }}
-        />
-      )}
+      <div>{goalComponent()}</div>
     </>
   );
 };
@@ -42,7 +58,6 @@ PlanSummary.getInitialProps = async ({ query, res }) => {
   const plan = await response.json();
 
   return {
-    editGoal: plan.goal === null,
     plan: {
       id: plan.id,
       firstName: plan.firstName,

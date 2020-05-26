@@ -16,7 +16,9 @@ describe('Get Plan Use Case', () => {
     const result = await getPlan.execute({ id });
 
     expect(planGateway.get).toHaveBeenCalledWith({ id });
-    expect(result).toEqual({ id, firstName: 'Simon', lastName: 'ThePieman' });
+    expect(result).toEqual(
+      expect.objectContaining({ id, firstName: 'Simon', lastName: 'ThePieman' })
+    );
   });
 
   it('returns null if plan does not exist', async () => {

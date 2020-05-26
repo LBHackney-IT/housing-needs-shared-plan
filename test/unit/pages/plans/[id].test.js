@@ -62,15 +62,7 @@ describe('PlanSummary', () => {
   });
 
   describe('adding a goal', () => {
-    it('renders the add goal form if editGoal is true', () => {
-      const plan = { id: '1', firstName: 'John', lastName: 'Musk', goal: {} };
-      const { getByLabelText } = render(
-        <PlanSummary plan={plan} editGoal={true} />
-      );
-      expect(getByLabelText('Goal')).toBeInTheDocument();
-    });
-
-    it('renders the goal summary if editGoal is falsy', () => {
+    it('renders the goal summary if goal exists', () => {
       const goalText = 'Rule the world!';
       const plan = {
         id: '1',
@@ -82,18 +74,12 @@ describe('PlanSummary', () => {
       expect(getByText(goalText)).toBeInTheDocument();
     });
 
-    it('sets editGoal to true if goal is null', async () => {
-      enableFetchMocks();
-      const expectedResponse = {
-        id: '1',
-        firstName: 'James',
-        lastName: 'Bond',
-        goal: null
-      };
-      fetch.mockResponse(JSON.stringify(expectedResponse));
-      const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
-
-      expect(props.editGoal).toBe(true);
+    it('renders the add goal form if goal is falsy', () => {
+      const plan = { id: '1', firstName: 'John', lastName: 'Musk' };
+      const { getByLabelText } = render(
+        <PlanSummary plan={plan} editGoal={true} />
+      );
+      expect(getByLabelText('Goal')).toBeInTheDocument();
     });
   });
 });

@@ -19,4 +19,15 @@ describe('Plan', () => {
 
     expect(plan.created).toEqual(created);
   });
+
+  it('sets the goal to null if no goal', () => {
+    const plan = new Plan({});
+    expect(plan.goal).toEqual(null);
+  });
+
+  it('sets the goal if there is a goal', () => {
+    const goal = {};
+    const plan = new Plan({ goal });
+    expect(plan.goal).toEqual(goal);
+  });
 });

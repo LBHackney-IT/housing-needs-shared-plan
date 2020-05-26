@@ -1,12 +1,14 @@
-import { addGoal } from '../../../../lib/dependencies';
-import { ArgumentError } from '../../../../lib/domain';
-import { logger } from '../../../../lib/infrastructure/logging';
+import { addGoal } from 'lib/dependencies';
+import { ArgumentError } from 'lib/domain';
+import { logger } from 'lib/infrastructure/logging';
 
 export const endpoint = ({ addGoal }) => async (req, res) => {
+  const planId = req.url.split('/')[3];
+
   try {
     const result = await addGoal.execute({
-      planId: req.body.planId,
-      goal: req.body.goal
+      goal: req.body.goal,
+      planId
     });
 
     logger.info(`Success`, { result });
@@ -17,9 +19,8 @@ export const endpoint = ({ addGoal }) => async (req, res) => {
       return res.status(400).json({ error: `could not add goal to plan` });
     }
 
-    console.log(req.body.planId);
     res.status(500).json({
-      error: `could not add goal to plan with id=${req.body.planId}`
+      error: `could not add goal to plan with id=${planId}`
     });
   }
 };
