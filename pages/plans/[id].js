@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-const PlanSummary = ({ plan: { firstName, lastName } }) => {
-=======
 import { addGoal } from '../../lib/dependencies';
 import AddGoal from '../../components/Feature/AddGoal';
 import SummaryList from '../../components/Form/SummaryList';
 
 const PlanSummary = ({ editGoal, plan: { id, firstName, lastName, goal } }) => {
->>>>>>> 8f7549b... Update the add goal component to call the AddGoal use case
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
     if (lastName === '') {
@@ -18,9 +14,6 @@ const PlanSummary = ({ editGoal, plan: { id, firstName, lastName, goal } }) => {
     return baseString;
   };
 
-<<<<<<< HEAD
-  return <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>;
-=======
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
@@ -36,7 +29,6 @@ const PlanSummary = ({ editGoal, plan: { id, firstName, lastName, goal } }) => {
       )}
     </>
   );
->>>>>>> 8f7549b... Update the add goal component to call the AddGoal use case
 };
 
 PlanSummary.getInitialProps = async ({ query, res }) => {
@@ -51,10 +43,7 @@ PlanSummary.getInitialProps = async ({ query, res }) => {
   const plan = await response.json();
 
   return {
-<<<<<<< HEAD
-=======
     editGoal: !plan.goal ? true : false,
->>>>>>> 8f7549b... Update the add goal component to call the AddGoal use case
     plan: {
       id: plan.id,
       firstName: plan.firstName,
