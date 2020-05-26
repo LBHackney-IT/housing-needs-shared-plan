@@ -1,4 +1,4 @@
-const DateInput = ({ name, showHint, title }) => (
+const DateInput = ({ name, onChange, showHint, title }) => (
   <div className="govuk-form-group">
     <fieldset
       className="govuk-fieldset"
@@ -31,6 +31,7 @@ const DateInput = ({ name, showHint, title }) => (
               type="text"
               pattern="[0-9]*"
               inputMode="numeric"
+              onChange={onChange}
             />
           </div>
         </div>
@@ -49,6 +50,7 @@ const DateInput = ({ name, showHint, title }) => (
               type="text"
               pattern="[0-9]*"
               inputMode="numeric"
+              onChange={onChange}
             />
           </div>
         </div>
@@ -67,6 +69,7 @@ const DateInput = ({ name, showHint, title }) => (
               type="text"
               pattern="[0-9]*"
               inputMode="numeric"
+              onChange={onChange}
             />
           </div>
         </div>
