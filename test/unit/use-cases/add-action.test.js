@@ -1,6 +1,12 @@
 import AddAction from '../../../lib/use-cases/add-action';
 import { Plan } from 'lib/domain';
-import Goal from 'lib/domain/goal';
+jest.mock('lib/domain/goal', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      addAction: jest.fn()
+    };
+  });
+});
 
 describe('Add Action Use Case', () => {
   const action = {
@@ -11,7 +17,13 @@ describe('Add Action Use Case', () => {
 
   it('adds an action to the correct goal for the plan with id', async () => {
     const id = '1';
-    const expectedPlan = new Plan({ id, goal: { addAction: jest.fn() } });
+    const goal = {
+      agreedDate: 'one',
+      targetReviewDate: 'two',
+      text: 'three',
+      useAsPhp: true
+    };
+    const expectedPlan = new Plan({ id, goal });
     const planGateway = {
       get: jest.fn(() => Promise.resolve(expectedPlan)),
       save: jest.fn(({ plan }) => Promise.resolve(plan))

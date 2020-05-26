@@ -8,7 +8,11 @@ context('Add-goal page', async () => {
       lastName: 'Simpson',
       queryFirstName: 'bart',
       queryLastName: 'simpson',
-      goal: {}
+      goal: {
+        targetReviewDate: 'some date',
+        text: 'some text',
+        useAsPhp: false
+      }
     });
   });
 
@@ -41,6 +45,7 @@ context('Add-goal page', async () => {
       cy.get('button')
         .last()
         .click();
+      //check if it then gets displayed when the action part of the UI is done
     });
   });
 });
