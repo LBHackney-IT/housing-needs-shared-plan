@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import DateInput from './index';
 
 describe('DateInput', () => {
@@ -15,20 +15,20 @@ describe('DateInput', () => {
 
   it('renders the month input', () => {
     const { getByLabelText } = render(<DateInput name={inputName} />);
-    const dayInput = getByLabelText(/\s*Month\s*/);
+    const monthInput = getByLabelText(/\s*Month\s*/);
 
-    expect(dayInput).toBeInTheDocument();
-    expect(dayInput.id).toEqual(`${inputName}-month`);
-    expect(dayInput.name).toEqual(`${inputName}-month`);
+    expect(monthInput).toBeInTheDocument();
+    expect(monthInput.id).toEqual(`${inputName}-month`);
+    expect(monthInput.name).toEqual(`${inputName}-month`);
   });
 
   it('renders the year input', () => {
     const { getByLabelText } = render(<DateInput name={inputName} />);
-    const dayInput = getByLabelText(/\s*Year\s*/);
+    const yearInput = getByLabelText(/\s*Year\s*/);
 
-    expect(dayInput).toBeInTheDocument();
-    expect(dayInput.id).toEqual(`${inputName}-year`);
-    expect(dayInput.name).toEqual(`${inputName}-year`);
+    expect(yearInput).toBeInTheDocument();
+    expect(yearInput.id).toEqual(`${inputName}-year`);
+    expect(yearInput.name).toEqual(`${inputName}-year`);
   });
 
   it('renders a title', () => {
@@ -55,5 +55,33 @@ describe('DateInput', () => {
     const hint = container.querySelector(`#${inputName}-hint`);
 
     expect(hint).not.toBeInTheDocument();
+  });
+
+  it('performs an action onChange', () => {
+    let day = -1;
+    let month = -1;
+    let year = -1;
+    const myAction = jest.fn(e => {
+      if (e.target.name.indexOf('day') > -1) day = e.target.value;
+      if (e.target.name.indexOf('month') > -1) month = e.target.value;
+      if (e.target.name.indexOf('year') > -1) year = e.target.value;
+    });
+    const { getByLabelText } = render(
+      <DateInput name={inputName} onChange={myAction} />
+    );
+
+    fireEvent.change(getByLabelText(/\s*Day\s*/), {
+      target: { value: 12 }
+    });
+    fireEvent.change(getByLabelText(/\s*Month\s*/), {
+      target: { value: 10 }
+    });
+    fireEvent.change(getByLabelText(/\s*Year\s*/), {
+      target: { value: 2021 }
+    });
+
+    expect(day).toEqual('12');
+    expect(month).toEqual('10');
+    expect(year).toEqual('2021');
   });
 });

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import TextInput from './index';
 
 describe('TextInput', () => {
@@ -15,5 +15,19 @@ describe('TextInput', () => {
     expect(input).toBeInTheDocument();
     expect(input.id).toEqual(inputName);
     expect(input.name).toEqual(inputName);
+  });
+
+  it('performs an action onChange', () => {
+    let newValue = '';
+    const myAction = jest.fn(e => (newValue = e.target.value));
+    const { getByLabelText } = render(
+      <TextInput name={'my-input'} label={'My Input'} onChange={myAction} />
+    );
+
+    fireEvent.change(getByLabelText(/\s*My Input\s*/), {
+      target: { value: 'hello' }
+    });
+
+    expect(newValue).toEqual('hello');
   });
 });
