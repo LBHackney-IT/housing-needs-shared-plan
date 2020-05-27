@@ -52,7 +52,7 @@ const AddAction = ({ id }) => {
     };
 
     const response = await fetch(
-      `http://localhost:3000/api/plans/${id}/actions`,
+      `${process.env.SHARED_PLAN_API_URL}/plans/${id}/actions`,
       {
         method: 'POST',
         credentials: 'same-origin',
