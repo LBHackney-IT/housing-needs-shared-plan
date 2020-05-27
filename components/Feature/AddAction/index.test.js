@@ -16,6 +16,17 @@ describe('AddAction', () => {
 });
 
 describe('OnClick', () => {
+  const { location } = window;
+
+  beforeAll(() => {
+    delete window.location;
+    window.location = { reload: jest.fn() };
+  });
+
+  afterAll(() => {
+    window.location = location;
+  });
+
   it('Adds an action', async () => {
     enableFetchMocks();
     const expectedRequest = {

@@ -4,7 +4,13 @@ describe('Goal', () => {
   describe('addAction', () => {
     it('adds an action to the actions array', () => {
       const goal = new Goal({ targetReviewDate: '', actions: [] });
-      const action = new Action({ summary: 'just a test' });
+      const dueDate = {
+        day: 1,
+        month: 5,
+        year: 2019
+      };
+
+      const action = new Action({ summary: 'just a test', dueDate });
       goal.addAction(action);
       expect(goal.actions).toStrictEqual(expect.arrayContaining([action]));
     });

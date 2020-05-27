@@ -13,7 +13,12 @@ describe('Add Action Use Case', () => {
   const action = {
     summary: '',
     description: '',
-    dueDate: new Date(Date.now())
+    dueDate: { year: 2020, month: 3, day: 4 }
+  };
+  const expectedAction = {
+    summary: '',
+    description: '',
+    dueDate: new Date(2020, 2, 4).toISOString()
   };
 
   it('adds an action to the correct goal for the plan with id', async () => {
@@ -38,7 +43,7 @@ describe('Add Action Use Case', () => {
 
     expect(planGateway.get).toHaveBeenCalledWith({ id });
     expect(expectedPlan.goal.addAction).toHaveBeenCalledWith(
-      expect.objectContaining(action)
+      expect.objectContaining(expectedAction)
     );
     expect(planGateway.save).toHaveBeenCalledWith({ plan: expectedPlan });
     expect(result).toBe(expectedPlan);

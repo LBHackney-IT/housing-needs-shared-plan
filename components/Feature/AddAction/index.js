@@ -44,8 +44,8 @@ const AddAction = ({ id }) => {
         body: JSON.stringify(action)
       }
     );
-    return 'wabalub';
-    window.location.href = `http://localhost:3000/plans/${id}`;
+    location.reload();
+    return false;
   };
 
   return (
