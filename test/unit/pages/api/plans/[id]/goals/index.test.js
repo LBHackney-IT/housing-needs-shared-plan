@@ -29,7 +29,6 @@ describe('Add goal API', () => {
 
   it('can add a goal to a plan', async () => {
     const expectedResponse = { id: planId, goal };
-
     const addGoal = {
       execute: jest.fn(() => {
         return expectedResponse;
@@ -45,7 +44,6 @@ describe('Add goal API', () => {
 
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not add goal to plan' };
-
     const addGoal = {
       execute: jest.fn()
     };
@@ -63,7 +61,6 @@ describe('Add goal API', () => {
     const expectedResponse = {
       error: 'could not add goal to plan with id=1'
     };
-
     const addGoal = {
       execute: jest.fn()
     };

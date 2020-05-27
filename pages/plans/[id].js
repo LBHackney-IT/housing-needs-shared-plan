@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AddGoal from '../../components/Feature/AddGoal';
-import SummaryList from '../../components/Form/SummaryList';
+import GoalSummary from 'components/Feature/GoalSummary';
+import LegalText from 'components/Feature/LegalText';
 
 const PlanSummary = ({ plan }) => {
   const [_plan, setPlan] = useState(plan);
@@ -27,21 +28,21 @@ const PlanSummary = ({ plan }) => {
     if (editGoal) {
       return <AddGoal planId={id} updatePlan={updatePlan} />;
     } else {
-      let listObject = {
-        Goal: goal.text,
-        'Target review date': goal.targetReviewDate
-      };
-      if (goal.useAsPhp) {
-        listObject['Legal stuff'] = 'This is the legal text';
-      }
-      return <SummaryList name="goal-summary" listObject={listObject} />;
+      return <GoalSummary goal={_plan.goal} />;
+    }
+  };
+
+  const legalComponent = () => {
+    if (_plan.goal && _plan.goal.useAsPhp) {
+      return <LegalText />;
     }
   };
 
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
-      <div>{goalComponent()}</div>
+      {goalComponent()}
+      {legalComponent()}
     </>
   );
 };
