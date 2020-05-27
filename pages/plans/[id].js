@@ -1,5 +1,5 @@
 import { addGoal } from '../../lib/dependencies';
-import AddAction from 'components/feature/AddAction';
+import AddAction from '../../components/feature/AddAction';
 import AddGoal from '../../components/Feature/AddGoal';
 import SummaryList from '../../components/Form/SummaryList';
 
