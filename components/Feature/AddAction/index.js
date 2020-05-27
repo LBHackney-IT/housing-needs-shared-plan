@@ -6,9 +6,14 @@ const AddAction = ({ id }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
+  const [button, setActionButtonVisibility] = useState({
+    className: 'govuk-button govuk-button--disabled',
+    disabled: 'disabled'
+  });
 
   const handleActionSummaryChange = async e => {
     await setActionSummary(e.target.value);
+    await updateButton();
   };
 
   const handleDueDateChange = async e => {
@@ -20,10 +25,23 @@ const AddAction = ({ id }) => {
     if (e.target.name.includes('year'))
       currentDate.year = parseInt(e.target.value);
     await setDueDate(currentDate);
+    await updateButton();
   };
 
   const handleActionDescriptionChange = async e => {
     await setActionDescription(e.target.value);
+    await updateButton();
+  };
+
+  const updateButton = async () => {
+    if (summary && dueDate.year && dueDate.month && dueDate.day) {
+      setActionButtonVisibility({ className: 'govuk-button', disabled: '' });
+    } else {
+      setActionButtonVisibility({
+        className: 'govuk-button govuk-button--disabled',
+        disabled: 'disabled'
+      });
+    }
   };
 
   const onClick = async id => {
@@ -73,6 +91,8 @@ const AddAction = ({ id }) => {
               onChange={handleDueDateChange}
             />
             <Button
+              className={button.className}
+              disabled={button.disabled}
               text="Add to plan"
               data-testid="add-action-button-test"
               onClick={() => onClick(id)}
