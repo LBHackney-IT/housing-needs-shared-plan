@@ -30,7 +30,6 @@ const AddAction = ({ id }) => {
 
   const handleActionDescriptionChange = async e => {
     await setActionDescription(e.target.value);
-    await updateButton();
   };
 
   const updateButton = async () => {
