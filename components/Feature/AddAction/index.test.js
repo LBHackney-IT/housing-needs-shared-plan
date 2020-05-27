@@ -39,12 +39,12 @@ describe('OnClick', () => {
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
     fetch.mockResponse(JSON.stringify(expectedResponse));
     const { getByTestId } = render(<AddAction id="1" />);
-    userEvent.type(getByTestId('summary-text'), 'summary');
-    userEvent.type(getByTestId('full-description'), 'description');
-    userEvent.type(getByTestId('due-date-day'), '01');
-    userEvent.type(getByTestId('due-date-month'), '01');
-    userEvent.type(getByTestId('due-date-year'), '1991');
-    getByTestId('add-action-button-test').click();
+    await userEvent.type(getByTestId('summary-text'), 'summary');
+    await userEvent.type(getByTestId('full-description'), 'description');
+    await userEvent.type(getByTestId('due-date-day'), '01');
+    await userEvent.type(getByTestId('due-date-month'), '01');
+    await userEvent.type(getByTestId('due-date-year'), '1991');
+    await getByTestId('add-action-button-test').click();
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1/action'),
