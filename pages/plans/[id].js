@@ -29,7 +29,7 @@ const PlanSummary = ({ plan }) => {
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
       {editGoal && <AddGoal planId={id} updatePlan={updatePlan} />}
-      {!editGoal && <GoalSummary goal={goal} />}
+      {!editGoal && <GoalSummary plan={_plan} />}
       {!editGoal && <AddAction id={id} updatePlan={updatePlan} />}
       {goal && goal.useAsPhp && <LegalText />}
     </>
