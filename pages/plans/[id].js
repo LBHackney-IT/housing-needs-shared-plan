@@ -1,9 +1,13 @@
 import { addGoal } from '../../lib/dependencies';
+import { useState } from 'react';
 import AddAction from '../../components/Feature/AddAction';
 import AddGoal from '../../components/Feature/AddGoal';
 import SummaryList from '../../components/Form/SummaryList';
 
-const PlanSummary = ({ editGoal, plan: { id, firstName, lastName, goal } }) => {
+const PlanSummary = ({ editGoal, initialPlan }) => {
+  const [plan, setPlan] = useState(initialPlan);
+  const { id, firstName, lastName, goal } = plan;
+
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
     if (lastName === '') {
@@ -13,6 +17,10 @@ const PlanSummary = ({ editGoal, plan: { id, firstName, lastName, goal } }) => {
       baseString += 's';
     }
     return baseString;
+  };
+
+  const updatePlan = async newPlan => {
+    setPlan(newPlan);
   };
 
   return (
@@ -28,7 +36,7 @@ const PlanSummary = ({ editGoal, plan: { id, firstName, lastName, goal } }) => {
           }}
         />
       )}
-      <AddAction id={id} />
+      <AddAction id={id} updatePlan={updatePlan} />
     </>
   );
 };
@@ -46,7 +54,7 @@ PlanSummary.getInitialProps = async ({ query, res }) => {
 
   return {
     editGoal: !plan.goal ? true : false,
-    plan: {
+    initialPlan: {
       id: plan.id,
       firstName: plan.firstName,
       lastName: plan.lastName

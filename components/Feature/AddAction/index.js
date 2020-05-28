@@ -2,46 +2,41 @@ import React, { useState } from 'react';
 import { DateInput, TextInput, Button } from '../../Form';
 import TextArea from '../../Form/TextArea';
 
-const AddAction = ({ id }) => {
+const AddAction = ({ id, updatePlan }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
-  const [button, setActionButtonVisibility] = useState({
-    className: 'govuk-button govuk-button--disabled',
-    disabled: 'disabled'
-  });
 
-  const handleActionSummaryChange = async e => {
-    await setActionSummary(e.target.value);
-    await updateButton();
+  const handleActionSummaryChange = e => {
+    setActionSummary(e.target.value);
   };
 
-  const handleDueDateChange = async e => {
-    let currentDate = dueDate;
+  const handleDueDateChange = e => {
     if (e.target.name.includes('day'))
-      currentDate.day = parseInt(e.target.value);
-    if (e.target.name.includes('month'))
-      currentDate.month = parseInt(e.target.value);
-    if (e.target.name.includes('year'))
-      currentDate.year = parseInt(e.target.value);
-    await setDueDate(currentDate);
-    await updateButton();
-  };
-
-  const handleActionDescriptionChange = async e => {
-    await setActionDescription(e.target.value);
-  };
-
-  const updateButton = async () => {
-    if (summary && dueDate.year && dueDate.month && dueDate.day) {
-      setActionButtonVisibility({ className: 'govuk-button', disabled: '' });
-    } else {
-      setActionButtonVisibility({
-        className: 'govuk-button govuk-button--disabled',
-        disabled: 'disabled'
+      setDueDate({
+        ...dueDate,
+        day: parseInt(e.target.value)
       });
-    }
+    if (e.target.name.includes('month'))
+      setDueDate({
+        ...dueDate,
+        month: parseInt(e.target.value)
+      });
+    if (e.target.name.includes('year'))
+      setDueDate({
+        ...dueDate,
+        year: parseInt(e.target.value)
+      });
   };
+
+  const handleActionDescriptionChange = e => {
+    setActionDescription(e.target.value);
+  };
+
+  const [buttonClassName, buttonDisabled] =
+    summary && dueDate.year && dueDate.month && dueDate.day
+      ? ['govuk-button', '']
+      : ['govuk-button govuk-button--disabled', 'disabled'];
 
   const onClick = async id => {
     const action = {
@@ -61,8 +56,8 @@ const AddAction = ({ id }) => {
         body: JSON.stringify(action)
       }
     );
-    location.reload();
-    return false;
+    const plan = await response.json();
+    if (plan) await updatePlan(plan);
   };
 
   return (
@@ -90,8 +85,8 @@ const AddAction = ({ id }) => {
               onChange={handleDueDateChange}
             />
             <Button
-              className={button.className}
-              disabled={button.disabled}
+              className={buttonClassName}
+              disabled={buttonDisabled}
               text="Add to plan"
               data-testid="add-action-button-test"
               onClick={() => onClick(id)}
