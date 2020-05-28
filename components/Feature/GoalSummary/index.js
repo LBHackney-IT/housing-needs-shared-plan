@@ -5,7 +5,7 @@ const GoalSummary = ({ goal }) => {
   return (
     <SummaryList
       name="goal-summary"
-      listObject={{
+      entries={{
         Goal: goal.text,
         'Target review date': moment(goal.targetReviewDate)
           .utc()

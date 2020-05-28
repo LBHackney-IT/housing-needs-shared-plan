@@ -1,4 +1,5 @@
-import {  Goal } from 'lib/domain';
+import { Goal } from 'lib/domain';
+
 describe('Goal', () => {
   it('sets the agreed date to todays date', () => {
     const today = new Date();

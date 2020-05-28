@@ -3,6 +3,11 @@ import { enableFetchMocks } from 'jest-fetch-mock';
 import AddGoal from './index';
 
 describe('AddGoal', () => {
+  beforeEach(() => {
+    enableFetchMocks();
+    fetch.resetMocks();
+  });
+
   it('renders the add goal form', () => {
     const { getByLabelText, getByText } = render(<AddGoal />);
     expect(getByLabelText('Goal')).toBeInTheDocument();
@@ -14,7 +19,6 @@ describe('AddGoal', () => {
   });
 
   it('saves the goal when add actions button is clicked', () => {
-    enableFetchMocks();
     fetch.mockResponse(JSON.stringify({}));
     const updatePlan = jest.fn();
     const planId = 1;
@@ -63,5 +67,19 @@ describe('AddGoal', () => {
         })
       }
     );
+  });
+
+  it('does not save the goal if the form is not valid', () => {
+    const { getByText } = render(<AddGoal planId={1} />);
+
+    fireEvent(
+      getByText('Add actions'),
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true
+      })
+    );
+
+    expect(fetch).not.toHaveBeenCalled();
   });
 });
