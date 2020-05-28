@@ -10,7 +10,7 @@ describe('PlanSummary', () => {
       lastName: 'Test',
       goal: { text: 'hello' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("Bob Test's shared plan")).toBeInTheDocument();
   });
 
@@ -21,7 +21,7 @@ describe('PlanSummary', () => {
       lastName: 'Tes',
       goal: { text: 'hello' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("Bob Tes' shared plan")).toBeInTheDocument();
   });
 
@@ -32,7 +32,7 @@ describe('PlanSummary', () => {
       lastName: 'Musk',
       goal: { text: 'hello' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("X Æ A-12 Musk's shared plan")).toBeInTheDocument();
   });
 
@@ -43,7 +43,7 @@ describe('PlanSummary', () => {
       lastName: '',
       goal: { text: 'hello' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("Dan's shared plan")).toBeInTheDocument();
   });
 
@@ -57,6 +57,6 @@ describe('PlanSummary', () => {
     fetch.mockResponse(JSON.stringify(expectedResponse));
     const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/plans/1'));
-    expect(props.plan).toStrictEqual(expectedResponse);
+    expect(props.initialPlan).toStrictEqual(expectedResponse);
   });
 });

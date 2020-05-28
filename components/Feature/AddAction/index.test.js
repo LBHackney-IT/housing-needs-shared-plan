@@ -38,7 +38,7 @@ describe('OnClick', () => {
     };
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
     fetch.mockResponse(JSON.stringify(expectedResponse));
-    const { getByTestId } = render(<AddAction id="1" />);
+    const { getByTestId } = render(<AddAction updatePlan={jest.fn()} id="1" />);
     await userEvent.type(getByTestId('summary-text'), 'summary');
     await userEvent.type(getByTestId('full-description'), 'description');
     await userEvent.type(getByTestId('due-date-day'), '01');
