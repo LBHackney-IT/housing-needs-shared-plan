@@ -1,6 +1,27 @@
-import { Goal } from 'lib/domain';
+import { Goal, Action, ArgumentError } from 'lib/domain';
 
 describe('Goal', () => {
+  describe('addAction', () => {
+    it('adds an action to the actions array', () => {
+      const goal = new Goal({ targetReviewDate: '', actions: [] });
+      const dueDate = {
+        day: 1,
+        month: 5,
+        year: 2019
+      };
+
+      const action = new Action({ summary: 'just a test', dueDate });
+      goal.addAction(action);
+      expect(goal.actions).toStrictEqual(expect.arrayContaining([action]));
+    });
+
+    it('throws an argument error when trying to add a non-action object', () => {
+      const goal = new Goal({ targetReviewDate: '', actions: [] });
+      const action = {};
+      expect(() => goal.addAction(action)).toThrow(ArgumentError);
+    });
+  });
+
   it('sets the agreed date to todays date', () => {
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);

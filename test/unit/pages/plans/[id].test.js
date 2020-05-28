@@ -93,7 +93,7 @@ describe('PlanSummary', () => {
       expect(container.querySelector('.legal-text')).toBeInTheDocument();
     });
 
-    it ('does not render legal text if useAsPhp is false', () => {
+    it('does not render legal text if useAsPhp is false', () => {
       const plan = {
         id: '1',
         firstName: 'John',
@@ -104,6 +104,6 @@ describe('PlanSummary', () => {
       };
       const { container } = render(<PlanSummary plan={plan} />);
       expect(container.querySelector('.legal-text')).not.toBeInTheDocument();
-    })
+    });
   });
 });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import AddGoal from '../../components/Feature/AddGoal';
+import AddGoal from 'components/Feature/AddGoal';
+import AddAction from 'components/Feature/AddAction';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 
@@ -29,6 +30,7 @@ const PlanSummary = ({ plan }) => {
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
       {editGoal && <AddGoal planId={id} updatePlan={updatePlan} />}
       {!editGoal && <GoalSummary goal={goal} />}
+      {!editGoal && <AddAction id={id} updatePlan={updatePlan} />}
       {goal && goal.useAsPhp && <LegalText />}
     </>
   );
