@@ -45,17 +45,14 @@ const AddAction = ({ id, updatePlan }) => {
       dueDate
     };
 
-    const response = await fetch(
-      `${process.env.SHARED_PLAN_API_URL}/plans/${id}/actions`,
-      {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(action)
-      }
-    );
+    const response = await fetch(`/api/plans/${id}/actions`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(action)
+    });
     const plan = await response.json();
     if (plan) await updatePlan(plan);
   };
