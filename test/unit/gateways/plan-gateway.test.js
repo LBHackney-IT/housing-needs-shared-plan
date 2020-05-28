@@ -1,5 +1,5 @@
 import PlanGateway from '../../../lib/gateways/plan-gateway';
-import { ArgumentError, Goal, Plan } from '../../../lib/domain';
+import { ArgumentError, Goal, Plan, Token } from '../../../lib/domain';
 
 describe('Plan Gateway', () => {
   let client;
@@ -221,13 +221,15 @@ describe('Plan Gateway', () => {
   });
 
   describe('save', () => {
-    it('saves the plan', async () => {
-      const plan = new Plan({
-        id: 1,
-        firstName: 'John',
-        lastName: 'Smith',
-        systemIds: ['5']
-      });
+    const plan = new Plan({
+      id: 1,
+      firstName: 'John',
+      lastName: 'Smith',
+      systemIds: ['5']
+    });
+
+    it('saves the plan when goal is defined', async () => {
+      plan.tokens = undefined;
 
       plan.goal = new Goal({
         targetReviewDate: { year: 2021, month: 3, day: 3 },
@@ -242,6 +244,71 @@ describe('Plan Gateway', () => {
         },
         UpdateExpression: 'set goal = :g',
         ExpressionAttributeValues: {
+          ':g': plan.goal
+        },
+        ReturnValues: 'UPDATED_NEW'
+      };
+
+      const planGateway = new PlanGateway({ client, tableName });
+
+      const result = await planGateway.save({ plan });
+
+      expect(client.update).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toBeInstanceOf(Plan);
+      expect(result.goal).not.toBeNull();
+    });
+
+    it('saves the plan when token is defined', async () => {
+      plan.tokens = [
+        new Token({
+          token: '123'
+        })
+      ];
+
+      plan.goal = undefined;
+
+      const expectedRequest = {
+        TableName: tableName,
+        Key: {
+          id: plan.id
+        },
+        UpdateExpression: 'set tokens = :t',
+        ExpressionAttributeValues: {
+          ':t': plan.tokens
+        },
+        ReturnValues: 'UPDATED_NEW'
+      };
+
+      const planGateway = new PlanGateway({ client, tableName });
+
+      const result = await planGateway.save({ plan });
+
+      expect(client.update).toHaveBeenCalledWith(expectedRequest);
+      expect(result).toBeInstanceOf(Plan);
+      expect(result.goal).not.toBeNull();
+    });
+
+    it('saves the plan when token and plan is defined', async () => {
+      plan.goal = new Goal({
+        targetReviewDate: { year: 2021, month: 3, day: 3 },
+        text: 'hello',
+        useAsPhp: true
+      });
+
+      plan.tokens = [
+        new Token({
+          token: '123'
+        })
+      ];
+
+      const expectedRequest = {
+        TableName: tableName,
+        Key: {
+          id: plan.id
+        },
+        UpdateExpression: `set goal = :g, tokens = :t`,
+        ExpressionAttributeValues: {
+          ':t': plan.tokens,
           ':g': plan.goal
         },
         ReturnValues: 'UPDATED_NEW'
