@@ -1,8 +1,9 @@
 import { endpoint } from 'pages/api/plans/share';
-import { ArgumentError } from '../../../../../../lib/domain';
+import { ArgumentError } from 'lib/domain';
 
 describe('Share plan', () => {
   const planId = '2';
+  const number = '000000';
 
   let json;
   let res;
@@ -20,7 +21,7 @@ describe('Share plan', () => {
     method: 'GET',
     body: {
       planId,
-      tokens: []
+      number
     }
   };
 
@@ -34,7 +35,7 @@ describe('Share plan', () => {
 
     await endpoint({ sharePlan })(req, res);
 
-    expect(sharePlan.execute).toHaveBeenCalledWith({ planId, tokens: [] });
+    expect(sharePlan.execute).toHaveBeenCalledWith({ planId, number });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });

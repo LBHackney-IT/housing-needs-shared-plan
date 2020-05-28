@@ -22,18 +22,20 @@ describe('Share plan', () => {
     tokens
   };
 
-  const sharePlanRequest = {
-    planId,
-    name,
-    number
-  };
-
   const expectedGatewayRequest = {
     plan
   };
 
   const oldToken = 'old_token';
   const oldDate = new Date().toISOString();
+
+  const planGateway = {
+    save: jest.fn(),
+    get: jest.fn(() => {
+      return plan;
+    })
+  };
+  const smsGateway = { sendMessage: jest.fn() };
 
   beforeEach(() => {
     jest.spyOn(global.Math, 'random').mockReturnValue({
@@ -48,31 +50,23 @@ describe('Share plan', () => {
   });
 
   it('generates a token with date and saves it', async () => {
-    const planGateway = { save: jest.fn() };
-    const smsGateway = { sendMessage: jest.fn() };
-
     const sharePlan = new SharePlan({ planGateway, smsGateway });
-    await sharePlan.execute(sharePlanRequest);
+    await sharePlan.execute({ planId, number });
 
     expect(Math.random).toHaveBeenCalled();
     expect(planGateway.save).toHaveBeenCalledWith(expectedGatewayRequest);
   });
 
   it('adds a new token if one already exists', async () => {
-    sharePlanRequest.tokens = [{ token: oldToken, createdDate: oldDate }];
-
     expectedGatewayRequest.plan.tokens.push({
       token: oldToken,
       createdDate: expect.stringContaining(oldDate.substring(0, 10))
     });
     expectedGatewayRequest.plan.tokens.reverse();
 
-    const planGateway = { save: jest.fn() };
-    const smsGateway = { sendMessage: jest.fn() };
-
     const sharePlan = new SharePlan({ planGateway, smsGateway });
 
-    await sharePlan.execute(sharePlanRequest);
+    await sharePlan.execute({ planId, number });
 
     expect(Math.random).toHaveBeenCalled();
     expect(planGateway.save).toHaveBeenCalledWith(expectedGatewayRequest);
@@ -80,15 +74,13 @@ describe('Share plan', () => {
 
   it('shares the plan via sms', async () => {
     const expectedSmsRequest = {
-      message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${sharePlanRequest.planId}/plan#token=random_string`,
+      message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${planId}/plan#token=random_string`,
       name,
       number
     };
-    const planGateway = { save: jest.fn() };
-    const smsGateway = { sendMessage: jest.fn() };
 
     const sharePlan = new SharePlan({ planGateway, smsGateway });
-    await sharePlan.execute(sharePlanRequest);
+    await sharePlan.execute({ planId, number });
 
     expect(smsGateway.sendMessage).toHaveBeenCalledWith(expectedSmsRequest);
   });
