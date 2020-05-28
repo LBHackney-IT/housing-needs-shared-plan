@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { DateInput, TextInput, Button } from '../../Form';
-import TextArea from '../../Form/TextArea';
+import { DateInput, TextInput, Button } from 'components/Form';
+import TextArea from 'components/Form/TextArea';
 
 const AddAction = ({ id, updatePlan }) => {
   const [summary, setActionSummary] = useState('');
@@ -38,24 +38,21 @@ const AddAction = ({ id, updatePlan }) => {
       ? ['govuk-button', '']
       : ['govuk-button govuk-button--disabled', 'disabled'];
 
-  const onClick = async id => {
+  const addToPlan = async () => {
     const action = {
       summary,
       description,
       dueDate
     };
 
-    const response = await fetch(
-      `${process.env.SHARED_PLAN_API_URL}/plans/${id}/actions`,
-      {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(action)
-      }
-    );
+    const response = await fetch(`/api/plans/${id}/actions`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(action)
+    });
     const plan = await response.json();
     if (plan) await updatePlan(plan);
   };
@@ -88,8 +85,8 @@ const AddAction = ({ id, updatePlan }) => {
               className={buttonClassName}
               disabled={buttonDisabled}
               text="Add to plan"
+              onClick={addToPlan}
               data-testid="add-action-button-test"
-              onClick={() => onClick(id)}
             />
           </div>
         </div>

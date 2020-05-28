@@ -38,13 +38,18 @@ describe('OnClick', () => {
     };
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
     fetch.mockResponse(JSON.stringify(expectedResponse));
-    const { getByTestId } = render(<AddAction updatePlan={jest.fn()} id="1" />);
-    await userEvent.type(getByTestId('summary-text'), 'summary');
-    await userEvent.type(getByTestId('full-description'), 'description');
-    await userEvent.type(getByTestId('due-date-day'), '01');
-    await userEvent.type(getByTestId('due-date-month'), '01');
-    await userEvent.type(getByTestId('due-date-year'), '1991');
-    await getByTestId('add-action-button-test').click();
+    const { getByLabelText, getByText } = render(
+      <AddAction updatePlan={jest.fn()} id="1" />
+    );
+    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.type(
+      getByLabelText('Full description(optional)'),
+      'description'
+    );
+    await userEvent.type(getByLabelText('Day'), '01');
+    await userEvent.type(getByLabelText('Month'), '01');
+    await userEvent.type(getByLabelText('Year'), '1991');
+    await getByText('Add to plan').click();
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1/action'),

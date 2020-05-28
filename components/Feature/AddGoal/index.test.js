@@ -1,7 +1,13 @@
 import { fireEvent, render } from '@testing-library/react';
+import { enableFetchMocks } from 'jest-fetch-mock';
 import AddGoal from './index';
 
 describe('AddGoal', () => {
+  beforeEach(() => {
+    enableFetchMocks();
+    fetch.resetMocks();
+  });
+
   it('renders the add goal form', () => {
     const { getByLabelText, getByText } = render(<AddGoal />);
     expect(getByLabelText('Goal')).toBeInTheDocument();
@@ -13,12 +19,11 @@ describe('AddGoal', () => {
   });
 
   it('saves the goal when add actions button is clicked', () => {
-    const addGoalUseCase = {
-      execute: jest.fn()
-    };
+    fetch.mockResponse(JSON.stringify({}));
+    const updatePlan = jest.fn();
     const planId = 1;
     const { getByLabelText, getByText } = render(
-      <AddGoal addGoalUseCase={addGoalUseCase} planId={planId} />
+      <AddGoal planId={planId} updatePlan={updatePlan} />
     );
 
     fireEvent.change(getByLabelText('Goal'), {
@@ -42,17 +47,39 @@ describe('AddGoal', () => {
       })
     );
 
-    expect(addGoalUseCase.execute).toHaveBeenCalledWith({
-      planId,
-      goal: {
-        targetReviewDate: {
-          day: 12,
-          month: 10,
-          year: 2021
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/plans/1/goals'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         },
-        text: 'this is my goal',
-        useAsPhp: false
+        body: JSON.stringify({
+          goal: {
+            targetReviewDate: {
+              day: 12,
+              month: 10,
+              year: 2021
+            },
+            text: 'this is my goal',
+            useAsPhp: false
+          }
+        })
       }
-    });
+    );
+  });
+
+  it('does not save the goal if the form is not valid', () => {
+    const { getByText } = render(<AddGoal planId={1} />);
+
+    fireEvent(
+      getByText('Add actions'),
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true
+      })
+    );
+
+    expect(fetch).not.toHaveBeenCalled();
   });
 });

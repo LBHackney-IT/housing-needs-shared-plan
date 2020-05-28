@@ -1,5 +1,5 @@
-import PlanGateway from '../../../lib/gateways/plan-gateway';
-import { ArgumentError, Goal, Plan } from '../../../lib/domain';
+import PlanGateway from 'lib/gateways/plan-gateway';
+import { ArgumentError, Goal, Plan } from 'lib/domain';
 
 describe('Plan Gateway', () => {
   let client;

@@ -30,4 +30,37 @@ describe('TextInput', () => {
 
     expect(newValue).toEqual('hello');
   });
+
+  it('shows an error message if validation is required and input has no value', () => {
+    const inputLabel = 'My Input';
+    const { container, getByLabelText } = render(
+      <TextInput name="my-text-input" label={inputLabel} validate={true} />
+    );
+
+    fireEvent.change(getByLabelText(inputLabel), {
+      target: { value: '' }
+    });
+
+    expect(container.querySelector('.govuk-error-message')).toBeInTheDocument();
+  });
+
+  it('does not show error message if validation is required and input has a value', () => {
+    const inputLabel = 'My Input';
+    const { container, getByLabelText } = render(
+      <TextInput
+        name="my-text-input"
+        label={inputLabel}
+        onChange={() => {}}
+        validate={true}
+      />
+    );
+
+    fireEvent.change(getByLabelText(inputLabel), {
+      target: { value: 'hello' }
+    });
+
+    expect(
+      container.querySelector('.govuk-error-message')
+    ).not.toBeInTheDocument();
+  });
 });

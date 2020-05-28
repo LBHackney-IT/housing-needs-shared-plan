@@ -1,4 +1,4 @@
-import { normalise } from '../../../lib/utils/normalise';
+import { normalise } from 'lib/utils/normalise';
 
 describe('normalise', () => {
   it('normalises strings, including diacritics', () => {

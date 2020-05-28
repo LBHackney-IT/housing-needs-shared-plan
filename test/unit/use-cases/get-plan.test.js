@@ -1,5 +1,5 @@
-import GetPlan from '../../../lib/use-cases/get-plan';
-import Plan from '../../../lib/domain/plan';
+import GetPlan from 'lib/use-cases/get-plan';
+import Plan from 'lib/domain/plan';
 
 describe('Get Plan Use Case', () => {
   const logger = { info: jest.fn(), error: jest.fn() };
@@ -16,7 +16,9 @@ describe('Get Plan Use Case', () => {
     const result = await getPlan.execute({ id });
 
     expect(planGateway.get).toHaveBeenCalledWith({ id });
-    expect(result).toEqual({ id, firstName: 'Simon', lastName: 'ThePieman' });
+    expect(result).toEqual(
+      expect.objectContaining({ id, firstName: 'Simon', lastName: 'ThePieman' })
+    );
   });
 
   it('returns null if plan does not exist', async () => {

@@ -1,6 +1,6 @@
 import { enableFetchMocks } from 'jest-fetch-mock';
-import PlanSummary from 'pages/plans/[id]';
 import { render } from '@testing-library/react';
+import PlanSummary from 'pages/plans/[id]';
 
 describe('PlanSummary', () => {
   it('renders correct title', () => {
@@ -8,9 +8,9 @@ describe('PlanSummary', () => {
       id: '1',
       firstName: 'Bob',
       lastName: 'Test',
-      goal: { text: 'hello' }
+      goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
+    const { getByText } = render(<PlanSummary plan={plan} />);
     expect(getByText("Bob Test's shared plan")).toBeInTheDocument();
   });
 
@@ -19,9 +19,9 @@ describe('PlanSummary', () => {
       id: '1',
       firstName: 'Bob',
       lastName: 'Tes',
-      goal: { text: 'hello' }
+      goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
+    const { getByText } = render(<PlanSummary plan={plan} />);
     expect(getByText("Bob Tes' shared plan")).toBeInTheDocument();
   });
 
@@ -30,9 +30,9 @@ describe('PlanSummary', () => {
       id: '1',
       firstName: 'X Æ A-12',
       lastName: 'Musk',
-      goal: { text: 'hello' }
+      goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
+    const { getByText } = render(<PlanSummary plan={plan} />);
     expect(getByText("X Æ A-12 Musk's shared plan")).toBeInTheDocument();
   });
 
@@ -41,9 +41,9 @@ describe('PlanSummary', () => {
       id: '1',
       firstName: 'Dan',
       lastName: '',
-      goal: { text: 'hello' }
+      goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
+    const { getByText } = render(<PlanSummary plan={plan} />);
     expect(getByText("Dan's shared plan")).toBeInTheDocument();
   });
 
@@ -52,11 +52,58 @@ describe('PlanSummary', () => {
     const expectedResponse = {
       id: '1',
       firstName: 'James',
-      lastName: 'Bond'
+      lastName: 'Bond',
+      goal: { text: 'my goal' }
     };
     fetch.mockResponse(JSON.stringify(expectedResponse));
     const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/plans/1'));
-    expect(props.initialPlan).toStrictEqual(expectedResponse);
+    expect(props.plan).toStrictEqual(expectedResponse);
+  });
+
+  describe('adding a goal', () => {
+    it('renders the goal summary if goal exists', () => {
+      const goalText = 'Rule the world!';
+      const plan = {
+        id: '1',
+        firstName: 'John',
+        lastName: 'Musk',
+        goal: { text: goalText }
+      };
+      const { getByText } = render(<PlanSummary plan={plan} />);
+      expect(getByText(goalText)).toBeInTheDocument();
+    });
+
+    it('renders the add goal form if goal is falsy', () => {
+      const plan = { id: '1', firstName: 'John', lastName: 'Musk' };
+      const { getByLabelText } = render(<PlanSummary plan={plan} />);
+      expect(getByLabelText('Goal')).toBeInTheDocument();
+    });
+
+    it('renders the legal text if useAsPhp is true', () => {
+      const plan = {
+        id: '1',
+        firstName: 'John',
+        lastName: 'Musk',
+        goal: {
+          useAsPhp: true
+        }
+      };
+      const { container } = render(<PlanSummary plan={plan} />);
+      expect(container.querySelector('.legal-text')).toBeInTheDocument();
+    });
+
+    it('does not render legal text if useAsPhp is false', () => {
+      const plan = {
+        id: '1',
+        firstName: 'John',
+        lastName: 'Musk',
+        goal: {
+          useAsPhp: false
+        }
+      };
+      const { container } = render(<PlanSummary plan={plan} />);
+      expect(container.querySelector('.legal-text')).not.toBeInTheDocument();
+    });
   });
 });

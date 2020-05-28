@@ -20,7 +20,7 @@ context('Add-goal page', async () => {
     await cy.deleteSharedPlan('1');
   });
 
-  describe('Add acion', () => {
+  describe('Add action', () => {
     describe('Add to plan button', () => {
       it('is disabled until a summary and date is added', () => {
         cy.visit(`http://localhost:3000/plans/1`);
