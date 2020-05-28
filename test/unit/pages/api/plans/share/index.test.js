@@ -19,7 +19,8 @@ describe('Share plan', () => {
   const req = {
     method: 'GET',
     body: {
-      planId
+      planId,
+      tokens: []
     }
   };
 
@@ -33,7 +34,7 @@ describe('Share plan', () => {
 
     await endpoint({ sharePlan })(req, res);
 
-    expect(sharePlan.execute).toHaveBeenCalledWith({ planId });
+    expect(sharePlan.execute).toHaveBeenCalledWith({ planId, tokens: [] });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
