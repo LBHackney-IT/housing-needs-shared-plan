@@ -76,10 +76,34 @@ describe('PlanSummary', () => {
 
     it('renders the add goal form if goal is falsy', () => {
       const plan = { id: '1', firstName: 'John', lastName: 'Musk' };
-      const { getByLabelText } = render(
-        <PlanSummary plan={plan} editGoal={true} />
-      );
+      const { getByLabelText } = render(<PlanSummary plan={plan} />);
       expect(getByLabelText('Goal')).toBeInTheDocument();
     });
+
+    it('renders the legal text if useAsPhp is true', () => {
+      const plan = {
+        id: '1',
+        firstName: 'John',
+        lastName: 'Musk',
+        goal: {
+          useAsPhp: true
+        }
+      };
+      const { container } = render(<PlanSummary plan={plan} />);
+      expect(container.querySelector('.legal-text')).toBeInTheDocument();
+    });
+
+    it ('does not render legal text if useAsPhp is false', () => {
+      const plan = {
+        id: '1',
+        firstName: 'John',
+        lastName: 'Musk',
+        goal: {
+          useAsPhp: false
+        }
+      };
+      const { container } = render(<PlanSummary plan={plan} />);
+      expect(container.querySelector('.legal-text')).not.toBeInTheDocument();
+    })
   });
 });

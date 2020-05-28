@@ -24,25 +24,12 @@ const PlanSummary = ({ plan }) => {
     setEditGoal(false);
   };
 
-  const goalComponent = () => {
-    if (editGoal) {
-      return <AddGoal planId={id} updatePlan={updatePlan} />;
-    } else {
-      return <GoalSummary goal={_plan.goal} />;
-    }
-  };
-
-  const legalComponent = () => {
-    if (_plan.goal && _plan.goal.useAsPhp) {
-      return <LegalText />;
-    }
-  };
-
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
-      {goalComponent()}
-      {legalComponent()}
+      {editGoal && <AddGoal planId={id} updatePlan={updatePlan} />}
+      {!editGoal && <GoalSummary goal={goal} />}
+      {goal && goal.useAsPhp && <LegalText />}
     </>
   );
 };
@@ -55,17 +42,7 @@ PlanSummary.getInitialProps = async ({ query, res }) => {
     res.statusCode = 404;
     return res.end('Not found');
   }
-
-  const plan = await response.json();
-
-  return {
-    plan: {
-      id: plan.id,
-      firstName: plan.firstName,
-      lastName: plan.lastName,
-      goal: plan.goal
-    }
-  };
+  return { plan: await response.json() };
 };
 
 export default PlanSummary;
