@@ -15,6 +15,7 @@
     "lint": "eslint --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
   "dependencies": {
+    "@testing-library/user-event": "^10.3.5",
     "cookie-parser": "^1.4.5",
     "jest-fetch-mock": "^3.0.3",
     "jsonwebtoken": "^8.5.1",
@@ -28,8 +29,6 @@
     "serverless-http": "^2.4.1"
   },
   "devDependencies": {
-    "cypress-axe": "^0.8.1",
-    "jest-fetch-mock": "^3.0.3",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.6",
@@ -40,12 +39,14 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.5.1",
     "cypress": "^4.5.0",
+    "cypress-axe": "^0.8.1",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-jest": "^23.9.0",
     "eslint-plugin-prettier": "^3.1.1",
     "govuk-frontend": "^3.6.0",
     "jest": "^25.5.4",
+    "jest-fetch-mock": "^3.0.3",
     "prettier": "^1.18.2",
     "sass": "^1.26.5",
     "serverless": "^1.70.1",

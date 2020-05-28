@@ -5,7 +5,7 @@ export const endpoint = ({ addAction }) => async (req, res) => {
   const { id } = req.query;
 
   try {
-    const result = await addAction({ planId: id, action: req.body });
+    const result = await addAction.execute({ planId: id, action: req.body });
 
     logger.info(`Success`, { result });
     return res.status(201).json(result);
