@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DateInput, TextInput, Button } from 'components/Form';
 import TextArea from 'components/Form/TextArea';
+import { getHackneyToken } from 'lib/utils/cookie';
 
 const AddAction = ({ id, updatePlan }) => {
   const [summary, setActionSummary] = useState('');
@@ -49,7 +50,8 @@ const AddAction = ({ id, updatePlan }) => {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getHackneyToken()}`
       },
       body: JSON.stringify(action)
     });

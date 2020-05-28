@@ -49,11 +49,7 @@ describe('AddGoal', () => {
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1/goals'),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+      expect.objectContaining({
         body: JSON.stringify({
           goal: {
             targetReviewDate: {
@@ -65,7 +61,7 @@ describe('AddGoal', () => {
             useAsPhp: false
           }
         })
-      }
+      })
     );
   });
 
