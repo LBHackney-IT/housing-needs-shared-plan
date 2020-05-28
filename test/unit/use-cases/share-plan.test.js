@@ -80,11 +80,9 @@ describe('Share plan', () => {
 
   it('shares the plan via sms', async () => {
     const expectedSmsRequest = {
-      plan: {
-        message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${sharePlanRequest.planId}/plan#token=random_string`,
-        name: 'Jon',
-        number: '0000000'
-      }
+      message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${sharePlanRequest.planId}/plan#token=random_string`,
+      name,
+      number
     };
     const planGateway = { save: jest.fn() };
     const smsGateway = { sendMessage: jest.fn() };

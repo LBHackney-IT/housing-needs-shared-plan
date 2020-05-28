@@ -6,7 +6,9 @@ export const endpoint = ({ sharePlan }) => async (req, res) => {
   try {
     const result = await sharePlan.execute({
       planId: req.body.planId,
-      tokens: req.body.tokens
+      tokens: req.body.tokens,
+      name: req.body.name,
+      number: req.body.number
     });
 
     logger.info(`Success`, { result });
