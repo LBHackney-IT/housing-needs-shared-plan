@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import AddGoal from './index';
+import { getHackneyToken } from 'lib/utils/cookie';
+jest.mock('lib/utils/cookie');
 
 describe('AddGoal', () => {
   beforeEach(() => {
@@ -20,6 +22,8 @@ describe('AddGoal', () => {
 
   it('saves the goal when add actions button is clicked', () => {
     fetch.mockResponse(JSON.stringify({}));
+    const token = 'blah';
+    getHackneyToken.mockReturnValue(token);
     const updatePlan = jest.fn();
     const planId = 1;
     const { getByLabelText, getByText } = render(
@@ -50,6 +54,10 @@ describe('AddGoal', () => {
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1/goals'),
       expect.objectContaining({
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           goal: {
             targetReviewDate: {
