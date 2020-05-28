@@ -60,39 +60,36 @@ const AddAction = ({ id, updatePlan }) => {
   };
 
   return (
-    <div className="govuk-width-container">
-      <main className="govuk-main-wrapper">
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third">
-            <h2 className="govuk-heading-m">Our Actions</h2>
-          </div>
-          <div className="govuk-grid-column-two-thirds">
-            <h2 className="govuk-heading-m">Add new action</h2>
-            <TextInput
-              name="summary-text"
-              label="Summary"
-              onChange={handleActionSummaryChange}
-            />
-            <TextArea
-              name="full-description"
-              label="Full description(optional)"
-              onChange={handleActionDescriptionChange}
-            />
-            <DateInput
-              name="due-date"
-              title="Due date"
-              onChange={handleDueDateChange}
-            />
-            <Button
-              className={buttonClassName}
-              disabled={buttonDisabled}
-              text="Add to plan"
-              onClick={addToPlan}
-              data-testid="add-action-button-test"
-            />
-          </div>
-        </div>
-      </main>
+    <div className="govuk-grid-row">
+      <div className="govuk-grid-column-one-quarter">
+        <h2 className="govuk-heading-m">Our Actions</h2>
+      </div>
+      <div className="govuk-grid-column-three-quarters">
+        <h3 className="govuk-heading-m">Add new action</h3>
+
+        <TextInput
+          name="summary-text"
+          label="Summary"
+          onChange={handleActionSummaryChange}
+        />
+        <TextArea
+          name="full-description"
+          label="Full description(optional)"
+          onChange={handleActionDescriptionChange}
+        />
+        <DateInput
+          name="due-date"
+          title="Due date"
+          onChange={handleDueDateChange}
+        />
+        <Button
+          className={buttonClassName}
+          disabled={buttonDisabled}
+          text="Add to plan"
+          onClick={addToPlan}
+          data-testid="add-action-button-test"
+        />
+      </div>
     </div>
   );
 };

@@ -62,25 +62,30 @@ const AddGoal = ({ planId, updatePlan }) => {
   };
 
   return (
-    <div className="govuk-form-group">
-      <TextInput
-        name="goal-text"
-        label="Goal"
-        onChange={handleGoalTextChange}
-        validate={validate}
-      />
-      <DateInput
-        name="target-review-date"
-        title="Target review date"
-        onChange={handleTargetReviewDateChange}
-        validate={validate}
-      />
-      <Checkbox
-        name="use-as-php"
-        label="Use as a PHP"
-        onClick={handleUseAsPhpChange}
-      />
-      <Button text="Add actions" onClick={addTheGoal} />
+    <div className="govuk-grid-row">
+      <div className="govuk-grid-column-one-quarter">
+        <h2 className="govuk-heading-m">Overview</h2>
+      </div>
+      <div className="govuk-grid-column-three-quarters">
+        <TextInput
+          name="goal-text"
+          label="Goal"
+          onChange={handleGoalTextChange}
+          validate={validate}
+        />
+        <DateInput
+          name="target-review-date"
+          title="Target review date"
+          onChange={handleTargetReviewDateChange}
+          validate={validate}
+        />
+        <Checkbox
+          name="use-as-php"
+          label="Use as a PHP"
+          onClick={handleUseAsPhpChange}
+        />
+        <Button text="Add actions" onClick={addTheGoal} />
+      </div>
     </div>
   );
 };
