@@ -1,8 +1,11 @@
 import moment from 'moment';
 import Panel from 'components/Form/Panel';
+import { getUsername } from 'lib/utils/cookie';
 import css from './index.module.scss';
 
 const GoalSummary = ({ plan }) => {
+  const user = getUsername();
+
   return (
     <Panel>
       <div className={`govuk-grid-row ${css['goal-summary']}`}>
@@ -11,7 +14,7 @@ const GoalSummary = ({ plan }) => {
             <h3>Goal</h3>
             <p className={css['data-text']}>{plan.goal.text}</p>
             <p className={css['note-text']}>
-              Agreed by {plan.firstName} {plan.lastName} and User on{' '}
+              Agreed by {plan.firstName} {plan.lastName} and {user} on{' '}
               {moment(plan.goal.agreedDate)
                 .utc()
                 .format('DD/MM/YYYY')}
@@ -34,7 +37,7 @@ const GoalSummary = ({ plan }) => {
           <p>
             {plan.firstName} {plan.lastName}
           </p>
-          <p>User</p>
+          <p>{user}</p>
         </div>
       </div>
     </Panel>
