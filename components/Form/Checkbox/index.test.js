@@ -33,4 +33,12 @@ describe('Checkbox', () => {
 
     expect(myAction).toHaveBeenCalled();
   });
+
+  it('sets the checkbox value', () => {
+    const checkboxLabel = 'My Checkbox';
+    const { getByLabelText } = render(
+      <Checkbox name={'my-checkbox'} label={checkboxLabel} checked={true} />
+    );
+    expect(getByLabelText(checkboxLabel).checked).toEqual(true);
+  });
 });
