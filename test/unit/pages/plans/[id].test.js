@@ -108,14 +108,15 @@ describe('PlanSummary', () => {
   });
 
   describe('adding an action', () => {
-    xit('does not render an action if goal does not exist', () => {
+    it('does not render an action if goal does not exist', () => {
       const plan = {
         id: '1',
         firstName: 'Mr',
         lastName: 'Don'
       };
-      const { getByText } = render(<PlanSummary plan={plan} />);
-      expect(getByText('Our Actions')).not.toBeInTheDocument();
+      const { queryByText } = render(<PlanSummary plan={plan} />);
+
+      expect(queryByText('Our Actions')).toBeNull();
     });
 
     it('renders the add action form if goal exists', () => {
