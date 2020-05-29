@@ -106,4 +106,28 @@ describe('PlanSummary', () => {
       expect(container.querySelector('.legal-text')).not.toBeInTheDocument();
     });
   });
+
+  describe('adding an action', () => {
+    xit('does not render an action if goal does not exist', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don'
+      };
+      const { getByText } = render(<PlanSummary plan={plan} />);
+      expect(getByText('Our Actions')).not.toBeInTheDocument();
+    });
+
+    it('renders the add action form if goal exists', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don',
+        goal: { text: 'text' }
+      };
+
+      const { getByText } = render(<PlanSummary plan={plan} />);
+      expect(getByText('Our Actions')).toBeInTheDocument();
+    });
+  });
 });

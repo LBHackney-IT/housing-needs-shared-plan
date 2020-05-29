@@ -3,6 +3,7 @@ import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
+import ActionsList from 'components/ActionsList';
 
 const PlanSummary = ({ plan }) => {
   const [_plan, setPlan] = useState(plan);
