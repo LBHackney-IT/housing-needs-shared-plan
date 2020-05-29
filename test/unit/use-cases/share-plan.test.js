@@ -1,7 +1,10 @@
 import SharePlan from 'lib/use-cases/share-plan';
 import { Token } from 'lib/domain';
+import { getHackneyToken } from 'lib/utils/cookie';
 
 describe('Share plan', () => {
+  jest.mock('lib/utils/cookie');
+  getHackneyToken.mockReturnValue(token);
   const planId = 10;
   const name = 'Jon';
   const number = '00000';
