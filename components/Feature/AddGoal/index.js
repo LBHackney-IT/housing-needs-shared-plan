@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
+import { getHackneyToken } from 'lib/utils/cookie';
 
 const AddGoal = ({ planId, updatePlan }) => {
   const [text, setGoalText] = useState('');
@@ -44,7 +45,8 @@ const AddGoal = ({ planId, updatePlan }) => {
     const response = await fetch(`/api/plans/${planId}/goals`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getHackneyToken()}`
       },
       body: JSON.stringify({
         goal: {
