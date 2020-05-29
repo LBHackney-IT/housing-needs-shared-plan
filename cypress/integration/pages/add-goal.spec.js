@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-context('Add-goal page', async () => {
-  before(async () => {
-    await cy.createSharedPlan({
+context('Add-goal page', () => {
+  beforeEach(() => {
+    cy.task('createPlan', {
       id: '1',
       firstName: 'Bart',
       lastName: 'Simpson',
@@ -14,10 +14,31 @@ context('Add-goal page', async () => {
         useAsPhp: false
       }
     });
+
+    cy.task('createPlan', {
+      id: '2',
+      firstName: 'Dwayn',
+      lastName: 'Johnson',
+      queryFirstName: 'dwayn',
+      queryLastName: 'johnson'
+      // goal: {
+      //   targetReviewDate: 'some date',
+      //   text: 'some text',
+      //   useAsPhp: false
+      // }
+    });
   });
 
-  after(async () => {
-    await cy.deleteSharedPlan('1');
+  afterEach(() => {
+    cy.task('deletePlan', '1');
+    cy.task('deletePlan', '2');
+  });
+
+  describe('Add goal', () => {
+    it('can add goal text', () => {
+      cy.visit(`http://localhost:3000/plans/2`);
+      cy.get('h1').should('have.text', "Dwayn Johnson's shared plan");
+    })
   });
 
   describe('Add action', () => {
