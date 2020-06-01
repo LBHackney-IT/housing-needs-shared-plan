@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
-const DateInput = ({ name, onChange, showHint, title, validate }) => {
-  const [dayValue, setDayValue] = useState('');
-  const [monthValue, setMonthValue] = useState('');
-  const [yearValue, setYearValue] = useState('');
+const DateInput = ({
+  day,
+  month,
+  name,
+  onChange,
+  showHint,
+  title,
+  validate,
+  year
+}) => {
+  const [dayValue, setDayValue] = useState(day);
+  const [monthValue, setMonthValue] = useState(month);
+  const [yearValue, setYearValue] = useState(year);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -71,6 +80,7 @@ const DateInput = ({ name, onChange, showHint, title, validate }) => {
                   setDayValue(e.target.value);
                   onChange(e);
                 }}
+                value={day}
               />
             </div>
           </div>
@@ -95,6 +105,7 @@ const DateInput = ({ name, onChange, showHint, title, validate }) => {
                   setMonthValue(e.target.value);
                   onChange(e);
                 }}
+                value={month}
               />
             </div>
           </div>
@@ -119,6 +130,7 @@ const DateInput = ({ name, onChange, showHint, title, validate }) => {
                   setYearValue(e.target.value);
                   onChange(e);
                 }}
+                value={year}
               />
             </div>
           </div>

@@ -57,7 +57,7 @@ describe('Add Action Use Case', () => {
     const addAction = new AddAction({ planGateway });
 
     await expect(async () => {
-      await await addAction.execute({}).rejects.toThrow('no plan found.');
+      await addAction.execute({}).rejects.toThrow('no plan found.');
     });
   });
 
@@ -70,11 +70,6 @@ describe('Add Action Use Case', () => {
 
     const addAction = new AddAction({ planGateway });
 
-    addAction.execute({
-      planId: '1',
-      action
-    });
-
     expect(planGateway.save).not.toHaveBeenCalled();
     await expect(async () => {
       await addAction
@@ -82,7 +77,7 @@ describe('Add Action Use Case', () => {
           planId: '1',
           action
         })
-        .rejects.toThrow('no goal found.');
+        .rejects.toThrow('no goal found');
     });
   });
 });

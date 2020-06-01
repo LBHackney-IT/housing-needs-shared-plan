@@ -63,4 +63,17 @@ describe('TextInput', () => {
       container.querySelector('.govuk-error-message')
     ).not.toBeInTheDocument();
   });
+
+  it('sets the input value', () => {
+    const inputLabel = 'My Input';
+    const { getByLabelText } = render(
+      <TextInput
+        name="my-text-input"
+        label={inputLabel}
+        onChange={() => {}}
+        value={'hello'}
+      />
+    );
+    expect(getByLabelText(inputLabel).value).toEqual('hello');
+  });
 });

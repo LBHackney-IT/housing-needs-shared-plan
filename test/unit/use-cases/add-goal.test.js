@@ -40,8 +40,7 @@ describe('Add Goal Use Case', () => {
     };
 
     const addGoal = new AddGoal({ planGateway });
-    //const result = await addGoal.execute({ planId: '1' });
-    //expect(result).toThrowError(new Error('no plan found.'));
+
     await expect(async () => {
       await addGoal.execute({ planId: '1' });
     }).rejects.toThrow('no plan found.');
