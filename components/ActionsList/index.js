@@ -10,7 +10,7 @@ import Table, {
 } from 'components/Table';
 
 const ActionsList = ({ actions }) => {
-  if (!actions) return <div></div>;
+  if (!actions || actions.length === 0) return <div></div>;
   return (
     <Table className="lbh-actions-list__table">
       <TableHead>
