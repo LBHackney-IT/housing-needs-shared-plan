@@ -3,6 +3,7 @@ import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
+import ActionsList from 'components/ActionsList';
 
 const PlanSummary = ({ plan }) => {
   const [_plan, setPlan] = useState(plan);
@@ -25,11 +26,14 @@ const PlanSummary = ({ plan }) => {
     setEditGoal(false);
   };
 
+  const actions = _plan.goal ? _plan.goal.actions : null;
+
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
       {editGoal && <AddGoal planId={id} updatePlan={updatePlan} />}
       {!editGoal && <GoalSummary plan={_plan} />}
+      {<ActionsList actions={actions} />}
       {!editGoal && <AddAction id={id} updatePlan={updatePlan} />}
       {goal && goal.useAsPhp && <LegalText />}
     </>

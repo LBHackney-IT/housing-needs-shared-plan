@@ -131,4 +131,39 @@ describe('PlanSummary', () => {
       expect(getByText('Our Actions')).toBeInTheDocument();
     });
   });
+
+  describe('Action list', () => {
+    it('does not render an action list if there are no actions', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don'
+      };
+      const { queryByText } = render(<PlanSummary plan={plan} />);
+
+      expect(queryByText('Show details')).toBeNull();
+    });
+
+    it('renders an action list if there is an action', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don',
+        goal: {
+          text: 'text',
+          actions: [
+            {
+              dueDate: new Date(),
+              summary: 'summary',
+              description: 'description'
+            }
+          ]
+        }
+      };
+
+      const { getByText, getAllByText } = render(<PlanSummary plan={plan} />);
+      expect(getByText('summary')).toBeInTheDocument();
+      expect(getAllByText('Show details')[0]).toBeInTheDocument();
+    });
+  });
 });
