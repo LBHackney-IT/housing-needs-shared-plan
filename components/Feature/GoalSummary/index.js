@@ -3,8 +3,8 @@ import { getUsername } from 'lib/utils/token';
 import { convertIsoDateToString } from 'lib/utils/date';
 import css from './index.module.scss';
 
-const GoalSummary = ({ hackneyToken, plan }) => {
-  const user = getUsername(hackneyToken);
+const GoalSummary = ({ token, plan }) => {
+  const user = getUsername(token);
 
   return (
     <Panel>

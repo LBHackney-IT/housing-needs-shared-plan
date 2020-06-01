@@ -22,11 +22,6 @@ context('Add-goal page', () => {
       lastName: 'Johnson',
       queryFirstName: 'dwayn',
       queryLastName: 'johnson'
-      // goal: {
-      //   targetReviewDate: 'some date',
-      //   text: 'some text',
-      //   useAsPhp: false
-      // }
     });
   });
 
@@ -57,9 +52,6 @@ context('Add-goal page', () => {
       cy.get('[data-testid=add-actions-button-test]').click();
 
       cy.get('[data-testid=goal-label-test]').should('contain', 'Goal');
-      // cy.get(
-      //   '#content > div.Panel_lbh-panel__3jZzJ > div > div > div.govuk-grid-column-two-thirds > div:nth-child(1) > p.GoalSummary_data-text__1qf5X'
-      // ).should('contain', 'This is the goal');
       cy.get('[data-testid=goal-text-test]').should(
         'contain',
         'This is the goal'
@@ -68,9 +60,6 @@ context('Add-goal page', () => {
         'contain',
         'Target Review Date'
       );
-      // cy.get(
-      //   '#content > div.Panel_lbh-panel__3jZzJ > div > div > div.govuk-grid-column-two-thirds > div:nth-child(2) > p.GoalSummary_data-text__1qf5X'
-      // ).should('contain', '01/02/2025');
       cy.get('[data-testid=target-review-date-input-test]').should(
         'contain',
         '01/02/2025'
@@ -87,30 +76,32 @@ context('Add-goal page', () => {
         cy.get('#summary-text.govuk-input')
           .click()
           .type('Summary');
-        cy.get('button')
+        cy.get('[data-testid=add-action-button-test]')
           .last()
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-day.govuk-input')
           .click()
           .type('10');
-        cy.get('button')
+        cy.get('[data-testid=add-action-button-test]')
           .last()
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-month.govuk-input')
           .click()
           .type('5');
-        cy.get('button')
+        cy.get('[data-testid=add-action-button-test]')
           .last()
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-year.govuk-input')
           .click()
           .type('2400');
-        cy.get('button')
-          .last()
-          .click();
+        cy.get('[data-testid=add-action-button-test]').should(
+          'not.have.attr',
+          'disabled'
+        );
+        //cy.get('[data-testid=add-action-button-test]').click();
       });
     });
     it('Adds an action to a goal', () => {
@@ -134,9 +125,10 @@ context('Add-goal page', () => {
       cy.get('#due-date-year.govuk-input')
         .click()
         .type('2200');
-      cy.get('button')
-        .last()
+      cy.get('[data-testid=add-action-button-test]')
         .click();
+      cy.get('#content > table > tbody > tr:nth-child(1) > td.govuk-table__cell.lbh-actions-list__description > h2')
+        .should('contain','Summary');
       //check if it then gets displayed when the action part of the UI is done
     });
   });

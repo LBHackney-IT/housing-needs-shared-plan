@@ -44,7 +44,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           }}
         />
       )}
-      {!editGoal && <GoalSummary plan={plan} />}
+      {!editGoal && <GoalSummary plan={plan} token={token} />}
       {!editGoal && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
