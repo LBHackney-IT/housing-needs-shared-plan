@@ -2,8 +2,6 @@ import { render } from '@testing-library/react';
 import AddAction from './index';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import userEvent from '@testing-library/user-event';
-import { getHackneyToken } from 'lib/utils/cookie';
-jest.mock('lib/utils/cookie');
 
 describe('AddAction', () => {
   it('renders the add action form', () => {
@@ -32,7 +30,6 @@ describe('OnClick', () => {
   it('Adds an action', async () => {
     enableFetchMocks();
     const token = 'blah';
-    getHackneyToken.mockReturnValue(token);
     const expectedRequest = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,7 +44,7 @@ describe('OnClick', () => {
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
     fetch.mockResponse(JSON.stringify(expectedResponse));
     const { getByLabelText, getByText } = render(
-      <AddAction updatePlan={jest.fn()} id="1" />
+      <AddAction hackneyToken={token} updatePlan={jest.fn()} id="1" />
     );
     await userEvent.type(getByLabelText('Summary'), 'summary');
     await userEvent.type(

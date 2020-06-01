@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
-import { getHackneyToken } from 'lib/utils/cookie';
 
-const AddAction = ({ id, updatePlan }) => {
+const AddAction = ({ hackneyToken, id, updatePlan }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
@@ -65,7 +64,7 @@ const AddAction = ({ id, updatePlan }) => {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getHackneyToken()}`
+        Authorization: `Bearer ${hackneyToken}`
       },
       body: JSON.stringify(action)
     });

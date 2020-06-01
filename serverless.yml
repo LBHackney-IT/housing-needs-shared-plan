@@ -122,6 +122,8 @@ resources:
             MinTTL: 0
             ForwardedValues:
               QueryString: true
+              Headers:
+                - Authorization
               Cookies:
                 Forward: all
           Enabled: true
