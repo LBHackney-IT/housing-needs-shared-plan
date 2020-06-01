@@ -11,8 +11,10 @@ const GoalSummary = ({ plan }) => {
       <div className={`govuk-grid-row ${css['goal-summary']}`}>
         <div className="govuk-grid-column-two-thirds">
           <div className={css['grid-column-group']}>
-            <h3>Goal</h3>
-            <p className={css['data-text']}>{plan.goal.text}</p>
+            <h3 data-testid="goal-label-test">Goal</h3>
+            <p className={css['data-text']} data-testid="goal-text-test">
+              {plan.goal.text}
+            </p>
             <p className={css['note-text']}>
               Agreed by {plan.firstName} {plan.lastName} and {user} on{' '}
               {moment(plan.goal.agreedDate)
@@ -21,8 +23,10 @@ const GoalSummary = ({ plan }) => {
             </p>
           </div>
           <div className={css['grid-column-group']}>
-            <h3>Target Review Date</h3>
-            <p className={css['data-text']}>
+            <h3 data-testid="target-review-date-label-test">
+              Target Review Date
+            </h3>
+            <p className={css['data-text']} data-testid="target-review-date-input-test">
               {moment(plan.goal.targetReviewDate)
                 .utc()
                 .format('DD/MM/YYYY')}

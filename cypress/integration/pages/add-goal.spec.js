@@ -2,6 +2,7 @@
 
 context('Add-goal page', () => {
   beforeEach(() => {
+    cy.setHackneyCookie(true);
     cy.task('createPlan', {
       id: '1',
       firstName: 'Bart',
@@ -35,10 +36,46 @@ context('Add-goal page', () => {
   });
 
   describe('Add goal', () => {
-    it('can add goal text', () => {
+    it('Adds a goal to the plan', () => {
       cy.visit(`http://localhost:3000/plans/2`);
       cy.get('h1').should('have.text', "Dwayn Johnson's shared plan");
-    })
+
+      cy.get('#goal-text')
+        .click()
+        .type('This is the goal');
+      cy.get('#target-review-date-day')
+        .click()
+        .type('1');
+      cy.get('#target-review-date-month')
+        .click()
+        .type('2');
+      cy.get('#target-review-date-year')
+        .click()
+        .type('2025');
+      cy.get('#use-as-php').click();
+
+      cy.get('[data-testid=add-actions-button-test]').click();
+
+      cy.get('[data-testid=goal-label-test]').should('contain', 'Goal');
+      // cy.get(
+      //   '#content > div.Panel_lbh-panel__3jZzJ > div > div > div.govuk-grid-column-two-thirds > div:nth-child(1) > p.GoalSummary_data-text__1qf5X'
+      // ).should('contain', 'This is the goal');
+      cy.get('[data-testid=goal-text-test]').should(
+        'contain',
+        'This is the goal'
+      );
+      cy.get('[data-testid=target-review-date-label-test]').should(
+        'contain',
+        'Target Review Date'
+      );
+      // cy.get(
+      //   '#content > div.Panel_lbh-panel__3jZzJ > div > div > div.govuk-grid-column-two-thirds > div:nth-child(2) > p.GoalSummary_data-text__1qf5X'
+      // ).should('contain', '01/02/2025');
+      cy.get('[data-testid=target-review-date-input-test]').should(
+        'contain',
+        '01/02/2025'
+      );
+    });
   });
 
   describe('Add action', () => {

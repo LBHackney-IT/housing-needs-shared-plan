@@ -44,4 +44,19 @@ function terminalLog(violations) {
   cy.task('table', violationData);
 }
 
+import jwt from 'jsonwebtoken';
+
+const setHackneyCookie = isValidGroup => {
+  const group = isValidGroup
+    ? 'housingneeds-singleview-beta'
+    : 'some-other-group';
+  const token = jwt.sign({ groups: [group] }, 'a-secure-signature');
+  console.log('TOKEN', token);
+  cy.setCookie('hackneyToken', token, {
+    url: 'http://localhost:3000',
+    domain: 'localhost'
+  });
+};
+
 Cypress.Commands.add('terminalLog', terminalLog);
+Cypress.Commands.add('setHackneyCookie', setHackneyCookie);

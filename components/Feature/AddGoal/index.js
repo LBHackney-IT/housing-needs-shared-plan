@@ -84,7 +84,11 @@ const AddGoal = ({ planId, updatePlan }) => {
           label="Use as a PHP"
           onClick={handleUseAsPhpChange}
         />
-        <Button text="Add actions" onClick={addTheGoal} />
+        <Button
+          text="Add actions"
+          onClick={addTheGoal}
+          data-testid="add-actions-button-test"
+        />
       </div>
     </div>
   );
