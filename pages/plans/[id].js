@@ -28,10 +28,6 @@ const PlanSummary = ({ hackneyToken, plan }) => {
     setEditGoal(false);
   };
 
-  const getActionsList = () => {
-    return <ActionsList actions={_plan?.goal?.actions || []} />;
-  };
-
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
