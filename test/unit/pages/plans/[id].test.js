@@ -3,6 +3,18 @@ import { render } from '@testing-library/react';
 import PlanSummary from 'pages/plans/[id]';
 
 describe('PlanSummary', () => {
+  const expectedResponse = {
+    id: '1',
+    firstName: 'James',
+    lastName: 'Bond',
+    goal: { text: 'my goal' }
+  };
+
+  beforeEach(() => {
+    enableFetchMocks();
+    fetch.mockResponse(JSON.stringify(expectedResponse));
+  });
+
   it('renders correct title', () => {
     const plan = {
       id: '1',
@@ -10,7 +22,7 @@ describe('PlanSummary', () => {
       lastName: 'Test',
       goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("Bob Test's shared plan")).toBeInTheDocument();
   });
 
@@ -21,7 +33,7 @@ describe('PlanSummary', () => {
       lastName: 'Tes',
       goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("Bob Tes' shared plan")).toBeInTheDocument();
   });
 
@@ -32,7 +44,7 @@ describe('PlanSummary', () => {
       lastName: 'Musk',
       goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("X Æ A-12 Musk's shared plan")).toBeInTheDocument();
   });
 
@@ -43,33 +55,17 @@ describe('PlanSummary', () => {
       lastName: '',
       goal: { text: 'my goal' }
     };
-    const { getByText } = render(<PlanSummary plan={plan} />);
+    const { getByText } = render(<PlanSummary initialPlan={plan} />);
     expect(getByText("Dan's shared plan")).toBeInTheDocument();
   });
 
   it('fetches plan from the correct url and constructs correct props', async () => {
-    enableFetchMocks();
-    const expectedResponse = {
-      id: '1',
-      firstName: 'James',
-      lastName: 'Bond',
-      goal: { text: 'my goal' }
-    };
-    fetch.mockResponse(JSON.stringify(expectedResponse));
-    const props = await PlanSummary.getInitialProps({
-      req: { headers: { cookie: 'hackneyToken=TOKEN' } },
-      query: { id: '1' }
-    });
+    const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1'),
-      expect.objectContaining({
-        headers: {
-          Authorization: 'Bearer TOKEN',
-          'Content-Type': 'application/json'
-        }
-      })
+      expect.any(Object)
     );
-    expect(props.plan).toStrictEqual(expectedResponse);
+    expect(props.initialPlan).toStrictEqual(expectedResponse);
   });
 
   describe('adding a goal', () => {
@@ -81,13 +77,13 @@ describe('PlanSummary', () => {
         lastName: 'Musk',
         goal: { text: goalText }
       };
-      const { getByText } = render(<PlanSummary plan={plan} />);
+      const { getByText } = render(<PlanSummary initialPlan={plan} />);
       expect(getByText(goalText)).toBeInTheDocument();
     });
 
     it('renders the add goal form if goal is falsy', () => {
       const plan = { id: '1', firstName: 'John', lastName: 'Musk' };
-      const { getByLabelText } = render(<PlanSummary plan={plan} />);
+      const { getByLabelText } = render(<PlanSummary initialPlan={plan} />);
       expect(getByLabelText('Goal')).toBeInTheDocument();
     });
 
@@ -100,7 +96,7 @@ describe('PlanSummary', () => {
           useAsPhp: true
         }
       };
-      const { container } = render(<PlanSummary plan={plan} />);
+      const { container } = render(<PlanSummary initialPlan={plan} />);
       expect(container.querySelector('.legal-text')).toBeInTheDocument();
     });
 
@@ -113,7 +109,7 @@ describe('PlanSummary', () => {
           useAsPhp: false
         }
       };
-      const { container } = render(<PlanSummary plan={plan} />);
+      const { container } = render(<PlanSummary initialPlan={plan} />);
       expect(container.querySelector('.legal-text')).not.toBeInTheDocument();
     });
   });
@@ -125,7 +121,7 @@ describe('PlanSummary', () => {
         firstName: 'Mr',
         lastName: 'Don'
       };
-      const { queryByText } = render(<PlanSummary plan={plan} />);
+      const { queryByText } = render(<PlanSummary initialPlan={plan} />);
 
       expect(queryByText('Our Actions')).toBeNull();
     });
@@ -138,8 +134,45 @@ describe('PlanSummary', () => {
         goal: { text: 'text' }
       };
 
-      const { getByText } = render(<PlanSummary plan={plan} />);
+      const { getByText } = render(<PlanSummary initialPlan={plan} />);
       expect(getByText('Our Actions')).toBeInTheDocument();
+    });
+  });
+
+  describe('Action list', () => {
+    it('does not render an action list if there are no actions', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don'
+      };
+      const { queryByText } = render(<PlanSummary initialPlan={plan} />);
+
+      expect(queryByText('Show details')).toBeNull();
+    });
+
+    it('renders an action list if there is an action', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don',
+        goal: {
+          text: 'text',
+          actions: [
+            {
+              dueDate: new Date(),
+              summary: 'summary',
+              description: 'description'
+            }
+          ]
+        }
+      };
+
+      const { getByText, getAllByText } = render(
+        <PlanSummary initialPlan={plan} />
+      );
+      expect(getByText('summary')).toBeInTheDocument();
+      expect(getAllByText('Show details')[0]).toBeInTheDocument();
     });
   });
 });
