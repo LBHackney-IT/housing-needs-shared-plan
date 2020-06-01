@@ -1,5 +1,10 @@
 import useSWR from 'swr';
-import { requestPlan, requestAddGoal, requestAddAction } from './api';
+import {
+  requestPlan,
+  requestAddGoal,
+  requestAddAction,
+  requestSharePlan
+} from './api';
 
 export function usePlan(planId, { initialPlan, token, ...options } = {}) {
   const { data, error, mutate } = useSWR(
@@ -35,6 +40,9 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
           })
         }
       });
+    },
+    sharePlan: async number => {
+      await requestSharePlan(planId, number, { token });
     }
   };
 }

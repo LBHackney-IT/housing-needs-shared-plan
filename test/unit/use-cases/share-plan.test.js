@@ -76,7 +76,7 @@ describe('Share plan', () => {
   it('shares the plan via sms', async () => {
     const expectedSmsRequest = {
       auth: 'Bearer token',
-      message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${planId}/plan#token=random_string`,
+      message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/plans/${planId}?token=random_string`,
       name: firstName,
       number
     };

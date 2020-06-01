@@ -9,7 +9,7 @@ import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading, addGoal, addAction } = usePlan(planId, {
+  const { plan, loading, addGoal, addAction, sharePlan } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -52,6 +52,12 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       <ActionsList actions={plan.goal?.actions || []} />
       {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
+      {!editGoal && (
+        <Button
+          text="Share Plan"
+          onClick={async () => await sharePlan({ number: 12345 })}
+        />
+      )}
     </>
   );
 };
