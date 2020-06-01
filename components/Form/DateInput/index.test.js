@@ -164,4 +164,19 @@ describe('DateInput', () => {
       container.querySelector('.govuk-error-message')
     ).not.toBeInTheDocument();
   });
+
+  it('sets the day input value', () => {
+    const { getByLabelText } = render(<DateInput day={20} />);
+    expect(getByLabelText(/\s*Day\s*/).value).toEqual('20');
+  });
+
+  it('sets the month input value', () => {
+    const { getByLabelText } = render(<DateInput month={10} />);
+    expect(getByLabelText(/\s*Month\s*/).value).toEqual('10');
+  });
+
+  it('sets the year input value', () => {
+    const { getByLabelText } = render(<DateInput year={2030} />);
+    expect(getByLabelText(/\s*Year\s*/).value).toEqual('2030');
+  });
 });

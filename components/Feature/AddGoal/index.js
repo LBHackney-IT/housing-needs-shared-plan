@@ -1,11 +1,20 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
+import { convertIsoDateToObject } from 'lib/utils/date';
 
-const AddGoal = ({ hackneyToken, planId, updatePlan }) => {
-  const [text, setGoalText] = useState('');
-  const [targetReviewDate, setTargetReviewDate] = useState({});
-  const [useAsPhp, setUseAsPhp] = useState(false);
+const AddGoal = ({ hackneyToken, plan, updatePlan }) => {
+  const [text, setGoalText] = useState(
+    plan.goal && plan.goal.text ? plan.goal.text : ''
+  );
+  const [targetReviewDate, setTargetReviewDate] = useState(
+    plan.goal && plan.goal.targetReviewDate
+      ? convertIsoDateToObject(plan.goal.targetReviewDate)
+      : {}
+  );
+  const [useAsPhp, setUseAsPhp] = useState(
+    plan.goal && plan.goal.useAsPhp ? true : false
+  );
   const [validate, setValidate] = useState(false);
 
   const handleGoalTextChange = e => {
@@ -41,7 +50,7 @@ const AddGoal = ({ hackneyToken, planId, updatePlan }) => {
       return;
     }
 
-    const response = await fetch(`/api/plans/${planId}/goals`, {
+    const response = await fetch(`/api/plans/${plan.id}/goals`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,8 +65,8 @@ const AddGoal = ({ hackneyToken, planId, updatePlan }) => {
       })
     });
 
-    const plan = await response.json();
-    if (plan) await updatePlan(plan);
+    const _plan = await response.json();
+    if (_plan) await updatePlan(_plan);
   };
 
   return (
@@ -71,17 +80,22 @@ const AddGoal = ({ hackneyToken, planId, updatePlan }) => {
           label="Goal"
           onChange={handleGoalTextChange}
           validate={validate}
+          value={text}
         />
         <DateInput
           name="target-review-date"
           title="Target review date"
           onChange={handleTargetReviewDateChange}
           validate={validate}
+          day={targetReviewDate.day}
+          month={targetReviewDate.month}
+          year={targetReviewDate.year}
         />
         <Checkbox
           name="use-as-php"
           label="Use as a PHP"
           onClick={handleUseAsPhpChange}
+          checked={useAsPhp}
         />
         <Button text="Add actions" onClick={addTheGoal} />
       </div>

@@ -3,6 +3,7 @@ import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
+import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ hackneyToken, plan }) => {
@@ -32,11 +33,14 @@ const PlanSummary = ({ hackneyToken, plan }) => {
       {editGoal && (
         <AddGoal
           hackneyToken={hackneyToken}
-          planId={id}
+          plan={_plan}
           updatePlan={updatePlan}
         />
       )}
       {!editGoal && <GoalSummary hackneyToken={hackneyToken} plan={_plan} />}
+      {!editGoal && (
+        <Button text="Edit goal" onClick={() => setEditGoal(true)} />
+      )}
       {!editGoal && (
         <AddAction
           hackneyToken={hackneyToken}

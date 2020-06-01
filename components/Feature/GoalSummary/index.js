@@ -1,6 +1,6 @@
-import moment from 'moment';
 import Panel from 'components/Form/Panel';
 import { getUsername } from 'lib/utils/token';
+import { convertIsoDateToString } from 'lib/utils/date';
 import css from './index.module.scss';
 
 const GoalSummary = ({ hackneyToken, plan }) => {
@@ -15,17 +15,13 @@ const GoalSummary = ({ hackneyToken, plan }) => {
             <p className={css['data-text']}>{plan.goal.text}</p>
             <p className={css['note-text']}>
               Agreed by {plan.firstName} {plan.lastName} and {user} on{' '}
-              {moment(plan.goal.agreedDate)
-                .utc()
-                .format('DD/MM/YYYY')}
+              {convertIsoDateToString(plan.goal.agreedDate)}
             </p>
           </div>
           <div className={css['grid-column-group']}>
             <h3>Target Review Date</h3>
             <p className={css['data-text']}>
-              {moment(plan.goal.targetReviewDate)
-                .utc()
-                .format('DD/MM/YYYY')}
+              {convertIsoDateToString(plan.goal.targetReviewDate)}
             </p>
             <p className={css['note-text']}>
               We'll evaluate progress and any next steps at this appointment

@@ -73,12 +73,14 @@ const AddAction = ({ hackneyToken, id, updatePlan }) => {
   };
 
   return (
-    <div className="govuk-grid-row">
+    <div className="govuk-grid-row row-add-new-action">
       <div className="govuk-grid-column-one-quarter">
-        <h2 className="govuk-heading-m">Our Actions</h2>
+        <h2 className="govuk-heading-m heading-add-new-action">Our Actions</h2>
       </div>
       <div className="govuk-grid-column-three-quarters">
-        <h3 className="govuk-heading-m">Add new action</h3>
+        <h3 className="govuk-heading-m heading-add-new-action">
+          Add new action
+        </h3>
 
         <TextInput
           name="summary-text"
