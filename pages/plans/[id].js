@@ -28,7 +28,14 @@ const PlanSummary = ({ hackneyToken, plan }) => {
     setEditGoal(false);
   };
 
-  const actions = _plan.goal ? _plan.goal.actions : null;
+  const getActionsList = () => {
+    if (_plan.goal) {
+      if (_plan.goal.actions) {
+        if (_plan.goal.actions.length > 0)
+          return <ActionsList actions={_plan.goal.actions} />;
+      }
+    }
+  };
 
   return (
     <>
@@ -44,7 +51,7 @@ const PlanSummary = ({ hackneyToken, plan }) => {
       {!editGoal && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
-      {<ActionsList actions={actions} />}
+      {getActionsList()}
       {!editGoal && (
         <AddAction
           hackneyToken={hackneyToken}

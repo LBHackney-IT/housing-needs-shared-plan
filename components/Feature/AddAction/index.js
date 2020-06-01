@@ -70,8 +70,6 @@ const AddAction = ({ hackneyToken, id, updatePlan }) => {
     });
     const plan = await response.json();
     if (plan) await updatePlan(plan);
-    location.reload(false);
-    return false;
   };
 
   return (
