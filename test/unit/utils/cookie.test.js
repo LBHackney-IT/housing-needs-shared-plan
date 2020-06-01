@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 jest.mock('js-cookie');
 jest.mock('jsonwebtoken');
 
-describe('Cookies', () => {
+describe('cookie', () => {
   describe('getHackneyToken', () => {
     it('gets the token', () => {
       getHackneyToken();

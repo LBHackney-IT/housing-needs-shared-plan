@@ -1,23 +1,23 @@
 /// <reference types="cypress" />
 
-context('Add-goal page', async () => {
-  before(async () => {
-    await cy.createSharedPlan({
+context('Add-goal page', () => {
+  beforeEach(() => {
+    cy.task('createPlan', {
       id: '1',
       firstName: 'Bart',
       lastName: 'Simpson',
       queryFirstName: 'bart',
       queryLastName: 'simpson',
       goal: {
-        targetReviewDate: 'some date',
+        targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'some text',
         useAsPhp: false
       }
     });
   });
 
-  after(async () => {
-    await cy.deleteSharedPlan('1');
+  afterEach(() => {
+    cy.task('deletePlan', '1');
   });
 
   describe('Add action', () => {

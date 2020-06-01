@@ -4,6 +4,7 @@ import AddAction from 'components/Feature/AddAction';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import ActionsList from 'components/ActionsList';
+import { Button } from 'components/Form';
 
 const PlanSummary = ({ plan }) => {
   const [_plan, setPlan] = useState(plan);
@@ -31,11 +32,14 @@ const PlanSummary = ({ plan }) => {
   return (
     <>
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
-      {editGoal && <AddGoal planId={id} updatePlan={updatePlan} />}
+      {editGoal && <AddGoal plan={_plan} updatePlan={updatePlan} />}
       {!editGoal && <GoalSummary plan={_plan} />}
+      {!editGoal && (
+        <Button text="Edit goal" onClick={() => setEditGoal(true)} />
+      )}
       {<ActionsList actions={actions} />}
       {!editGoal && <AddAction id={id} updatePlan={updatePlan} />}
-      {goal && goal.useAsPhp && <LegalText />}
+      {!editGoal && goal && goal.useAsPhp && <LegalText />}
     </>
   );
 };
