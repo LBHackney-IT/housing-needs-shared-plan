@@ -16,19 +16,19 @@
   },
   "dependencies": {
     "@testing-library/user-event": "^10.3.5",
+    "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
-    "jest-fetch-mock": "^3.0.3",
-    "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.26.0",
     "nanoid": "^3.1.5",
     "next": "^9.4.0",
-    "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#dfc45f0",
+    "node-lambda-authorizer": "https://github.com/LBHackney-IT/node-lambda-authorizer.git#efd5de6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "restana": "^4.3.4",
     "serve-static": "^1.14.1",
-    "serverless-http": "^2.4.1"
+    "serverless-http": "^2.4.1",
+    "swr": "^0.2.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.6",

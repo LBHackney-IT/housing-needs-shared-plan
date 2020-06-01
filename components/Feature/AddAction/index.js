@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
-import { getHackneyToken } from 'lib/utils/cookie';
 
-const AddAction = ({ id, updatePlan }) => {
+const AddAction = ({ id, onActionAdded }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
@@ -54,32 +53,18 @@ const AddAction = ({ id, updatePlan }) => {
       return;
     }
 
-    const action = {
-      summary,
-      description,
-      dueDate
-    };
-
-    const response = await fetch(`/api/plans/${id}/actions`, {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${getHackneyToken()}`
-      },
-      body: JSON.stringify(action)
-    });
-    const plan = await response.json();
-    if (plan) await updatePlan(plan);
+    onActionAdded({ summary, description, dueDate });
   };
 
   return (
-    <div className="govuk-grid-row">
+    <div className="govuk-grid-row row-add-new-action">
       <div className="govuk-grid-column-one-quarter">
-        <h2 className="govuk-heading-m">Our Actions</h2>
+        <h2 className="govuk-heading-m heading-add-new-action">Our Actions</h2>
       </div>
       <div className="govuk-grid-column-three-quarters">
-        <h3 className="govuk-heading-m">Add new action</h3>
+        <h3 className="govuk-heading-m heading-add-new-action">
+          Add new action
+        </h3>
 
         <TextInput
           name="summary-text"

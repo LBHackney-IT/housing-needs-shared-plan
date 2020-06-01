@@ -24,7 +24,6 @@ module.exports = (on, config) => {
     accessKeyId: 'foo',
     secretAccessKey: 'bar'
   });
-  const TableName = 'plans';
 
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
@@ -42,7 +41,7 @@ module.exports = (on, config) => {
     createPlan(plan) {
       return client
         .put({
-          TableName,
+          TableName: 'plans',
           Item: plan
         })
         .promise();
@@ -50,7 +49,7 @@ module.exports = (on, config) => {
     deletePlan(id) {
       return client
         .delete({
-          TableName,
+          TableName: 'plans',
           Key: { id }
         })
         .promise();

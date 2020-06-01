@@ -1,17 +1,9 @@
 import { fireEvent, render } from '@testing-library/react';
-import { enableFetchMocks } from 'jest-fetch-mock';
 import AddGoal from './index';
-import { getHackneyToken } from 'lib/utils/cookie';
-jest.mock('lib/utils/cookie');
 
 describe('AddGoal', () => {
-  beforeEach(() => {
-    enableFetchMocks();
-    fetch.resetMocks();
-  });
-
   it('renders the add goal form', () => {
-    const { getByLabelText, getByText } = render(<AddGoal />);
+    const { getByLabelText, getByText } = render(<AddGoal plan={{ id: 1 }} />);
     expect(getByLabelText('Goal')).toBeInTheDocument();
     expect(getByLabelText('Day')).toBeInTheDocument();
     expect(getByLabelText('Month')).toBeInTheDocument();
@@ -21,13 +13,9 @@ describe('AddGoal', () => {
   });
 
   it('saves the goal when add actions button is clicked', () => {
-    fetch.mockResponse(JSON.stringify({}));
-    const token = 'blah';
-    getHackneyToken.mockReturnValue(token);
-    const updatePlan = jest.fn();
-    const planId = 1;
+    const onGoalAdded = jest.fn();
     const { getByLabelText, getByText } = render(
-      <AddGoal planId={planId} updatePlan={updatePlan} />
+      <AddGoal onGoalAdded={onGoalAdded} />
     );
 
     fireEvent.change(getByLabelText('Goal'), {
@@ -51,30 +39,20 @@ describe('AddGoal', () => {
       })
     );
 
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/plans/1/goals'),
-      expect.objectContaining({
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          goal: {
-            targetReviewDate: {
-              day: 12,
-              month: 10,
-              year: 2021
-            },
-            text: 'this is my goal',
-            useAsPhp: false
-          }
-        })
-      })
-    );
+    expect(onGoalAdded).toHaveBeenCalledWith({
+      targetReviewDate: {
+        day: 12,
+        month: 10,
+        year: 2021
+      },
+      text: 'this is my goal',
+      useAsPhp: false
+    });
   });
 
   it('does not save the goal if the form is not valid', () => {
-    const { getByText } = render(<AddGoal planId={1} />);
+    const onGoalAdded = jest.fn();
+    const { getByText } = render(<AddGoal onGoalAdded={onGoalAdded} />);
 
     fireEvent(
       getByText('Add actions'),
@@ -84,6 +62,25 @@ describe('AddGoal', () => {
       })
     );
 
-    expect(fetch).not.toHaveBeenCalled();
+    expect(onGoalAdded).not.toHaveBeenCalled();
+  });
+
+  it('sets the goal input value if goal already exists', () => {
+    const { getByLabelText } = render(<AddGoal goal={{ text: 'hello' }} />);
+    expect(getByLabelText('Goal').value).toEqual('hello');
+  });
+
+  it('sets the target review date input value if goal already exists', () => {
+    const { getByLabelText } = render(
+      <AddGoal goal={{ targetReviewDate: '2022-10-20T00:00:00.000Z' }} />
+    );
+    expect(getByLabelText('Day').value).toEqual('20');
+    expect(getByLabelText('Month').value).toEqual('10');
+    expect(getByLabelText('Year').value).toEqual('2022');
+  });
+
+  it('sets the use as php input value if goal already exists', () => {
+    const { getByLabelText } = render(<AddGoal goal={{ useAsPhp: true }} />);
+    expect(getByLabelText('Use as a PHP').checked).toEqual(true);
   });
 });

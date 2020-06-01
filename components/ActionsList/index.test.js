@@ -6,7 +6,7 @@ describe('<ActionsList />', () => {
     <ActionsList
       actions={[
         {
-          title: 'Run a test',
+          summary: 'Run a test',
           description: 'This will check if it works',
           dueDate: '2020-05-26T09:00:00+0000'
         }

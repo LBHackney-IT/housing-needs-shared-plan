@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
-import { getHackneyToken } from 'lib/utils/cookie';
+import { convertIsoDateToObject } from 'lib/utils/date';
 
-const AddGoal = ({ planId, updatePlan }) => {
-  const [text, setGoalText] = useState('');
-  const [targetReviewDate, setTargetReviewDate] = useState({});
-  const [useAsPhp, setUseAsPhp] = useState(false);
+const AddGoal = ({ goal, onGoalAdded }) => {
+  const [text, setGoalText] = useState(goal?.text || '');
+  const [targetReviewDate, setTargetReviewDate] = useState(
+    goal && goal.targetReviewDate
+      ? convertIsoDateToObject(goal.targetReviewDate)
+      : {}
+  );
+  const [useAsPhp, setUseAsPhp] = useState(goal?.useAsPhp || false);
   const [validate, setValidate] = useState(false);
 
   const handleGoalTextChange = e => {
@@ -42,23 +46,7 @@ const AddGoal = ({ planId, updatePlan }) => {
       return;
     }
 
-    const response = await fetch(`/api/plans/${planId}/goals`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${getHackneyToken()}`
-      },
-      body: JSON.stringify({
-        goal: {
-          targetReviewDate,
-          text,
-          useAsPhp
-        }
-      })
-    });
-
-    const plan = await response.json();
-    if (plan) await updatePlan(plan);
+    onGoalAdded({ targetReviewDate, text, useAsPhp });
   };
 
   return (
@@ -72,17 +60,22 @@ const AddGoal = ({ planId, updatePlan }) => {
           label="Goal"
           onChange={handleGoalTextChange}
           validate={validate}
+          value={text}
         />
         <DateInput
           name="target-review-date"
           title="Target review date"
           onChange={handleTargetReviewDateChange}
           validate={validate}
+          day={targetReviewDate.day}
+          month={targetReviewDate.month}
+          year={targetReviewDate.year}
         />
         <Checkbox
           name="use-as-php"
           label="Use as a PHP"
           onClick={handleUseAsPhpChange}
+          checked={useAsPhp}
         />
         <Button
           text="Add actions"
