@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
-import { getHackneyToken } from 'lib/utils/cookie';
 import { convertIsoDateToObject } from 'lib/utils/date';
 
-const AddGoal = ({ plan, updatePlan }) => {
+const AddGoal = ({ hackneyToken, plan, updatePlan }) => {
   const [text, setGoalText] = useState(
     plan.goal && plan.goal.text ? plan.goal.text : ''
   );
@@ -55,7 +54,7 @@ const AddGoal = ({ plan, updatePlan }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getHackneyToken()}`
+        Authorization: `Bearer ${hackneyToken}`
       },
       body: JSON.stringify({
         goal: {
