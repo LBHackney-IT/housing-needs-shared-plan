@@ -17,6 +17,14 @@
  */
 //axe console printing
 module.exports = (on, config) => {
+  const { DynamoDB } = require('aws-sdk');
+  const client = new DynamoDB.DocumentClient({
+    region: 'localhost',
+    endpoint: 'http://localhost:8000',
+    accessKeyId: 'foo',
+    secretAccessKey: 'bar'
+  });
+
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   on('task', {
@@ -29,6 +37,22 @@ module.exports = (on, config) => {
       console.table(message);
 
       return null;
+    },
+    createPlan(plan) {
+      return client
+        .put({
+          TableName: 'plans',
+          Item: plan
+        })
+        .promise();
+    },
+    deletePlan(id) {
+      return client
+        .delete({
+          TableName: 'plans',
+          Key: { id }
+        })
+        .promise();
     }
   });
   config.ignoreTestFiles = '**/examples/*.spec.js';

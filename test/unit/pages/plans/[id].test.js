@@ -56,8 +56,19 @@ describe('PlanSummary', () => {
       goal: { text: 'my goal' }
     };
     fetch.mockResponse(JSON.stringify(expectedResponse));
-    const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/plans/1'));
+    const props = await PlanSummary.getInitialProps({
+      req: { headers: { cookie: 'hackneyToken=TOKEN' } },
+      query: { id: '1' }
+    });
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/plans/1'),
+      expect.objectContaining({
+        headers: {
+          Authorization: 'Bearer TOKEN',
+          'Content-Type': 'application/json'
+        }
+      })
+    );
     expect(props.plan).toStrictEqual(expectedResponse);
   });
 
