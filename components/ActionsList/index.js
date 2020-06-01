@@ -21,10 +21,10 @@ const ActionsList = ({ actions }) => (
     </TableHead>
     <TableBody>
       {actions.map(action => (
-        <TableRow key={action.title}>
+        <TableRow key={action.summary}>
           <TableData className="lbh-actions-list__description">
             <Heading as="h2" size="m">
-              {action.title}
+              {action.summary}
             </Heading>
             <ExpandingText
               expandButtonText="Show details"

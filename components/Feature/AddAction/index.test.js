@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react';
-import AddAction from './index';
-import { enableFetchMocks } from 'jest-fetch-mock';
 import userEvent from '@testing-library/user-event';
+import AddAction from './index';
 
 describe('AddAction', () => {
   it('renders the add action form', () => {
@@ -16,35 +15,10 @@ describe('AddAction', () => {
 });
 
 describe('OnClick', () => {
-  const { location } = window;
-
-  beforeAll(() => {
-    delete window.location;
-    window.location = { reload: jest.fn() };
-  });
-
-  afterAll(() => {
-    window.location = location;
-  });
-
   it('Adds an action', async () => {
-    enableFetchMocks();
-    const token = 'blah';
-    const expectedRequest = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        summary: 'summary',
-        description: 'description',
-        dueDate: { day: 1, month: 1, year: 2200 }
-      })
-    };
-    const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
-    fetch.mockResponse(JSON.stringify(expectedResponse));
+    const onActionAdded = jest.fn();
     const { getByLabelText, getByText } = render(
-      <AddAction hackneyToken={token} updatePlan={jest.fn()} id="1" />
+      <AddAction onActionAdded={onActionAdded} />
     );
     await userEvent.type(getByLabelText('Summary'), 'summary');
     await userEvent.type(
@@ -56,16 +30,21 @@ describe('OnClick', () => {
     await userEvent.type(getByLabelText('Year'), '2200');
     await getByText('Add to plan').click();
 
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/plans/1/action'),
-      expect.objectContaining(expectedRequest)
-    );
+    expect(onActionAdded).toHaveBeenCalledWith({
+      summary: 'summary',
+      description: 'description',
+      dueDate: {
+        day: 1,
+        month: 1,
+        year: 2200
+      }
+    });
   });
 
   it('does not save the action if the form is not valid', async () => {
-    enableFetchMocks();
+    const onActionAdded = jest.fn();
     const { getByLabelText, getByText } = render(
-      <AddAction updatePlan={jest.fn()} id="1" />
+      <AddAction onActionAdded={onActionAdded} />
     );
 
     await userEvent.type(getByLabelText('Summary'), 'summary');
@@ -74,6 +53,6 @@ describe('OnClick', () => {
     await userEvent.type(getByLabelText('Year'), 'one');
     await getByText('Add to plan').click();
 
-    expect(fetch).not.toHaveBeenCalled();
+    expect(onActionAdded).not.toHaveBeenCalled();
   });
 });
