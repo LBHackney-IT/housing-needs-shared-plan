@@ -21,10 +21,10 @@ describe('Add goal API', () => {
 
   const req = {
     method: 'POST',
-    url: `localdev/api/plans/${planId}/goals`,
-    body: {
-      goal
-    }
+    query: {
+      id: planId
+    },
+    body: goal
   };
 
   it('can add a goal to a plan', async () => {

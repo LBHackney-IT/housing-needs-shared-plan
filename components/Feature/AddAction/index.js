@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 
-const AddAction = ({ hackneyToken, id, updatePlan }) => {
+const AddAction = ({ id, onActionAdded }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
@@ -53,23 +53,7 @@ const AddAction = ({ hackneyToken, id, updatePlan }) => {
       return;
     }
 
-    const action = {
-      summary,
-      description,
-      dueDate
-    };
-
-    const response = await fetch(`/api/plans/${id}/actions`, {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${hackneyToken}`
-      },
-      body: JSON.stringify(action)
-    });
-    const plan = await response.json();
-    if (plan) await updatePlan(plan);
+    onActionAdded({ summary, description, dueDate });
   };
 
   return (
