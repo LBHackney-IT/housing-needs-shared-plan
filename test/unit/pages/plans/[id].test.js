@@ -61,7 +61,10 @@ describe('PlanSummary', () => {
 
   it('fetches plan from the correct url and constructs correct props', async () => {
     const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/plans/1'), expect.any(Object));
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/plans/1'),
+      expect.any(Object)
+    );
     expect(props.initialPlan).toStrictEqual(expectedResponse);
   });
 
@@ -143,7 +146,7 @@ describe('PlanSummary', () => {
         firstName: 'Mr',
         lastName: 'Don'
       };
-      const { queryByText } = render(<PlanSummary plan={plan} />);
+      const { queryByText } = render(<PlanSummary initialPlan={plan} />);
 
       expect(queryByText('Show details')).toBeNull();
     });
@@ -165,7 +168,9 @@ describe('PlanSummary', () => {
         }
       };
 
-      const { getByText, getAllByText } = render(<PlanSummary plan={plan} />);
+      const { getByText, getAllByText } = render(
+        <PlanSummary initialPlan={plan} />
+      );
       expect(getByText('summary')).toBeInTheDocument();
       expect(getAllByText('Show details')[0]).toBeInTheDocument();
     });
