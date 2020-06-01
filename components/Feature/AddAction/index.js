@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { DateInput, TextInput, Button } from 'components/Form';
-import TextArea from 'components/Form/TextArea';
+import { DateInput, TextInput, Button, TextArea } from 'components/Form';
+import moment from 'moment';
 import { getHackneyToken } from 'lib/utils/cookie';
 
 const AddAction = ({ id, updatePlan }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
+  const [validate, setValidate] = useState(false);
 
   const handleActionSummaryChange = e => {
     setActionSummary(e.target.value);
@@ -34,12 +35,25 @@ const AddAction = ({ id, updatePlan }) => {
     setActionDescription(e.target.value);
   };
 
+  const formIsValid = () => {
+    const date = moment(
+      `${dueDate.day}-${dueDate.month}-${dueDate.year}`,
+      'DD-MM-YYYY'
+    );
+    return summary && date.isValid() && date.isAfter();
+  };
+
   const [buttonClassName, buttonDisabled] =
     summary && dueDate.year && dueDate.month && dueDate.day
       ? ['govuk-button', '']
       : ['govuk-button govuk-button--disabled', 'disabled'];
 
   const addToPlan = async () => {
+    if (!formIsValid()) {
+      setValidate(true);
+      return;
+    }
+
     const action = {
       summary,
       description,
@@ -60,17 +74,20 @@ const AddAction = ({ id, updatePlan }) => {
   };
 
   return (
-    <div className="govuk-grid-row">
+    <div className="govuk-grid-row row-add-new-action">
       <div className="govuk-grid-column-one-quarter">
-        <h2 className="govuk-heading-m">Our Actions</h2>
+        <h2 className="govuk-heading-m heading-add-new-action">Our Actions</h2>
       </div>
       <div className="govuk-grid-column-three-quarters">
-        <h3 className="govuk-heading-m">Add new action</h3>
+        <h3 className="govuk-heading-m heading-add-new-action">
+          Add new action
+        </h3>
 
         <TextInput
           name="summary-text"
           label="Summary"
           onChange={handleActionSummaryChange}
+          validate={validate}
         />
         <TextArea
           name="full-description"
@@ -81,6 +98,7 @@ const AddAction = ({ id, updatePlan }) => {
           name="due-date"
           title="Due date"
           onChange={handleDueDateChange}
+          validate={validate}
         />
         <Button
           className={buttonClassName}

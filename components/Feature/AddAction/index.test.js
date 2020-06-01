@@ -41,7 +41,7 @@ describe('OnClick', () => {
       body: JSON.stringify({
         summary: 'summary',
         description: 'description',
-        dueDate: { day: 1, month: 1, year: 1991 }
+        dueDate: { day: 1, month: 1, year: 2200 }
       })
     };
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
@@ -56,12 +56,27 @@ describe('OnClick', () => {
     );
     await userEvent.type(getByLabelText('Day'), '01');
     await userEvent.type(getByLabelText('Month'), '01');
-    await userEvent.type(getByLabelText('Year'), '1991');
+    await userEvent.type(getByLabelText('Year'), '2200');
     await getByText('Add to plan').click();
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1/action'),
       expect.objectContaining(expectedRequest)
     );
+  });
+
+  it('does not save the action if the form is not valid', async () => {
+    enableFetchMocks();
+    const { getByLabelText, getByText } = render(
+      <AddAction updatePlan={jest.fn()} id="1" />
+    );
+
+    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.type(getByLabelText('Day'), 'aa');
+    await userEvent.type(getByLabelText('Month'), 'd1');
+    await userEvent.type(getByLabelText('Year'), 'one');
+    await getByText('Add to plan').click();
+
+    expect(fetch).not.toHaveBeenCalled();
   });
 });

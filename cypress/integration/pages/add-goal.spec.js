@@ -49,7 +49,7 @@ context('Add-goal page', () => {
 
         cy.get('#due-date-year.govuk-input')
           .click()
-          .type('2010');
+          .type('2400');
         cy.get('button')
           .last()
           .click();
@@ -75,7 +75,7 @@ context('Add-goal page', () => {
         .type('5');
       cy.get('#due-date-year.govuk-input')
         .click()
-        .type('2010');
+        .type('2200');
       cy.get('button')
         .last()
         .click();
