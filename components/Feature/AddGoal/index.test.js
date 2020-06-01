@@ -66,17 +66,13 @@ describe('AddGoal', () => {
   });
 
   it('sets the goal input value if goal already exists', () => {
-    const { getByLabelText } = render(
-      <AddGoal plan={{ id: 1, goal: { text: 'hello' } }} />
-    );
+    const { getByLabelText } = render(<AddGoal goal={{ text: 'hello' }} />);
     expect(getByLabelText('Goal').value).toEqual('hello');
   });
 
   it('sets the target review date input value if goal already exists', () => {
     const { getByLabelText } = render(
-      <AddGoal
-        plan={{ id: 1, goal: { targetReviewDate: '2022-10-20T00:00:00.000Z' } }}
-      />
+      <AddGoal goal={{ targetReviewDate: '2022-10-20T00:00:00.000Z' }} />
     );
     expect(getByLabelText('Day').value).toEqual('20');
     expect(getByLabelText('Month').value).toEqual('10');
@@ -84,9 +80,7 @@ describe('AddGoal', () => {
   });
 
   it('sets the use as php input value if goal already exists', () => {
-    const { getByLabelText } = render(
-      <AddGoal plan={{ id: 1, goal: { useAsPhp: true } }} />
-    );
+    const { getByLabelText } = render(<AddGoal goal={{ useAsPhp: true }} />);
     expect(getByLabelText('Use as a PHP').checked).toEqual(true);
   });
 });

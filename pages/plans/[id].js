@@ -36,7 +36,7 @@ const PlanSummary = ({ planId, initialPlan }) => {
       <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
       {editGoal && (
         <AddGoal
-          planId={id}
+          goal={goal}
           onGoalAdded={async goal => {
             await addGoal(goal);
             setEditGoal(false);
