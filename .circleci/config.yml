@@ -76,17 +76,10 @@ jobs:
       - store_artifacts:
           path: ~/repo/cypress/videos
 
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-
   build-deploy-staging:
     executor: aws-cli/default
 
     steps:
-      - attach_workspace:
-          at: ~/repo
-
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
@@ -102,9 +95,6 @@ jobs:
     executor: aws-cli/default
 
     steps:
-      - attach_workspace:
-          at: ~/repo
-
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
