@@ -5,7 +5,6 @@ import AddAction from 'components/Feature/AddAction';
 import ActionsList from 'components/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
-import ActionsList from 'components/ActionsList';
 import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
