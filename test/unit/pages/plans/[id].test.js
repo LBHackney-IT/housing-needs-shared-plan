@@ -61,7 +61,10 @@ describe('PlanSummary', () => {
 
   it('fetches plan from the correct url and constructs correct props', async () => {
     const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/plans/1'), expect.any(Object));
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/plans/1'),
+      expect.any(Object)
+    );
     expect(props.initialPlan).toStrictEqual(expectedResponse);
   });
 
@@ -133,6 +136,43 @@ describe('PlanSummary', () => {
 
       const { getByText } = render(<PlanSummary initialPlan={plan} />);
       expect(getByText('Our Actions')).toBeInTheDocument();
+    });
+  });
+
+  describe('Action list', () => {
+    it('does not render an action list if there are no actions', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don'
+      };
+      const { queryByText } = render(<PlanSummary initialPlan={plan} />);
+
+      expect(queryByText('Show details')).toBeNull();
+    });
+
+    it('renders an action list if there is an action', () => {
+      const plan = {
+        id: '1',
+        firstName: 'Mr',
+        lastName: 'Don',
+        goal: {
+          text: 'text',
+          actions: [
+            {
+              dueDate: new Date(),
+              summary: 'summary',
+              description: 'description'
+            }
+          ]
+        }
+      };
+
+      const { getByText, getAllByText } = render(
+        <PlanSummary initialPlan={plan} />
+      );
+      expect(getByText('summary')).toBeInTheDocument();
+      expect(getAllByText('Show details')[0]).toBeInTheDocument();
     });
   });
 });

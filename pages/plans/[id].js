@@ -48,6 +48,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
+
       <ActionsList actions={plan.goal?.actions || []} />
       {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
