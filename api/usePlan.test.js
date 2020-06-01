@@ -30,7 +30,6 @@ describe('usePlan', () => {
   });
 
   it('fetches a plan from the API', async () => {
-
     const Component = () => {
       const { plan } = usePlan(expectedPlan.id);
       return <p>{plan?.id}</p>;

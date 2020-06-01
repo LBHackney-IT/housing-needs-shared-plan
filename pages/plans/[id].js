@@ -8,9 +8,10 @@ import LegalText from 'components/Feature/LegalText';
 import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
-const PlanSummary = ({ planId, initialPlan }) => {
+const PlanSummary = ({ planId, initialPlan, token }) => {
   const { plan, loading, addGoal, addAction } = usePlan(planId, {
-    initialPlan
+    initialPlan,
+    token
   });
 
   if (loading) {
@@ -54,13 +55,15 @@ const PlanSummary = ({ planId, initialPlan }) => {
   );
 };
 
-PlanSummary.getInitialProps = async ({ query: { id }, res }) => {
+PlanSummary.getInitialProps = async ({ query: { id }, req, res }) => {
   try {
-    const plan = await requestPlan(id);
+    const token = getToken(req);
+    const plan = await requestPlan(id, { token });
 
     return {
       planId: id,
-      initialPlan: plan
+      initialPlan: plan,
+      token
     };
   } catch (err) {
     res.writeHead(err instanceof HttpStatusError ? err.statusCode : 500).end();

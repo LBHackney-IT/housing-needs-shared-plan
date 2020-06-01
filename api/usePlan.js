@@ -1,22 +1,26 @@
 import useSWR from 'swr';
 import { requestPlan, requestAddGoal, requestAddAction } from './api';
 
-export function usePlan(planId, { initialPlan, ...options } = {}) {
-  const { data, error, mutate } = useSWR(planId, requestPlan, {
-    initialData: initialPlan,
-    ...options
-  });
+export function usePlan(planId, { initialPlan, token, ...options } = {}) {
+  const { data, error, mutate } = useSWR(
+    planId,
+    id => requestPlan(id, { token }),
+    {
+      initialData: initialPlan,
+      ...options
+    }
+  );
 
   return {
     plan: data,
     error,
     loading: data === null,
     addGoal: async goal => {
-      await requestAddGoal(planId, goal);
+      await requestAddGoal(planId, goal, { token });
       mutate({ ...data, goal });
     },
     addAction: async action => {
-      await requestAddAction(planId, action);
+      await requestAddAction(planId, action, { token });
       mutate({
         ...data,
         goal: {
