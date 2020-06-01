@@ -1,13 +1,11 @@
 import SharePlan from 'lib/use-cases/share-plan';
 import { Token } from 'lib/domain';
-import { getHackneyToken } from 'lib/utils/cookie';
-jest.mock('lib/utils/cookie');
 
 describe('Share plan', () => {
-  getHackneyToken.mockReturnValue('token');
   const planId = 10;
-  const name = 'Jon';
+  const firstName = 'Jon';
   const number = '00000';
+  const auth = 'Bearer token';
 
   const tokens = [
     new Token({
@@ -19,7 +17,7 @@ describe('Share plan', () => {
   ];
 
   const plan = {
-    name,
+    firstName,
     number,
     planId,
     tokens
@@ -54,7 +52,7 @@ describe('Share plan', () => {
 
   it('generates a token with date and saves it', async () => {
     const sharePlan = new SharePlan({ planGateway, smsGateway });
-    await sharePlan.execute({ planId, number });
+    await sharePlan.execute({ planId, number, auth });
 
     expect(Math.random).toHaveBeenCalled();
     expect(planGateway.save).toHaveBeenCalledWith(expectedGatewayRequest);
@@ -79,12 +77,12 @@ describe('Share plan', () => {
     const expectedSmsRequest = {
       auth: 'Bearer token',
       message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${planId}/plan#token=random_string`,
-      name,
+      name: firstName,
       number
     };
 
     const sharePlan = new SharePlan({ planGateway, smsGateway });
-    await sharePlan.execute({ planId, number });
+    await sharePlan.execute({ planId, number, auth });
 
     expect(smsGateway.sendMessage).toHaveBeenCalledWith(expectedSmsRequest);
   });

@@ -22,7 +22,8 @@ describe('Share plan', () => {
     body: {
       planId,
       number
-    }
+    },
+    headers: { authorization: 'Bearer token' }
   };
 
   it('can share a plan', async () => {
@@ -35,7 +36,11 @@ describe('Share plan', () => {
 
     await endpoint({ sharePlan })(req, res);
 
-    expect(sharePlan.execute).toHaveBeenCalledWith({ planId, number });
+    expect(sharePlan.execute).toHaveBeenCalledWith({
+      planId,
+      number,
+      auth: req.headers.authorization
+    });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });
