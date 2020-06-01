@@ -3,18 +3,14 @@ import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
 import { convertIsoDateToObject } from 'lib/utils/date';
 
-const AddGoal = ({ hackneyToken, plan, updatePlan }) => {
-  const [text, setGoalText] = useState(
-    plan.goal && plan.goal.text ? plan.goal.text : ''
-  );
+const AddGoal = ({ plan, onGoalAdded }) => {
+  const [text, setGoalText] = useState(plan?.goal?.text || '');
   const [targetReviewDate, setTargetReviewDate] = useState(
     plan.goal && plan.goal.targetReviewDate
       ? convertIsoDateToObject(plan.goal.targetReviewDate)
       : {}
   );
-  const [useAsPhp, setUseAsPhp] = useState(
-    plan.goal && plan.goal.useAsPhp ? true : false
-  );
+  const [useAsPhp, setUseAsPhp] = useState(plan?.goal?.useAsPhp || false);
   const [validate, setValidate] = useState(false);
 
   const handleGoalTextChange = e => {
@@ -50,23 +46,7 @@ const AddGoal = ({ hackneyToken, plan, updatePlan }) => {
       return;
     }
 
-    const response = await fetch(`/api/plans/${plan.id}/goals`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${hackneyToken}`
-      },
-      body: JSON.stringify({
-        goal: {
-          targetReviewDate,
-          text,
-          useAsPhp
-        }
-      })
-    });
-
-    const _plan = await response.json();
-    if (_plan) await updatePlan(_plan);
+    onGoalAdded({ targetReviewDate, text, useAsPhp });
   };
 
   return (
