@@ -30,28 +30,28 @@ context('Add-goal page', () => {
           .click()
           .type('Summary');
         cy.get('button')
-          .last()
+          .eq(1)
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-day.govuk-input')
           .click()
           .type('10');
         cy.get('button')
-          .last()
+          .eq(1)
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-month.govuk-input')
           .click()
           .type('5');
         cy.get('button')
-          .last()
+          .eq(1)
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-year.govuk-input')
           .click()
           .type('2400');
         cy.get('button')
-          .last()
+          .eq(1)
           .click();
       });
     });
@@ -77,7 +77,7 @@ context('Add-goal page', () => {
         .click()
         .type('2200');
       cy.get('button')
-        .last()
+        .eq(1)
         .click();
       //check if it then gets displayed when the action part of the UI is done
     });
