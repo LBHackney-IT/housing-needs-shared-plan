@@ -1,10 +1,10 @@
 import moment from 'moment';
 import Panel from 'components/Form/Panel';
-import { getUsername } from 'lib/utils/cookie';
+import { getUsername } from 'lib/utils/token';
 import css from './index.module.scss';
 
-const GoalSummary = ({ plan }) => {
-  const user = getUsername();
+const GoalSummary = ({ hackneyToken, plan }) => {
+  const user = getUsername(hackneyToken);
 
   return (
     <Panel>

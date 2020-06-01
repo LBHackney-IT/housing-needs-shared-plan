@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
-import { getHackneyToken } from 'lib/utils/cookie';
 
-const AddGoal = ({ planId, updatePlan }) => {
+const AddGoal = ({ hackneyToken, planId, updatePlan }) => {
   const [text, setGoalText] = useState('');
   const [targetReviewDate, setTargetReviewDate] = useState({});
   const [useAsPhp, setUseAsPhp] = useState(false);
@@ -46,7 +45,7 @@ const AddGoal = ({ planId, updatePlan }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getHackneyToken()}`
+        Authorization: `Bearer ${hackneyToken}`
       },
       body: JSON.stringify({
         goal: {
