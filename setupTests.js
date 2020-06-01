@@ -1,3 +1,5 @@
+import IntlPolyfill from 'intl';
+import 'intl/locale-data/jsonp/en-GB';
 import '@testing-library/jest-dom/extend-expect';
 
 global.console = {
@@ -7,3 +9,10 @@ global.console = {
   info: console.info,
   debug: console.debug
 };
+
+if (global.Intl) {
+  Intl.NumberFormat = IntlPolyfill.NumberFormat;
+  Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+} else {
+  global.Intl = IntlPolyfill;
+}

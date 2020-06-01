@@ -2,6 +2,8 @@ import { render } from '@testing-library/react';
 import AddAction from './index';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import userEvent from '@testing-library/user-event';
+import { getHackneyToken } from 'lib/utils/cookie';
+jest.mock('lib/utils/cookie');
 
 describe('AddAction', () => {
   it('renders the add action form', () => {
@@ -29,26 +31,52 @@ describe('OnClick', () => {
 
   it('Adds an action', async () => {
     enableFetchMocks();
+    const token = 'blah';
+    getHackneyToken.mockReturnValue(token);
     const expectedRequest = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         summary: 'summary',
         description: 'description',
-        dueDate: { day: 1, month: 1, year: 1991 }
+        dueDate: { day: 1, month: 1, year: 2200 }
       })
     };
     const expectedResponse = { id: '1', firstName: 'James', lastName: 'Bond' };
     fetch.mockResponse(JSON.stringify(expectedResponse));
-    const { getByTestId } = render(<AddAction updatePlan={jest.fn()} id="1" />);
-    await userEvent.type(getByTestId('summary-text'), 'summary');
-    await userEvent.type(getByTestId('full-description'), 'description');
-    await userEvent.type(getByTestId('due-date-day'), '01');
-    await userEvent.type(getByTestId('due-date-month'), '01');
-    await userEvent.type(getByTestId('due-date-year'), '1991');
-    await getByTestId('add-action-button-test').click();
+    const { getByLabelText, getByText } = render(
+      <AddAction updatePlan={jest.fn()} id="1" />
+    );
+    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.type(
+      getByLabelText('Full description(optional)'),
+      'description'
+    );
+    await userEvent.type(getByLabelText('Day'), '01');
+    await userEvent.type(getByLabelText('Month'), '01');
+    await userEvent.type(getByLabelText('Year'), '2200');
+    await getByText('Add to plan').click();
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/plans/1/action'),
       expect.objectContaining(expectedRequest)
     );
+  });
+
+  it('does not save the action if the form is not valid', async () => {
+    enableFetchMocks();
+    const { getByLabelText, getByText } = render(
+      <AddAction updatePlan={jest.fn()} id="1" />
+    );
+
+    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.type(getByLabelText('Day'), 'aa');
+    await userEvent.type(getByLabelText('Month'), 'd1');
+    await userEvent.type(getByLabelText('Year'), 'one');
+    await getByText('Add to plan').click();
+
+    expect(fetch).not.toHaveBeenCalled();
   });
 });

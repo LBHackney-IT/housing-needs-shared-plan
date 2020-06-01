@@ -1,5 +1,5 @@
-import { endpoint } from '../../../../../../pages/api/plans/find';
-import { ArgumentError } from '../../../../../../lib/domain';
+import { endpoint } from 'pages/api/plans/find';
+import { ArgumentError } from 'lib/domain';
 
 describe('Find Plans Api', () => {
   const firstName = 'James';
@@ -32,8 +32,8 @@ describe('Find Plans Api', () => {
     const expectedResponse = expect.objectContaining({ planIds: [id] });
 
     const findPlans = {
-        execute: jest.fn(() => expectedResponse)
-      };
+      execute: jest.fn(() => expectedResponse)
+    };
 
     await endpoint({ findPlans })(req, res);
 

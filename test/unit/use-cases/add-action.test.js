@@ -1,6 +1,6 @@
-import AddAction from '../../../lib/use-cases/add-action';
+import AddAction from 'lib/use-cases/add-action';
 import { Plan } from 'lib/domain';
-import { add } from 'winston';
+
 jest.mock('lib/domain/goal', () => {
   return jest.fn().mockImplementation(() => {
     return {

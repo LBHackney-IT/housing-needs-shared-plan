@@ -1,4 +1,4 @@
-import { Goal, Action, ArgumentError } from '../../../lib/domain';
+import { Goal, Action, ArgumentError } from 'lib/domain';
 
 describe('Goal', () => {
   describe('addAction', () => {

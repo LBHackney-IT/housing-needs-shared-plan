@@ -1,6 +1,6 @@
 import { getPlan } from 'lib/dependencies';
 import { ArgumentError } from 'lib/domain';
-import { logger } from '../../../lib/infrastructure/logging';
+import { logger } from 'lib/infrastructure/logging';
 
 export const endpoint = ({ getPlan }) => async (req, res) => {
   const id = req.url.split('/')[3];

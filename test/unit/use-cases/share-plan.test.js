@@ -1,10 +1,10 @@
 import SharePlan from 'lib/use-cases/share-plan';
 import { Token } from 'lib/domain';
 import { getHackneyToken } from 'lib/utils/cookie';
+jest.mock('lib/utils/cookie');
 
 describe('Share plan', () => {
-  jest.mock('lib/utils/cookie');
-  getHackneyToken.mockReturnValue(token);
+  getHackneyToken.mockReturnValue('token');
   const planId = 10;
   const name = 'Jon';
   const number = '00000';
@@ -77,6 +77,7 @@ describe('Share plan', () => {
 
   it('shares the plan via sms', async () => {
     const expectedSmsRequest = {
+      auth: 'Bearer token',
       message: `You’ve been sent a link to your Shared Plan from Hackney Council. Click here to view: ${process.env.SHARED_PLAN_URL}/customers/${planId}/plan#token=random_string`,
       name,
       number

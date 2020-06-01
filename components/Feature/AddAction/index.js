@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { DateInput, TextInput, Button } from '../../Form';
-import TextArea from '../../Form/TextArea';
+import { DateInput, TextInput, Button, TextArea } from 'components/Form';
+import moment from 'moment';
+import { getHackneyToken } from 'lib/utils/cookie';
 
 const AddAction = ({ id, updatePlan }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
+  const [validate, setValidate] = useState(false);
 
   const handleActionSummaryChange = e => {
     setActionSummary(e.target.value);
@@ -33,67 +35,79 @@ const AddAction = ({ id, updatePlan }) => {
     setActionDescription(e.target.value);
   };
 
+  const formIsValid = () => {
+    const date = moment(
+      `${dueDate.day}-${dueDate.month}-${dueDate.year}`,
+      'DD-MM-YYYY'
+    );
+    return summary && date.isValid() && date.isAfter();
+  };
+
   const [buttonClassName, buttonDisabled] =
     summary && dueDate.year && dueDate.month && dueDate.day
       ? ['govuk-button', '']
       : ['govuk-button govuk-button--disabled', 'disabled'];
 
-  const onClick = async id => {
+  const addToPlan = async () => {
+    if (!formIsValid()) {
+      setValidate(true);
+      return;
+    }
+
     const action = {
       summary,
       description,
       dueDate
     };
 
-    const response = await fetch(
-      `${process.env.SHARED_PLAN_API_URL}/plans/${id}/actions`,
-      {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(action)
-      }
-    );
+    const response = await fetch(`/api/plans/${id}/actions`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getHackneyToken()}`
+      },
+      body: JSON.stringify(action)
+    });
     const plan = await response.json();
     if (plan) await updatePlan(plan);
   };
 
   return (
-    <div className="govuk-width-container">
-      <main className="govuk-main-wrapper">
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third">
-            <h2 className="govuk-heading-m">Our Actions</h2>
-          </div>
-          <div className="govuk-grid-column-two-thirds">
-            <h2 className="govuk-heading-m">Add new action</h2>
-            <TextInput
-              name="summary-text"
-              label="Summary"
-              onChange={handleActionSummaryChange}
-            />
-            <TextArea
-              name="full-description"
-              label="Full description(optional)"
-              onChange={handleActionDescriptionChange}
-            />
-            <DateInput
-              name="due-date"
-              title="Due date"
-              onChange={handleDueDateChange}
-            />
-            <Button
-              className={buttonClassName}
-              disabled={buttonDisabled}
-              text="Add to plan"
-              data-testid="add-action-button-test"
-              onClick={() => onClick(id)}
-            />
-          </div>
-        </div>
-      </main>
+    <div className="govuk-grid-row row-add-new-action">
+      <div className="govuk-grid-column-one-quarter">
+        <h2 className="govuk-heading-m heading-add-new-action">Our Actions</h2>
+      </div>
+      <div className="govuk-grid-column-three-quarters">
+        <h3 className="govuk-heading-m heading-add-new-action">
+          Add new action
+        </h3>
+
+        <TextInput
+          name="summary-text"
+          label="Summary"
+          onChange={handleActionSummaryChange}
+          validate={validate}
+        />
+        <TextArea
+          name="full-description"
+          label="Full description(optional)"
+          onChange={handleActionDescriptionChange}
+        />
+        <DateInput
+          name="due-date"
+          title="Due date"
+          onChange={handleDueDateChange}
+          validate={validate}
+        />
+        <Button
+          className={buttonClassName}
+          disabled={buttonDisabled}
+          text="Add to plan"
+          onClick={addToPlan}
+          data-testid="add-action-button-test"
+        />
+      </div>
     </div>
   );
 };

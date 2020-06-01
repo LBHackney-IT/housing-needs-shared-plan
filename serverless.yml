@@ -7,6 +7,16 @@ provider:
   stage: ${opt:stage}
   environment:
     PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: '*'
 
 package:
   individually: true
@@ -38,6 +48,7 @@ functions:
       ALLOWED_GROUPS: 'housingneeds-singleview-beta'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
+      SHARED_PLAN_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
 
   hn-shared-plan-authorizer:
     name: ${self:service}-authorizer-${self:provider.stage}
@@ -110,7 +121,7 @@ resources:
             MaxTTL: 0
             MinTTL: 0
             ForwardedValues:
-              QueryString: false
+              QueryString: true
               Cookies:
                 Forward: all
           Enabled: true

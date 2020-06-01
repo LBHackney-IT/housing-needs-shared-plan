@@ -1,9 +1,7 @@
-import { endpoint } from '../../../../../../pages/api/plans/goals';
-import { ArgumentError } from '../../../../../../lib/domain';
-import Goal from "../../../../../../lib/domain/goal";
+import { endpoint } from 'pages/api/plans/[id]/goals';
+import { ArgumentError } from 'lib/domain';
 
 describe('Add goal API', () => {
-
   let json;
   let res;
 
@@ -23,22 +21,21 @@ describe('Add goal API', () => {
 
   const req = {
     method: 'POST',
+    url: `localdev/api/plans/${planId}/goals`,
     body: {
-      planId,
       goal
     }
   };
 
   it('can add a goal to a plan', async () => {
     const expectedResponse = { id: planId, goal };
-
     const addGoal = {
       execute: jest.fn(() => {
         return expectedResponse;
       })
     };
 
-    await endpoint({addGoal})(req,res);
+    await endpoint({ addGoal })(req, res);
 
     expect(addGoal.execute).toHaveBeenCalledWith({ planId, goal });
     expect(res.status).toHaveBeenCalledWith(200);
@@ -47,7 +44,6 @@ describe('Add goal API', () => {
 
   it('handles bad requests', async () => {
     const expectedResponse = { error: 'could not add goal to plan' };
-
     const addGoal = {
       execute: jest.fn()
     };
@@ -65,7 +61,6 @@ describe('Add goal API', () => {
     const expectedResponse = {
       error: 'could not add goal to plan with id=1'
     };
-
     const addGoal = {
       execute: jest.fn()
     };

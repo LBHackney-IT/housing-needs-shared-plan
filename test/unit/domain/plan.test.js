@@ -1,4 +1,4 @@
-import Plan from '../../../lib/domain/plan';
+import Plan from 'lib/domain/plan';
 
 describe('Plan', () => {
   it('sets the created date to the current date/time when no date is received', async () => {
@@ -18,5 +18,16 @@ describe('Plan', () => {
     const plan = new Plan({ created });
 
     expect(plan.created).toEqual(created);
+  });
+
+  it('sets the goal to null if no goal', () => {
+    const plan = new Plan({});
+    expect(plan.goal).toEqual(null);
+  });
+
+  it('sets the goal if there is a goal', () => {
+    const goal = {};
+    const plan = new Plan({ goal });
+    expect(plan.goal).toEqual(goal);
   });
 });

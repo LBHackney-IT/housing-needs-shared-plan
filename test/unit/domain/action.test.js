@@ -1,4 +1,4 @@
-import { Action } from '../../../lib/domain';
+import { Action } from 'lib/domain';
 
 describe('Action', () => {
   it('sets the correct due date', () => {
