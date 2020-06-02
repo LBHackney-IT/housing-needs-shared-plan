@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import { usePlan } from './usePlan';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { render, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { renderHook } from '@testing-library/react-hooks';
+import { act } from 'react-test-renderer';
 
 describe('usePlan', () => {
   const expectedPlan = {
@@ -30,34 +29,23 @@ describe('usePlan', () => {
   });
 
   it('fetches a plan from the API', async () => {
-    const Component = () => {
-      const { plan } = usePlan(expectedPlan.id);
-      return <p>{plan?.id}</p>;
-    };
+    const { result, waitForNextUpdate } = renderHook(() =>
+      usePlan(expectedPlan.id)
+    );
 
-    const { getByText } = render(<Component />);
-    await waitFor(() => expect(getByText(expectedPlan.id)).toBeInTheDocument());
+    await waitForNextUpdate();
+    expect(result.current.plan).toStrictEqual(expectedPlan);
   });
 
-  it('adds a goal via the API', () => {
+  it('adds a goal via the API', async () => {
     const expectedGoal = {
       text: 'Achieve a goal',
       targetReviewDate: { day: 1, month: 2, year: 2003 },
       useAsPhp: false
     };
 
-    const Component = () => {
-      const { addGoal } = usePlan(expectedPlan.id);
-
-      useEffect(() => {
-        const add = async () => addGoal(expectedGoal);
-        add();
-      }, []);
-
-      return null;
-    };
-
-    act(() => render(<Component />));
+    const { result } = renderHook(() => usePlan(expectedPlan.id));
+    await act(() => result.current.addGoal(expectedGoal));
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(`/plans/${expectedPlan.id}/goal`),
@@ -67,25 +55,15 @@ describe('usePlan', () => {
     );
   });
 
-  it('adds an action via the API', () => {
+  it('adds an action via the API', async () => {
     const expectedAction = {
       summary: 'Do the action',
       description: 'It will be super exciting',
       dueDate: { day: 1, month: 2, year: 2003 }
     };
 
-    const Component = () => {
-      const { addAction } = usePlan(expectedPlan.id);
-
-      useEffect(() => {
-        const add = async () => addAction(expectedAction);
-        add();
-      }, []);
-
-      return null;
-    };
-
-    act(() => render(<Component />));
+    const { result } = renderHook(() => usePlan(expectedPlan.id));
+    await act(() => result.current.addAction(expectedAction));
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(`/plans/${expectedPlan.id}/actions`),

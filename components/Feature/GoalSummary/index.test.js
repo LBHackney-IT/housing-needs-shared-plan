@@ -16,9 +16,7 @@ describe('GoalSummary', () => {
         targetReviewDate
       }
     };
-    const { getByText } = render(
-      <GoalSummary hackneyToken={token} plan={plan} />
-    );
+    const { getByText } = render(<GoalSummary token={token} plan={plan} />);
     expect(getByText(text)).toBeInTheDocument();
     expect(getByText(username)).toBeInTheDocument();
     expect(getByText('20/10/2022')).toBeInTheDocument();
