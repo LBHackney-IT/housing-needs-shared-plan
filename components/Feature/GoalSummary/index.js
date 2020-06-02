@@ -34,10 +34,10 @@ const GoalSummary = ({ token, plan }) => {
         </div>
         <div className="govuk-grid-column-one-third">
           <h3>Shared with</h3>
-          <p>
+          <p data-testid="resident-name-test">
             {plan.firstName} {plan.lastName}
           </p>
-          <p>{user}</p>
+          <p data-testid="user-name-test">{user}</p>
         </div>
       </div>
     </Panel>

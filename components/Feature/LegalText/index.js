@@ -2,7 +2,7 @@ import css from './index.module.scss';
 
 const LegalText = () => {
   return (
-    <div className={css['legal-text']}>
+    <div data-testid="legal-text-test" className={css['legal-text']}>
       <h3>About this plan</h3>
       <p>
         The Council gives you a personal housing plan after your assessment. The
