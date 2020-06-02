@@ -1,65 +1,84 @@
-describe('Add action', () => {
-  describe('Add to plan button', () => {
-    it('is disabled until a summary and date is added', () => {
+context('Add action form', () => {
+
+  beforeEach(() => {
+    cy.task('createPlan', {
+      id: '1',
+      firstName: 'Bart',
+      lastName: 'Simpson',
+      queryFirstName: 'bart',
+      queryLastName: 'simpson',
+      goal: {
+        targetReviewDate: '2022-05-29T00:00:00.000Z',
+        text: 'some text',
+        useAsPhp: false
+      }
+    });
+  }
+
+
+  describe('Add action', () => {
+    describe('Add to plan button', () => {
+      it('is disabled until a summary and date is added', () => {
+        cy.visit(`http://localhost:3000/plans/1`);
+        cy.get('h1').should('have.text', "Bart Simpson's shared plan");
+
+        cy.get('#summary-text.govuk-input')
+          .click()
+          .type('Summary');
+        cy.get('[data-testid=add-action-button-test]')
+          .last()
+          .should('have.attr', 'disabled');
+
+        cy.get('#due-date-day.govuk-input')
+          .click()
+          .type('10');
+        cy.get('[data-testid=add-action-button-test]')
+          .last()
+          .should('have.attr', 'disabled');
+
+        cy.get('#due-date-month.govuk-input')
+          .click()
+          .type('5');
+        cy.get('[data-testid=add-action-button-test]')
+          .last()
+          .should('have.attr', 'disabled');
+
+        cy.get('#due-date-year.govuk-input')
+          .click()
+          .type('2400');
+        cy.get('[data-testid=add-action-button-test]').should(
+          'not.have.attr',
+          'disabled'
+        );
+        //cy.get('[data-testid=add-action-button-test]').click();
+      });
+    });
+    it('Adds an action to a goal', () => {
       cy.visit(`http://localhost:3000/plans/1`);
       cy.get('h1').should('have.text', "Bart Simpson's shared plan");
 
       cy.get('#summary-text.govuk-input')
         .click()
         .type('Summary');
-      cy.get('[data-testid=add-action-button-test]')
-        .last()
-        .should('have.attr', 'disabled');
+
+      cy.get('#full-description.govuk-textarea')
+        .click()
+        .type('Description');
 
       cy.get('#due-date-day.govuk-input')
         .click()
         .type('10');
-      cy.get('[data-testid=add-action-button-test]')
-        .last()
-        .should('have.attr', 'disabled');
-
       cy.get('#due-date-month.govuk-input')
         .click()
         .type('5');
-      cy.get('[data-testid=add-action-button-test]')
-        .last()
-        .should('have.attr', 'disabled');
-
       cy.get('#due-date-year.govuk-input')
         .click()
-        .type('2400');
-      cy.get('[data-testid=add-action-button-test]').should(
-        'not.have.attr',
-        'disabled'
-      );
-      //cy.get('[data-testid=add-action-button-test]').click();
+        .type('2200');
+      cy.get('[data-testid=add-action-button-test]').click();
+      // cy.get(
+      //   '#content > table > tbody > tr > td.govuk-table__cell.lbh-actions-list__description > h2'
+      // ).should('contain', 'Summary');
+      //check if it then gets displayed when the action part of the UI is done
     });
-  });
-  it('Adds an action to a goal', () => {
-    cy.visit(`http://localhost:3000/plans/1`);
-    cy.get('h1').should('have.text', "Bart Simpson's shared plan");
-
-    cy.get('#summary-text.govuk-input')
-      .click()
-      .type('Summary');
-
-    cy.get('#full-description.govuk-textarea')
-      .click()
-      .type('Description');
-
-    cy.get('#due-date-day.govuk-input')
-      .click()
-      .type('10');
-    cy.get('#due-date-month.govuk-input')
-      .click()
-      .type('5');
-    cy.get('#due-date-year.govuk-input')
-      .click()
-      .type('2200');
-    cy.get('[data-testid=add-action-button-test]')
-      .click();
-    cy.get('#content > table > tbody > tr:nth-child(1) > td.govuk-table__cell.lbh-actions-list__description > h2')
-      .should('contain','Summary');
-    //check if it then gets displayed when the action part of the UI is done
   });
 });
