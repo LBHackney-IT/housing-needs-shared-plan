@@ -9,8 +9,9 @@ import Table, {
 } from 'components/Table';
 import { Button, Checkbox } from 'components/Form';
 import Heading from 'components/Heading';
+import css from './index.module.scss';
 
-const SharePlan = ({ plan, email, number, onPlanShared }) => {
+const SharePlan = ({ plan, onPlanShared }) => {
   const [selectedMethod, setSelectedMethod] = useState('');
   const [selectedContact, setSelectedContact] = useState('');
 
@@ -43,17 +44,25 @@ const SharePlan = ({ plan, email, number, onPlanShared }) => {
             <TableData className="lbh-actions-list__due-date">
               <Checkbox
                 name="share-by-sms"
-                label={number}
+                label={plan.numbers ? plan.numbers[0] : 'no number'}
                 onClick={handleSelectedCheck}
                 method="SMS"
+              />
+              <Button
+                text="Edit phone number"
+                className={css['share-plan__edit-contact-details-button']}
               />
             </TableData>
             <TableData className="lbh-actions-list__due-date">
               <Checkbox
                 name="share-by-email"
-                label={email}
+                label={plan.emails ? plan.emails[0] : 'no email'}
                 onClick={handleSelectedCheck}
                 method="email"
+              />
+              <Button
+                text="Edit email address"
+                className={css['share-plan__edit-contact-details-button']}
               />
             </TableData>
             <TableData className="lbh-actions-list__due-date">

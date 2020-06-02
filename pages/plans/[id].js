@@ -64,14 +64,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && shareablePlan && (
         <Button text="Edit plan" onClick={() => setShareablePlan(false)} />
       )}
-      {shareablePlan && (
-        <SharePlan
-          plan={plan}
-          number="onetwothree"
-          email="email@email.com"
-          onPlanShared={sharePlan}
-        />
-      )}
+      {shareablePlan && <SharePlan plan={plan} onPlanShared={sharePlan} />}
     </>
   );
 };
