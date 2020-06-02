@@ -192,7 +192,9 @@ describe('PlanSummary', () => {
               description: 'description'
             }
           ]
-        }
+        },
+        numbers: [],
+        emails: []
       };
       const { queryByText, getByText } = render(
         <PlanSummary initialPlan={plan} />
