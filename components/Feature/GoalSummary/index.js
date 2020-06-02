@@ -11,16 +11,20 @@ const GoalSummary = ({ token, plan }) => {
       <div className={`govuk-grid-row ${css['goal-summary']}`}>
         <div className="govuk-grid-column-two-thirds">
           <div className={css['grid-column-group']}>
-            <h3>Goal</h3>
-            <p className={css['data-text']}>{plan.goal.text}</p>
+            <h3 data-testid="goal-label-test">Goal</h3>
+            <p className={css['data-text']} data-testid="goal-text-test">
+              {plan.goal.text}
+            </p>
             <p className={css['note-text']}>
               Agreed by {plan.firstName} {plan.lastName} and {user} on{' '}
               {convertIsoDateToString(plan.goal.agreedDate)}
             </p>
           </div>
           <div className={css['grid-column-group']}>
-            <h3>Target Review Date</h3>
-            <p className={css['data-text']}>
+            <h3 data-testid="target-review-date-label-test">
+              Target Review Date
+            </h3>
+            <p className={css['data-text']} data-testid="target-review-date-input-test">
               {convertIsoDateToString(plan.goal.targetReviewDate)}
             </p>
             <p className={css['note-text']}>
@@ -30,10 +34,10 @@ const GoalSummary = ({ token, plan }) => {
         </div>
         <div className="govuk-grid-column-one-third">
           <h3>Shared with</h3>
-          <p>
+          <p data-testid="resident-name-test">
             {plan.firstName} {plan.lastName}
           </p>
-          <p>{user}</p>
+          <p data-testid="user-name-test">{user}</p>
         </div>
       </div>
     </Panel>

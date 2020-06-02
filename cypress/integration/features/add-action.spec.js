@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
+context('Add action form', () => {
 
-context('Add-goal page', () => {
   beforeEach(() => {
     cy.task('createPlan', {
       id: '1',
@@ -14,11 +13,8 @@ context('Add-goal page', () => {
         useAsPhp: false
       }
     });
-  });
+  }
 
-  afterEach(() => {
-    cy.task('deletePlan', '1');
-  });
 
   describe('Add action', () => {
     describe('Add to plan button', () => {
@@ -29,30 +25,32 @@ context('Add-goal page', () => {
         cy.get('#summary-text.govuk-input')
           .click()
           .type('Summary');
-        cy.get('button')
+        cy.get('[data-testid=add-action-button-test]')
           .last()
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-day.govuk-input')
           .click()
           .type('10');
-        cy.get('button')
+        cy.get('[data-testid=add-action-button-test]')
           .last()
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-month.govuk-input')
           .click()
           .type('5');
-        cy.get('button')
+        cy.get('[data-testid=add-action-button-test]')
           .last()
           .should('have.attr', 'disabled');
 
         cy.get('#due-date-year.govuk-input')
           .click()
           .type('2400');
-        cy.get('button')
-          .last()
-          .click();
+        cy.get('[data-testid=add-action-button-test]').should(
+          'not.have.attr',
+          'disabled'
+        );
+        //cy.get('[data-testid=add-action-button-test]').click();
       });
     });
     it('Adds an action to a goal', () => {
@@ -76,9 +74,10 @@ context('Add-goal page', () => {
       cy.get('#due-date-year.govuk-input')
         .click()
         .type('2200');
-      cy.get('button')
-        .last()
-        .click();
+      cy.get('[data-testid=add-action-button-test]').click();
+      // cy.get(
+      //   '#content > table > tbody > tr > td.govuk-table__cell.lbh-actions-list__description > h2'
+      // ).should('contain', 'Summary');
       //check if it then gets displayed when the action part of the UI is done
     });
   });
