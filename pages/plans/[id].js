@@ -46,16 +46,18 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           }}
         />
       )}
-      {!editGoal && !shareablePlan && <GoalSummary plan={plan} />}
+      {!editGoal && !shareablePlan && <GoalSummary plan={plan} token={token} />}
       {!editGoal && !shareablePlan && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
 
-      {!shareablePlan && <ActionsList actions={plan.goal?.actions || []} />}
+      {!editGoal && !shareablePlan && (
+        <ActionsList actions={plan.goal?.actions || []} />
+      )}
       {!editGoal && !shareablePlan && (
         <AddAction id={id} onActionAdded={addAction} />
       )}
-      {!editGoal && !shareablePlan && goal && goal.useAsPhp && <LegalText />}
+      {!editGoal && goal && goal.useAsPhp && <LegalText />}
       {!editGoal && !shareablePlan && (
         <Button text="Share plan" onClick={() => setShareablePlan(true)} />
       )}

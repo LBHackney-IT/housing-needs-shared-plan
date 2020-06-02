@@ -48,7 +48,7 @@ functions:
       ALLOWED_GROUPS: 'housingneeds-singleview-beta'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
-      SHARED_PLAN_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
+      NEXT_PUBLIC_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
 
   hn-shared-plan-authorizer:
     name: ${self:service}-authorizer-${self:provider.stage}

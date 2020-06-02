@@ -29,7 +29,7 @@ describe('Get Plan Api', () => {
       execute: jest.fn(x => {
         return expectedResponse;
       })
-  }
+    };
 
     await endpoint({ getPlan })(req, res);
 
