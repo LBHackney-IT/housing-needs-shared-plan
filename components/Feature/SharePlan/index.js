@@ -12,13 +12,22 @@ import Heading from 'components/Heading';
 import css from './index.module.scss';
 
 const SharePlan = ({ plan, onPlanShared }) => {
-  const [selectedMethod, setSelectedMethod] = useState('');
   const [selectedContact, setSelectedContact] = useState('');
 
   const handleSelectedCheck = e => {
-    setSelectedMethod(e.target.method);
-    setSelectedContact(e.target.label);
+    if (selectedContact === e.target.value) {
+      setSelectedContact('');
+    } else {
+      setSelectedContact(e.target.value);
+    }
   };
+
+  const buttonDisabled = selectedContact === '' ? true : false;
+
+  let shareStatus = `Not yet shared with ${plan.firstName}`;
+  if (plan.tokens?.length > 1) {
+    shareStatus = `Last shared with ${plan.firstName} at 4:34, 4th April`;
+  }
   return (
     <>
       <Heading as="h2" size="m">
@@ -45,6 +54,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 <Checkbox
                   name="share-by-sms"
                   label={number || ''}
+                  value={number || ''}
                   onClick={handleSelectedCheck}
                   method="SMS"
                 />
@@ -53,8 +63,8 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 <Checkbox
                   name="share-by-email"
                   label={plan.emails ? plan.emails[i] : ''}
+                  value={plan.emails ? plan.emails[i] : ''}
                   onClick={handleSelectedCheck}
-                  method="email"
                   disabled
                 />
               </TableData>
@@ -63,11 +73,12 @@ const SharePlan = ({ plan, onPlanShared }) => {
                   className={`govuk-button ${css['share-link-to-plan__button']}`}
                   data-module="govuk-button"
                   onClick={() => onPlanShared(selectedContact)}
+                  disabled={buttonDisabled}
                 >
                   Share
                 </button>
                 <label className={`govuk-label ${css['share-plan_status']}`}>
-                  Not yet shared with {plan.firstName}
+                  {shareStatus}
                 </label>
               </TableData>
             </TableRow>

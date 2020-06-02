@@ -46,7 +46,7 @@ export function requestAddAction(planId, action, options) {
 export function requestSharePlan(planId, number, options) {
   return request(`/plans/${planId}/share`, {
     method: 'POST',
-    body: number,
+    body: { number },
     ...options
   });
 }

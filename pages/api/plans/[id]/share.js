@@ -4,6 +4,9 @@ import { ArgumentError } from 'lib/domain';
 
 export const endpoint = ({ sharePlan }) => async (req, res) => {
   try {
+    console.log('wabalubadubdub');
+    console.log(req.body);
+
     const result = await sharePlan.execute({
       planId: req.query.id,
       number: req.body.number,
