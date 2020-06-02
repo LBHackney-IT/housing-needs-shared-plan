@@ -33,6 +33,14 @@ const AddGoal = ({ goal, onGoalAdded }) => {
   };
 
   const formIsValid = () => {
+    if (
+      !targetReviewDate ||
+      !targetReviewDate.day ||
+      !targetReviewDate.month ||
+      !targetReviewDate.year
+    ) {
+      return false;
+    }
     const date = moment(
       `${targetReviewDate.day}-${targetReviewDate.month}-${targetReviewDate.year}`,
       'DD-MM-YYYY'
@@ -76,6 +84,7 @@ const AddGoal = ({ goal, onGoalAdded }) => {
           label="Use as a PHP"
           onClick={handleUseAsPhpChange}
           checked={useAsPhp}
+          data-testid="use-as-php-test"
         />
         <Button
           text="Add actions"

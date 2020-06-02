@@ -11,9 +11,9 @@ const DateInput = ({
   validate,
   year
 }) => {
-  const [dayValue, setDayValue] = useState(day);
-  const [monthValue, setMonthValue] = useState(month);
-  const [yearValue, setYearValue] = useState(year);
+  const [dayValue, setDayValue] = useState(day || '');
+  const [monthValue, setMonthValue] = useState(month || '');
+  const [yearValue, setYearValue] = useState(year || '');
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const DateInput = ({
                   setDayValue(e.target.value);
                   onChange(e);
                 }}
-                value={day}
+                value={dayValue}
               />
             </div>
           </div>
@@ -105,7 +105,7 @@ const DateInput = ({
                   setMonthValue(e.target.value);
                   onChange(e);
                 }}
-                value={month}
+                value={monthValue}
               />
             </div>
           </div>
@@ -130,7 +130,7 @@ const DateInput = ({
                   setYearValue(e.target.value);
                   onChange(e);
                 }}
-                value={year}
+                value={yearValue}
               />
             </div>
           </div>
