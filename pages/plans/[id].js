@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
+import SharePlan from 'components/Feature/SharePlan';
 import ActionsList from 'components/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
@@ -19,6 +20,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
+  const [shareablePlan, setShareablePlan] = useState(false);
   const { id, firstName, lastName, goal } = plan;
 
   const getPossessiveName = (firstName, lastName) => {
@@ -44,18 +46,28 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           }}
         />
       )}
-      {!editGoal && <GoalSummary plan={plan} />}
-      {!editGoal && (
+      {!editGoal && !shareablePlan && <GoalSummary plan={plan} />}
+      {!editGoal && !shareablePlan && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
 
-      <ActionsList actions={plan.goal?.actions || []} />
-      {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
-      {!editGoal && goal && goal.useAsPhp && <LegalText />}
-      {!editGoal && (
-        <Button
-          text="Share Plan"
-          onClick={async () => await sharePlan({ number: 12345 })}
+      {!shareablePlan && <ActionsList actions={plan.goal?.actions || []} />}
+      {!editGoal && !shareablePlan && (
+        <AddAction id={id} onActionAdded={addAction} />
+      )}
+      {!editGoal && !shareablePlan && goal && goal.useAsPhp && <LegalText />}
+      {!editGoal && !shareablePlan && (
+        <Button text="Share plan" onClick={() => setShareablePlan(true)} />
+      )}
+      {!editGoal && shareablePlan && (
+        <Button text="Edit plan" onClick={() => setShareablePlan(false)} />
+      )}
+      {shareablePlan && (
+        <SharePlan
+          plan={plan}
+          number="onetwothree"
+          email="email@email.com"
+          onPlanShared={sharePlan}
         />
       )}
     </>
