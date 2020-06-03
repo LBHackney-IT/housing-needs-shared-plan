@@ -14,8 +14,7 @@ server.all('/api/*', (req, res) => nextRequestHandler(req, res));
 
 const authoriseHandler = (req, res, next) => {
   const checkAuth = new CheckAuth({
-    allowedGroups: process.env.ALLOWED_GROUPS.split(','),
-    jwt: require('jsonwebtoken')
+    allowedGroups: process.env.ALLOWED_GROUPS.split(',')
   });
   const isAuthenticated = checkAuth.execute({
     token: req.cookies.hackneyToken
