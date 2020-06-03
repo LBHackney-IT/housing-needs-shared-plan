@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
-import SharePlan from 'components/Feature/SharePlan';
 import ActionsList from 'components/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
+import { getPossessiveName } from 'lib/utils/name';
+import Link from 'next/link';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading, addGoal, addAction, sharePlan } = usePlan(planId, {
+  const { plan, loading, addGoal, addAction } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -20,19 +21,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
-  const [shareablePlan, setShareablePlan] = useState(false);
   const { id, firstName, lastName, goal } = plan;
-
-  const getPossessiveName = (firstName, lastName) => {
-    let baseString = `${firstName} ${lastName}'`;
-    if (lastName === '') {
-      baseString = `${firstName}'`;
-    }
-    if (baseString[baseString.length - 2] !== 's') {
-      baseString += 's';
-    }
-    return baseString;
-  };
 
   return (
     <>
@@ -46,25 +35,19 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           }}
         />
       )}
-      {!editGoal && !shareablePlan && <GoalSummary plan={plan} token={token} />}
-      {!editGoal && !shareablePlan && (
+      {!editGoal && <GoalSummary plan={plan} token={token} />}
+      {!editGoal && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
 
-      {!editGoal && !shareablePlan && (
-        <ActionsList actions={plan.goal?.actions || []} />
-      )}
-      {!editGoal && !shareablePlan && (
-        <AddAction id={id} onActionAdded={addAction} />
-      )}
+      {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
+      {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
-      {!editGoal && !shareablePlan && (
-        <Button text="Share plan" onClick={() => setShareablePlan(true)} />
+      {!editGoal && (
+        <Link href={`/plans/${planId}/share`}>
+          <a>Share plan</a>
+        </Link>
       )}
-      {!editGoal && shareablePlan && (
-        <Button text="Edit plan" onClick={() => setShareablePlan(false)} />
-      )}
-      {shareablePlan && <SharePlan plan={plan} onPlanShared={sharePlan} />}
     </>
   );
 };

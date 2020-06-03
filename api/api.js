@@ -43,10 +43,10 @@ export function requestAddAction(planId, action, options) {
   });
 }
 
-export function requestSharePlan(planId, number, options) {
+export function requestSharePlan(planId, collaborator, options) {
   return request(`/plans/${planId}/share`, {
     method: 'POST',
-    body: { number },
+    body: collaborator,
     ...options
   });
 }

@@ -4,8 +4,6 @@ const TextInput = ({ label, name, onChange, validate, value }) => {
   const [inputValue, setInputValue] = useState(value ? value : '');
   const [hasError, setHasError] = useState(false);
 
-  console.log(value);
-
   useEffect(() => {
     if (validate) setHasError(!inputValue);
   });

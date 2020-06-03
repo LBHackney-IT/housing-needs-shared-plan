@@ -16,7 +16,6 @@ export const endpoint = ({ addGoal }) => async (req, res) => {
       return res.status(400).json({ error: `could not add goal to plan` });
     }
 
-    console.log(req.body.planId);
     res.status(500).json({
       error: `could not add goal to plan with id=${req.query.id}`
     });

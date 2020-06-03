@@ -41,8 +41,8 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
         }
       });
     },
-    sharePlan: async number => {
-      await requestSharePlan(planId, number, { token });
+    sharePlan: async collaborator => {
+      await requestSharePlan(planId, collaborator, { token });
     }
   };
 }

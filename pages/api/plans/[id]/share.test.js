@@ -38,7 +38,7 @@ describe('Share plan', () => {
 
     expect(sharePlan.execute).toHaveBeenCalledWith({
       planId,
-      number,
+      collaborator: { number },
       auth: req.headers.authorization
     });
     expect(res.status).toHaveBeenCalledWith(200);
