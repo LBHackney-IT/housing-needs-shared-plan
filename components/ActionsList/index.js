@@ -16,7 +16,9 @@ const ActionsList = ({ actions }) => {
         <Table className="lbh-actions-list__table">
           <TableHead>
             <TableRow className="lbh-actions-list__header">
-              <TableHeader scope="col">Description</TableHeader>
+              <TableHeader scope="col">
+                Description
+              </TableHeader>
               <TableHeader scope="col" className="lbh-actions-list__due-date">
                 Due date
               </TableHeader>

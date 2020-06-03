@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 
-const AddAction = ({ id, onActionAdded }) => {
+const AddAction = ({ onActionAdded }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');
