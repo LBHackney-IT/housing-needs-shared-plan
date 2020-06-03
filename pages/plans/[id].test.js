@@ -16,50 +16,6 @@ describe('PlanSummary', () => {
     fetch.mockResponse(JSON.stringify(expectedResponse));
   });
 
-  it('renders correct title', () => {
-    const plan = {
-      id: '1',
-      firstName: 'Bob',
-      lastName: 'Test',
-      goal: { text: 'my goal' }
-    };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
-    expect(getByText("Bob Test's shared plan")).toBeInTheDocument();
-  });
-
-  it('renders correct title for names that end with "S"', () => {
-    const plan = {
-      id: '1',
-      firstName: 'Bob',
-      lastName: 'Tes',
-      goal: { text: 'my goal' }
-    };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
-    expect(getByText("Bob Tes' shared plan")).toBeInTheDocument();
-  });
-
-  it('renders correct title for names that have special characters', () => {
-    const plan = {
-      id: '1',
-      firstName: 'X Æ A-12',
-      lastName: 'Musk',
-      goal: { text: 'my goal' }
-    };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
-    expect(getByText("X Æ A-12 Musk's shared plan")).toBeInTheDocument();
-  });
-
-  it('renders correct title for names with an empty string for last Name', () => {
-    const plan = {
-      id: '1',
-      firstName: 'Dan',
-      lastName: '',
-      goal: { text: 'my goal' }
-    };
-    const { getByText } = render(<PlanSummary initialPlan={plan} />);
-    expect(getByText("Dan's shared plan")).toBeInTheDocument();
-  });
-
   it('fetches plan from the correct url and constructs correct props', async () => {
     const props = await PlanSummary.getInitialProps({ query: { id: '1' } });
     expect(fetch).toHaveBeenCalledWith(
@@ -174,37 +130,6 @@ describe('PlanSummary', () => {
       );
       expect(getByText('summary')).toBeInTheDocument();
       expect(getAllByText('Show details')[0]).toBeInTheDocument();
-    });
-  });
-
-  describe('Sharing with collaborators', () => {
-    it('does not render plan summary when sharing with collaborators', async () => {
-      const plan = {
-        id: '1',
-        firstName: 'Mr',
-        lastName: 'Don',
-        goal: {
-          text: 'text',
-          actions: [
-            {
-              dueDate: new Date(),
-              summary: 'summary',
-              description: 'description'
-            }
-          ]
-        },
-        numbers: [],
-        emails: []
-      };
-      const { queryByText, getByText } = render(
-        <PlanSummary initialPlan={plan} />
-      );
-
-      await getByText('Share plan').click();
-      expect(queryByText('Target review date')).toBeNull();
-      expect(queryByText('Add new action')).toBeNull();
-      expect(queryByText('Add to plan')).toBeNull();
-      expect(getByText('Edit plan')).toBeInTheDocument();
     });
   });
 });

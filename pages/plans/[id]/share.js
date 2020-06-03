@@ -1,4 +1,4 @@
-import { getPossessiveName } from 'lib/utils/possessiveName';
+import { getPossessiveName } from 'lib/utils/name';
 import SharePlan from 'components/Feature/SharePlan';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import { getToken } from 'lib/utils/token';
