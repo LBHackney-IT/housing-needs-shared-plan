@@ -1,4 +1,4 @@
-import DueDate from 'components/ActionsList/DueDate';
+import DueDate from './index';
 import { render } from '@testing-library/react';
 
 describe('<DueDate />', () => {

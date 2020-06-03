@@ -1,4 +1,4 @@
-import ActionsList from 'components/ActionsList';
+import ActionsList from './index';
 import { render } from '@testing-library/react';
 
 describe('<ActionsList />', () => {
