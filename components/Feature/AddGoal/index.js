@@ -12,6 +12,7 @@ const AddGoal = ({ goal, onGoalAdded }) => {
   );
   const [useAsPhp, setUseAsPhp] = useState(goal?.useAsPhp || false);
   const [validate, setValidate] = useState(false);
+  const actions = goal?.actions || [];
 
   const handleGoalTextChange = e => {
     setGoalText(e.target.value);
@@ -54,7 +55,7 @@ const AddGoal = ({ goal, onGoalAdded }) => {
       return;
     }
 
-    onGoalAdded({ targetReviewDate, text, useAsPhp });
+    onGoalAdded({ targetReviewDate, text, useAsPhp, actions });
   };
 
   return (

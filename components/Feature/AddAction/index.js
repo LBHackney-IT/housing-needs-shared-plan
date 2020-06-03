@@ -3,7 +3,7 @@ import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 import css from './index.module.scss';
 
-const AddAction = ({ id, onActionAdded }) => {
+const AddAction = ({ onActionAdded }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({});
   const [description, setActionDescription] = useState('');

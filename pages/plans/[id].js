@@ -19,7 +19,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
-  const { id, firstName, lastName, goal } = plan;
+  const { firstName, lastName, goal } = plan;
 
   const getPossessiveName = (firstName, lastName) => {
     let baseString = `${firstName} ${lastName}'`;
@@ -49,7 +49,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
       {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
-      {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
+      {!editGoal && <AddAction onActionAdded={addAction} />}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
     </>
   );
