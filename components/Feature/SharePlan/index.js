@@ -7,9 +7,10 @@ import Table, {
   TableBody,
   TableData
 } from 'components/Table';
-import { Button, Checkbox } from 'components/Form';
+import { Checkbox } from 'components/Form';
 import Heading from 'components/Heading';
 import css from './index.module.scss';
+import ShareStatus from './ShareStatus';
 
 const SharePlan = ({ plan, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState('');
@@ -22,12 +23,6 @@ const SharePlan = ({ plan, onPlanShared }) => {
     }
   };
 
-  const buttonDisabled = selectedContact === '' ? true : false;
-
-  let shareStatus = `Not yet shared with ${plan.firstName}`;
-  if (plan.tokens?.length > 1) {
-    shareStatus = `Last shared with ${plan.firstName} at 4:34, 4th April`;
-  }
   return (
     <>
       <Heading as="h2" size="m">
@@ -72,14 +67,11 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 <button
                   className={`govuk-button ${css['share-link-to-plan__button']}`}
                   data-module="govuk-button"
-                  onClick={() => onPlanShared(selectedContact)}
-                  disabled={buttonDisabled}
+                  onClick={() => onPlanShared(number)}
                 >
                   Share
                 </button>
-                <label className={`govuk-label ${css['share-plan_status']}`}>
-                  {shareStatus}
-                </label>
+                <ShareStatus plan={plan} />
               </TableData>
             </TableRow>
           ))}
