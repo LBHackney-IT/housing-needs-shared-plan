@@ -1,5 +1,33 @@
 context('Add action form', () => {
 
+  const createAction = (summary, description, day, month, year) => {
+    if (summary) {
+      cy.get('#summary-text.govuk-input')
+        .click()
+        .type(summary);
+    }
+    if (description) {
+      cy.get('#full-description.govuk-textarea')
+        .click()
+        .type(description);
+    }
+    if (day) {
+      cy.get('#due-date-day.govuk-input')
+        .click()
+        .type(day);
+    }
+    if (month) {
+      cy.get('#due-date-month.govuk-input')
+        .click()
+        .type(month);
+    }
+    if (year) {
+      cy.get('#due-date-year.govuk-input')
+        .click()
+        .type(year);
+    }
+  }
+
   beforeEach(() => {
     cy.task('createPlan', {
       id: '1',
@@ -63,23 +91,8 @@ context('Add action form', () => {
     it('Adds an action to a goal', () => {
       cy.get('h1').should('have.text', "Bart Simpson's shared plan");
 
-      cy.get('#summary-text.govuk-input')
-        .click()
-        .type('This is the summary');
+      createAction('This is the summary','This is the description','10','5','2200');
 
-      cy.get('#full-description.govuk-textarea')
-        .click()
-        .type('This is the description');
-
-      cy.get('#due-date-day.govuk-input')
-        .click()
-        .type('10');
-      cy.get('#due-date-month.govuk-input')
-        .click()
-        .type('5');
-      cy.get('#due-date-year.govuk-input')
-        .click()
-        .type('2200');
       cy.get('[data-testid=add-action-button-test]').should('not.be.disabled');
 
       cy.get('[data-testid=add-action-button-test]').click();
@@ -104,26 +117,9 @@ context('Add action form', () => {
     });
 
     it ('Can add 2 different actions', () => {
-      cy.get('#summary-text.govuk-input')
-        .click()
-        .type('This is the summary of the first action');
-
-      cy.get('#full-description.govuk-textarea')
-        .click()
-        .type('This is the description of the first action');
-
-      cy.get('#due-date-day.govuk-input')
-        .click()
-        .type('10');
-      cy.get('#due-date-month.govuk-input')
-        .click()
-        .type('5');
-      cy.get('#due-date-year.govuk-input')
-        .click()
-        .type('2200');
+      createAction('This is the summary of the first action','This is the summary of the second action','10','5','2200');
 
       cy.get('[data-testid=add-action-button-test]').click();
-
 
       cy.get('#summary-text.govuk-input')
         .clear();
@@ -155,18 +151,30 @@ context('Add action form', () => {
 
       cy.get('[data-testid=add-action-button-test]').click();
 
-
-
-
-
       cy.get(
         '[data-testid=text-expand-button]'
       ).should('contain', 'Show details');
 
       cy.get(
         '[data-testid=text-expand-button]')
+        .first()
         .click();
+      //check for summary and description
 
+      cy.get('[data-testid=text-expand-button]')
+        .first()
+        .click();
+      //check for summary and description
+    })
+
+    it ('Can add an action with no description',() => {
+      createAction('This is the summary','','10','5','2200');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get(
+        '[data-testid=text-expand-button]')
+        .click();
+      cy.get('#content > table > tbody > tr:nth-child(1) > td.govuk-table__cell.lbh-actions-list__description')
+        .should('contain','');
     })
   });
 });
