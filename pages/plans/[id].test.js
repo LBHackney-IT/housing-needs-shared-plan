@@ -1,6 +1,5 @@
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import PlanSummary from 'pages/plans/[id]';
 
 describe('PlanSummary', () => {
@@ -177,8 +176,8 @@ describe('PlanSummary', () => {
     });
   });
 
-  describe('Sharing with collaborators', () => {
-    it('does not render plan summary when sharing with collaborators', async () => {
+  describe('Share plan', () => {
+    it('renders the share plan link', async () => {
       const plan = {
         id: '1',
         firstName: 'Mr',
@@ -192,19 +191,10 @@ describe('PlanSummary', () => {
               description: 'description'
             }
           ]
-        },
-        numbers: [],
-        emails: []
+        }
       };
-      const { queryByText, getByText } = render(
-        <PlanSummary initialPlan={plan} />
-      );
-
-      await getByText('Share plan').click();
-      expect(queryByText('Target review date')).toBeNull();
-      expect(queryByText('Add new action')).toBeNull();
-      expect(queryByText('Add to plan')).toBeNull();
-      expect(getByText('Edit plan')).toBeInTheDocument();
+      const { getByText } = render(<PlanSummary initialPlan={plan} />);
+      expect(getByText('Share plan')).toBeInTheDocument();
     });
   });
 });

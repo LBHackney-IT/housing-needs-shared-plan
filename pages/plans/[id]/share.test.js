@@ -1,21 +1,7 @@
-import { enableFetchMocks } from 'jest-fetch-mock';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Share from 'pages/plans/[id]/share';
 
 describe('Share', () => {
-  //   const expectedResponse = {
-  //     id: '1',
-  //     firstName: 'James',
-  //     lastName: 'Bond',
-  //     goal: { text: 'my goal' }
-  //   };
-
-  //   beforeEach(() => {
-  //     enableFetchMocks();
-  //     fetch.mockResponse(JSON.stringify(expectedResponse));
-  //   });
-
   it('renders correct title', () => {
     const plan = {
       id: '1',
@@ -49,11 +35,7 @@ describe('Share', () => {
     };
     const { getByText } = render(<Share plan={plan} />);
 
-    expect(getByText('Share with collaborators')).toBeInTheDocument();
-    expect(getByText('Collaborators')).toBeInTheDocument();
-    expect(getByText('Share by SMS')).toBeInTheDocument();
     expect(getByText('sample_nr')).toBeInTheDocument();
     expect(getByText('sample_email')).toBeInTheDocument();
-    expect(getByText('Edit plan')).toBeInTheDocument();
   });
 });

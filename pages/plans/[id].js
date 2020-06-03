@@ -8,7 +8,6 @@ import LegalText from 'components/Feature/LegalText';
 import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 import { getPossessiveName } from 'lib/utils/name';
-import Link from 'next/link';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
   const { plan, loading, addGoal, addAction } = usePlan(planId, {
@@ -43,11 +42,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
       {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
-      {!editGoal && (
-        <Link href={`/plans/${planId}/share`}>
-          <a>Share plan</a>
-        </Link>
-      )}
+      {!editGoal && <a href={`/plans/${planId}/share`}>Share plan</a>}
     </>
   );
 };

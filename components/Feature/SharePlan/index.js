@@ -45,7 +45,6 @@ const SharePlan = ({ plan, onPlanShared }) => {
 
   return (
     <>
-      <Button text="Edit plan" onclick={`location.href='/plans/${plan.id}';`} />
       <Heading as="h2" size="m">
         Share with collaborators
       </Heading>
