@@ -8,16 +8,20 @@ import Table, {
   TableBody,
   TableData
 } from 'components/Table';
+import css from './index.module.scss';
 
 const ActionsList = ({ actions }) => {
   return (
     <>
       {actions.length > 0 && (
-        <Table className="lbh-actions-list__table">
+        <Table className={css['lbh-actions-list__table']}>
           <TableHead>
-            <TableRow className="lbh-actions-list__header">
+            <TableRow className={css['lbh-actions-list__header']}>
               <TableHeader scope="col">Description</TableHeader>
-              <TableHeader scope="col" className="lbh-actions-list__due-date">
+              <TableHeader
+                scope="col"
+                className={css['lbh-actions-list__due-date']}
+              >
                 Due date
               </TableHeader>
             </TableRow>
@@ -25,7 +29,7 @@ const ActionsList = ({ actions }) => {
           <TableBody>
             {actions.map(action => (
               <TableRow key={action.summary}>
-                <TableData className="lbh-actions-list__description">
+                <TableData className={css['lbh-actions-list__description']}>
                   <Heading as="h2" size="m">
                     {action.summary}
                   </Heading>
@@ -35,11 +39,11 @@ const ActionsList = ({ actions }) => {
                   >
                     {action.description}
                   </ExpandingText>
-                  <div className="lbh-actions-list__descriptions-mobile">
+                  <div className={css['lbh-actions-list__descriptions-mobile']}>
                     Due <DueDate dateTime={action.dueDate} />
                   </div>
                 </TableData>
-                <TableData className="lbh-actions-list__due-date">
+                <TableData className={css['lbh-actions-list__due-date']}>
                   <DueDate dateTime={action.dueDate} />
                 </TableData>
               </TableRow>

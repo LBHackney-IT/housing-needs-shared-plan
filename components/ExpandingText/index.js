@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import css from './index.module.scss';
 
 const ExpandingText = ({ expandButtonText, contractButtonText, children }) => {
   const [isExpanded, setExpanded] = useState(false);
@@ -8,7 +9,7 @@ const ExpandingText = ({ expandButtonText, contractButtonText, children }) => {
       <>
         {children}
         <button
-          className="lbh-link-button lbh-link-button__up"
+          className={`${css['lbh-link-button']} ${css['lbh-link-button__up']}`}
           data-testid="text-contract-button"
           onClick={() => setExpanded(false)}
         >
@@ -20,7 +21,7 @@ const ExpandingText = ({ expandButtonText, contractButtonText, children }) => {
 
   return (
     <button
-      className="lbh-link-button lbh-link-button__down"
+      className={`${css['lbh-link-button']} ${css['lbh-link-button__down']}`}
       data-testid="text-expand-button"
       onClick={() => setExpanded(true)}
     >
