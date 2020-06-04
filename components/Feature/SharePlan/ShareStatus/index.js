@@ -18,7 +18,7 @@ const ShareStatus = ({ plan }) => {
     const dateTimes = plan.customerTokens
       .map(token => new Date(token.createdDate))
       .sort((a, b) => {
-        return Date.parse(a) - Date.parse(b);
+        return Date.parse(b) - Date.parse(a);
       });
 
     const shareTime = formatDate(dateTimes[0]);

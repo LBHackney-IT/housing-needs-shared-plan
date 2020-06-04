@@ -4,10 +4,20 @@ import { usePlan, requestPlan, HttpStatusError } from 'api';
 import { getToken } from 'lib/utils/token';
 
 const Share = ({ plan, planId, token }) => {
-  const { sharePlan } = usePlan(planId, {
+  const { error, loading, sharePlan } = usePlan(planId, {
     plan,
     token
   });
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    console.log('HERE');
+    console.log(error);
+  }
+
   return (
     <>
       <h1>{getPossessiveName(plan.firstName, plan.lastName)} shared plan</h1>
@@ -26,7 +36,6 @@ Share.getInitialProps = async ({ query: { id }, req, res }) => {
       token
     };
   } catch (err) {
-    console.log(err);
     res.writeHead(err instanceof HttpStatusError ? err.statusCode : 500).end();
   }
 };

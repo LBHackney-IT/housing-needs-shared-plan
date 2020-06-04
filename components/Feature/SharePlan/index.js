@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import Table, {
   TableHead,
@@ -14,10 +15,7 @@ import ShareStatus from './ShareStatus';
 const SharePlan = ({ plan, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [disableShare, setDisableShare] = useState(true);
-
-  const shareThePlan = () => {
-    onPlanShared(selectedContact);
-  };
+  const [error, setError] = useState(false);
 
   const handleSelectEmail = e => {
     if (!e.target.value) return;
@@ -35,6 +33,16 @@ const SharePlan = ({ plan, onPlanShared }) => {
       : delete contact.number;
     setSelectedContact(contact);
     setDisableShare(Object.keys(selectedContact).length === 0);
+  };
+
+  const shareThePlan = async () => {
+    try {
+      await onPlanShared(selectedContact);
+      setError(false);
+    } catch (err) {
+      setError(true);
+      console.log(err);
+    }
   };
 
   return (
@@ -58,7 +66,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 {plan.firstName} {plan.lastName}
               </Heading>
             </TableData>
-            <TableData className="lbh-actions-list__due-date">
+            <TableData>
               <Checkbox
                 name="share-by-sms"
                 label={plan.numbers[0] || ''}
@@ -66,7 +74,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 onClick={handleSelectNumber}
               />
             </TableData>
-            <TableData className="lbh-actions-list__due-date">
+            <TableData>
               <Checkbox
                 name="share-by-email"
                 label={plan.emails[0] || ''}
@@ -75,7 +83,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 disabled
               />
             </TableData>
-            <TableData className="lbh-actions-list__due-date">
+            <TableData>
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
@@ -84,6 +92,11 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 disabled={disableShare}
               />
               <ShareStatus plan={plan} />
+              {error && (
+                <span className="govuk-error-message">
+                  Something went wrong
+                </span>
+              )}
             </TableData>
           </TableRow>
         </TableBody>

@@ -31,7 +31,7 @@ describe('Share status', () => {
     const { getByText } = render(<ShareStatus plan={plan} />);
 
     expect(
-      getByText('Last shared with Jon at 4 October 2017 at 4:34')
+      getByText('Last shared with Jon at 4 October 2018 at 5:35')
     ).toBeInTheDocument();
   });
 });
