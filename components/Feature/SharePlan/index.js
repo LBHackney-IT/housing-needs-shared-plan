@@ -61,12 +61,12 @@ const SharePlan = ({ plan, onPlanShared }) => {
         </TableHead>
         <TableBody>
           <TableRow key={`${plan.firstName}_${plan.lastName}`}>
-            <TableData>
+            <TableData className="share-plan__collaborators-list">
               <Heading as="h3" size="s">
                 {plan.firstName} {plan.lastName}
               </Heading>
             </TableData>
-            <TableData>
+            <TableData className="share-plan__collaborators-list">
               <Checkbox
                 name="share-by-sms"
                 label={plan.numbers[0] || ''}
@@ -74,7 +74,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 onClick={handleSelectNumber}
               />
             </TableData>
-            <TableData>
+            <TableData className="share-plan__collaborators-list">
               <Checkbox
                 name="share-by-email"
                 label={plan.emails[0] || ''}
@@ -83,7 +83,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 disabled
               />
             </TableData>
-            <TableData>
+            <TableData className="share-plan__collaborators-list">
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
