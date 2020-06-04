@@ -42,7 +42,13 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
       });
     },
     sharePlan: async collaborator => {
-      await requestSharePlan(planId, collaborator, { token });
+      const newToken = await requestSharePlan(planId, collaborator, {
+        token
+      });
+      mutate({
+        ...data,
+        customerTokens: data.customerTokens.concat([newToken])
+      });
     }
   };
 }

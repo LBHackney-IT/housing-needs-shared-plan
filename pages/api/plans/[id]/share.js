@@ -7,7 +7,7 @@ export const endpoint = ({ sharePlan }) => async (req, res) => {
     const result = await sharePlan.execute({
       planId: req.query.id,
       collaborator: req.body,
-      auth: req.headers.authorization
+      authHeader: req.headers.authorization
     });
 
     logger.info(`Success`, { result });
@@ -18,7 +18,6 @@ export const endpoint = ({ sharePlan }) => async (req, res) => {
     if (err instanceof ArgumentError) {
       return res.status(400).json({ error: `could not share a plan` });
     }
-
     res.status(500).json({
       error: `could not share a plan with plan id=${req.query.id}`
     });

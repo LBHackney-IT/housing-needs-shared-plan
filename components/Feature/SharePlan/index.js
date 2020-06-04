@@ -16,31 +16,26 @@ const SharePlan = ({ plan, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [disableShare, setDisableShare] = useState(true);
 
-  const handleSelectedCheck = e => {
-    if (selectedContact === e.target.value) {
-      setSelectedContact('');
-    } else {
-      setSelectedContact(e.target.value);
-    }
-
-    const contact = selectedContact;
-
-    if (e.target.id === 'share-by-sms') {
-      e.target.checked
-        ? (contact.number = e.target.value)
-        : delete contact.number;
-    } else {
-      e.target.checked
-        ? (contact.email = e.target.value)
-        : delete contact.email;
-    }
-    setSelectedContact(contact);
-
-    setDisableShare(!selectedContact.email && !selectedContact.number);
-  };
-
   const shareThePlan = () => {
     onPlanShared(selectedContact);
+  };
+
+  const handleSelectEmail = e => {
+    if (!e.target.value) return;
+    const contact = selectedContact;
+    e.target.checked ? (contact.email = e.target.value) : delete contact.email;
+    setSelectedContact(contact);
+    setDisableShare(Object.keys(selectedContact).length === 0);
+  };
+
+  const handleSelectNumber = e => {
+    if (!e.target.value) return;
+    const contact = selectedContact;
+    e.target.checked
+      ? (contact.number = e.target.value)
+      : delete contact.number;
+    setSelectedContact(contact);
+    setDisableShare(Object.keys(selectedContact).length === 0);
   };
 
   return (
@@ -69,7 +64,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 name="share-by-sms"
                 label={plan.numbers[0] || ''}
                 value={plan.numbers[0] || ''}
-                onClick={handleSelectedCheck}
+                onClick={handleSelectNumber}
               />
             </TableData>
             <TableData className="lbh-actions-list__due-date">
@@ -77,7 +72,7 @@ const SharePlan = ({ plan, onPlanShared }) => {
                 name="share-by-email"
                 label={plan.emails[0] || ''}
                 value={plan.emails[0] || ''}
-                onClick={handleSelectedCheck}
+                onClick={handleSelectEmail}
               />
             </TableData>
             <TableData className="lbh-actions-list__due-date">
