@@ -2,26 +2,23 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 const DateInput = ({
+  autoComplete,
   day,
   month,
   name,
   onChange,
+  required = true,
   showHint,
   title,
   validate,
-  year,
-  autoComplete
+  year
 }) => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (validate) {
-      const date = moment(
-        `${day}-${month}-${year}`,
-        'DD-MM-YYYY'
-      );
-      const isValid =
-        day && month && year && date.isValid() && date.isAfter();
+      const date = moment(`${day}-${month}-${year}`, 'DD-MM-YYYY');
+      const isValid = day && month && year && date.isValid() && date.isAfter();
       setHasError(!isValid);
     }
   }, [day, month, year, validate]);
@@ -72,6 +69,7 @@ const DateInput = ({
                 id={`${name}-day`}
                 name={`${name}-day`}
                 type="text"
+                required={required}
                 pattern="^[0-9]{1,2}$"
                 inputMode="numeric"
                 onChange={e => {
@@ -101,6 +99,7 @@ const DateInput = ({
                 id={`${name}-month`}
                 name={`${name}-month`}
                 type="text"
+                required={required}
                 pattern="^[0-9]{1,2}$"
                 inputMode="numeric"
                 onChange={e => {
@@ -131,9 +130,9 @@ const DateInput = ({
                 name={`${name}-year`}
                 type="text"
                 pattern="^[0-9]{4}$"
+                required={required}
                 inputMode="numeric"
                 onChange={e => {
-                  setHasError(false);
                   onChange(e);
                 }}
                 onInvalid={e => {

@@ -16,17 +16,17 @@ const AddAction = ({ onActionAdded }) => {
     if (e.target.name.includes('day'))
       setDueDate({
         ...dueDate,
-        day: e.target.value ? parseInt(e.target.value):''
+        day: e.target.value ? parseInt(e.target.value) : ''
       });
     if (e.target.name.includes('month'))
       setDueDate({
         ...dueDate,
-        month: e.target.value ? parseInt(e.target.value):''
+        month: e.target.value ? parseInt(e.target.value) : ''
       });
     if (e.target.name.includes('year'))
       setDueDate({
         ...dueDate,
-        year: e.target.value ? parseInt(e.target.value):''
+        year: e.target.value ? parseInt(e.target.value) : ''
       });
   };
 
@@ -70,6 +70,7 @@ const AddAction = ({ onActionAdded }) => {
           <TextInput
             name="summary-text"
             label="Summary"
+            required
             onChange={handleActionSummaryChange}
             validate={validate}
             autoComplete="off"
@@ -91,10 +92,7 @@ const AddAction = ({ onActionAdded }) => {
             month={dueDate.month}
             year={dueDate.year}
           />
-          <Button
-            text="Add to plan"
-            data-testid="add-action-button-test"
-          />
+          <Button text="Add to plan" data-testid="add-action-button-test" />
         </form>
       </div>
     </div>

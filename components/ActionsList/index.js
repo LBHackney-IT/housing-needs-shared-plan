@@ -27,7 +27,7 @@ const ActionsList = ({ actions }) => {
           <TableBody>
             {actions.map(action => (
               <TableRow key={action.summary}>
-                <TableData className="lbh-actions-list__description">
+                <TableData className="lbh-actions-list__description" data-testid="action-details-test">
                   <Heading as="h2" size="m">
                     {action.summary}
                   </Heading>

@@ -53,51 +53,14 @@ context('Add action form', () => {
 
 
   describe('Add action', () => {
-    describe('Add to plan button', () => {
-      it('is disabled until a summary and date is added', () => {
-        cy.get('h1').should('have.text', "Bart Simpson's shared plan");
-
-        cy.get('#summary-text.govuk-input')
-          .click()
-          .type('Summary');
-        cy.get('[data-testid=add-action-button-test]')
-          .last()
-          .should('have.attr', 'disabled');
-
-        cy.get('#due-date-day.govuk-input')
-          .click()
-          .type('10');
-        cy.get('[data-testid=add-action-button-test]')
-          .last()
-          .should('have.attr', 'disabled');
-
-        cy.get('#due-date-month.govuk-input')
-          .click()
-          .type('5');
-        cy.get('[data-testid=add-action-button-test]')
-          .last()
-          .should('have.attr', 'disabled');
-
-        cy.get('#due-date-year.govuk-input')
-          .click()
-          .type('2400');
-        cy.get('[data-testid=add-action-button-test]').should(
-          'not.have.attr',
-          'disabled'
-        );
-      });
-    });
-
     it('Adds an action to a goal', () => {
       cy.get('h1').should('have.text', "Bart Simpson's shared plan");
 
       createAction('This is the summary','This is the description','10','5','2200');
 
-      cy.get('[data-testid=add-action-button-test]').should('not.be.disabled');
-
       cy.get('[data-testid=add-action-button-test]').click();
 
-      cy.get('#content > table > tbody > tr:nth-child(1) > td.govuk-table__cell.lbh-actions-list__description > h2')
+      cy.get('[data-testid=action-details-test]')
         .should('contain','This is the summary');
 
       cy.get(
@@ -108,7 +71,7 @@ context('Add action form', () => {
         '[data-testid=text-expand-button]')
         .click();
 
-      cy.get('#content > table > tbody > tr:nth-child(1) > td.govuk-table__cell.lbh-actions-list__description')
+      cy.get('[data-testid=action-details-test]')
         .should('contain','This is the description')
         .and('contain','Hide details');
 
@@ -117,54 +80,34 @@ context('Add action form', () => {
     });
 
     it ('Can add 2 different actions', () => {
-      createAction('This is the summary of the first action','This is the summary of the second action','10','5','2200');
-
+      createAction('This is the summary of the first action','This is the description of the first action','10','5','2200');
+      cy.get('[data-testid=add-action-button-test]').click();
+      createAction('This is the summary of the second action','This is the description of the second action','29','2','2024');
       cy.get('[data-testid=add-action-button-test]').click();
 
-      cy.get('#summary-text.govuk-input')
-        .clear();
-      cy.get('#summary-text.govuk-input')
-        .click()
-        .type('This is the summary of the second action');
-
-      cy.get('#full-description.govuk-textarea')
-        .clear();
-      cy.get('#full-description.govuk-textarea')
-        .click()
-        .type('This is the description of the second action');
-
-      cy.get('#due-date-day.govuk-input')
-        .clear();
-      cy.get('#due-date-day.govuk-input')
-        .click()
-        .type('29');
-      cy.get('#due-date-month.govuk-input')
-        .clear();
-      cy.get('#due-date-month.govuk-input')
-        .click()
-        .type('2');
-      cy.get('#due-date-year.govuk-input')
-        .clear();
-      cy.get('#due-date-year.govuk-input')
-        .click()
-        .type('2024');
-
-      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=action-details-test]').eq(0)
+        .should('contain','This is the summary of the first action')
 
       cy.get(
         '[data-testid=text-expand-button]'
       ).should('contain', 'Show details');
 
-      cy.get(
-        '[data-testid=text-expand-button]')
-        .first()
-        .click();
-      //check for summary and description
-
       cy.get('[data-testid=text-expand-button]')
         .first()
+        .click()
+
+      cy.get('[data-testid=action-details-test]').eq(0)
+        .should('contain','This is the description of the first action');
+
+      cy.get('[data-testid=action-details-test]').eq(1)
+        .should('contain','This is the summary of the second action')
+
+      cy.get('[data-testid=text-expand-button]')
+        .last()
         .click();
-      //check for summary and description
+
+      cy.get('[data-testid=action-details-test]').eq(1)
+        .should('contain','This is the description of the second action');
     })
 
     it ('Can add an action with no description',() => {
@@ -173,8 +116,53 @@ context('Add action form', () => {
       cy.get(
         '[data-testid=text-expand-button]')
         .click();
-      cy.get('#content > table > tbody > tr:nth-child(1) > td.govuk-table__cell.lbh-actions-list__description')
+      cy.get('[data-testid=action-details-test]')
         .should('contain','');
+    })
+
+    it('Shows a validation error when the summary text is empty',() => {
+      createAction('','Action description','1','2','2021');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#summary-text-error')
+        .should('contain','The Summary is required')
+    })
+
+    it('Shows validation error when the day is empty',() => {
+      createAction('Action summary','Action description','','12','2025');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#due-date-error')
+        .should('contain','The Due date must be valid and in the future')
+    })
+
+    it('Shows validation error when the month is empty',() => {
+      createAction('Action summary','Action description','3','','2025');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#due-date-error')
+        .should('contain','The Due date must be valid and in the future')
+    })
+
+    it('Shows validation error when the year is empty',() => {
+      createAction('Action summary','Action description','3','12','');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#due-date-error')
+        .should('contain','The Due date must be valid and in the future')
+    })
+
+    it('Shows a validation error when the date is not in the future',() => {
+      createAction('Action summary','Action description','','12','2001');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#due-date-error')
+        .should('contain','The Due date must be valid and in the future')
+    })
+
+    it('Checks the form is empty after adding an action',() => {
+      createAction('Action summary','Action description','4','12','2025');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#summary-text').should('be.empty');
+      cy.get('#full-description').should('be.empty');
+      cy.get('#due-date-day').should('be.empty');
+      cy.get('#due-date-month').should('be.empty');
+      cy.get('#due-date-year').should('be.empty');
     })
   });
 });
