@@ -16,7 +16,8 @@ describe('usePlan', () => {
           description: 'Once you believe, anything is possible.'
         }
       ]
-    }
+    },
+    customerTokens: []
   };
 
   beforeAll(() => {
