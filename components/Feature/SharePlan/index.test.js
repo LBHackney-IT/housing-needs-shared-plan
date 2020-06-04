@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import SharePlan from './index';
-import { act } from 'react-test-renderer';
 
 describe('Share plan', () => {
   it('renders the share plan options', () => {
@@ -55,20 +54,12 @@ describe('Share plan', () => {
     expect(onPlanShared).toHaveBeenCalled();
   });
 
-  xit('renders error message when onPlanShared throws an error', () => {
+  it('shows error message when there is an error', () => {
     const plan = {
       numbers: ['123'],
       emails: []
     };
-    const onPlanShared = jest.fn(() => {
-      throw new Error();
-    });
-
-    const { getByLabelText, getByText } = render(
-      <SharePlan plan={plan} onPlanShared={onPlanShared} />
-    );
-    getByLabelText('123').click();
-    getByText('Share').click();
+    const { getByText } = render(<SharePlan error={true} plan={plan} />);
 
     expect(getByText('Something went wrong')).toBeInTheDocument();
   });

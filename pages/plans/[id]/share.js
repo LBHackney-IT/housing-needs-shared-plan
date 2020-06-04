@@ -13,15 +13,10 @@ const Share = ({ plan, planId, token }) => {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    console.log('HERE');
-    console.log(error);
-  }
-
   return (
     <>
       <h1>{getPossessiveName(plan.firstName, plan.lastName)} shared plan</h1>
-      <SharePlan plan={plan} onPlanShared={sharePlan} />
+      <SharePlan error={error} plan={plan} onPlanShared={sharePlan} />
     </>
   );
 };

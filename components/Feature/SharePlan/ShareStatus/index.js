@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import css from '../index.module.scss';
 
 const formatDate = date => {

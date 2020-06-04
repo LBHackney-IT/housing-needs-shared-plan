@@ -26,7 +26,7 @@ describe('Get Plan Api', () => {
     });
 
     const getPlan = {
-      execute: jest.fn(x => {
+      execute: jest.fn(() => {
         return expectedResponse;
       })
     };

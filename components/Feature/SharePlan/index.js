@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import Table, {
   TableHead,
@@ -12,10 +11,9 @@ import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
 
-const SharePlan = ({ plan, onPlanShared }) => {
+const SharePlan = ({ error, plan, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [disableShare, setDisableShare] = useState(true);
-  const [error, setError] = useState(false);
 
   const handleSelectEmail = e => {
     if (!e.target.value) return;
@@ -35,14 +33,8 @@ const SharePlan = ({ plan, onPlanShared }) => {
     setDisableShare(Object.keys(selectedContact).length === 0);
   };
 
-  const shareThePlan = async () => {
-    try {
-      await onPlanShared(selectedContact);
-      setError(false);
-    } catch (err) {
-      setError(true);
-      console.log(err);
-    }
+  const shareThePlan = () => {
+    onPlanShared(selectedContact);
   };
 
   return (
