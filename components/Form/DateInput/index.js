@@ -106,6 +106,10 @@ const DateInput = ({
                 onChange={e => {
                   onChange(e);
                 }}
+                onInvalid={e => {
+                  e.preventDefault();
+                  setHasError(true);
+                }}
                 value={month}
                 autoComplete={autoComplete}
               />
@@ -130,6 +134,10 @@ const DateInput = ({
                 inputMode="numeric"
                 onChange={e => {
                   onChange(e);
+                }}
+                onInvalid={e => {
+                  e.preventDefault();
+                  setHasError(true);
                 }}
                 value={year}
                 autoComplete={autoComplete}
