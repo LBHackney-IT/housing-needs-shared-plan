@@ -8,7 +8,9 @@ export const endpoint = ({ createPlan }) => async (req, res) => {
       const result = await createPlan.execute({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        systemIds: req.body.systemIds
+        systemIds: req.body.systemIds,
+        numbers: req.body.numbers,
+        emails: req.body.emails
       });
       logger.info(`Success`, { result });
 
