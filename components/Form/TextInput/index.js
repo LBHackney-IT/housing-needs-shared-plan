@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 
-const TextInput = ({ label, name, onChange, validate, value }) => {
-  const [inputValue, setInputValue] = useState(value ? value : '');
+const TextInput = ({ label, name, onChange, validate, value, autoComplete }) => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    if (validate) setHasError(!inputValue);
+    if (validate) setHasError(!value);
   });
 
   return (
@@ -28,11 +27,11 @@ const TextInput = ({ label, name, onChange, validate, value }) => {
         id={name}
         name={name}
         type="text"
+        autoComplete={autoComplete}
         onChange={e => {
-          setInputValue(e.target.value);
           onChange(e);
         }}
-        value={inputValue}
+        value={value}
         aria-describedby={hasError ? `${name}-error` : ''}
       />
     </div>

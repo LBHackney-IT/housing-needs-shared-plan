@@ -47,13 +47,18 @@ const AddAction = ({ onActionAdded }) => {
       ? ['govuk-button', '']
       : ['govuk-button govuk-button--disabled', 'disabled'];
 
-  const addToPlan = async () => {
+  const addToPlan = event => {
+    event.preventDefault();
     if (!formIsValid()) {
       setValidate(true);
       return;
     }
 
     onActionAdded({ summary, description, dueDate });
+    setActionSummary('');
+    setActionDescription('');
+    setDueDate({ day: '', month: '', year: '' });
+    return false;
   };
 
   return (
@@ -65,31 +70,38 @@ const AddAction = ({ onActionAdded }) => {
         <h3 className="govuk-heading-m heading-add-new-action">
           Add new action
         </h3>
-
-        <TextInput
-          name="summary-text"
-          label="Summary"
-          onChange={handleActionSummaryChange}
-          validate={validate}
-        />
-        <TextArea
-          name="full-description"
-          label="Full description(optional)"
-          onChange={handleActionDescriptionChange}
-        />
-        <DateInput
-          name="due-date"
-          title="Due date"
-          onChange={handleDueDateChange}
-          validate={validate}
-        />
-        <Button
-          className={buttonClassName}
-          disabled={buttonDisabled}
-          text="Add to plan"
-          onClick={addToPlan}
-          data-testid="add-action-button-test"
-        />
+        <form onSubmit={addToPlan}>
+          <TextInput
+            name="summary-text"
+            label="Summary"
+            onChange={handleActionSummaryChange}
+            validate={validate}
+            autoComplete="off"
+            value={summary}
+          />
+          <TextArea
+            name="full-description"
+            label="Full description(optional)"
+            onChange={handleActionDescriptionChange}
+            value={description}
+          />
+          <DateInput
+            name="due-date"
+            title="Due date"
+            onChange={handleDueDateChange}
+            validate={validate}
+            autoComplete="off"
+            day={dueDate.day}
+            month={dueDate.month}
+            year={dueDate.year}
+          />
+          <Button
+            className={buttonClassName}
+            disabled={buttonDisabled}
+            text="Add to plan"
+            data-testid="add-action-button-test"
+          />
+        </form>
       </div>
     </div>
   );

@@ -9,21 +9,19 @@ const DateInput = ({
   showHint,
   title,
   validate,
-  year
+  year,
+  autoComplete
 }) => {
-  const [dayValue, setDayValue] = useState(day || '');
-  const [monthValue, setMonthValue] = useState(month || '');
-  const [yearValue, setYearValue] = useState(year || '');
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (validate) {
       const date = moment(
-        `${dayValue}-${monthValue}-${yearValue}`,
+        `${day}-${month}-${year}`,
         'DD-MM-YYYY'
       );
       const isValid =
-        dayValue && monthValue && yearValue && date.isValid() && date.isAfter();
+        day && month && year && date.isValid() && date.isAfter();
       setHasError(!isValid);
     }
   });
@@ -74,13 +72,17 @@ const DateInput = ({
                 id={`${name}-day`}
                 name={`${name}-day`}
                 type="text"
-                pattern="[0-9]*"
+                pattern="^[0-9]{1,2}$"
                 inputMode="numeric"
                 onChange={e => {
-                  setDayValue(e.target.value);
                   onChange(e);
                 }}
-                value={dayValue}
+                onInvalid={e => {
+                  e.preventDefault();
+                  setHasError(true);
+                }}
+                value={day}
+                autoComplete={autoComplete}
               />
             </div>
           </div>
@@ -99,13 +101,13 @@ const DateInput = ({
                 id={`${name}-month`}
                 name={`${name}-month`}
                 type="text"
-                pattern="[0-9]*"
+                pattern="^[0-9]{1,2}$"
                 inputMode="numeric"
                 onChange={e => {
-                  setMonthValue(e.target.value);
                   onChange(e);
                 }}
-                value={monthValue}
+                value={month}
+                autoComplete={autoComplete}
               />
             </div>
           </div>
@@ -124,13 +126,13 @@ const DateInput = ({
                 id={`${name}-year`}
                 name={`${name}-year`}
                 type="text"
-                pattern="[0-9]*"
+                pattern="^[0-9]{4}$"
                 inputMode="numeric"
                 onChange={e => {
-                  setYearValue(e.target.value);
                   onChange(e);
                 }}
-                value={yearValue}
+                value={year}
+                autoComplete={autoComplete}
               />
             </div>
           </div>
