@@ -24,7 +24,7 @@ const DateInput = ({
         day && month && year && date.isValid() && date.isAfter();
       setHasError(!isValid);
     }
-  });
+  }, [day, month, year, validate]);
 
   return (
     <div
@@ -133,6 +133,7 @@ const DateInput = ({
                 pattern="^[0-9]{4}$"
                 inputMode="numeric"
                 onChange={e => {
+                  setHasError(false);
                   onChange(e);
                 }}
                 onInvalid={e => {

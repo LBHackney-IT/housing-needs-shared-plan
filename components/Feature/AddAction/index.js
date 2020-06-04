@@ -16,17 +16,17 @@ const AddAction = ({ onActionAdded }) => {
     if (e.target.name.includes('day'))
       setDueDate({
         ...dueDate,
-        day: parseInt(e.target.value)
+        day: e.target.value ? parseInt(e.target.value):''
       });
     if (e.target.name.includes('month'))
       setDueDate({
         ...dueDate,
-        month: parseInt(e.target.value)
+        month: e.target.value ? parseInt(e.target.value):''
       });
     if (e.target.name.includes('year'))
       setDueDate({
         ...dueDate,
-        year: parseInt(e.target.value)
+        year: e.target.value ? parseInt(e.target.value):''
       });
   };
 
@@ -42,11 +42,6 @@ const AddAction = ({ onActionAdded }) => {
     return summary && date.isValid() && date.isAfter();
   };
 
-  const [buttonClassName, buttonDisabled] =
-    summary && dueDate.year && dueDate.month && dueDate.day
-      ? ['govuk-button', '']
-      : ['govuk-button govuk-button--disabled', 'disabled'];
-
   const addToPlan = event => {
     event.preventDefault();
     if (!formIsValid()) {
@@ -58,6 +53,7 @@ const AddAction = ({ onActionAdded }) => {
     setActionSummary('');
     setActionDescription('');
     setDueDate({ day: '', month: '', year: '' });
+    setValidate(false);
     return false;
   };
 
@@ -96,8 +92,6 @@ const AddAction = ({ onActionAdded }) => {
             year={dueDate.year}
           />
           <Button
-            className={buttonClassName}
-            disabled={buttonDisabled}
             text="Add to plan"
             data-testid="add-action-button-test"
           />
