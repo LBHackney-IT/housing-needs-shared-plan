@@ -1,5 +1,10 @@
 import useSWR from 'swr';
-import { requestPlan, requestAddGoal, requestAddAction } from './api';
+import {
+  requestPlan,
+  requestAddGoal,
+  requestAddAction,
+  requestSharePlan
+} from './api';
 
 export function usePlan(planId, { initialPlan, token, ...options } = {}) {
   const { data, error, mutate } = useSWR(
@@ -34,6 +39,15 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
             ).toISOString()
           })
         }
+      });
+    },
+    sharePlan: async collaborator => {
+      const newToken = await requestSharePlan(planId, collaborator, {
+        token
+      });
+      mutate({
+        ...data,
+        customerTokens: data.customerTokens.concat([newToken])
       });
     }
   };
