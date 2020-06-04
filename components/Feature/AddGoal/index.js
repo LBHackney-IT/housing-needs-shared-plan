@@ -48,7 +48,7 @@ const AddGoal = ({ goal, onGoalAdded }) => {
     return text && date.isValid() && date.isAfter();
   };
 
-  const addTheGoal = async () => {
+  const addTheGoal = () => {
     if (!formIsValid()) {
       setValidate(true);
       return;

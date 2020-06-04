@@ -26,7 +26,7 @@ const ActionsList = ({ actions }) => {
             {actions.map(action => (
               <TableRow key={action.summary}>
                 <TableData className="lbh-actions-list__description">
-                  <Heading as="h2" size="m">
+                  <Heading as="h3" size="m">
                     {action.summary}
                   </Heading>
                   <ExpandingText
