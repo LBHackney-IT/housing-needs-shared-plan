@@ -57,8 +57,7 @@ html.lbh-template > body.lbh-template__body * {
   }
 }
 
-.lbh-actions-list__due-date,
-.share-plan__collaborators-list {
+.lbh-actions-list__due-date {
   width: 12rem;
 
   @media (max-width: #{$screen-sm-min}) {

@@ -42,7 +42,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
       <Heading as="h2" size="m">
         Share with collaborators
       </Heading>
-      <Table className="lbh-actions-list__table">
+      <Table className={css['share-plan__table']}>
         <TableHead>
           <TableRow className="">
             <TableHeader scope="col">Collaborators</TableHeader>
@@ -53,12 +53,12 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
         </TableHead>
         <TableBody>
           <TableRow key={`${plan.firstName}_${plan.lastName}`}>
-            <TableData className="share-plan__collaborators-list">
+            <TableData className={css['share-plan__collaborators-list']}>
               <Heading as="h3" size="s">
                 {plan.firstName} {plan.lastName}
               </Heading>
             </TableData>
-            <TableData className="share-plan__collaborators-list">
+            <TableData className={css['share-plan__collaborators-list']}>
               <Checkbox
                 name="share-by-sms"
                 label={plan.numbers[0] || ''}
@@ -66,7 +66,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 onClick={handleSelectNumber}
               />
             </TableData>
-            <TableData className="share-plan__collaborators-list">
+            <TableData className={css['share-plan__collaborators-list']}>
               <Checkbox
                 name="share-by-email"
                 label={plan.emails[0] || ''}
@@ -75,7 +75,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 disabled
               />
             </TableData>
-            <TableData className="share-plan__collaborators-list">
+            <TableData className={css['share-plan__collaborators-list']}>
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
