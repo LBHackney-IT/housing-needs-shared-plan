@@ -13,10 +13,12 @@ server.use(files(path.join(__dirname, 'public')));
 server.all('/api/*', (req, res) => nextRequestHandler(req, res));
 
 const authoriseCustomerHandler = async (req, res, next) => {
-  const planId = req.params.id;
+  const id = req.params.id;
   const token = req.url.split('token=')[1] || null;
+  console.log(id);
+  console.log(token);
   const isAuthenticated = await checkCustomerToken.execute({
-    planId,
+    id,
     token
   });
   if (!isAuthenticated) {
@@ -49,4 +51,8 @@ server.all(
   (req, res) => nextRequestHandler(req, res)
 );
 
-module.exports.handler = require('serverless-http')(server);
+if (process.env.ENV === 'dev') {
+  server.start(3000).then(s => {});
+} else {
+  module.exports.handler = require('serverless-http')(server);
+}

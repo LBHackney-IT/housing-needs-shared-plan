@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "deploy": "yarn && next build && yarn --production=true && sls deploy --aws-profile hnserverless -s staging && yarn",
-    "sls-debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline --aws-profile hnserverless --noAuth --noPrependStageInUrl",
+    "start-with-routing": "node ./router/lambda.js",
     "cypress-open": "npx cypress open --env AWS_SECRET_ACCESS_KEY=bar,AWS_REGION=localhost,AWS_ACCESS_KEY_ID=foo",
     "cypress-run": "cypress run",
     "preint-test": "yarn build",
@@ -58,7 +58,6 @@
     "react-test-renderer": "16.13.1",
     "sass": "^1.26.5",
     "serverless": "^1.70.1",
-    "serverless-offline": "^6.4.0",
     "start-server-and-test": "^1.11.0"
   }
 }
