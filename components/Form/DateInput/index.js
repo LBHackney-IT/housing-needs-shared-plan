@@ -2,31 +2,26 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 const DateInput = ({
+  autoComplete,
   day,
   month,
   name,
   onChange,
+  required = true,
   showHint,
   title,
   validate,
   year
 }) => {
-  const [dayValue, setDayValue] = useState(day || '');
-  const [monthValue, setMonthValue] = useState(month || '');
-  const [yearValue, setYearValue] = useState(year || '');
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (validate) {
-      const date = moment(
-        `${dayValue}-${monthValue}-${yearValue}`,
-        'DD-MM-YYYY'
-      );
-      const isValid =
-        dayValue && monthValue && yearValue && date.isValid() && date.isAfter();
+      const date = moment(`${day}-${month}-${year}`, 'DD-MM-YYYY');
+      const isValid = day && month && year && date.isValid() && date.isAfter();
       setHasError(!isValid);
     }
-  });
+  }, [day, month, year, validate]);
 
   return (
     <div
@@ -74,13 +69,18 @@ const DateInput = ({
                 id={`${name}-day`}
                 name={`${name}-day`}
                 type="text"
-                pattern="[0-9]*"
+                required={required}
+                pattern="^[0-9]{1,2}$"
                 inputMode="numeric"
                 onChange={e => {
-                  setDayValue(e.target.value);
                   onChange(e);
                 }}
-                value={dayValue}
+                onInvalid={e => {
+                  e.preventDefault();
+                  setHasError(true);
+                }}
+                value={day}
+                autoComplete={autoComplete}
               />
             </div>
           </div>
@@ -99,13 +99,18 @@ const DateInput = ({
                 id={`${name}-month`}
                 name={`${name}-month`}
                 type="text"
-                pattern="[0-9]*"
+                required={required}
+                pattern="^[0-9]{1,2}$"
                 inputMode="numeric"
                 onChange={e => {
-                  setMonthValue(e.target.value);
                   onChange(e);
                 }}
-                value={monthValue}
+                onInvalid={e => {
+                  e.preventDefault();
+                  setHasError(true);
+                }}
+                value={month}
+                autoComplete={autoComplete}
               />
             </div>
           </div>
@@ -124,13 +129,19 @@ const DateInput = ({
                 id={`${name}-year`}
                 name={`${name}-year`}
                 type="text"
-                pattern="[0-9]*"
+                pattern="^[0-9]{4}$"
+                required={required}
                 inputMode="numeric"
                 onChange={e => {
-                  setYearValue(e.target.value);
+                  setHasError(false);
                   onChange(e);
                 }}
-                value={yearValue}
+                onInvalid={e => {
+                  e.preventDefault();
+                  setHasError(true);
+                }}
+                value={year}
+                autoComplete={autoComplete}
               />
             </div>
           </div>

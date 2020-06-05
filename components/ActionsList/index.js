@@ -16,7 +16,9 @@ const ActionsList = ({ actions }) => {
         <Table className="lbh-actions-list__table">
           <TableHead>
             <TableRow className="lbh-actions-list__header">
-              <TableHeader scope="col">Description</TableHeader>
+              <TableHeader scope="col">
+                Description
+              </TableHeader>
               <TableHeader scope="col" className="lbh-actions-list__due-date">
                 Due date
               </TableHeader>
@@ -25,7 +27,7 @@ const ActionsList = ({ actions }) => {
           <TableBody>
             {actions.map(action => (
               <TableRow key={action.summary}>
-                <TableData className="lbh-actions-list__description">
+                <TableData className="lbh-actions-list__description" data-testid="action-details-test">
                   <Heading as="h2" size="m">
                     {action.summary}
                   </Heading>

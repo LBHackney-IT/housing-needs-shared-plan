@@ -18,14 +18,21 @@ const AddGoal = ({ goal, onGoalAdded }) => {
   };
 
   const handleTargetReviewDateChange = e => {
-    let currentDate = targetReviewDate;
     if (e.target.name.includes('day'))
-      currentDate.day = parseInt(e.target.value);
+      setTargetReviewDate({
+        ...targetReviewDate,
+        day: e.target.value ? parseInt(e.target.value):''
+      });
     if (e.target.name.includes('month'))
-      currentDate.month = parseInt(e.target.value);
+      setTargetReviewDate({
+        ...targetReviewDate,
+        month: e.target.value ? parseInt(e.target.value):''
+      });
     if (e.target.name.includes('year'))
-      currentDate.year = parseInt(e.target.value);
-    setTargetReviewDate(currentDate);
+      setTargetReviewDate({
+        ...targetReviewDate,
+        year: e.target.value ? parseInt(e.target.value):''
+      });
   };
 
   const handleUseAsPhpChange = e => {
@@ -48,13 +55,14 @@ const AddGoal = ({ goal, onGoalAdded }) => {
     return text && date.isValid() && date.isAfter();
   };
 
-  const addTheGoal = async () => {
+  const addTheGoal = event => {
+    event.preventDefault();
     if (!formIsValid()) {
       setValidate(true);
       return;
     }
 
-    onGoalAdded({ targetReviewDate, text, useAsPhp });
+    onGoalAdded({ targetReviewDate, text, useAsPhp, actions: [] });
   };
 
   return (
@@ -63,34 +71,34 @@ const AddGoal = ({ goal, onGoalAdded }) => {
         <h2 className="govuk-heading-m">Overview</h2>
       </div>
       <div className="govuk-grid-column-three-quarters">
-        <TextInput
-          name="goal-text"
-          label="Goal"
-          onChange={handleGoalTextChange}
-          validate={validate}
-          value={text}
-        />
-        <DateInput
-          name="target-review-date"
-          title="Target review date"
-          onChange={handleTargetReviewDateChange}
-          validate={validate}
-          day={targetReviewDate.day}
-          month={targetReviewDate.month}
-          year={targetReviewDate.year}
-        />
-        <Checkbox
-          name="use-as-php"
-          label="Use as a PHP"
-          onClick={handleUseAsPhpChange}
-          checked={useAsPhp}
-          data-testid="use-as-php-test"
-        />
-        <Button
-          text="Add actions"
-          onClick={addTheGoal}
-          data-testid="add-actions-button-test"
-        />
+        <form onSubmit={addTheGoal}>
+          <TextInput
+            name="goal-text"
+            label="Goal"
+            onChange={handleGoalTextChange}
+            validate={validate}
+            autoComplete="off"
+            value={text}
+          />
+          <DateInput
+            name="target-review-date"
+            title="Target review date"
+            onChange={handleTargetReviewDateChange}
+            validate={validate}
+            autoComplete="off"
+            day={targetReviewDate.day}
+            month={targetReviewDate.month}
+            year={targetReviewDate.year}
+          />
+          <Checkbox
+            name="use-as-php"
+            label="Use as a PHP"
+            onClick={handleUseAsPhpChange}
+            checked={useAsPhp}
+            data-testid="use-as-php-test"
+          />
+          <Button text="Add actions" data-testid="add-actions-button-test" />
+        </form>
       </div>
     </div>
   );
