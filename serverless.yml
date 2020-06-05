@@ -29,9 +29,10 @@ package:
 functions:
   hn-shared-plan:
     name: ${self:service}-${self:provider.stage}
-    handler: lambda.handler
+    handler: start.handler
     package:
       include:
+        - start.js
         - lambda.js
         - next.config.js
         - lib/**

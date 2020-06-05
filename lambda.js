@@ -4,7 +4,8 @@ const files = require('serve-static');
 const path = require('path');
 const nextRequestHandler = app.getRequestHandler();
 const CheckAuth = require('./lib/use-cases/check-auth');
-const { checkCustomerToken } = require('lib/dependencies');
+const CheckCustomerToken = require('./lib/use-cases/check-customer-token');
+const AWS = require('aws-sdk');
 
 server.use(require('cookie-parser')());
 server.use(files(path.join(__dirname, 'build')));
@@ -13,15 +14,35 @@ server.use(files(path.join(__dirname, 'public')));
 // api routes, auth is handled by the authorizer
 server.all('/api/*', (req, res) => nextRequestHandler(req, res));
 
-const authorizeCustomerHandler = (req, res, next) => {
-  const planId = req.path.split('/')[1];
-  const token = req.queryStringParameters?.token : null;
-  if (checkCustomerToken({ planId, token })) {
+const authorizeCustomerHandler = async (req, res, next) => {
+  const dbConfig = {};
+  if (process.env.ENV !== 'production' && process.env.ENV !== 'staging') {
+    dbConfig.region = 'localhost';
+    dbConfig.endpoint = 'http://localhost:8000';
+    dbConfig.accessKeyId = 'foo';
+    dbConfig.secretAccessKey = 'bar';
   }
+
+  const PlanGateway = require('./lib/gateways/plan-gateway');
+
+  const planGateway = new PlanGateway({
+    client: new AWS.DynamoDB.DocumentClient(dbConfig),
+    tableName: 'plans' //process.env.PLANS_TABLE_NAME
+  });
+
+  const checkCustomerToken = new CheckCustomerToken({ planGateway });
+
+  const planId = req.params.id;
+  const token = req.url.split('token=')[1] || null;
+  const isAuthenticated = await checkCustomerToken.execute({ planId, token });
+  req.isAuthenticatedCustomer = isAuthenticated;
   next();
 };
 
 const authoriseHandler = (req, res, next) => {
+  if (req.isAuthenticatedCustomer) {
+    next();
+  }
   const checkAuth = new CheckAuth({
     allowedGroups: process.env.ALLOWED_GROUPS.split(','),
     jwt: require('jsonwebtoken')
