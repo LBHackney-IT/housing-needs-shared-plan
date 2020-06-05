@@ -133,6 +133,7 @@ const DateInput = ({
                 required={required}
                 inputMode="numeric"
                 onChange={e => {
+                  setHasError(false);
                   onChange(e);
                 }}
                 onInvalid={e => {
