@@ -15,11 +15,16 @@ export const endpoint = ({ updateAction }) =>
           name: 'planId',
           failureMessage: 'planId is required',
           validate: ({ params }) => params.id?.length > 0
+        },
+        {
+          name: 'body',
+          failureMessage: 'no updated fields were found in the body',
+          validate: ({ body }) => Object.keys(body ?? {}).length > 0
         }
       ]
     },
-    async ({ params: { id: planId, actionId } }) => {
-      await updateAction.execute({ planId, actionId });
+    async ({ params: { id: planId, actionId }, body: updateFields }) => {
+      await updateAction.execute({ planId, actionId, updateFields });
       return Response.noContent();
     }
   );
