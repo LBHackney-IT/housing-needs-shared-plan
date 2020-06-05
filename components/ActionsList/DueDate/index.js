@@ -5,7 +5,7 @@ const format = new Intl.DateTimeFormat('en-GB', {
 });
 
 const DueDate = ({ dateTime }) => (
-  <time dateTime={dateTime}>{format.format(new Date(dateTime))}</time>
+  <time data-testid="due-date-test" dateTime={dateTime}>{format.format(new Date(dateTime))}</time>
 );
 
 export default DueDate;
