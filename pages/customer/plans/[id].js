@@ -2,7 +2,7 @@ import { usePlan, requestPlan, HttpStatusError } from 'api';
 import ActionsList from 'components/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
-import { getToken } from 'lib/utils/token';
+import { createToken } from 'lib/utils/token';
 import { getPossessiveName } from 'lib/utils/name';
 
 const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
@@ -29,9 +29,8 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
 
 CustomerPlanSummary.getInitialProps = async ({ query: { id }, req, res }) => {
   try {
-    const token = getToken(req);
+    const token = createToken();
     const plan = await requestPlan(id, { token });
-
     return {
       planId: id,
       initialPlan: plan,

@@ -15,8 +15,6 @@ server.all('/api/*', (req, res) => nextRequestHandler(req, res));
 const authoriseCustomerHandler = async (req, res, next) => {
   const id = req.params.id;
   const token = req.url.split('token=')[1] || null;
-  console.log(id);
-  console.log(token);
   const isAuthenticated = await checkCustomerToken.execute({
     id,
     token
@@ -45,8 +43,9 @@ server.all(
   (req, res) => nextRequestHandler(req, res)
 );
 
+//this seems to handle the above path as well if it's set to *
 server.all(
-  '*',
+  '/plans/*',
   (req, res, next) => authoriseStaffHandler(req, res, next), // everything else we need to check the cookie
   (req, res) => nextRequestHandler(req, res)
 );
