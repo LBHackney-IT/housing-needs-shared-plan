@@ -44,7 +44,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
       </Heading>
       <Table className={css['share-plan__table']}>
         <TableHead>
-          <TableRow className="">
+          <TableRow>
             <TableHeader scope="col">Collaborators</TableHeader>
             <TableHeader scope="col">Share by SMS</TableHeader>
             <TableHeader scope="col">Share by email</TableHeader>
@@ -83,7 +83,10 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 text="Share"
                 disabled={disableShare}
               />
-              <ShareStatus plan={plan} />
+              <ShareStatus
+                name={plan.firstName}
+                customerTokens={plan.customerTokens}
+              />
               {error && (
                 <span className="govuk-error-message">
                   Something went wrong
