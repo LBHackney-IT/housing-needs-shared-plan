@@ -18,9 +18,6 @@ provider:
         - dynamodb:DeleteItem
       Resource: '*'
 
-plugins:
-  - serverless-offline
-
 package:
   individually: true
   exclude:
