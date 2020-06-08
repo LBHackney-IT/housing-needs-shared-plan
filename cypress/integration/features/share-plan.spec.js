@@ -14,7 +14,7 @@ context('Share the plan with collaborator', () => {
       },
       numbers: ["070000000"],
       emails: ["example@plan.com"],
-      tokens: []
+      customerTokens: []
     });
 
     cy.setHackneyCookie(true);
@@ -74,8 +74,6 @@ context('Share the plan with collaborator', () => {
         .should('contain','Share')
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
         .click();
-
-      cy.get('#content').should('contain','Something went wrong');
-      //cy.visit(`http://localhost:3000/plans/1/share`);
+      cy.get('#content').should('contain','Last shared with');
     });
 }
