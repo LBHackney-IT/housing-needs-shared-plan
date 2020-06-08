@@ -14,6 +14,7 @@ server.all('/api/*', (req, res) => nextRequestHandler(req, res)); // auth is han
 server.all('/_next/static/*', (req, res) => nextRequestHandler(req, res)); // next generated js and css
 server.all('/js/*', (req, res) => nextRequestHandler(req, res)); // public js
 server.all('/assets/*', (req, res) => nextRequestHandler(req, res)); // public assets
+server.all('/favicon.ico', (req, res) => nextRequestHandler(req, res)); // favicon
 
 const authoriseCustomerHandler = async (req, res, next) => {
   const id = req.params.id;
