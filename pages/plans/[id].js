@@ -3,7 +3,7 @@ import PlanHeader from 'components/PlanHeader';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
-import ActionsList from 'components/ActionsList';
+import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import { Button } from 'components/Form';
@@ -20,7 +20,8 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
-  const { id, firstName, lastName, goal } = plan;
+  const [showAddAction, setShowAddAction] = useState(false);
+  const { firstName, lastName, goal } = plan;
 
   return (
     <>
@@ -36,11 +37,30 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       )}
       {!editGoal && <GoalSummary plan={plan} token={token} />}
       {!editGoal && (
-        <Button text="Edit goal" onClick={() => setEditGoal(true)} />
+        <Button
+          text="Edit goal"
+          isSecondary={true}
+          onClick={() => setEditGoal(true)}
+        />
       )}
 
       {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
-      {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
+      {!editGoal && !showAddAction && (
+        <Button
+          data-testid="add-action-button"
+          text="Add action"
+          isSecondary={true}
+          onClick={() => setShowAddAction(true)}
+        />
+      )}
+      {!editGoal && showAddAction && (
+        <AddAction
+          onActionAdded={async action => {
+            await addAction(action);
+            setShowAddAction(false);
+          }}
+        />
+      )}
       {!editGoal && (
         <a className="govuk-button" href={`/plans/${planId}/share`}>
           Share plan

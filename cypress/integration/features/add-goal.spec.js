@@ -56,7 +56,7 @@ context('Add-goal form', () => {
       );
       cy.get('[data-testid=target-review-date-label-test]').should(
         'contain',
-        'Target Review Date'
+        'Target review date'
       );
       cy.get('[data-testid=target-review-date-input-test]').should(
         'contain',

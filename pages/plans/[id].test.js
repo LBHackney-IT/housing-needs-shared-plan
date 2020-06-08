@@ -79,10 +79,10 @@ describe('PlanSummary', () => {
       };
       const { queryByText } = render(<PlanSummary initialPlan={plan} />);
 
-      expect(queryByText('Our Actions')).toBeNull();
+      expect(queryByText('Full description(optional)')).not.toBeInTheDocument();
     });
 
-    it('renders the add action form if goal exists', () => {
+    it('renders the add action form', async () => {
       const plan = {
         id: '1',
         firstName: 'Mr',
@@ -91,7 +91,8 @@ describe('PlanSummary', () => {
       };
 
       const { getByText } = render(<PlanSummary initialPlan={plan} />);
-      expect(getByText('Our Actions')).toBeInTheDocument();
+      await getByText('Add action').click();
+      expect(getByText('Full description(optional)')).toBeInTheDocument();
     });
   });
 
@@ -104,7 +105,7 @@ describe('PlanSummary', () => {
       };
       const { queryByText } = render(<PlanSummary initialPlan={plan} />);
 
-      expect(queryByText('Show details')).toBeNull();
+      expect(queryByText('Show details')).not.toBeInTheDocument();
     });
 
     it('renders an action list if there is an action', () => {
