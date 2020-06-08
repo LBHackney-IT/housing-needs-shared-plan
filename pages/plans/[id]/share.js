@@ -3,9 +3,9 @@ import PlanHeader from 'components/PlanHeader';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import { getToken } from 'lib/utils/token';
 
-const Share = ({ plan, planId, token }) => {
-  const { error, loading, sharePlan } = usePlan(planId, {
-    plan,
+const Share = ({ initialPlan, planId, token }) => {
+  const { error, loading, sharePlan, plan } = usePlan(planId, {
+    initialPlan,
     token
   });
 
@@ -27,7 +27,7 @@ Share.getInitialProps = async ({ query: { id }, req, res }) => {
     const plan = await requestPlan(id, { token });
     return {
       planId: id,
-      plan,
+      initialPlan: plan,
       token
     };
   } catch (err) {
