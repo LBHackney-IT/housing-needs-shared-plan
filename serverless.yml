@@ -47,6 +47,7 @@ functions:
       ENV: ${self:provider.stage}
       ALLOWED_GROUPS: 'housingneeds-singleview-beta'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
+      SMS_API_URL: ${ssm:/shared-plan/SMS_API_URL}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
       NEXT_PUBLIC_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
 
