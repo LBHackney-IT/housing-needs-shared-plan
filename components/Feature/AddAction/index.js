@@ -49,7 +49,13 @@ const AddAction = ({ onActionAdded }) => {
       return;
     }
 
-    onActionAdded({ summary, description, dueDate });
+    const { year, month, day } = dueDate;
+    onActionAdded({
+      summary,
+      description,
+      dueDate: new Date(Date.UTC(year, month - 1, day)).toISOString()
+    });
+
     setActionSummary('');
     setActionDescription('');
     setDueDate({ day: '', month: '', year: '' });

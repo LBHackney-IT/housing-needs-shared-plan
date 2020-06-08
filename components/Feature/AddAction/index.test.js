@@ -33,11 +33,7 @@ describe('OnClick', () => {
     expect(onActionAdded).toHaveBeenCalledWith({
       summary: 'summary',
       description: 'description',
-      dueDate: {
-        day: 1,
-        month: 1,
-        year: 2200
-      }
+      dueDate: expect.stringContaining('2200-01-01')
     });
   });
 

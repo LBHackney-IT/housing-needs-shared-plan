@@ -54,6 +54,7 @@
     "intl": "^1.2.5",
     "jest": "^25.5.4",
     "jest-fetch-mock": "^3.0.3",
+    "mockdate": "^3.0.2",
     "prettier": "^1.18.2",
     "react-test-renderer": "16.13.1",
     "sass": "^1.26.5",
