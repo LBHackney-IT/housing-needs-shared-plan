@@ -8,7 +8,7 @@ const AddGoal = ({ goal, onGoalAdded }) => {
   const [targetReviewDate, setTargetReviewDate] = useState(
     goal && goal.targetReviewDate
       ? convertIsoDateToObject(goal.targetReviewDate)
-      : {}
+      : { day: '', month: '', year: '' }
   );
   const [useAsPhp, setUseAsPhp] = useState(goal?.useAsPhp || false);
   const [validate, setValidate] = useState(false);
