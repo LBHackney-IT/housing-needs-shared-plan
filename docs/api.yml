@@ -1,0 +1,358 @@
+openapi: "3.0.0"
+info:
+  title: Shared Plan API
+  version: 1.0.0
+paths:
+  /plans/{id}:
+    get:
+      operationId: get-plan-by-id
+      summary: Gets a plan using the plan id
+      parameters: 
+        - $ref: "#/components/parameters/planId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/plan"
+        404:
+          description: Plan not found
+  /plans:
+    post:
+      operationId: create-plan
+      summary: Creates a new shared plan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer:
+                  type: object
+                  properties:
+                    givenName:
+                      type: string
+                      description: The customers given name
+                      example: "Anand"
+                    familyName:
+                      type: string
+                      description: The customers family name
+                      example: "Patel"
+                    alternativeIds:
+                      type: array
+                      items:
+                        type: string
+                      description: A list of ids used to identify the customer in other systems
+                      example:
+                        - "ABCD-726387123"
+                        - "27238"
+                        - "HH02872913"
+                  required: 
+                    - givenName
+                    - familyName
+                    - alternativeIds
+              required: 
+                - customer
+      responses:
+        201:
+          description: Created
+          headers:
+            location:
+              description: The URI for the newly created plan
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/plan"
+              example:
+                {
+                  "id": "d6BQiWGGhOrF8mFdPp4T",
+                  "createdAt": "2020-06-02T09:14:37+0000",
+                  "customer": {
+                    "name": "Anand Patel"
+                  }
+                }
+                
+  /plans/{id}/goal:
+    post:
+      operationId: create-goal
+      summary: Creates a goal within a shared plan
+      parameters: 
+        - $ref: "#/components/parameters/planId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: A description of the goal
+                  example: "Find a new place to live"
+                agreedOn:
+                  type: string
+                  format: iso8601
+                  example: "2020-04-05"
+                reviewOn:
+                  type: string
+                  format: iso8601
+                  example: "2020-05-25"
+                isPHP:
+                  type: boolean
+                  example: false
+              required: 
+                - text
+                - reviewOn
+                - isPHP
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/goal"
+              example:
+                {
+                  "text": "Find a new place to live",
+                  "agreedOn": "2020-04-05",
+                  "reviewOn": "2020-05-25",
+                  "isPHP": false,
+                  "actions": []
+                }
+        404:
+          description: Plan not found
+
+  /plans/{id}/goal/actions:
+    post:
+      operationId: create-action
+      summary: Creates an action for a goal within a shared plan
+      parameters: 
+        - $ref: "#/components/parameters/planId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/create-action"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/action"
+              example:
+                {
+                  "id": "PPBqWA9",
+                  "summary": "Contact an estate agent to find out about private lettings",
+                  "description": "Ask about types of private rented accomodation...",
+                  "dueOn": "2020-05-20",
+                  "isCompleted": false
+                }
+        404:
+          description: Plan not found
+
+  /plans/{id}/goal/actions/{actionId}:
+    patch:
+      operationId: update-action
+      summary: Updates an action
+      description: 
+        This endpoint allows JSON Merge Patch [RFC 7396](https://tools.ietf.org/html/rfc7396)
+        to update the fields of an action. `completedAt` can NOT be manually updated, it will
+        be updated automatically in response to `isCompleted` changing.
+      parameters: 
+        - $ref: "#/components/parameters/planId"
+        - $ref: "#/components/parameters/actionId"
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              type: object
+              properties:
+                summary:
+                  type: string
+                  description: A summary of the action
+                  example: Contact an estate agent to find out about private lettings
+                description:
+                  type: string
+                  description: A longer description of the action to be taken
+                  example: 
+                    Ask about types of private rented accomodation...
+                dueOn:
+                  type: string
+                  format: iso8601
+                  description: The date on which this action is due to be completed
+                  example: "2020-05-20"
+                isCompleted:
+                  type: boolean
+                  description: If this action has been completed or not
+                  example: true
+            example:
+              {
+                "summary": "This is an updated summary!",
+                "dueOn": "2020-06-15"
+              }
+      responses:
+        204:
+          description: Updated
+        404:
+          description: Plan or action not found
+    delete:
+      operationId: delete-action
+      summary: Deletes an action
+      parameters: 
+        - $ref: "#/components/parameters/planId"
+        - $ref: "#/components/parameters/actionId"
+      responses:
+        204:
+          description: Deleted
+        404:
+          description: Plan or action not found
+                    
+components:
+
+  parameters:
+    planId:
+      name: id
+      in: path
+      required: true
+      description: The id of the plan
+      schema:
+        type: string
+    actionId:
+      name: actionId
+      in: path
+      required: true
+      description: The id of the action
+      schema:
+        type: string
+
+  schemas:
+    plan:
+      type: object
+      description: A plan
+      properties:
+        id:
+          type: string
+          description: A unique id for the plan
+          example: d6BQiWGGhOrF8mFdPp4T
+        customer:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The customers name
+              example: Tracy McDougal
+            givenName:
+              type: string
+              description: The customers given name
+              example: Tracy
+            familyName:
+              type: string
+              description: The customers family name
+              example: McDougal
+          required: 
+            - name
+        createdAt:
+          type: string
+          format: iso8601
+          description: The date and time at which the plan was created
+          example: "2020-06-02T09:14:37+0000"
+        goal:
+          $ref: "#/components/schemas/goal"
+      required: 
+        - id
+        - customer
+        - createdAt
+
+    goal:
+      type: object
+      description: A goal to achieve in the plan
+      properties:
+        text:
+          type: string
+          description: A description of the goal
+          example: Find a new place to live
+        agreedOn:
+          type: string
+          format: iso8601
+          description: The date on which the goal was agreed
+          example: "2020-04-25"
+        reviewOn:
+          type: string
+          format: iso8601
+          description: The date on which the goal should be reviewed
+          example: "2020-05-25"
+        isPHP:
+          type: boolean
+          description: If this plan is also a personal housing plan
+          example: false
+        actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/action"
+      required:
+        - text
+        - agreedOn
+        - reviewOn
+        - isPHP
+        - actions
+        
+    create-action:
+      type: object
+      properties:
+        summary:
+          type: string
+          description: A summary of the action
+          example: Contact an estate agent to find out about private lettings
+        description:
+          type: string
+          description: A longer description of the action to be taken
+          example: Ask about types of private rented accomodation... 
+        dueOn:
+          type: string
+          format: iso8601
+          description: The date on which this action is due to be completed
+          example: "2020-05-20"
+          required: 
+            - summary
+            - description
+            - dueOn
+    
+    action:
+      type: object
+      description: An action to take to achieve a goal
+      properties:
+        id:
+          type: string
+          description: A unique id for the action
+          example: PPBqWA9
+        summary:
+          type: string
+          description: A summary of the action
+          example: Contact an estate agent to find out about private lettings
+        description:
+          type: string
+          description: A longer description of the action to be taken
+          example: 
+            Ask about types of private rented accomodation...
+        dueOn:
+          type: string
+          format: iso8601
+          description: The date on which this action is due to be completed
+          example: "2020-05-20"
+        isCompleted:
+          type: boolean
+          description: If this action has been completed or not
+          example: true
+        completedAt:
+          type: string
+          format: iso8601
+          description: The date and time at which the action was completed
+          example: "2020-06-02T09:14:37+0000"
+      required: 
+        - summary
+        - description
+        - dueOn
+        - isCompleted

@@ -17,17 +17,17 @@ const AddAction = ({ onActionAdded }) => {
     if (e.target.name.includes('day'))
       setDueDate({
         ...dueDate,
-        day: parseInt(e.target.value)
+        day: e.target.value ? parseInt(e.target.value) : ''
       });
     if (e.target.name.includes('month'))
       setDueDate({
         ...dueDate,
-        month: parseInt(e.target.value)
+        month: e.target.value ? parseInt(e.target.value) : ''
       });
     if (e.target.name.includes('year'))
       setDueDate({
         ...dueDate,
-        year: parseInt(e.target.value)
+        year: e.target.value ? parseInt(e.target.value) : ''
       });
   };
 
@@ -43,18 +43,25 @@ const AddAction = ({ onActionAdded }) => {
     return summary && date.isValid() && date.isAfter();
   };
 
-  const [buttonClassName, buttonDisabled] =
-    summary && dueDate.year && dueDate.month && dueDate.day
-      ? ['govuk-button', '']
-      : ['govuk-button govuk-button--disabled', 'disabled'];
-
-  const addToPlan = async () => {
+  const addToPlan = event => {
+    event.preventDefault();
     if (!formIsValid()) {
       setValidate(true);
       return;
     }
 
-    onActionAdded({ summary, description, dueDate });
+    const { year, month, day } = dueDate;
+    onActionAdded({
+      summary,
+      description,
+      dueDate: new Date(Date.UTC(year, month - 1, day)).toISOString()
+    });
+
+    setActionSummary('');
+    setActionDescription('');
+    setDueDate({ day: '', month: '', year: '' });
+    setValidate(false);
+    return false;
   };
 
   return (
@@ -63,30 +70,34 @@ const AddAction = ({ onActionAdded }) => {
         <h3 className={`govuk-heading-m ${css['heading-add-new-action']}`}>
           Add new action
         </h3>
-        <TextInput
-          name="summary-text"
-          label="Summary"
-          onChange={handleActionSummaryChange}
-          validate={validate}
-        />
-        <TextArea
-          name="full-description"
-          label="Full description(optional)"
-          onChange={handleActionDescriptionChange}
-        />
-        <DateInput
-          name="due-date"
-          title="Due date"
-          onChange={handleDueDateChange}
-          validate={validate}
-        />
-        <Button
-          className={buttonClassName}
-          disabled={buttonDisabled}
-          text="Add to plan"
-          onClick={addToPlan}
-          data-testid="add-action-button-test"
-        />
+        <form onSubmit={addToPlan}>
+          <TextInput
+            name="summary-text"
+            label="Summary"
+            required
+            onChange={handleActionSummaryChange}
+            validate={validate}
+            autoComplete="off"
+            value={summary}
+          />
+          <TextArea
+            name="full-description"
+            label="Full description(optional)"
+            onChange={handleActionDescriptionChange}
+            value={description}
+          />
+          <DateInput
+            name="due-date"
+            title="Due date"
+            onChange={handleDueDateChange}
+            validate={validate}
+            autoComplete="off"
+            day={dueDate.day}
+            month={dueDate.month}
+            year={dueDate.year}
+          />
+          <Button text="Add to plan" data-testid="add-action-button-test" />
+        </form>
       </div>
     </div>
   );

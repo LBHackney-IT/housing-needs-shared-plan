@@ -16,7 +16,8 @@ describe('usePlan', () => {
           description: 'Once you believe, anything is possible.'
         }
       ]
-    }
+    },
+    customerTokens: []
   };
 
   beforeAll(() => {
@@ -69,6 +70,34 @@ describe('usePlan', () => {
       expect.stringContaining(`/plans/${expectedPlan.id}/actions`),
       expect.objectContaining({
         body: JSON.stringify(expectedAction)
+      })
+    );
+  });
+
+  it('shares the plan by sms with a collaborator via the API', async () => {
+    const expectedCollaborator = { number: '123' };
+
+    const { result } = renderHook(() => usePlan(expectedPlan.id));
+    await act(() => result.current.sharePlan(expectedCollaborator));
+
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`/plans/${expectedPlan.id}/share`),
+      expect.objectContaining({
+        body: JSON.stringify(expectedCollaborator)
+      })
+    );
+  });
+
+  it('shares the plan by email with a collaborator via the API', async () => {
+    const expectedCollaborator = { email: '123' };
+
+    const { result } = renderHook(() => usePlan(expectedPlan.id));
+    await act(() => result.current.sharePlan(expectedCollaborator));
+
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`/plans/${expectedPlan.id}/share`),
+      expect.objectContaining({
+        body: JSON.stringify(expectedCollaborator)
       })
     );
   });

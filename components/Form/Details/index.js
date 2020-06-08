@@ -8,6 +8,7 @@ const Details = ({ color, children, title }) => (
     <summary
       className={`govuk-details__summary ${css['lbh-details__summary']}`}
       style={color && { color: `${color}` }}
+      data-testid="details-summary"
     >
       <span className="govuk-details__summary-text">{title}</span>
     </summary>
