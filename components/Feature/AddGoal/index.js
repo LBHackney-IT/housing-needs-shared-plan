@@ -21,17 +21,17 @@ const AddGoal = ({ goal, onGoalAdded }) => {
     if (e.target.name.includes('day'))
       setTargetReviewDate({
         ...targetReviewDate,
-        day: e.target.value ? parseInt(e.target.value):''
+        day: e.target.value ? parseInt(e.target.value) : ''
       });
     if (e.target.name.includes('month'))
       setTargetReviewDate({
         ...targetReviewDate,
-        month: e.target.value ? parseInt(e.target.value):''
+        month: e.target.value ? parseInt(e.target.value) : ''
       });
     if (e.target.name.includes('year'))
       setTargetReviewDate({
         ...targetReviewDate,
-        year: e.target.value ? parseInt(e.target.value):''
+        year: e.target.value ? parseInt(e.target.value) : ''
       });
   };
 

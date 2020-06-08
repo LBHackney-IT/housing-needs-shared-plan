@@ -1,0 +1,26 @@
+@import '../../../pages/stylesheets/vars.scss';
+
+.share-link-to-plan__button {
+  margin: 0 0 10px 0;
+}
+
+.share-plan_status {
+  font-size: 0.8em;
+}
+
+.share-plan__table {
+  tr {
+    td,
+    th {
+      padding: 1em 0;
+    }
+  }
+}
+
+.share-plan__collaborators-list {
+  width: 12rem;
+
+  @media (max-width: #{$screen-sm-min}) {
+    display: none;
+  }
+}

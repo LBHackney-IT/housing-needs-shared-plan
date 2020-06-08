@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PlanHeader from 'components/PlanHeader';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
@@ -21,20 +22,9 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
   const { id, firstName, lastName, goal } = plan;
 
-  const getPossessiveName = (firstName, lastName) => {
-    let baseString = `${firstName} ${lastName}'`;
-    if (lastName === '') {
-      baseString = `${firstName}'`;
-    }
-    if (baseString[baseString.length - 2] !== 's') {
-      baseString += 's';
-    }
-    return baseString;
-  };
-
   return (
     <>
-      <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
+      <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
       {editGoal && (
         <AddGoal
           goal={goal}
@@ -48,8 +38,14 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && (
         <Button text="Edit goal" onClick={() => setEditGoal(true)} />
       )}
+
       {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
       {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
+      {!editGoal && (
+        <a className="govuk-button" href={`/plans/${planId}/share`}>
+          Share plan
+        </a>
+      )}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
     </>
   );
