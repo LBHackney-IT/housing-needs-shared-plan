@@ -4,7 +4,8 @@ import {
   requestPlan,
   requestAddGoal,
   requestAddAction,
-  requestSharePlan
+  requestSharePlan,
+  requestUpdateAction
 } from './api';
 
 export function usePlan(planId, { initialPlan, token, ...options } = {}) {
@@ -41,6 +42,10 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
           actions: data.goal.actions.concat(action)
         }
       });
+    }),
+    toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
+      await requestUpdateAction(planId, actionId, { isCompleted });
+      mutate();
     }),
     sharePlan: withErrorHandling(async collaborator => {
       const newToken = await requestSharePlan(planId, collaborator, {
