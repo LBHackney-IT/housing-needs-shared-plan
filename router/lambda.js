@@ -11,10 +11,9 @@ server.use(files(path.join(__dirname, 'public')));
 
 // public routes
 server.all('/api/*', (req, res) => nextRequestHandler(req, res)); // auth is handled by the authorizer
-server.all('/_next/static/*', (req, res) => nextRequestHandler(req, res)); // css
+server.all('/_next/static/*', (req, res) => nextRequestHandler(req, res)); // next generated js and css
 server.all('/js/*', (req, res) => nextRequestHandler(req, res)); // public js
 server.all('/assets/*', (req, res) => nextRequestHandler(req, res)); // public assets
-server.all('/favicon.ico', (req, res) => nextRequestHandler(req, res)); // favicon
 
 const authoriseCustomerHandler = async (req, res, next) => {
   const id = req.params.id;
