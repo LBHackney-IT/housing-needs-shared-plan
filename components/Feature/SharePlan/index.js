@@ -59,12 +59,12 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
         </TableHead>
         <TableBody>
           <TableRow key={`${plan.firstName}_${plan.lastName}`}>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData className={css['share-plan__collaborators-list']} data-testid="collaborator-name-row-test">
               <Heading as="h3" size="s">
                 {plan.firstName} {plan.lastName}
               </Heading>
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData className={css['share-plan__collaborators-list']} data-testid="share-by-sms-row-test">
               <Checkbox
                 name="share-by-sms"
                 label={getNumber(plan.numbers[0])}
@@ -72,7 +72,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 onClick={handleSelectNumber}
               />
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData className={css['share-plan__collaborators-list']} data-testid="share-by-email-row-test">
               <Checkbox
                 name="share-by-email"
                 label={plan.emails[0] || ''}
@@ -81,13 +81,13 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 disabled
               />
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData className={css['share-plan__collaborators-list']} data-testid="share-link-to-plan-row-test">
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
                 onClick={shareThePlan}
                 text="Share"
-                disabled={disableShare}
+                //disabled={disableShare}
               />
               <ShareStatus
                 name={plan.firstName}

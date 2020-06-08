@@ -42,7 +42,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
       {!editGoal && <AddAction id={id} onActionAdded={addAction} />}
       {!editGoal && (
-        <a className="govuk-button" href={`/plans/${planId}/share`}>
+        <a className="govuk-button" href={`/plans/${planId}/share`} data-testid="share-plan-button-test">
           Share plan
         </a>
       )}
