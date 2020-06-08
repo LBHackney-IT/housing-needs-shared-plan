@@ -1,5 +1,6 @@
 import DueDate from './DueDate';
-import Details from 'components/Form/Details';
+import ExpandingText from 'components/ExpandingText';
+import Checkbox from 'components/Form/Checkbox';
 import Heading from 'components/Heading';
 import Table, {
   TableHead,
@@ -8,55 +9,72 @@ import Table, {
   TableBody,
   TableData
 } from 'components/Table';
-import css from './index.module.scss';
+import styles from './index.module.scss';
 
-const ActionsList = ({ actions }) => {
+const ActionsList = ({ actions, onActionToggled }) => {
   return (
     <>
       {actions.length > 0 && (
-        <>
-          <h2 className={`govuk-heading-m`}>Our Actions</h2>
-          <Table className={css['lbh-actions-list__table']}>
-            <TableHead>
-              <TableRow className={css['lbh-actions-list__header']}>
-                <TableHeader scope="col">Description</TableHeader>
-                <TableHeader
-                  scope="col"
-                  className={css['lbh-actions-list__due-date']}
+        <Table className={styles['lbh-actions-list__table']}>
+          <TableHead>
+            <TableRow className={styles['lbh-actions-list__header']}>
+              <TableHeader
+                scope="col"
+                className={styles['lbh-actions-list__complete']}
+              >
+                Complete?
+              </TableHeader>
+              <TableHeader scope="col">Description</TableHeader>
+              <TableHeader
+                scope="col"
+                className={styles['lbh-actions-list__due-date']}
+              >
+                Due date
+              </TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {actions.map(action => (
+              <TableRow key={action.id}>
+                <TableData className={styles['lbh-actions-list__complete']}>
+                  <Checkbox
+                    aria-label="Completed?"
+                    data-testid="action-checkbox"
+                    checked={action.isCompleted}
+                    onChange={event => {
+                      onActionToggled({
+                        actionId: action.id,
+                        isCompleted: event.target.checked
+                      });
+                    }}
+                  />
+                </TableData>
+                <TableData
+                  className={styles['lbh-actions-list__description']}
+                  data-testid="action-details-test"
                 >
-                  Due date
-                </TableHeader>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {actions.map(action => (
-                <TableRow key={action.summary}>
-                  <TableData
-                    className={css['lbh-actions-list__description']}
-                    data-testid="action-details-test"
+                  <Heading as="h2" size="m">
+                    {action.summary}
+                  </Heading>
+                  <ExpandingText
+                    expandButtonText="Show details"
+                    contractButtonText="Hide details"
                   >
-                    <Heading as="h2" size="m">
-                      {action.summary}
-                    </Heading>
-                    {action.description && (
-                      <Details title={'Show details'} color={'#00513f'}>
-                        {action.description}
-                      </Details>
-                    )}
-                    <div
-                      className={css['lbh-actions-list__descriptions-mobile']}
-                    >
-                      Due <DueDate dateTime={action.dueDate} />
-                    </div>
-                  </TableData>
-                  <TableData className={css['lbh-actions-list__due-date']}>
-                    <DueDate dateTime={action.dueDate} />
-                  </TableData>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </>
+                    {action.description}
+                  </ExpandingText>
+                  <div
+                    className={styles['lbh-actions-list__descriptions-mobile']}
+                  >
+                    Due <DueDate dateTime={action.dueDate} />
+                  </div>
+                </TableData>
+                <TableData className={styles['lbh-actions-list__due-date']}>
+                  <DueDate dateTime={action.dueDate} />
+                </TableData>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       )}
     </>
   );
