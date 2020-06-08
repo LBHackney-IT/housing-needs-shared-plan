@@ -4,7 +4,7 @@ import moment from 'moment';
 
 const AddAction = ({ onActionAdded }) => {
   const [summary, setActionSummary] = useState('');
-  const [dueDate, setDueDate] = useState({});
+  const [dueDate, setDueDate] = useState({ day: '', month: '', year: '' });
   const [description, setActionDescription] = useState('');
   const [validate, setValidate] = useState(false);
 
