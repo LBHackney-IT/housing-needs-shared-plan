@@ -23,7 +23,7 @@ describe('Share status', () => {
     );
 
     expect(
-      getByText('Last shared with Jon on 4 October at 5:35')
+      getByText('Last shared with Jon on 4th Oct, 5:35')
     ).toBeInTheDocument();
   });
 });
