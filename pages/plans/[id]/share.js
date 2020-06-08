@@ -1,5 +1,5 @@
-import { getPossessiveName } from 'lib/utils/name';
 import SharePlan from 'components/Feature/SharePlan';
+import PlanHeader from 'components/PlanHeader';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import { getToken } from 'lib/utils/token';
 
@@ -15,7 +15,7 @@ const Share = ({ plan, planId, token }) => {
 
   return (
     <>
-      <h1>{getPossessiveName(plan.firstName, plan.lastName)} shared plan</h1>
+      <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
       <SharePlan error={error} plan={plan} onPlanShared={sharePlan} />
     </>
   );

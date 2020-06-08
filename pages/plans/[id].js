@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PlanHeader from 'components/PlanHeader';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
@@ -7,7 +8,6 @@ import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
-import { getPossessiveName } from 'lib/utils/name';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
   const { plan, loading, addGoal, addAction } = usePlan(planId, {
@@ -24,7 +24,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
 
   return (
     <>
-      <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
+      <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
       {editGoal && (
         <AddGoal
           goal={goal}

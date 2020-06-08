@@ -16,6 +16,19 @@ describe('Share plan', () => {
     expect(getByText('test_email')).toBeInTheDocument();
   });
 
+  it('renders fixed number if it starts with 07', () => {
+    const plan = {
+      firstName: 'Sally',
+      lastName: 'West',
+      numbers: ['07666666666'],
+      emails: []
+    };
+    const { getByText, queryByText } = render(<SharePlan plan={plan} />);
+
+    expect(queryByText('07666666666')).toBeNull();
+    expect(getByText('+447666666666')).toBeInTheDocument();
+  });
+
   it('renders disabled share button if no contact options are selected', () => {
     const plan = {
       numbers: [],

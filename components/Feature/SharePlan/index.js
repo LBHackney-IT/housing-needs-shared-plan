@@ -37,6 +37,12 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
     onPlanShared(selectedContact);
   };
 
+  const getNumber = number => {
+    if (!number) return '';
+    if (number.substring(0, 2) === '07') return '+44' + number.substring(1);
+    else return number;
+  };
+
   return (
     <>
       <Heading as="h2" size="m">
@@ -44,7 +50,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
       </Heading>
       <Table className={css['share-plan__table']}>
         <TableHead>
-          <TableRow className="">
+          <TableRow>
             <TableHeader scope="col">Collaborators</TableHeader>
             <TableHeader scope="col">Share by SMS</TableHeader>
             <TableHeader scope="col">Share by email</TableHeader>
@@ -61,8 +67,8 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
             <TableData className={css['share-plan__collaborators-list']}>
               <Checkbox
                 name="share-by-sms"
-                label={plan.numbers[0] || ''}
-                value={plan.numbers[0] || ''}
+                label={getNumber(plan.numbers[0])}
+                value={getNumber(plan.numbers[0])}
                 onClick={handleSelectNumber}
               />
             </TableData>
@@ -83,7 +89,10 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 text="Share"
                 disabled={disableShare}
               />
-              <ShareStatus plan={plan} />
+              <ShareStatus
+                name={plan.firstName}
+                customerTokens={plan.customerTokens}
+              />
               {error && (
                 <span className="govuk-error-message">
                   Something went wrong

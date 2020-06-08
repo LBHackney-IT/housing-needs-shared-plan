@@ -46,7 +46,8 @@ describe('AddGoal', () => {
         year: 2021
       },
       text: 'this is my goal',
-      useAsPhp: false
+      useAsPhp: false,
+      actions: []
     });
   });
 
