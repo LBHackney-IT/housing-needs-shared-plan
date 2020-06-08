@@ -23,4 +23,23 @@ describe('<ActionsList />', () => {
     const { getAllByText } = render(component);
     expect(getAllByText('26 May 2020')[0]).toBeInTheDocument();
   });
+
+  it('shows the description if there is one', () => {
+    const { container } = render(component);
+    expect(container.querySelector('Details')).toBeInTheDocument();
+  });
+
+  it('hides the description if there is none', () => {
+    const { container } = render(
+      <ActionsList
+        actions={[
+          {
+            summary: 'Run a test',
+            dueDate: '2020-05-26T09:00:00+0000'
+          }
+        ]}
+      />
+    );
+    expect(container.querySelector('Details')).not.toBeInTheDocument();
+  });
 });

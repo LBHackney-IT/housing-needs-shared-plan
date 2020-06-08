@@ -1,5 +1,5 @@
 import DueDate from './DueDate';
-import ExpandingText from 'components/ExpandingText';
+import Details from 'components/Form/Details';
 import Heading from 'components/Heading';
 import Table, {
   TableHead,
@@ -33,12 +33,11 @@ const ActionsList = ({ actions }) => {
                   <Heading as="h2" size="m">
                     {action.summary}
                   </Heading>
-                  <ExpandingText
-                    expandButtonText="Show details"
-                    contractButtonText="Hide details"
-                  >
-                    {action.description}
-                  </ExpandingText>
+                  {action.description && (
+                    <Details title={'Show details'} color={'#00513f'}>
+                      {action.description}
+                    </Details>
+                  )}
                   <div className={css['lbh-actions-list__descriptions-mobile']}>
                     Due <DueDate dateTime={action.dueDate} />
                   </div>
