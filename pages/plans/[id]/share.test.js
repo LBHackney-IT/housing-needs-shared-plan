@@ -11,7 +11,7 @@ describe('Share', () => {
       numbers: [],
       emails: []
     };
-    const { getByText } = render(<Share plan={plan} />);
+    const { getByText } = render(<Share initialPlan={plan} />);
     expect(getByText("Bob Test's shared plan")).toBeInTheDocument();
   });
 
@@ -33,7 +33,7 @@ describe('Share', () => {
       numbers: ['sample_nr'],
       emails: ['sample_email']
     };
-    const { getByText } = render(<Share plan={plan} />);
+    const { getByText } = render(<Share initialPlan={plan} />);
 
     expect(getByText('sample_nr')).toBeInTheDocument();
     expect(getByText('sample_email')).toBeInTheDocument();

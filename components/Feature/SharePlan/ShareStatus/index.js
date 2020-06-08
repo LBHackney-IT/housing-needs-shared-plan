@@ -28,7 +28,7 @@ const formatDate = date => {
 const ShareStatus = ({ name, customerTokens }) => {
   let shareStatus = `Not yet shared with ${name}`;
 
-  if (customerTokens?.length > 1) {
+  if (customerTokens?.length > 0) {
     const dateTimes = customerTokens
       .map(token => new Date(token.createdDate))
       .sort((a, b) => {
