@@ -31,6 +31,7 @@ Share.getInitialProps = async ({ query: { id }, req, res }) => {
       token
     };
   } catch (err) {
+    console.log(err);
     res.writeHead(err instanceof HttpStatusError ? err.statusCode : 500).end();
   }
 };
