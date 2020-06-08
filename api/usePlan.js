@@ -33,14 +33,7 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
           ...data,
           goal: {
             ...data.goal,
-            actions: data.goal.actions.concat({
-              ...action,
-              dueDate: new Date(
-                action.dueDate.year,
-                action.dueDate.month - 1,
-                action.dueDate.day
-              ).toISOString()
-            })
+            actions: data.goal.actions.concat(action)
           }
         });
       } catch (err) {
