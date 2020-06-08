@@ -9,8 +9,12 @@ server.use(require('cookie-parser')());
 server.use(files(path.join(__dirname, 'build')));
 server.use(files(path.join(__dirname, 'public')));
 
-// api routes, auth is handled by the authorizer
-server.all('/api/*', (req, res) => nextRequestHandler(req, res));
+// public routes
+server.all('/api/*', (req, res) => nextRequestHandler(req, res)); // auth is handled by the authorizer
+server.all('/_next/static/*', (req, res) => nextRequestHandler(req, res)); // css
+server.all('/js/*', (req, res) => nextRequestHandler(req, res)); // public js
+server.all('/assets/*', (req, res) => nextRequestHandler(req, res)); // public assets
+server.all('/favicon.ico', (req, res) => nextRequestHandler(req, res)); // favicon
 
 const authoriseCustomerHandler = async (req, res, next) => {
   const id = req.params.id;
@@ -37,16 +41,17 @@ const authoriseStaffHandler = (req, res, next) => {
   next();
 };
 
+// private customer routes
 server.all(
   '/customer/plans/:id',
   (req, res, next) => authoriseCustomerHandler(req, res, next),
   (req, res) => nextRequestHandler(req, res)
 );
 
-//this seems to handle the above path as well if it's set to *
+// private staff routes
 server.all(
-  '/plans/*',
-  (req, res, next) => authoriseStaffHandler(req, res, next), // everything else we need to check the cookie
+  '*',
+  (req, res, next) => authoriseStaffHandler(req, res, next),
   (req, res) => nextRequestHandler(req, res)
 );
 
