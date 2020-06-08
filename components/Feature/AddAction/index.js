@@ -59,16 +59,10 @@ const AddAction = ({ onActionAdded }) => {
 
   return (
     <div className={`govuk-grid-row ${css['row-add-new-action']}`}>
-      <div className="govuk-grid-column-one-quarter">
-        <h2 className={`govuk-heading-m ${css['heading-add-new-action']}`}>
-          Our Actions
-        </h2>
-      </div>
       <div className="govuk-grid-column-three-quarters">
         <h3 className={`govuk-heading-m ${css['heading-add-new-action']}`}>
           Add new action
         </h3>
-
         <TextInput
           name="summary-text"
           label="Summary"

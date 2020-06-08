@@ -19,6 +19,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
+  const [showAddAction, setShowAddAction] = useState(false);
   const { firstName, lastName, goal } = plan;
 
   const getPossessiveName = (firstName, lastName) => {
@@ -46,10 +47,28 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       )}
       {!editGoal && <GoalSummary plan={plan} token={token} />}
       {!editGoal && (
-        <Button text="Edit goal" onClick={() => setEditGoal(true)} />
+        <Button
+          text="Edit goal"
+          isSecondary={true}
+          onClick={() => setEditGoal(true)}
+        />
       )}
       {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
-      {!editGoal && <AddAction onActionAdded={addAction} />}
+      {!editGoal && !showAddAction && (
+        <Button
+          text="Add action"
+          isSecondary={true}
+          onClick={() => setShowAddAction(true)}
+        />
+      )}
+      {!editGoal && showAddAction && (
+        <AddAction
+          onActionAdded={async action => {
+            await addAction(action);
+            setShowAddAction(false);
+          }}
+        />
+      )}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
     </>
   );
