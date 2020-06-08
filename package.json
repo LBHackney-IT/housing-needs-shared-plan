@@ -11,7 +11,7 @@
     "cypress-run": "cypress run",
     "preint-test": "yarn build",
     "int-test": "start-server-and-test start http://localhost:3000 cypress-run",
-    "unit-test": "jest",
+    "unit-test": "jest --runInBand",
     "dynamo-admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin",
     "lint": "eslint --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
