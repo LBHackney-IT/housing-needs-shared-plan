@@ -1,12 +1,28 @@
 import css from '../index.module.scss';
 
+const suffixes = new Map([
+  ['one', 'st'],
+  ['two', 'nd'],
+  ['few', 'rd'],
+  ['other', 'th']
+]);
+
+const formatOrdinals = n => {
+  const rule = new Intl.PluralRules('en-GB', {
+    type: 'ordinal'
+  }).select(n);
+
+  const suffix = suffixes.get(rule);
+  return `${n}${suffix}`;
+};
+
 const formatDate = date => {
-  return new Intl.DateTimeFormat('en-GB', {
-    hour: 'numeric',
-    minute: 'numeric',
-    day: 'numeric',
-    month: 'long'
-  }).format(date);
+  return `${formatOrdinals(date.getDay())} 
+    ${new Intl.DateTimeFormat('en-GB', {
+      hour: 'numeric',
+      minute: 'numeric',
+      month: 'long'
+    }).format(date)}`;
 };
 
 const ShareStatus = ({ name, customerTokens }) => {
