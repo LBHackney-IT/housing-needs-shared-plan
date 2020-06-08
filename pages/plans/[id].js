@@ -25,7 +25,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
 
   return (
     <>
-      <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
+      <PlanHeader firstName={firstName} lastName={lastName} />
       {editGoal && (
         <AddGoal
           goal={goal}

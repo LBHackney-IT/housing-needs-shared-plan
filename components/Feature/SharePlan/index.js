@@ -10,8 +10,9 @@ import { Button, Checkbox } from 'components/Form';
 import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
+import ShareableLink from './ShareableLink';
 
-const SharePlan = ({ error, plan, onPlanShared }) => {
+const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [disableShare, setDisableShare] = useState(true);
 
@@ -89,6 +90,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 text="Share"
                 disabled={disableShare}
               />
+              <ShareableLink customerUrl={customerUrl} />
               <ShareStatus
                 name={plan.firstName}
                 customerTokens={plan.customerTokens}

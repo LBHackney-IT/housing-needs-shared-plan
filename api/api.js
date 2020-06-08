@@ -50,3 +50,10 @@ export function requestSharePlan(planId, collaborator, options) {
     ...options
   });
 }
+
+export function requestCustomerUrl(planId, options) {
+  return request(`/plans/${planId}/customerUrl`, {
+    method: 'POST',
+    ...options
+  });
+}
