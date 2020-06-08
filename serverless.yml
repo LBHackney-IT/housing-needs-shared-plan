@@ -50,6 +50,7 @@ functions:
       SMS_API_URL: ${ssm:/shared-plan/SMS_API_URL}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
       NEXT_PUBLIC_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
+      NEXT_PUBLIC_URL: https://${self:custom.aliases.${self:provider.stage}}
 
   hn-shared-plan-authorizer:
     name: ${self:service}-authorizer-${self:provider.stage}
