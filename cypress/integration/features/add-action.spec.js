@@ -38,7 +38,8 @@ context('Add action form', () => {
         targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'some text',
         useAsPhp: false,
-        actions: []
+        actions: [],
+        agreedWithName: 'Ami Working'
       }
     });
 

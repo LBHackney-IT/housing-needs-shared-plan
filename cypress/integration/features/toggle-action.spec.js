@@ -18,7 +18,8 @@ context('with no completed actions', () => {
             dueDate: '2020-05-20',
             isCompleted: false
           }
-        ]
+        ],
+        agreedWithName: 'Ami Working'
       }
     });
 
