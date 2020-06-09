@@ -45,6 +45,7 @@ const ActionsList = ({ actions, onActionToggled }) => {
                     checked={action.isCompleted}
                     data-testid="action-checkbox"
                     name="completed"
+                    disabled={!onActionToggled}
                     onChange={event => {
                       onActionToggled({
                         actionId: action.id,
