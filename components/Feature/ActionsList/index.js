@@ -1,6 +1,6 @@
-import DueDate from './DueDate';
-import ExpandingText from 'components/ExpandingText';
 import Checkbox from 'components/Form/Checkbox';
+import Details from 'components/Form/Details';
+import DueDate from './DueDate';
 import Heading from 'components/Heading';
 import Table, {
   TableHead,
@@ -60,12 +60,11 @@ const ActionsList = ({ actions, onActionToggled }) => {
                   <Heading as="h2" size="m">
                     {action.summary}
                   </Heading>
-                  <ExpandingText
-                    expandButtonText="Show details"
-                    contractButtonText="Hide details"
-                  >
-                    {action.description}
-                  </ExpandingText>
+                  {action.description && (
+                    <Details title="Show details" color="#00513f">
+                      {action.description}
+                    </Details>
+                  )}
                   <div
                     className={styles['lbh-actions-list__descriptions-mobile']}
                   >
