@@ -64,6 +64,8 @@ describe('Share plan', () => {
     };
     const { getByText } = render(<SharePlan error={true} plan={plan} />);
 
-    expect(getByText('Something went wrong')).toBeInTheDocument();
+    expect(
+      getByText('Something went wrong. The plan could not be shared.')
+    ).toBeInTheDocument();
   });
 });

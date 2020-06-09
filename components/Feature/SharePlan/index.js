@@ -108,7 +108,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
               />
               {error && (
                 <span className="govuk-error-message">
-                  Something went wrong. The plan was not shared.
+                  Something went wrong. The plan could not be shared.
                 </span>
               )}
               {hasError && (

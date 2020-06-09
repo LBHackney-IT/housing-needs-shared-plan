@@ -96,7 +96,7 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
         .click();
 
-      cy.get('#content').should('contain','Something went wrong. The plan was not shared.');
+      cy.get('#content').should('contain','Something went wrong. The plan could not be shared.');
     })
 
 
