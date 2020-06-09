@@ -14,6 +14,9 @@ import styles from './index.module.scss';
 const ActionsList = ({ actions, onActionToggled }) => {
   return (
     <>
+      <Heading as="h2" size="m">
+        Our Actions
+      </Heading>
       {actions.length > 0 && (
         <Table className={styles['lbh-actions-list__table']}>
           <TableHead>
