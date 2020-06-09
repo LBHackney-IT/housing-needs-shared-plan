@@ -45,6 +45,7 @@ describe('<ActionsList />', () => {
       <ActionsList
         actions={[
           {
+            id: 'PPBqWA9',
             summary: 'Run a test',
             dueDate: '2020-05-26T09:00:00+0000'
           }
