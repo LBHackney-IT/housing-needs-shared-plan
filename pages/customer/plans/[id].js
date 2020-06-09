@@ -1,12 +1,12 @@
 import { usePlan, requestPlan, HttpStatusError } from 'api';
+import PlanHeader from 'components/PlanHeader';
 import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import { createToken } from 'lib/utils/token';
-import { getPossessiveName } from 'lib/utils/name';
 
 const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading } = usePlan(planId, {
+  const { plan, loading, toggleAction } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -19,10 +19,13 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
 
   return (
     <>
-      <h1>{getPossessiveName(firstName, lastName)} shared plan</h1>
+      <PlanHeader firstName={firstName} lastName={lastName} />
       <GoalSummary plan={plan} token={token} />
-      <ActionsList actions={plan.goal?.actions || []} />
-      {<LegalText />}
+      <ActionsList
+        actions={plan.goal?.actions || []}
+        onActionToggled={toggleAction}
+      />
+      <LegalText />
     </>
   );
 };
