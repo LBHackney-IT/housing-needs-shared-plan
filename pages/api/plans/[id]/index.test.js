@@ -1,5 +1,5 @@
 import { endpoint } from 'pages/api/plans/[id]';
-import { ArgumentError } from 'lib/domain';
+import { ArgumentError, Plan } from 'lib/domain';
 
 describe('Get Plan Api', () => {
   let json;
@@ -19,15 +19,15 @@ describe('Get Plan Api', () => {
   };
 
   it('can get a plan', async () => {
-    const expectedResponse = expect.objectContaining({
+    const expectedResponse = {
       id: 1,
       firstName: 'Nick',
       lastName: 'Dove'
-    });
+    };
 
     const getPlan = {
       execute: jest.fn(() => {
-        return expectedResponse;
+        return Promise.resolve(new Plan(expectedResponse));
       })
     };
 
@@ -35,7 +35,9 @@ describe('Get Plan Api', () => {
 
     expect(getPlan.execute).toHaveBeenCalledWith({ id: '1' });
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(json).toHaveBeenCalledWith(expectedResponse);
+    expect(json).toHaveBeenCalledWith(
+      expect.objectContaining(expectedResponse)
+    );
   });
 
   it('handles bad requests', async () => {
