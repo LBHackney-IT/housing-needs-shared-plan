@@ -1,5 +1,7 @@
 import { endpoint } from 'pages/api/plans/[id]/goals';
 import { ArgumentError } from 'lib/domain';
+import { getUsername } from 'lib/utils/token';
+jest.mock('lib/utils/token');
 
 describe('Add goal API', () => {
   let json;
@@ -12,6 +14,7 @@ describe('Add goal API', () => {
         return { json };
       })
     };
+    getUsername.mockReturnValue('Ami Working');
   });
 
   const planId = '1';
@@ -37,7 +40,11 @@ describe('Add goal API', () => {
 
     await endpoint({ addGoal })(req, res);
 
-    expect(addGoal.execute).toHaveBeenCalledWith({ planId, goal });
+    expect(addGoal.execute).toHaveBeenCalledWith({
+      planId,
+      goal,
+      currentUserName: 'Ami Working'
+    });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith(expectedResponse);
   });

@@ -1,10 +1,9 @@
 import Panel from 'components/Form/Panel';
-import { getUsername } from 'lib/utils/token';
 import { convertIsoDateToString } from 'lib/utils/date';
 import css from './index.module.scss';
 
-const GoalSummary = ({ token, plan }) => {
-  const user = getUsername(token);
+const GoalSummary = ({ plan }) => {
+  const agreedWith = plan.goal.agreedWithName;
 
   return (
     <Panel>
@@ -16,7 +15,7 @@ const GoalSummary = ({ token, plan }) => {
               {plan.goal.text}
             </p>
             <p className={css['note-text']}>
-              Agreed by {plan.firstName} {plan.lastName} and {user} on{' '}
+              Agreed by {plan.firstName} {plan.lastName} and {agreedWith} on{' '}
               {convertIsoDateToString(plan.goal.agreedDate)}
             </p>
           </div>
@@ -40,7 +39,7 @@ const GoalSummary = ({ token, plan }) => {
           <p data-testid="resident-name-test">
             {plan.firstName} {plan.lastName}
           </p>
-          <p data-testid="user-name-test">{user}</p>
+          <p data-testid="agreedWith-name-test">{agreedWith}</p>
         </div>
       </div>
     </Panel>
