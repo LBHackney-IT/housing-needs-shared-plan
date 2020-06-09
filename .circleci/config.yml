@@ -68,6 +68,7 @@ jobs:
           name: Run integration tests
           command: |
             export NEXT_PUBLIC_API_URL=http://localhost:3000/api
+            export SMS_API_URL=http://localhost:8080
             CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
 
       - store_artifacts:
