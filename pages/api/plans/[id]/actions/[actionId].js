@@ -1,5 +1,6 @@
 import Response from 'lib/api/response';
 import { createEndpoint } from 'lib/api/createEndpoint';
+import { updateAction } from 'lib/dependencies';
 
 export const endpoint = ({ updateAction }) =>
   createEndpoint(
@@ -28,3 +29,5 @@ export const endpoint = ({ updateAction }) =>
       return Response.noContent();
     }
   );
+
+export default endpoint({ updateAction });

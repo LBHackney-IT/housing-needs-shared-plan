@@ -50,3 +50,11 @@ export function requestSharePlan(planId, collaborator, options) {
     ...options
   });
 }
+
+export function requestUpdateAction(planId, actionId, updates, options) {
+  return request(`/plans/${planId}/actions/${actionId}`, {
+    method: 'PATCH',
+    body: updates,
+    ...options
+  });
+}

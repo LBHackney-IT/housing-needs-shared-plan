@@ -12,6 +12,7 @@ describe('usePlan', () => {
       title: 'Have a goal',
       actions: [
         {
+          id: 'PPBqWA9',
           title: 'Have an action',
           description: 'Once you believe, anything is possible.'
         }
@@ -98,6 +99,26 @@ describe('usePlan', () => {
       expect.stringContaining(`/plans/${expectedPlan.id}/share`),
       expect.objectContaining({
         body: JSON.stringify(expectedCollaborator)
+      })
+    );
+  });
+
+  it('updates the completed state of an action', async () => {
+    const actionId = 'PPBqWA9';
+    const { result } = renderHook(() => usePlan(expectedPlan.id));
+
+    await act(() =>
+      result.current.toggleAction({
+        actionId,
+        isCompleted: true
+      })
+    );
+
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`/plans/${expectedPlan.id}/actions/${actionId}`),
+      expect.objectContaining({
+        method: 'PATCH',
+        body: JSON.stringify({ isCompleted: true })
       })
     );
   });
