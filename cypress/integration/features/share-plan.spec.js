@@ -40,6 +40,7 @@ context('Share the plan with collaborator', () => {
 
   afterEach(() => {
     cy.task('deletePlan', '1');
+    cy.task('deletePlan', '2');
   });
 
   describe('Share the plan with resident', () => {
