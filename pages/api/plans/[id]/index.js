@@ -1,6 +1,7 @@
 import { getPlan } from 'lib/dependencies';
 import { ArgumentError } from 'lib/domain';
 import { logger } from 'lib/infrastructure/logging';
+import { createPlanModel } from 'lib/api/models';
 
 export const endpoint = ({ getPlan }) => async (req, res) => {
   const id = req.url.split('/')[3];
@@ -13,7 +14,7 @@ export const endpoint = ({ getPlan }) => async (req, res) => {
     }
 
     logger.info(`Success`, { result });
-    return res.status(200).json(result);
+    return res.status(200).json(createPlanModel(result));
   } catch (err) {
     logger.error(err.message, { err });
 

@@ -10,7 +10,7 @@ import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading, addGoal, addAction } = usePlan(planId, {
+  const { plan, loading, addGoal, addAction, toggleAction } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -25,7 +25,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
 
   return (
     <>
-      <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
+      <PlanHeader firstName={firstName} lastName={lastName} />
       {editGoal && (
         <AddGoal
           goal={goal}
@@ -44,7 +44,12 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         />
       )}
 
-      {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
+      {!editGoal && (
+        <ActionsList
+          actions={plan.goal?.actions || []}
+          onActionToggled={toggleAction}
+        />
+      )}
       {!editGoal && !showAddAction && (
         <Button
           data-testid="add-action-button"
@@ -62,7 +67,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         />
       )}
       {!editGoal && (
-        <a className="govuk-button" href={`/plans/${planId}/share`}>
+        <a className="govuk-button" href={`/plans/${planId}/share`} data-testid="share-plan-button-test">
           Share plan
         </a>
       )}
