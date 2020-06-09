@@ -44,7 +44,7 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
       });
     }),
     toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
-      await requestUpdateAction(planId, actionId, { isCompleted });
+      await requestUpdateAction(planId, actionId, { isCompleted }, { token });
       mutate();
     }),
     sharePlan: withErrorHandling(async collaborator => {

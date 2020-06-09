@@ -105,7 +105,8 @@ describe('usePlan', () => {
 
   it('updates the completed state of an action', async () => {
     const actionId = 'PPBqWA9';
-    const { result } = renderHook(() => usePlan(expectedPlan.id));
+    const token = 'a.very.secure.jwt';
+    const { result } = renderHook(() => usePlan(expectedPlan.id, { token }));
 
     await act(() =>
       result.current.toggleAction({
@@ -118,7 +119,10 @@ describe('usePlan', () => {
       expect.stringContaining(`/plans/${expectedPlan.id}/actions/${actionId}`),
       expect.objectContaining({
         method: 'PATCH',
-        body: JSON.stringify({ isCompleted: true })
+        body: JSON.stringify({ isCompleted: true }),
+        headers: expect.objectContaining({
+          authorization: `Bearer ${token}`
+        })
       })
     );
   });
