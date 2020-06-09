@@ -79,7 +79,6 @@ describe('Share plan', () => {
     const { getByLabelText } = render(<SharePlan plan={plan} />);
 
     expect(getByLabelText('No numbers found.').disabled).toBe(true);
-    expect(getByLabelText('No emails found.')).toBeInTheDocument();
-
+    expect(getByLabelText('No emails found.').disabled).toBe(true);
   });
 });
