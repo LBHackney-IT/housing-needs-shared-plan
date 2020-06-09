@@ -67,7 +67,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         />
       )}
       {!editGoal && (
-        <a className="govuk-button" href={`/plans/${planId}/share`}>
+        <a className="govuk-button" href={`/plans/${planId}/share`} data-testid="share-plan-button-test">
           Share plan
         </a>
       )}

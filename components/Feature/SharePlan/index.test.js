@@ -29,16 +29,6 @@ describe('Share plan', () => {
     expect(getByText('+447666666666')).toBeInTheDocument();
   });
 
-  it('renders disabled share button if no contact options are selected', () => {
-    const plan = {
-      numbers: [],
-      emails: []
-    };
-    const { getByText } = render(<SharePlan plan={plan} />);
-
-    expect(getByText('Share').disabled).toBe(true);
-  });
-
   it('enables the share button when contact option is selected', () => {
     const plan = {
       numbers: ['123'],
@@ -74,6 +64,8 @@ describe('Share plan', () => {
     };
     const { getByText } = render(<SharePlan error={true} plan={plan} />);
 
-    expect(getByText('Something went wrong')).toBeInTheDocument();
+    expect(
+      getByText('Something went wrong. The plan could not be shared.')
+    ).toBeInTheDocument();
   });
 });
