@@ -44,9 +44,9 @@ describe('OnClick', () => {
     );
 
     await userEvent.type(getByLabelText('Summary'), 'summary');
-    await userEvent.type(getByLabelText('Day'), 'aa');
-    await userEvent.type(getByLabelText('Month'), 'd1');
-    await userEvent.type(getByLabelText('Year'), 'one');
+    await userEvent.type(getByLabelText('Day'), '99');
+    await userEvent.type(getByLabelText('Month'), '40000');
+    await userEvent.type(getByLabelText('Year'), '0');
     await getByText('Add to plan').click();
 
     expect(onActionAdded).not.toHaveBeenCalled();
