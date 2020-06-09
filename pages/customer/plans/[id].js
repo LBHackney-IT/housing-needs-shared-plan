@@ -1,5 +1,5 @@
 import { usePlan, requestPlan, HttpStatusError } from 'api';
-import ActionsList from 'components/ActionsList';
+import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import { createToken } from 'lib/utils/token';

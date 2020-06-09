@@ -22,9 +22,12 @@ const GoalSummary = ({ token, plan }) => {
           </div>
           <div className={css['grid-column-group']}>
             <h3 data-testid="target-review-date-label-test">
-              Target Review Date
+              Target review date
             </h3>
-            <p className={css['data-text']} data-testid="target-review-date-input-test">
+            <p
+              className={css['data-text']}
+              data-testid="target-review-date-input-test"
+            >
               {convertIsoDateToString(plan.goal.targetReviewDate)}
             </p>
             <p className={css['note-text']}>
