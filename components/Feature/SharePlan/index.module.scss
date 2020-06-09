@@ -18,13 +18,18 @@
 }
 
 .share-plan__collaborators-list {
+  @media (max-width: #{$screen-sm-min}) {
+    width: 100%;
+  }
+}
+.share-plan__collaborators-list-button,
+.share-plan__collaborators-list {
   width: 12rem;
+  border-bottom: none;
 
   @media (max-width: #{$screen-sm-min}) {
-    //display: none;
     float: left;
     clear: left;
-    width: 100%;
   }
 }
 .share-plan__collaborators-list-headers {

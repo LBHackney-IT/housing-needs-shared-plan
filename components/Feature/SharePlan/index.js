@@ -84,7 +84,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 disabled
               />
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData className={css['share-plan__collaborators-list-button']}>
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
