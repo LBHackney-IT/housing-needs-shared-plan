@@ -50,7 +50,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
       </Heading>
       <Table className={css['share-plan__table']}>
         <TableHead>
-          <TableRow>
+          <TableRow className={css['share-plan__collaborators-list-headers']}>
             <TableHeader scope="col">Collaborators</TableHeader>
             <TableHeader scope="col">Share by SMS</TableHeader>
             <TableHeader scope="col">Share by email</TableHeader>
@@ -58,7 +58,10 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow key={`${plan.firstName}_${plan.lastName}`}>
+          <TableRow
+            className={css['share-plan__collaborators-list-row']}
+            key={`${plan.firstName}_${plan.lastName}`}
+          >
             <TableData className={css['share-plan__collaborators-list']}>
               <Heading as="h3" size="s">
                 {plan.firstName} {plan.lastName}

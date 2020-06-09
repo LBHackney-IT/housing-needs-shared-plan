@@ -21,6 +21,23 @@
   width: 12rem;
 
   @media (max-width: #{$screen-sm-min}) {
+    //display: none;
+    float: left;
+    clear: left;
+    width: 100%;
+  }
+}
+.share-plan__collaborators-list-headers {
+  width: 12rem;
+
+  @media (max-width: #{$screen-sm-min}) {
     display: none;
   }
+}
+
+.share-plan__collaborators-list-row {
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: auto;
 }
