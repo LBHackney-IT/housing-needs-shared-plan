@@ -10,7 +10,8 @@ context('Share the plan with collaborator', () => {
         targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'some text',
         useAsPhp: false,
-        actions: []
+        actions: [],
+        agreedWithName: 'Ami Working'
       },
       numbers: ["070000000"],
       emails: ["example@plan.com"],
@@ -27,7 +28,8 @@ context('Share the plan with collaborator', () => {
         targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'The goal',
         useAsPhp: true,
-        actions: []
+        actions: [],
+        agreedWithName: 'Ami Working'
       },
       numbers: ["123"],
       emails: ["example2@plan.com"],
@@ -49,46 +51,46 @@ context('Share the plan with collaborator', () => {
         .click()
 
       cy.get('#content > h1')
-        .should('contain','Bart Simpson\'s shared plan');
+        .should('contain', 'Bart Simpson\'s shared plan');
 
       cy.get('#content > h2')
-        .should('contain','Share with collaborators');
+        .should('contain', 'Share with collaborators');
 
       cy.get('#content > table > thead > tr')
-        .should('contain','Collaborators')
-        .and('contain','Share by SMS')
-        .and('contain','Share by email')
-        .and('contain','Share link to plan');
+        .should('contain', 'Collaborators')
+        .and('contain', 'Share by SMS')
+        .and('contain', 'Share by email')
+        .and('contain', 'Share link to plan');
 
       cy.get('[data-testid=collaborator-name-row-test]')
-        .should('contain','Bart Simpson');
+        .should('contain', 'Bart Simpson');
 
       cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
-        .should('have.attr','type','checkbox');
+        .should('have.attr', 'type', 'checkbox');
 
       cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
         .click();
 
       cy.get('[data-testid=share-by-sms-row-test] > div > div > div > label')
-        .should('contain','+4470000000');
+        .should('contain', '+4470000000');
 
       cy.get('[data-testid=share-by-email-row-test] > div > div > div > input')
-        .should('have.attr','type', 'checkbox');
+        .should('have.attr', 'type', 'checkbox');
 
       cy.get('[data-testid=share-by-email-row-test] > div > div > div > label')
-        .should('contain','example@plan.com');
+        .should('contain', 'example@plan.com');
 
       cy.get('[data-testid=share-link-to-plan-row-test] > span')
-        .should('contain','Not yet shared with Bart');
+        .should('contain', 'Not yet shared with Bart');
 
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
-        .should('contain','Share')
+        .should('contain', 'Share')
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
         .click();
-      cy.get('#content').should('contain','Last shared with');
+      cy.get('#content').should('contain', 'Last shared with');
     });
 
-    it ('Shows an error when the sms is not sent', () => {
+    it('Shows an error when the sms is not sent', () => {
       cy.visit('http://localhost:3000/plans/2/share');
 
       cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
@@ -97,17 +99,17 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
         .click();
 
-      cy.get('#content').should('contain','Something went wrong. The plan could not be shared.');
+      cy.get('#content').should('contain', 'Something went wrong. The plan could not be shared.');
     })
 
 
-    it ('Shows a warning when no sharing option is selected', () => {
+    it('Shows a warning when no sharing option is selected', () => {
       cy.visit('http://localhost:3000/plans/2/share');
 
 
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
         .click();
 
-      cy.get('#content').should('contain','Please select at least one sharing option');
+      cy.get('#content').should('contain', 'Please select at least one sharing option');
     })
-}
+  }
