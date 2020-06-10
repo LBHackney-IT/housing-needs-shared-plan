@@ -40,7 +40,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
   };
 
   const getNumber = number => {
-    if (!number) return '';
+    if (!number) return 'No numbers found.';
     if (number.substring(0, 2) === '07') return '+44' + number.substring(1);
     else return number;
   };
@@ -77,6 +77,7 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 name="share-by-sms"
                 label={getNumber(plan.numbers[0])}
                 value={getNumber(plan.numbers[0])}
+                disabled={!plan.numbers[0]}
                 onClick={handleSelectNumber}
               />
             </TableData>
@@ -86,8 +87,8 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
             >
               <Checkbox
                 name="share-by-email"
-                label={plan.emails[0] || ''}
-                value={plan.emails[0] || ''}
+                label={plan.emails[0] || 'No emails found.'}
+                value={plan.emails[0] || 'No emails found.'}
                 onClick={handleSelectEmail}
                 disabled
               />

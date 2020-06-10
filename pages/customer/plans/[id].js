@@ -20,7 +20,7 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
   return (
     <>
       <PlanHeader firstName={firstName} lastName={lastName} />
-      <GoalSummary plan={plan} token={token} />
+      <GoalSummary plan={plan} />
       <ActionsList
         actions={plan.goal?.actions || []}
         onActionToggled={toggleAction}

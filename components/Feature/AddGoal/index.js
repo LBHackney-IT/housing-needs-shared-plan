@@ -64,7 +64,7 @@ const AddGoal = ({ goal, hasPhp, onGoalAdded }) => {
       return;
     }
 
-    onGoalAdded({ targetReviewDate, text, useAsPhp, actions: [] });
+    onGoalAdded({ targetReviewDate, text, useAsPhp, actions });
   };
 
   return (

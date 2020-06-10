@@ -20,7 +20,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
-  const [showAddAction, setShowAddAction] = useState(false);
+  const [showAddAction, setShowAddAction] = useState(!plan.goal ? true : false);
   const { firstName, lastName, goal, hasPhp } = plan;
 
   return (
@@ -36,7 +36,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           }}
         />
       )}
-      {!editGoal && <GoalSummary plan={plan} token={token} />}
+      {!editGoal && <GoalSummary plan={plan} />}
       {!editGoal && (
         <Button
           text="Edit goal"
