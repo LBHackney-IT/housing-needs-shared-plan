@@ -10,7 +10,8 @@ const AddGoal = ({ goal, hasPhp, onGoalAdded }) => {
       ? convertIsoDateToObject(goal.targetReviewDate)
       : { day: '', month: '', year: '' }
   );
-  const [useAsPhp, setUseAsPhp] = useState(hasPhp);
+  !goal ? hasPhp : goal.useAsPhp;
+  const [useAsPhp, setUseAsPhp] = useState(!goal ? hasPhp : goal.useAsPhp);
   const [validate, setValidate] = useState(false);
   const actions = goal?.actions || [];
 

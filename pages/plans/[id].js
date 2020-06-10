@@ -40,6 +40,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && (
         <Button
           text="Edit goal"
+          data-testid="edit-goal-button-test"
           isSecondary={true}
           onClick={() => setEditGoal(true)}
         />
