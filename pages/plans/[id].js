@@ -20,8 +20,8 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   }
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
-  const [showAddAction, setShowAddAction] = useState(!plan.goal ? true : false);
-  const { firstName, lastName, goal } = plan;
+  const [showAddAction, setShowAddAction] = useState(false);
+  const { firstName, lastName, goal, initialUseAsPhp } = plan;
 
   return (
     <>
@@ -29,6 +29,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {editGoal && (
         <AddGoal
           goal={goal}
+          initialUseAsPhp={initialUseAsPhp}
           onGoalAdded={async goal => {
             await addGoal(goal);
             setEditGoal(false);
@@ -39,6 +40,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && (
         <Button
           text="Edit goal"
+          data-testid="edit-goal-button-test"
           isSecondary={true}
           onClick={() => setEditGoal(true)}
         />

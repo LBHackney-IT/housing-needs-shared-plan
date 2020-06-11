@@ -10,7 +10,8 @@ export const endpoint = ({ createPlan }) => async (req, res) => {
         lastName: req.body.lastName,
         systemIds: req.body.systemIds,
         numbers: req.body.numbers,
-        emails: req.body.emails
+        emails: req.body.emails,
+        initialUseAsPhp: req.body.initialUseAsPhp
       });
       logger.info(`Success`, { result });
 
