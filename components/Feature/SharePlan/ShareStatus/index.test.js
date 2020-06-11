@@ -14,9 +14,19 @@ describe('Share status', () => {
     const customerTokens = [
       {
         token: 'abc',
-        createdDate: new Date(2018, 9, 4, 5, 35).toISOString()
+        createdDate: new Date(2018, 9, 4, 5, 35).toISOString(),
+        shared: true
       },
-      { token: 'cba', createdDate: new Date(2017, 9, 4, 4, 34).toISOString() }
+      {
+        token: 'cba',
+        createdDate: new Date(2017, 9, 4, 4, 18).toISOString(),
+        shared: true
+      },
+      {
+        token: 'tada',
+        createdDate: new Date(2020, 9, 2, 9, 31).toISOString(),
+        shared: false
+      }
     ];
     const { getByText } = render(
       <ShareStatus name={firstName} customerTokens={customerTokens} />

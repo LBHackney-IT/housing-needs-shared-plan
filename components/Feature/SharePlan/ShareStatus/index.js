@@ -29,13 +29,12 @@ const ShareStatus = ({ name, customerTokens }) => {
   let shareStatus = `Not yet shared with ${name}`;
 
   if (customerTokens?.length > 0) {
-    const dateTimes = customerTokens
-      .map(token => new Date(token.createdDate))
-      .sort((a, b) => {
-        return Date.parse(b) - Date.parse(a);
-      });
+    const sharedTokens = customerTokens.filter(token => token.shared === true);
+    const sortedTokens = sharedTokens.sort((a, b) => {
+      return Date.parse(b.createdDate) - Date.parse(a.createdDate);
+    });
 
-    const shareTime = formatDate(dateTimes[0]);
+    const shareTime = formatDate(new Date(sortedTokens[0].createdDate));
 
     shareStatus = `Last shared with ${name} on ${shareTime}`;
   }
