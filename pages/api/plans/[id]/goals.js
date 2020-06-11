@@ -1,12 +1,14 @@
 import { addGoal } from 'lib/dependencies';
 import { ArgumentError } from 'lib/domain';
 import { logger } from 'lib/infrastructure/logging';
+import { getUsername, getToken } from 'lib/utils/token';
 
 export const endpoint = ({ addGoal }) => async (req, res) => {
   try {
     const result = await addGoal.execute({
       planId: req.query.id,
-      goal: req.body
+      goal: req.body,
+      currentUserName: getUsername(getToken(req))
     });
 
     res.status(200).json(result);

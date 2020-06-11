@@ -124,7 +124,7 @@ context('Add-goal form', () => {
         'contain',
         'Dwayn Johnson'
       );
-      cy.get('[data-testid=user-name-test]').should('contain', 'My name');
+      cy.get('[data-testid=agreedWith-name-test]').should('contain', 'My name');
     });
 
     it('Checks the legal text is shown when use as php is ticked', () => {
