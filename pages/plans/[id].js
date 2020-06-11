@@ -10,7 +10,7 @@ import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading, addGoal, addAction } = usePlan(planId, {
+  const { plan, loading, addGoal, addAction, toggleAction } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -21,7 +21,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
   const [showAddAction, setShowAddAction] = useState(false);
-  const { firstName, lastName, goal } = plan;
+  const { firstName, lastName, goal, initialUseAsPhp } = plan;
 
   return (
     <>
@@ -29,22 +29,29 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {editGoal && (
         <AddGoal
           goal={goal}
+          initialUseAsPhp={initialUseAsPhp}
           onGoalAdded={async goal => {
             await addGoal(goal);
             setEditGoal(false);
           }}
         />
       )}
-      {!editGoal && <GoalSummary plan={plan} token={token} />}
+      {!editGoal && <GoalSummary plan={plan} />}
       {!editGoal && (
         <Button
           text="Edit goal"
+          data-testid="edit-goal-button-test"
           isSecondary={true}
           onClick={() => setEditGoal(true)}
         />
       )}
 
-      {!editGoal && <ActionsList actions={plan.goal?.actions || []} />}
+      {!editGoal && (
+        <ActionsList
+          actions={plan.goal?.actions || []}
+          onActionToggled={toggleAction}
+        />
+      )}
       {!editGoal && !showAddAction && (
         <Button
           data-testid="add-action-button"
@@ -62,7 +69,11 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         />
       )}
       {!editGoal && (
-        <a className="govuk-button" href={`/plans/${planId}/share`}>
+        <a
+          className="govuk-button"
+          href={`/plans/${planId}/share`}
+          data-testid="share-plan-button-test"
+        >
           Share plan
         </a>
       )}

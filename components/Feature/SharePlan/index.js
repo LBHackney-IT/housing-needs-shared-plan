@@ -14,14 +14,13 @@ import ShareableLink from './ShareableLink';
 
 const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
-  const [disableShare, setDisableShare] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const handleSelectEmail = e => {
     if (!e.target.value) return;
     const contact = selectedContact;
     e.target.checked ? (contact.email = e.target.value) : delete contact.email;
     setSelectedContact(contact);
-    setDisableShare(Object.keys(selectedContact).length === 0);
   };
 
   const handleSelectNumber = e => {
@@ -31,15 +30,18 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
       ? (contact.number = e.target.value)
       : delete contact.number;
     setSelectedContact(contact);
-    setDisableShare(Object.keys(selectedContact).length === 0);
   };
 
   const shareThePlan = () => {
+    if (Object.keys(selectedContact).length === 0) {
+      setHasError(true);
+      return;
+    }
     onPlanShared(selectedContact);
   };
 
   const getNumber = number => {
-    if (!number) return '';
+    if (!number) return 'No numbers found.';
     if (number.substring(0, 2) === '07') return '+44' + number.substring(1);
     else return number;
   };
@@ -60,35 +62,47 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
         </TableHead>
         <TableBody>
           <TableRow key={`${plan.firstName}_${plan.lastName}`}>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData
+              className={css['share-plan__collaborators-list']}
+              data-testid="collaborator-name-row-test"
+            >
               <Heading as="h3" size="s">
                 {plan.firstName} {plan.lastName}
               </Heading>
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData
+              className={css['share-plan__collaborators-list']}
+              data-testid="share-by-sms-row-test"
+            >
               <Checkbox
                 name="share-by-sms"
                 label={getNumber(plan.numbers[0])}
                 value={getNumber(plan.numbers[0])}
+                disabled={!plan.numbers[0]}
                 onClick={handleSelectNumber}
               />
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData
+              className={css['share-plan__collaborators-list']}
+              data-testid="share-by-email-row-test"
+            >
               <Checkbox
                 name="share-by-email"
-                label={plan.emails[0] || ''}
-                value={plan.emails[0] || ''}
+                label={plan.emails[0] || 'No emails found.'}
+                value={plan.emails[0] || 'No emails found.'}
                 onClick={handleSelectEmail}
                 disabled
               />
             </TableData>
-            <TableData className={css['share-plan__collaborators-list']}>
+            <TableData
+              className={css['share-plan__collaborators-list']}
+              data-testid="share-link-to-plan-row-test"
+            >
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
                 onClick={shareThePlan}
                 text="Share"
-                disabled={disableShare}
               />
               <ShareableLink customerUrl={customerUrl} />
               <ShareStatus
@@ -97,7 +111,13 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
               />
               {error && (
                 <span className="govuk-error-message">
-                  Something went wrong
+                  Something went wrong. The plan could not be shared.
+                </span>
+              )}
+              {hasError && (
+                <span id={`${name}-error`} className="govuk-error-message">
+                  <span className="govuk-visually-hidden">Error:</span> Please
+                  select at least one sharing option
                 </span>
               )}
             </TableData>

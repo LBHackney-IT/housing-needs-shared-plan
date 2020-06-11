@@ -69,6 +69,7 @@ describe('CustomerPlanSummary', () => {
           text: 'text',
           actions: [
             {
+              id: 'PPBqWA9',
               dueDate: new Date(),
               summary: 'summary',
               description: 'description'

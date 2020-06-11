@@ -33,7 +33,17 @@ context('Add-goal form', () => {
       firstName: 'Dwayn',
       lastName: 'Johnson',
       queryFirstName: 'dwayn',
-      queryLastName: 'johnson'
+      queryLastName: 'johnson',
+      initialUseAsPhp: false
+    });
+
+    cy.task('createPlan', {
+      id: '3',
+      firstName: 'Mr',
+      lastName: 'Sandman',
+      queryFirstName: 'mr',
+      queryLastName: 'sandman',
+      initialUseAsPhp: true
     });
 
     cy.setHackneyCookie(true);
@@ -42,6 +52,7 @@ context('Add-goal form', () => {
 
   afterEach(() => {
     cy.task('deletePlan', '2');
+    cy.task('deletePlan', '3');
   });
 
   describe('Add goal', () => {
@@ -113,7 +124,7 @@ context('Add-goal form', () => {
         'contain',
         'Dwayn Johnson'
       );
-      cy.get('[data-testid=user-name-test]').should('contain', 'My name');
+      cy.get('[data-testid=agreedWith-name-test]').should('contain', 'My name');
     });
 
     it('Checks the legal text is shown when use as php is ticked', () => {
@@ -142,6 +153,32 @@ context('Add-goal form', () => {
         'not.contain',
         'Use as a PHP'
       );
+    });
+
+    it.only('Checks that use as a php box is ticked when customer has php record in Singleview', () => {
+      cy.visit(`http://localhost:3000/plans/3`);
+      createGoal('This is the goal', '23', '12', '2025', '');
+      cy.get('#use-as-php').should('have.attr', 'checked');
+      cy.get('[data-testid=add-actions-button-test]').click();
+      cy.get('[data-testid=legal-text-test]').should(
+        'contain',
+        'About this plan'
+      );
+      cy.get('[data-testid=edit-goal-button-test]').click();
+      cy.get('#use-as-php').should('have.attr', 'checked');
+    });
+
+    it.only('Checks that use as a php box is not ticked when customer does not have php record in Singleview', () => {
+      cy.visit(`http://localhost:3000/plans/2`);
+      createGoal('This is the goal', '23', '12', '2025', '');
+      cy.get('#use-as-php').should('not.have.attr', 'checked');
+      cy.get('[data-testid=add-actions-button-test]').click();
+      cy.get('[data-testid=legal-text-test]').should(
+        'not.contain',
+        'About this plan'
+      );
+      cy.get('[data-testid=edit-goal-button-test]').click();
+      cy.get('#use-as-php').should('not.have.attr', 'checked');
     });
   });
 });
