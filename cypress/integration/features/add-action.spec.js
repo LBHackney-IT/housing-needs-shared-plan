@@ -85,6 +85,8 @@ context('Add action form', () => {
         '2200'
       );
       cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=add-action-button-test]').should('not.exist');
+
       cy.get('[data-testid=add-action-button]').click();
       createAction(
         'This is the summary of the second action',
@@ -94,6 +96,7 @@ context('Add action form', () => {
         '2024'
       );
       cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=add-action-button-test]').should('not.exist');
 
       cy.get('[data-testid=action-details-test]')
         .eq(0)
@@ -101,9 +104,10 @@ context('Add action form', () => {
 
       cy.get('[data-testid=details-summary]').should('contain', 'Show details');
 
+      // see: https://github.com/cypress-io/cypress/issues/7306
       cy.get('[data-testid=details-summary]')
         .first()
-        .click();
+        .click({ force: true });
 
       cy.get('[data-testid=action-details-test]')
         .eq(0)
@@ -115,7 +119,7 @@ context('Add action form', () => {
 
       cy.get('[data-testid=details-summary]')
         .last()
-        .click();
+        .click({ force: true });
 
       cy.get('[data-testid=action-details-test]')
         .eq(1)
