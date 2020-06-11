@@ -5,7 +5,7 @@ describe('Create Plan Api', () => {
   const firstName = 'James';
   const lastName = 'Bond';
   const systemIds = ['xyz'];
-  const hasPhp = true;
+  const initialUseAsPhp = true;
 
   let json;
   let res;
@@ -25,7 +25,7 @@ describe('Create Plan Api', () => {
       firstName,
       lastName,
       systemIds,
-      hasPhp
+      initialUseAsPhp
     }
   };
 
@@ -35,7 +35,7 @@ describe('Create Plan Api', () => {
       id,
       firstName,
       lastName,
-      hasPhp
+      initialUseAsPhp
     });
 
     const createPlan = {
@@ -48,7 +48,7 @@ describe('Create Plan Api', () => {
       firstName,
       lastName,
       systemIds,
-      hasPhp
+      initialUseAsPhp
     });
     expect(res.status).toHaveBeenCalledWith(201);
     expect(json).toHaveBeenCalledWith(expectedResponse);

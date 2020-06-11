@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import { createPlan } from 'lib/dependencies';
-
 context('Add-goal form', () => {
   const createGoal = (goalText, day, month, year, useAsPhp) => {
     if (goalText) {
@@ -36,7 +34,7 @@ context('Add-goal form', () => {
       lastName: 'Johnson',
       queryFirstName: 'dwayn',
       queryLastName: 'johnson',
-      hasPhp: false
+      initialUseAsPhp: false
     });
 
     cy.task('createPlan', {
@@ -45,7 +43,7 @@ context('Add-goal form', () => {
       lastName: 'Sandman',
       queryFirstName: 'mr',
       queryLastName: 'sandman',
-      hasPhp: true
+      initialUseAsPhp: true
     });
 
     cy.setHackneyCookie(true);

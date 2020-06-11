@@ -15,7 +15,7 @@ describe('AddGoal', () => {
   it('saves the goal when add actions button is clicked', () => {
     const onGoalAdded = jest.fn();
     const { getByLabelText, getByText } = render(
-      <AddGoal hasPhp={false} onGoalAdded={onGoalAdded} />
+      <AddGoal initialUseAsPhp={false} onGoalAdded={onGoalAdded} />
     );
 
     fireEvent.change(getByLabelText('Goal'), {
@@ -86,7 +86,7 @@ describe('AddGoal', () => {
   });
 
   it('checks use as PHP checkbox if resident has PHP record in singleview', () => {
-    const { getByLabelText } = render(<AddGoal hasPhp={true} />);
+    const { getByLabelText } = render(<AddGoal initialUseAsPhp={true} />);
     expect(getByLabelText('Use as a PHP').checked).toEqual(true);
   });
 });

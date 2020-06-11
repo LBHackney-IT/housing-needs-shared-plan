@@ -21,7 +21,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
   const [showAddAction, setShowAddAction] = useState(false);
-  const { firstName, lastName, goal, hasPhp } = plan;
+  const { firstName, lastName, goal, initialUseAsPhp } = plan;
 
   return (
     <>
@@ -29,7 +29,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {editGoal && (
         <AddGoal
           goal={goal}
-          hasPhp={hasPhp}
+          initialUseAsPhp={initialUseAsPhp}
           onGoalAdded={async goal => {
             await addGoal(goal);
             setEditGoal(false);
