@@ -19,7 +19,7 @@ const ShareableLink = ({ customerUrl }) => {
         }`}
         data-module="govuk-button"
         onClick={generateButtonClick}
-        text="Show customer link"
+        text="Show unique link"
       />
       <a
         href={customerUrl}
