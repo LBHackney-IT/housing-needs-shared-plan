@@ -43,10 +43,15 @@ export function requestAddAction(planId, action, options) {
   });
 }
 
-export function requestSharePlan(planId, collaborator, options) {
+export function requestSharePlan(
+  planId,
+  collaborator,
+  customerPlanUrl,
+  options
+) {
   return request(`/plans/${planId}/share`, {
     method: 'POST',
-    body: collaborator,
+    body: { collaborator, customerPlanUrl },
     ...options
   });
 }

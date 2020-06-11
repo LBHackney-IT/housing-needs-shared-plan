@@ -104,7 +104,17 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                 onClick={shareThePlan}
                 text="Share"
               />
-              <ShareableLink customerUrl={customerUrl} />
+              <div>
+                <span>Unique customer link: </span>
+                <a
+                  href={customerUrl}
+                  data-testid="shareable-link_test"
+                  className={`${css['generate-link-to-plan__link']}`}
+                >
+                  {customerUrl}
+                </a>
+              </div>
+
               <ShareStatus
                 name={plan.firstName}
                 customerTokens={plan.customerTokens}

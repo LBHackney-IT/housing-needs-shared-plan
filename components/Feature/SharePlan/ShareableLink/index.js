@@ -10,7 +10,6 @@ const ShareableLink = ({ customerUrl }) => {
     return;
   };
 
-  console.log(customerUrl);
   return (
     <>
       <Button
@@ -21,8 +20,10 @@ const ShareableLink = ({ customerUrl }) => {
         onClick={generateButtonClick}
         text="Show unique link"
       />
+      <span>Unique customer link: </span>
       <a
         href={customerUrl}
+        data-testid="shareable-link_test"
         className={`${visuallyHiddenButton ? '' : 'visually_hidden'} ${
           css['generate-link-to-plan__link']
         }`}

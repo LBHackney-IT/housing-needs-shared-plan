@@ -27,9 +27,9 @@ const formatDate = date => {
 
 const ShareStatus = ({ name, customerTokens }) => {
   let shareStatus = `Not yet shared with ${name}`;
+  const sharedTokens = customerTokens?.filter(token => token.shared === true);
 
-  if (customerTokens?.length > 0) {
-    const sharedTokens = customerTokens.filter(token => token.shared === true);
+  if (sharedTokens?.length > 0) {
     const sortedTokens = sharedTokens.sort((a, b) => {
       return Date.parse(b.createdDate) - Date.parse(a.createdDate);
     });

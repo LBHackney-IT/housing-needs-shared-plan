@@ -47,10 +47,15 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
       await requestUpdateAction(planId, actionId, { isCompleted }, { token });
       mutate();
     }),
-    sharePlan: withErrorHandling(async collaborator => {
-      const newToken = await requestSharePlan(planId, collaborator, {
-        token
-      });
+    sharePlan: withErrorHandling(async (collaborator, customerPlanUrl) => {
+      const newToken = await requestSharePlan(
+        planId,
+        collaborator,
+        customerPlanUrl,
+        {
+          token
+        }
+      );
       mutate({
         ...data,
         customerTokens: data.customerTokens.concat([newToken])
