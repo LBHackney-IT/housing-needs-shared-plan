@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useSWR from 'swr';
+import useSWR, { mutate as globalMutate } from 'swr';
 import {
   requestPlan,
   requestAddGoal,
@@ -42,6 +42,10 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
           actions: data.goal.actions.concat(action)
         }
       });
+    }),
+    updateAction: withErrorHandling(async updatedAction => {
+      await requestUpdateAction(planId, updatedAction.id, updatedAction, { token });
+      mutate();
     }),
     toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
       await requestUpdateAction(planId, actionId, { isCompleted }, { token });

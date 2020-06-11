@@ -3,6 +3,7 @@ import PlanHeader from 'components/PlanHeader';
 import { usePlan, requestPlan, HttpStatusError } from 'api';
 import AddGoal from 'components/Feature/AddGoal';
 import AddAction from 'components/Feature/AddAction';
+import EditAction from 'components/Feature/EditAction';
 import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
@@ -10,7 +11,7 @@ import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading, addGoal, addAction, toggleAction } = usePlan(planId, {
+  const { plan, loading, addGoal, addAction, updateAction, toggleAction } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -21,6 +22,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
 
   const [editGoal, setEditGoal] = useState(!plan.goal ? true : false);
   const [showAddAction, setShowAddAction] = useState(!plan.goal ? true : false);
+  const [editActionId, setEditActionId] = useState(false);
   const { firstName, lastName, goal } = plan;
 
   return (
@@ -47,6 +49,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
       {!editGoal && (
         <ActionsList
           actions={plan.goal?.actions || []}
+          onEditAction={actionId => setEditActionId(actionId)}
           onActionToggled={toggleAction}
         />
       )}
@@ -65,6 +68,14 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
             setShowAddAction(false);
           }}
         />
+      )}
+      {editActionId && (
+        <EditAction
+          onActionUpdated={async action => {
+            await updateAction(action);
+            setEditActionId(false);
+          }}
+          action={plan.goal.actions.find(action => action.id === editActionId)} />
       )}
       {!editGoal && (
         <a
