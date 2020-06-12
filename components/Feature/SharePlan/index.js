@@ -10,7 +10,6 @@ import { Button, Checkbox } from 'components/Form';
 import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
-import ShareableLink from './ShareableLink';
 
 const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
