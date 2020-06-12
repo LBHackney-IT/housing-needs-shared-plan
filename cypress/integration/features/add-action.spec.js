@@ -1,29 +1,19 @@
 context('Add action form', () => {
   const createAction = (summary, description, day, month, year) => {
     if (summary) {
-      cy.get('#summary-text.govuk-input')
-        .click()
-        .type(summary);
+      cy.get('#summary-text.govuk-input').type(summary);
     }
     if (description) {
-      cy.get('#full-description.govuk-textarea')
-        .click()
-        .type(description);
+      cy.get('#full-description.govuk-textarea').type(description);
     }
     if (day) {
-      cy.get('#due-date-day.govuk-input')
-        .click()
-        .type(day);
+      cy.get('#due-date-day.govuk-input').type(day);
     }
     if (month) {
-      cy.get('#due-date-month.govuk-input')
-        .click()
-        .type(month);
+      cy.get('#due-date-month.govuk-input').type(month);
     }
     if (year) {
-      cy.get('#due-date-year.govuk-input')
-        .click()
-        .type(year);
+      cy.get('#due-date-year.govuk-input').type(year);
     }
   };
 
@@ -66,6 +56,7 @@ context('Add action form', () => {
       );
 
       cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=add-action-button-test]').should('not.exist');
 
       cy.get('[data-testid=action-details-test]').should(
         'contain',
@@ -74,7 +65,8 @@ context('Add action form', () => {
 
       cy.get('[data-testid=details-summary]').should('contain', 'Show details');
 
-      cy.get('[data-testid=details-summary]').click();
+      // see: https://github.com/cypress-io/cypress/issues/7306
+      cy.get('[data-testid=details-summary]').click({ force: true });
 
       cy.get('[data-testid=action-details-test]').should(
         'contain',
@@ -93,6 +85,8 @@ context('Add action form', () => {
         '2200'
       );
       cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=add-action-button-test]').should('not.exist');
+
       cy.get('[data-testid=add-action-button]').click();
       createAction(
         'This is the summary of the second action',
@@ -102,6 +96,7 @@ context('Add action form', () => {
         '2024'
       );
       cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=add-action-button-test]').should('not.exist');
 
       cy.get('[data-testid=action-details-test]')
         .eq(0)
@@ -109,9 +104,10 @@ context('Add action form', () => {
 
       cy.get('[data-testid=details-summary]').should('contain', 'Show details');
 
+      // see: https://github.com/cypress-io/cypress/issues/7306
       cy.get('[data-testid=details-summary]')
         .first()
-        .click();
+        .click({ force: true });
 
       cy.get('[data-testid=action-details-test]')
         .eq(0)
@@ -123,7 +119,7 @@ context('Add action form', () => {
 
       cy.get('[data-testid=details-summary]')
         .last()
-        .click();
+        .click({ force: true });
 
       cy.get('[data-testid=action-details-test]')
         .eq(1)
