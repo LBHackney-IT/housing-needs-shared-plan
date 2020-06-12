@@ -3,14 +3,16 @@ import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
 import { convertIsoDateToObject } from 'lib/utils/date';
 
-const AddGoal = ({ goal, onGoalAdded }) => {
+const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
   const [text, setGoalText] = useState(goal?.text || '');
   const [targetReviewDate, setTargetReviewDate] = useState(
     goal && goal.targetReviewDate
       ? convertIsoDateToObject(goal.targetReviewDate)
       : { day: '', month: '', year: '' }
   );
-  const [useAsPhp, setUseAsPhp] = useState(goal?.useAsPhp || false);
+  const [useAsPhp, setUseAsPhp] = useState(
+    !goal ? initialUseAsPhp : goal.useAsPhp
+  );
   const [validate, setValidate] = useState(false);
   const actions = goal?.actions || [];
 
