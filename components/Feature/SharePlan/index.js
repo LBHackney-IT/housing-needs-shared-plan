@@ -105,16 +105,17 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                 text="Share"
               />
               <div>
-                <span>Unique customer link: </span>
+                <span className={`${css['customer-link-to-plan__label']}`}>
+                  Unique customer link:{' '}
+                </span>
                 <a
                   href={customerUrl}
                   data-testid="shareable-link_test"
-                  className={`${css['generate-link-to-plan__link']}`}
+                  className={`${css['customer-link-to-plan__link']}`}
                 >
                   {customerUrl}
                 </a>
               </div>
-
               <ShareStatus
                 name={plan.firstName}
                 customerTokens={plan.customerTokens}

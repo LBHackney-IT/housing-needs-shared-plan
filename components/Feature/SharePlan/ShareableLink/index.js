@@ -13,7 +13,7 @@ const ShareableLink = ({ customerUrl }) => {
   return (
     <>
       <Button
-        className={`${css['generate-link-to-plan__button']} ${
+        className={`${css['customer-link-to-plan__button']} ${
           visuallyHiddenButton ? 'visually_hidden' : ''
         }`}
         data-module="govuk-button"
@@ -25,7 +25,7 @@ const ShareableLink = ({ customerUrl }) => {
         href={customerUrl}
         data-testid="shareable-link_test"
         className={`${visuallyHiddenButton ? '' : 'visually_hidden'} ${
-          css['generate-link-to-plan__link']
+          css['customer-link-to-plan__link']
         }`}
       >
         {customerUrl}

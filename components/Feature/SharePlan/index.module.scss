@@ -26,8 +26,8 @@
   }
 }
 
-.generate-link-to-plan__button,
-.generate-link-to-plan__link {
+.customer-link-to-plan__button,
+.customer-link-to-plan__link {
   font-size: medium;
   width: 12rem;
   overflow-wrap: anywhere;
@@ -38,4 +38,10 @@
   cursor: pointer;
   color: #222222;
   text-align: left;
+}
+
+.customer-link-to-plan__label {
+  font-size: medium;
+  width: 12rem;
+  font-weight: bold;
 }
