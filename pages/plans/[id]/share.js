@@ -30,14 +30,12 @@ Share.getInitialProps = async ({ query: { id }, req, res }) => {
   try {
     const token = getToken(req);
     const plan = await requestPlan(id, { token });
-    const { planUrl } = await requestCustomerUrl(id);
-    console.log(planUrl);
-    console.log('thisss');
+    const { customerPlanUrl } = await requestCustomerUrl(id);
     return {
       planId: id,
       initialPlan: plan,
       token,
-      customerUrl: planUrl
+      customerUrl: customerPlanUrl
     };
   } catch (err) {
     console.log(err);

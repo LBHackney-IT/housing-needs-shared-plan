@@ -11,7 +11,6 @@ server.listen(8080, () => {
 });
 
 router.render = (req, res) => {
-  console.log(req);
   if (req.body.name === 'John Cena') {
     res.status(500).end();
   }

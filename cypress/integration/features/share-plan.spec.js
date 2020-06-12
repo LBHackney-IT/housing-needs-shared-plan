@@ -15,7 +15,7 @@ context('Share the plan with collaborator', () => {
       },
       numbers: ["070000000"],
       emails: ["example@plan.com"],
-      customerTokens: []
+      customerTokens: [{token: 'one', sharedDate: null}]
     });
 
     cy.task('createPlan', {
@@ -64,7 +64,7 @@ context('Share the plan with collaborator', () => {
   });
 
   describe('Share the plan with resident', () => {
-    it.only('Shares the plan via SMS', () => {
+    it('Shares the plan via SMS', () => {
       cy.get('[data-testid=share-plan-button-test]')
         .click()
 

@@ -23,7 +23,7 @@ describe('Get customer Url API', () => {
   };
 
   it('can generate a customer url', async () => {
-    const expectedResponse = { planUrl: 'this_url' };
+    const expectedResponse = { customerPlanUrl: 'this_url' };
     const createCustomerUrl = {
       execute: jest.fn(() => {
         return expectedResponse;

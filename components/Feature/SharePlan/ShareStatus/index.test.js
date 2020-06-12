@@ -7,8 +7,7 @@ describe('Share status', () => {
     const customerTokens = [
       {
         token: 'tada',
-        createdDate: new Date(2020, 9, 2, 9, 31).toISOString(),
-        shared: false
+        sharedDate: null
       }
     ];
     const { getByText } = render(
@@ -23,18 +22,15 @@ describe('Share status', () => {
     const customerTokens = [
       {
         token: 'abc',
-        createdDate: new Date(2018, 9, 4, 5, 35).toISOString(),
-        shared: true
+        sharedDate: new Date(2018, 9, 4, 5, 35).toISOString()
       },
       {
         token: 'cba',
-        createdDate: new Date(2017, 9, 4, 4, 18).toISOString(),
-        shared: true
+        sharedDate: new Date(2017, 9, 4, 4, 18).toISOString()
       },
       {
         token: 'tada',
-        createdDate: new Date(2020, 9, 2, 9, 31).toISOString(),
-        shared: false
+        sharedDate: null
       }
     ];
     const { getByText } = render(
