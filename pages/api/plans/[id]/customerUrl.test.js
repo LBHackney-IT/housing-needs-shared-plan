@@ -1,4 +1,5 @@
 import { endpoint } from 'pages/api/plans/[id]/customerUrl';
+import { createMockResponse } from 'lib/api/utils/createMockResponse';
 
 describe('Get customer Url API', () => {
   let json;
@@ -9,7 +10,8 @@ describe('Get customer Url API', () => {
     res = {
       status: jest.fn(() => {
         return { json };
-      })
+      }),
+      end: jest.fn()
     };
   });
 
@@ -22,37 +24,43 @@ describe('Get customer Url API', () => {
     }
   };
 
-  it('can generate a customer url', async () => {
-    const expectedResponse = { customerPlanUrl: 'this_url' };
-    const createCustomerUrl = {
-      execute: jest.fn(() => {
-        return expectedResponse;
-      })
-    };
+  const createCustomerUrl = { execute: jest.fn() };
+  const call = endpoint({ createCustomerUrl });
 
-    await endpoint({ createCustomerUrl })(req, res);
+  it('returns customerUrl when the url is generated successfully', async () => {
+    const response = createMockResponse();
+    createCustomerUrl.execute.mockImplementation(
+      jest.fn(() => {
+        return { customerPlanUrl: '12' };
+      })
+    );
+    await call(
+      {
+        method: 'POST',
+        query: { id: 'd6BQiWGGhOrF8mFdPp4T' }
+      },
+      response
+    );
 
     expect(createCustomerUrl.execute).toHaveBeenCalledWith({
-      planId
+      planId: 'd6BQiWGGhOrF8mFdPp4T'
     });
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(json).toHaveBeenCalledWith(expectedResponse);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toBe(JSON.stringify({ customerPlanUrl: '12' }));
   });
 
-  it('handles general errors', async () => {
-    const expectedResponse = {
-      error: 'could not generate a customer token for resident with id=1'
-    };
-    const createCustomerUrl = {
-      execute: jest.fn()
-    };
-    createCustomerUrl.execute.mockImplementation(() => {
-      throw new Error('bang!');
-    });
+  it('returns 400 when id is missing', async () => {
+    const response = createMockResponse();
+    await call(
+      {
+        method: 'POST',
+        query: { id: '' }
+      },
+      response
+    );
 
-    await endpoint({ createCustomerUrl })(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(json).toHaveBeenCalledWith(expectedResponse);
+    expect(response.statusCode).toBe(400);
+    expect(JSON.parse(response.body).errors.length).toBe(1);
   });
 });

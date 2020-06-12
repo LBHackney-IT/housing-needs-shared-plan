@@ -1,20 +1,24 @@
 import { createCustomerUrl } from 'lib/dependencies';
-import { logger } from 'lib/infrastructure/logging';
+import { createEndpoint } from 'lib/api/createEndpoint';
+import Response from 'lib/api/response';
 
-export const endpoint = ({ createCustomerUrl }) => async (req, res) => {
-  try {
-    const result = await createCustomerUrl.execute({
-      planId: req.query.id
-    });
-
-    res.status(200).json(result);
-  } catch (err) {
-    logger.error(err.message, { err });
-
-    res.status(500).json({
-      error: `could not generate a customer token for resident with id=${req.query.id}`
-    });
-  }
+export const endpoint = ({ createCustomerUrl }) => {
+  return createEndpoint(
+    {
+      allowedMethods: ['POST'],
+      validators: [
+        {
+          name: 'planId',
+          failureMessage: 'planId is required',
+          validate: ({ params }) => params.id?.length > 0
+        }
+      ]
+    },
+    async ({ params: { id: planId } }) => {
+      const { customerPlanUrl } = await createCustomerUrl.execute({ planId });
+      return Response.ok({ customerPlanUrl });
+    }
+  );
 };
 
 export default endpoint({ createCustomerUrl });
