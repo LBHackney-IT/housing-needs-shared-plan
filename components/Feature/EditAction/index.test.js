@@ -4,7 +4,7 @@ import EditAction from './index';
 
 describe('EditAction', () => {
   it('renders the edit action form', () => {
-    const { getByLabelText } = render(<EditAction />);
+    const { getByLabelText } = render(<EditAction action={{dueDate: '2025-11-28'}} />);
 
     expect(getByLabelText('Summary')).toBeInTheDocument();
     expect(getByLabelText('Full description(optional)')).toBeInTheDocument();
@@ -17,18 +17,23 @@ describe('EditAction', () => {
 describe('OnClick', () => {
   it('Edits an action', async () => {
     const onActionUpdated = jest.fn();
-    const { getByLabelText, getByText } = render(
-      <EditAction onActionUpdated={onActionUpdated} />
+    const { getByLabelText, getByTestId } = render(
+      <EditAction action={{dueDate: '2200-01-01', description: 'description', summary: 'summary'}} onActionUpdated={onActionUpdated} />
     );
+    await userEvent.clear(getByLabelText('Summary'));
     await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.clear(getByLabelText('Full description(optional)'));
     await userEvent.type(
       getByLabelText('Full description(optional)'),
       'description'
     );
+    await userEvent.clear(getByLabelText('Day'));
     await userEvent.type(getByLabelText('Day'), '01');
+    await userEvent.clear(getByLabelText('Month'));
     await userEvent.type(getByLabelText('Month'), '01');
+    await userEvent.clear(getByLabelText('Year'));
     await userEvent.type(getByLabelText('Year'), '2200');
-    await getByText('Save').click();
+    await getByTestId('edit-action-button-test').click();
 
     expect(onActionUpdated).toHaveBeenCalledWith({
       summary: 'summary',
@@ -39,15 +44,19 @@ describe('OnClick', () => {
 
   it('does not save the action if the form is not valid', async () => {
     const onActionUpdated = jest.fn();
-    const { getByLabelText, getByText } = render(
-      <EditAction onActionUpdated={onActionUpdated} />
+    const { getByLabelText, getByTestId } = render(
+      <EditAction action={{description: 'description', summary: 'summary', dueDate: '2025-11-28'}} onActionUpdated={onActionUpdated} />
     );
 
+    await userEvent.clear(getByLabelText('Summary'));
     await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.clear(getByLabelText('Day'));
     await userEvent.type(getByLabelText('Day'), '99');
+    await userEvent.clear(getByLabelText('Month'));
     await userEvent.type(getByLabelText('Month'), '40000');
+    await userEvent.clear(getByLabelText('Year'));
     await userEvent.type(getByLabelText('Year'), '0');
-    await getByText('Save').click();
+    await getByTestId('edit-action-button-test').click();
 
     expect(onActionUpdated).not.toHaveBeenCalled();
   });
