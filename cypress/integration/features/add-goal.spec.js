@@ -155,7 +155,7 @@ context('Add-goal form', () => {
       );
     });
 
-    it.only('Checks that use as a php box is ticked when customer has php record in Singleview', () => {
+    it('Checks that use as a php box is ticked when customer has php record in Singleview', () => {
       cy.visit(`http://localhost:3000/plans/3`);
       createGoal('This is the goal', '23', '12', '2025', '');
       cy.get('#use-as-php').should('have.attr', 'checked');
@@ -168,7 +168,7 @@ context('Add-goal form', () => {
       cy.get('#use-as-php').should('have.attr', 'checked');
     });
 
-    it.only('Checks that use as a php box is not ticked when customer does not have php record in Singleview', () => {
+    it('Checks that use as a php box is not ticked when customer does not have php record in Singleview', () => {
       cy.visit(`http://localhost:3000/plans/2`);
       createGoal('This is the goal', '23', '12', '2025', '');
       cy.get('#use-as-php').should('not.have.attr', 'checked');

@@ -69,7 +69,7 @@ const EditAction = ({ action, onActionUpdated }) => {
   return (
     <div className={`govuk-grid-row ${css['row-add-new-action']}`}>
       <div className="govuk-grid-column-three-quarters">
-        <h3 className={`govuk-heading-m ${css['heading-add-new-action']}`}>
+        <h3 className={`govuk-heading-m ${css['heading-add-new-action']}`} data-testsid="edit-action-heading-test">
           Edit action
         </h3>
         <form onSubmit={updateAction}>
@@ -98,7 +98,7 @@ const EditAction = ({ action, onActionUpdated }) => {
             month={dueDate.month}
             year={dueDate.year}
           />
-          <Button text="Save" data-testid="edit-action-button-test" />
+          <Button text="Save" data-testid="save-action-button-test" />
         </form>
       </div>
     </div>
