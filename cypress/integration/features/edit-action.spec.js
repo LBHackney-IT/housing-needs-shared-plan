@@ -35,6 +35,45 @@ context('Edit action', () => {
   });
 
   describe('Edit action', () => {
-    it('Can edit an existing action', () => {});
+    it('Can edit an existing action', () => {
+      cy.get('[data-testid=edit-action-button-test]').click();
+      cy.get('[data-testsid=edit-action-heading-test]');
+      cy.get('#summary-text')
+        .clear()
+        .type('Edited summary');
+      cy.get('#full-description')
+        .clear()
+        .type('Edited description');
+      cy.get('#due-date-day')
+        .clear()
+        .type('20');
+      cy.get('#due-date-month')
+        .clear()
+        .type('10');
+      cy.get('#due-date-year')
+        .clear()
+        .type('2025');
+      cy.get('[data-testid=save-action-button-test]').click({ force: true });
+      cy.get('[data-testid=action-details-test]').should(
+        'contain',
+        'Edited summary'
+      );
+      cy.get('[data-testid=details-summary]').click();
+      cy.get('[data-testid=action-details-test]').should(
+        'contain',
+        'Edited description'
+      );
+      cy.get('[data-testid=due-date-test]').should(
+        'contain',
+        '20 October 2025'
+      );
+    });
+
+    it('Checks the form is hidden after editing an action', () => {
+      cy.get('[data-testid=edit-action-button-test]').click();
+      cy.get('[data-testid=save-action-button-test]').click({ force: true });
+      cy.get('[data-testsid=edit-action-heading-test]').should('not.exist');
+      cy.get('[data-testid=save-action-button-test]').should('not.exist');
+    });
   });
 });
