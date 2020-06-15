@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useSWR, { mutate as globalMutate } from 'swr';
+import useSWR from 'swr';
 import {
   requestPlan,
   requestAddGoal,

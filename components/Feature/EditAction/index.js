@@ -4,11 +4,7 @@ import moment from 'moment';
 import css from './index.module.scss';
 
 const EditAction = ({ action, onActionUpdated }) => {
-  console.log({ action });
-  const year = action.dueDate.split('-')[0];
-  const month = action.dueDate.split('-')[1];
-  const day = action.dueDate.split('-')[2];
-
+  const [year, month, day] = action.dueDate.split('-');
   const [summary, setActionSummary] = useState(action.summary);
   const [dueDate, setDueDate] = useState({ day, month, year });
   const [description, setActionDescription] = useState(action.description);
@@ -74,7 +70,7 @@ const EditAction = ({ action, onActionUpdated }) => {
     <div className={`govuk-grid-row ${css['row-add-new-action']}`}>
       <div className="govuk-grid-column-three-quarters">
         <h3 className={`govuk-heading-m ${css['heading-add-new-action']}`}>
-          Add new action
+          Edit action
         </h3>
         <form onSubmit={updateAction}>
           <TextInput
