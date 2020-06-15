@@ -10,8 +10,9 @@ import Table, {
   TableData
 } from 'components/Table';
 import styles from './index.module.scss';
+import { Button } from '../../Form';
 
-const ActionsList = ({ actions, onActionToggled }) => {
+const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
   return (
     <>
       <Heading as="h2" size="m">
@@ -74,6 +75,11 @@ const ActionsList = ({ actions, onActionToggled }) => {
                 </TableData>
                 <TableData className={styles['lbh-actions-list__due-date']}>
                   <DueDate dateTime={action.dueDate} />
+                  <Button
+                    text="Edit action"
+                    isSecondary={true}
+                    onClick={() => onEditAction(action.id)}
+                  />
                 </TableData>
               </TableRow>
             ))}
