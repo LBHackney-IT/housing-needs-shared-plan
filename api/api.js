@@ -16,6 +16,9 @@ async function request(path, { token, ...options }) {
   });
 
   if (response.ok) {
+    if (response.status === 204) {
+      return;
+    }
     return response.json();
   } else {
     logger.error(`Fetching ${url} failed`, response.status);

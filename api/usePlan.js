@@ -43,6 +43,10 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
         }
       });
     }),
+    updateAction: withErrorHandling(async updatedAction => {
+      await requestUpdateAction(planId, updatedAction.id, updatedAction, { token });
+      mutate();
+    }),
     toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
       await requestUpdateAction(planId, actionId, { isCompleted }, { token });
       mutate();
