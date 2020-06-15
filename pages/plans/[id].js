@@ -7,7 +7,7 @@ import EditAction from 'components/Feature/EditAction';
 import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
-import { Button } from 'components/Form';
+import { Button, ButtonGroup } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
@@ -61,12 +61,21 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         />
       )}
       {!editGoal && !showAddAction && (
-        <Button
-          data-testid="add-action-button"
-          text="Add action"
-          isSecondary={true}
-          onClick={() => setShowAddAction(true)}
-        />
+        <ButtonGroup>
+          <Button
+            data-testid="add-action-button"
+            text="Add action"
+            isSecondary={true}
+            onClick={() => setShowAddAction(true)}
+          />
+          <a
+            className="govuk-button"
+            href={`/plans/${planId}/share`}
+            data-testid="share-plan-button-test"
+          >
+            Share plan
+          </a>
+        </ButtonGroup>
       )}
       {!editGoal && showAddAction && (
         <AddAction
@@ -83,15 +92,6 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
             setEditActionId(false);
           }}
           action={plan.goal.actions.find(action => action.id === editActionId)} />
-      )}
-      {!editGoal && (
-        <a
-          className="govuk-button"
-          href={`/plans/${planId}/share`}
-          data-testid="share-plan-button-test"
-        >
-          Share plan
-        </a>
       )}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
     </>

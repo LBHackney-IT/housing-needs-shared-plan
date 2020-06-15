@@ -1,16 +1,14 @@
 const Button = ({ onClick, text, isSecondary, ...others }) => (
-  <div className="govuk-form-group">
-    <button
-      className={`govuk-button${
-        isSecondary === true ? ' govuk-button--secondary' : ''
+  <button
+    className={`lbh-button govuk-button${
+      isSecondary ? ' govuk-button--secondary' : ''
       }`}
-      data-module="govuk-button"
-      onClick={onClick}
-      {...others}
-    >
-      {text}
-    </button>
-  </div>
+    data-module="govuk-button"
+    onClick={onClick}
+    {...others}
+  >
+    {text}
+  </button>
 );
 
 export default Button;
