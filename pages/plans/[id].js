@@ -7,6 +7,7 @@ import EditAction from 'components/Feature/EditAction';
 import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
+import CookieBanner from 'components/Feature/CookieBanner';
 import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
@@ -88,6 +89,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
         </a>
       )}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
+      <CookieBanner />
     </>
   );
 };
