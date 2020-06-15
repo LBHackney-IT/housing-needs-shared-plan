@@ -33,7 +33,7 @@ describe('OnClick', () => {
     await userEvent.type(getByLabelText('Month'), '01');
     await userEvent.clear(getByLabelText('Year'));
     await userEvent.type(getByLabelText('Year'), '2200');
-    await getByTestId('edit-action-button-test').click();
+    await getByTestId('save-action-button-test').click();
 
     expect(onActionUpdated).toHaveBeenCalledWith({
       summary: 'summary',
@@ -56,7 +56,7 @@ describe('OnClick', () => {
     await userEvent.type(getByLabelText('Month'), '40000');
     await userEvent.clear(getByLabelText('Year'));
     await userEvent.type(getByLabelText('Year'), '0');
-    await getByTestId('edit-action-button-test').click();
+    await getByTestId('save-action-button-test').click();
 
     expect(onActionUpdated).not.toHaveBeenCalled();
   });
