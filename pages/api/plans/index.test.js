@@ -25,7 +25,7 @@ describe('Create Plan Api', () => {
       firstName,
       lastName,
       systemIds,
-      initialUseAsPhp
+      hasPhp: initialUseAsPhp
     }
   };
 
