@@ -77,28 +77,41 @@ describe('usePlan', () => {
 
   it('shares the plan by sms with a collaborator via the API', async () => {
     const expectedCollaborator = { number: '123' };
+    const customerPlanUrl = 'url';
+    const body = JSON.stringify({
+      collaborator: expectedCollaborator,
+      customerPlanUrl
+    });
 
     const { result } = renderHook(() => usePlan(expectedPlan.id));
-    await act(() => result.current.sharePlan(expectedCollaborator));
+    await act(() =>
+      result.current.sharePlan(expectedCollaborator, customerPlanUrl)
+    );
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(`/plans/${expectedPlan.id}/share`),
       expect.objectContaining({
-        body: JSON.stringify(expectedCollaborator)
+        body
       })
     );
   });
 
   it('shares the plan by email with a collaborator via the API', async () => {
     const expectedCollaborator = { email: '123' };
-
+    const customerPlanUrl = 'url';
+    const body = JSON.stringify({
+      collaborator: expectedCollaborator,
+      customerPlanUrl
+    });
     const { result } = renderHook(() => usePlan(expectedPlan.id));
-    await act(() => result.current.sharePlan(expectedCollaborator));
+    await act(() =>
+      result.current.sharePlan(expectedCollaborator, customerPlanUrl)
+    );
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(`/plans/${expectedPlan.id}/share`),
       expect.objectContaining({
-        body: JSON.stringify(expectedCollaborator)
+        body
       })
     );
   });

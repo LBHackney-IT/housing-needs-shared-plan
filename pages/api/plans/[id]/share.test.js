@@ -21,7 +21,10 @@ describe('Share plan', () => {
     method: 'GET',
     query: { id: planId },
     body: {
-      number
+      collaborator: {
+        number
+      },
+      customerPlanUrl: 'url'
     },
     headers: { authorization: 'Bearer token' }
   };
@@ -39,6 +42,7 @@ describe('Share plan', () => {
     expect(sharePlan.execute).toHaveBeenCalledWith({
       planId,
       collaborator: { number },
+      customerPlanUrl: 'url',
       authHeader: req.headers.authorization
     });
     expect(res.status).toHaveBeenCalledWith(200);

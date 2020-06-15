@@ -11,7 +11,7 @@ import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
 
-const SharePlan = ({ error, plan, onPlanShared }) => {
+const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [hasError, setHasError] = useState(false);
 
@@ -103,6 +103,18 @@ const SharePlan = ({ error, plan, onPlanShared }) => {
                 onClick={shareThePlan}
                 text="Share"
               />
+              <div>
+                <span className={`${css['customer-link-to-plan__label']}`}>
+                  Unique customer link:{' '}
+                </span>
+                <a
+                  href={customerUrl}
+                  data-testid="shareable-link_test"
+                  className={`${css['customer-link-to-plan__link']}`}
+                >
+                  {customerUrl}
+                </a>
+              </div>
               <ShareStatus
                 name={plan.firstName}
                 customerTokens={plan.customerTokens}
