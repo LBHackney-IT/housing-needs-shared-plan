@@ -78,6 +78,7 @@ const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
                   <Button
                     text="Edit action"
                     isSecondary={true}
+                    data-testid="edit-action-button-test"
                     onClick={() => onEditAction(action.id)}
                   />
                 </TableData>
