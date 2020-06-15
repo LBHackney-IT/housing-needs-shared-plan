@@ -30,7 +30,7 @@ Share.getInitialProps = async ({ query: { id }, req, res }) => {
   try {
     const token = getToken(req);
     const plan = await requestPlan(id, { token });
-    const { customerPlanUrl } = await requestCustomerUrl(id);
+    const { customerPlanUrl } = await requestCustomerUrl(id, { token });
     return {
       planId: id,
       initialPlan: plan,
