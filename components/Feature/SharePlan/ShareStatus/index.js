@@ -1,4 +1,5 @@
 import css from '../index.module.scss';
+import { Token } from 'lib/domain';
 
 const suffixes = new Map([
   ['one', 'st'],
@@ -28,14 +29,14 @@ const formatDate = date => {
 const ShareStatus = ({ name, customerTokens }) => {
   let shareStatus = `Not yet shared with ${name}`;
 
-  if (customerTokens?.length > 0) {
-    const dateTimes = customerTokens
-      .map(token => new Date(token.createdDate))
-      .sort((a, b) => {
-        return Date.parse(b) - Date.parse(a);
-      });
+  const sharedTokens = customerTokens?.filter(token => token.sharedDate);
 
-    const shareTime = formatDate(dateTimes[0]);
+  if (sharedTokens?.length > 0) {
+    const sortedTokens = sharedTokens.sort((a, b) => {
+      return Date.parse(b.sharedDate) - Date.parse(a.sharedDate);
+    });
+
+    const shareTime = formatDate(new Date(sortedTokens[0].sharedDate));
 
     shareStatus = `Last shared with ${name} on ${shareTime}`;
   }

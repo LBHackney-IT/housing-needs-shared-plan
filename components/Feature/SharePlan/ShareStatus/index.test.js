@@ -4,7 +4,15 @@ import ShareStatus from './index';
 describe('Share status', () => {
   it('renders correct share status when not shared', () => {
     const firstName = 'Jon';
-    const { getByText } = render(<ShareStatus name={firstName} />);
+    const customerTokens = [
+      {
+        token: 'tada',
+        sharedDate: null
+      }
+    ];
+    const { getByText } = render(
+      <ShareStatus name={firstName} customerTokens={customerTokens} />
+    );
 
     expect(getByText('Not yet shared with Jon')).toBeInTheDocument();
   });
@@ -14,9 +22,16 @@ describe('Share status', () => {
     const customerTokens = [
       {
         token: 'abc',
-        createdDate: new Date(2018, 9, 4, 5, 35).toISOString()
+        sharedDate: new Date(2018, 9, 4, 5, 35).toISOString()
       },
-      { token: 'cba', createdDate: new Date(2017, 9, 4, 4, 34).toISOString() }
+      {
+        token: 'cba',
+        sharedDate: new Date(2017, 9, 4, 4, 18).toISOString()
+      },
+      {
+        token: 'tada',
+        sharedDate: null
+      }
     ];
     const { getByText } = render(
       <ShareStatus name={firstName} customerTokens={customerTokens} />

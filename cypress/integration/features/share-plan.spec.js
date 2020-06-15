@@ -15,7 +15,7 @@ context('Share the plan with collaborator', () => {
       },
       numbers: ["070000000"],
       emails: ["example@plan.com"],
-      customerTokens: []
+      customerTokens: [{token: 'one', sharedDate: null}]
     });
 
     cy.task('createPlan', {
@@ -55,7 +55,7 @@ context('Share the plan with collaborator', () => {
 
     cy.setHackneyCookie(true);
     cy.visit(`http://localhost:3000/plans/1`);
-  }
+  },
 
   afterEach(() => {
     cy.task('deletePlan', '1');
@@ -104,6 +104,7 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
         .should('contain', 'Share')
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+        .first()
         .click();
       cy.get('#content').should('contain', 'Last shared with');
     });
@@ -115,6 +116,7 @@ context('Share the plan with collaborator', () => {
         .click();
 
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+      .first()
         .click();
 
       cy.get('#content').should('contain', 'Something went wrong. The plan could not be shared.');
@@ -125,6 +127,7 @@ context('Share the plan with collaborator', () => {
 
 
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+        .first()
         .click();
 
       cy.get('#content').should('contain', 'Please select at least one sharing option');
@@ -135,6 +138,7 @@ context('Share the plan with collaborator', () => {
 
 
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+        .first()
         .click();
 
       cy.get('#share-by-sms').should('be.disabled');
@@ -146,9 +150,20 @@ context('Share the plan with collaborator', () => {
 
 
       cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+        .first()
         .click();
 
       cy.get('#share-by-email').should('be.disabled');
       cy.get('[data-testid=share-by-email-row-test]').should('contain','No emails found.');
+    })
+
+    it('Shows a unique shareable link', () => {
+      cy.visit('http://localhost:3000/plans/3/share');
+
+      cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+        .last()
+        .click();
+
+      cy.get('[data-testid=shareable-link_test]').should('contain','/c/plans/3?token=');
     })
 }
