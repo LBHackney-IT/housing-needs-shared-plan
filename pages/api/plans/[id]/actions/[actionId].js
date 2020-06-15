@@ -1,6 +1,6 @@
 import Response from 'lib/api/response';
 import { createEndpoint } from 'lib/api/createEndpoint';
-import { updateAction } from 'lib/dependencies';
+import { updateAction, deleteAction } from 'lib/dependencies';
 
 export const endpoint = ({ updateAction, deleteAction }) =>
   createEndpoint(
@@ -40,4 +40,4 @@ export const endpoint = ({ updateAction, deleteAction }) =>
     }
   );
 
-export default endpoint({ updateAction });
+export default endpoint({ updateAction, deleteAction });

@@ -1,4 +1,4 @@
-import { endpoint } from './[actionId]';
+import defaultEndpoint, { endpoint } from './[actionId]';
 import { createMockResponse } from 'lib/api/utils/createMockResponse';
 
 describe('[PATCH|DELETE] /api/plans/[id]/actions/[actionid]', () => {
@@ -14,6 +14,11 @@ describe('[PATCH|DELETE] /api/plans/[id]/actions/[actionid]', () => {
       await call({ method }, response);
       expect(response.statusCode).toBe(405);
     }
+  });
+
+  it('has a default export', () => {
+    // without a default export Next cannot find the endpoint
+    expect(defaultEndpoint).toBeInstanceOf(Function);
   });
 
   describe('validation', () => {
