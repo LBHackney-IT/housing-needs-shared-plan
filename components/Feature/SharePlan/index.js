@@ -100,6 +100,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
               <Button
                 className={`govuk-button ${css['share-link-to-plan__button']}`}
                 data-module="govuk-button"
+                data-testid="share-plan-button"
                 onClick={shareThePlan}
                 text="Share"
               />

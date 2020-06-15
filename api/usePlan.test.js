@@ -139,4 +139,22 @@ describe('usePlan', () => {
       })
     );
   });
+
+  it('deletes an action', async () => {
+    const actionId = 'PPBqWA9';
+    const token = 'a.very.secure.jwt';
+    const { result } = renderHook(() => usePlan(expectedPlan.id, { token }));
+
+    await act(() => result.current.deleteAction({ actionId }));
+
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining(`/plans/${expectedPlan.id}/actions/${actionId}`),
+      expect.objectContaining({
+        method: 'DELETE',
+        headers: expect.objectContaining({
+          authorization: `Bearer ${token}`
+        })
+      })
+    );
+  });
 });
