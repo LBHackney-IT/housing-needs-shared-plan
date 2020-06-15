@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 
 describe('<ActionsList />', () => {
   const onActionToggled = jest.fn();
+  const onActionDeleted = jest.fn();
 
   const component = (
     <ActionsList
@@ -22,6 +23,7 @@ describe('<ActionsList />', () => {
         }
       ]}
       onActionToggled={onActionToggled}
+      onActionDeleted={onActionDeleted}
     />
   );
 
@@ -72,5 +74,11 @@ describe('<ActionsList />', () => {
       actionId: 'PPBqWA9',
       isCompleted: false
     });
+  });
+
+  it('triggers "onActionDeleted" when delete button clicked', () => {
+    const { getByTestId } = render(component);
+    getByTestId('actions-list-button-delete-PPBqWA9').click();
+    expect(onActionDeleted).toHaveBeenCalledWith({ actionId: 'PPBqWA9' });
   });
 });

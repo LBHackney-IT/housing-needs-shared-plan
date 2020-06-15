@@ -11,10 +11,15 @@ import { Button } from 'components/Form';
 import { getToken } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
-  const { plan, loading, addGoal, addAction, updateAction, toggleAction } = usePlan(planId, {
-    initialPlan,
-    token
-  });
+  const {
+    plan,
+    loading,
+    addGoal,
+    addAction,
+    updateAction,
+    toggleAction,
+    deleteAction
+  } = usePlan(planId, { initialPlan, token });
 
   if (loading) {
     return <p>Loading...</p>;
@@ -52,6 +57,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           actions={plan.goal?.actions || []}
           onEditAction={actionId => setEditActionId(actionId)}
           onActionToggled={toggleAction}
+          onActionDeleted={deleteAction}
         />
       )}
       {!editGoal && !showAddAction && (

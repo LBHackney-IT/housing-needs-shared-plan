@@ -12,7 +12,12 @@ import Table, {
 import styles from './index.module.scss';
 import { Button } from '../../Form';
 
-const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
+const ActionsList = ({
+  actions,
+  onActionToggled,
+  onEditAction,
+  onActionDeleted
+}) => {
   return (
     <>
       <Heading as="h2" size="m">
@@ -75,12 +80,22 @@ const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
                 </TableData>
                 <TableData className={styles['lbh-actions-list__due-date']}>
                   <DueDate dateTime={action.dueDate} />
-                  <Button
-                    text="Edit action"
-                    isSecondary={true}
-                    data-testid="edit-action-button-test"
-                    onClick={() => onEditAction(action.id)}
-                  />
+                  {onEditAction && (
+                    <Button
+                      text="Edit"
+                      isSecondary={true}
+                      data-testid="edit-action-button-test"
+                      onClick={() => onEditAction(action.id)}
+                    />
+                  )}
+                  {onActionDeleted && (
+                    <Button
+                      text="Delete"
+                      isSecondary={true}
+                      data-testid={`actions-list-button-delete-${action.id}`}
+                      onClick={() => onActionDeleted({ actionId: action.id })}
+                    />
+                  )}
                 </TableData>
               </TableRow>
             ))}
