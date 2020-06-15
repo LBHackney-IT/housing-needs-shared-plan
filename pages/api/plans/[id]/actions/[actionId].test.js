@@ -1,69 +1,116 @@
 import { endpoint } from './[actionId]';
 import { createMockResponse } from 'lib/api/utils/createMockResponse';
 
-describe('PATCH /api/plans/[id]/actions/[actionid]', () => {
+describe('[PATCH|DELETE] /api/plans/[id]/actions/[actionid]', () => {
   const updateAction = { execute: jest.fn() };
-  const call = endpoint({ updateAction });
+  const deleteAction = { execute: jest.fn() };
+  const call = endpoint({ updateAction, deleteAction });
 
-  it('only accepts PATCH requests', async () => {
+  it('only accepts PATCH and DELETE requests', async () => {
     const response = createMockResponse();
-    await call({ method: 'POST' }, response);
+    const methods = ['PUT', 'GET', 'POST', 'OPTIONS', 'HEAD'];
 
-    expect(response.statusCode).toBe(405);
+    for (const method of methods) {
+      await call({ method }, response);
+      expect(response.statusCode).toBe(405);
+    }
   });
 
   describe('validation', () => {
-    it('returns 400 when parameters are missing', async () => {
+    describe('PATCH', () => {
+      it('returns 400 when parameters are missing', async () => {
+        const response = createMockResponse();
+        await call(
+          {
+            method: 'PATCH',
+            query: { id: '', actionId: '' },
+            body: { isCompleted: true }
+          },
+          response
+        );
+
+        expect(response.statusCode).toBe(400);
+        expect(JSON.parse(response.body).errors.length).toBe(2);
+      });
+
+      it('returns 400 when the body is missing', async () => {
+        const response = createMockResponse();
+        await call(
+          {
+            method: 'PATCH',
+            query: { id: 'd6BQiWGGhOrF8mFdPp4T', actionId: 'PPBqWA9' },
+            body: ''
+          },
+          response
+        );
+
+        expect(response.statusCode).toBe(400);
+        expect(JSON.parse(response.body).errors.length).toBe(1);
+      });
+    });
+
+    describe('DELETE', () => {
+      it('returns 400 when parameters are missing', async () => {
+        const response = createMockResponse();
+        await call(
+          {
+            method: 'DELETE',
+            query: { id: '', actionId: '' }
+          },
+          response
+        );
+
+        expect(response.statusCode).toBe(400);
+        expect(JSON.parse(response.body).errors.length).toBe(2);
+      });
+    });
+  });
+
+  describe('PATCH', () => {
+    it('returns 204 when action updated successfully', async () => {
       const response = createMockResponse();
+      updateAction.execute.mockImplementation(() => Promise.resolve());
+
       await call(
         {
           method: 'PATCH',
-          query: { id: '', actionId: '' },
+          query: { id: 'd6BQiWGGhOrF8mFdPp4T', actionId: 'PPBqWA9' },
           body: { isCompleted: true }
         },
         response
       );
 
-      expect(response.statusCode).toBe(400);
-      expect(JSON.parse(response.body).errors.length).toBe(2);
-    });
+      expect(updateAction.execute).toHaveBeenCalledWith({
+        planId: 'd6BQiWGGhOrF8mFdPp4T',
+        actionId: 'PPBqWA9',
+        updateFields: { isCompleted: true }
+      });
 
-    it('returns 400 when the body is missing', async () => {
+      expect(response.statusCode).toBe(204);
+      expect(response.body).toBeUndefined();
+    });
+  });
+
+  describe('DELETE', () => {
+    it('returns 204 when action deleted successfully', async () => {
       const response = createMockResponse();
+      deleteAction.execute.mockImplementation(() => Promise.resolve());
+
       await call(
         {
-          method: 'PATCH',
-          query: { id: 'd6BQiWGGhOrF8mFdPp4T', actionId: 'PPBqWA9' },
-          body: ''
+          method: 'DELETE',
+          query: { id: 'd6BQiWGGhOrF8mFdPp4T', actionId: 'PPBqWA9' }
         },
         response
       );
 
-      expect(response.statusCode).toBe(400);
-      expect(JSON.parse(response.body).errors.length).toBe(1);
+      expect(deleteAction.execute).toHaveBeenCalledWith({
+        planId: 'd6BQiWGGhOrF8mFdPp4T',
+        actionId: 'PPBqWA9'
+      });
+
+      expect(response.statusCode).toBe(204);
+      expect(response.body).toBeUndefined();
     });
-  });
-
-  it('returns 204 when action updated successfully', async () => {
-    const response = createMockResponse();
-    updateAction.execute.mockImplementation(() => Promise.resolve());
-
-    await call(
-      {
-        method: 'PATCH',
-        query: { id: 'd6BQiWGGhOrF8mFdPp4T', actionId: 'PPBqWA9' },
-        body: { isCompleted: true }
-      },
-      response
-    );
-
-    expect(updateAction.execute).toHaveBeenCalledWith({
-      planId: 'd6BQiWGGhOrF8mFdPp4T',
-      actionId: 'PPBqWA9',
-      updateFields: { isCompleted: true }
-    });
-
-    expect(response.statusCode).toBe(204);
-    expect(response.body).toBeUndefined();
   });
 });

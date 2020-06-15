@@ -2,10 +2,10 @@ import Response from 'lib/api/response';
 import { createEndpoint } from 'lib/api/createEndpoint';
 import { updateAction } from 'lib/dependencies';
 
-export const endpoint = ({ updateAction }) =>
+export const endpoint = ({ updateAction, deleteAction }) =>
   createEndpoint(
     {
-      allowedMethods: ['PATCH'],
+      allowedMethods: ['PATCH', 'DELETE'],
       validators: [
         {
           name: 'actionId',
@@ -20,11 +20,21 @@ export const endpoint = ({ updateAction }) =>
         {
           name: 'body',
           failureMessage: 'no updated fields were found in the body',
-          validate: ({ body }) => Object.keys(body ?? {}).length > 0
+          validate: ({ body, method }) =>
+            method === 'DELETE' || Object.keys(body ?? {}).length > 0
         }
       ]
     },
-    async ({ params: { id: planId, actionId }, body: updateFields }) => {
+    async ({
+      method,
+      params: { id: planId, actionId },
+      body: updateFields
+    }) => {
+      if (method === 'DELETE') {
+        await deleteAction.execute({ planId, actionId });
+        return Response.noContent();
+      }
+
       await updateAction.execute({ planId, actionId, updateFields });
       return Response.noContent();
     }
