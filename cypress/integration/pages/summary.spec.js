@@ -12,7 +12,14 @@ context('Summary page', () => {
         targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'some text',
         useAsPhp: false,
-        agreedWithName: 'Ami Working'
+        agreedWithName: 'Ami Working',
+        actions: [
+          {
+            summary: 'text',
+            description: 'http://localhost:3000',
+            dueDate: '2020-08-08T00:00:00.000Z'
+          }
+        ]
       }
     });
   });
@@ -47,6 +54,17 @@ context('Summary page', () => {
         cy.visit(`http://localhost:3000/plans/${response.body.planIds[0]}`);
         cy.get('h1').should('have.text', "Bart Simpson's shared plan");
       });
+    });
+  });
+
+  describe('Action list', () => {
+    it('Can render a clickable link in action description', () => {
+      cy.get('[data-testid=details-summary]').click({ force: true });
+
+      cy.get('[data-testid=action-details-test] > details > div > p >  a')
+        .should('contain', 'http://localhost:3000')
+        .click();
+      cy.get('h1').should('contain', 'Welcome to Shared Plan!');
     });
   });
 });
