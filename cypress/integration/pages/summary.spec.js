@@ -17,7 +17,7 @@ context('Summary page', () => {
           {
             summary: 'text',
             description: 'http://localhost:3000',
-            dueDate: '2020-08-08T00:00:00.000Z'
+            dueDate: '2020-08-08'
           }
         ]
       }
