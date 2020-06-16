@@ -11,7 +11,7 @@ export const endpoint = ({ createPlan }) => async (req, res) => {
         systemIds: req.body.systemIds,
         numbers: req.body.numbers,
         emails: req.body.emails,
-        initialUseAsPhp: req.body.initialUseAsPhp
+        initialUseAsPhp: req.body.hasPhp
       });
       logger.info(`Success`, { result });
 
