@@ -72,3 +72,10 @@ export function requestUpdateAction(planId, actionId, updates, options) {
     ...options
   });
 }
+
+export function requestDeleteAction(planId, actionId, options) {
+  return request(`/plans/${planId}/actions/${actionId}`, {
+    method: 'DELETE',
+    ...options
+  });
+}

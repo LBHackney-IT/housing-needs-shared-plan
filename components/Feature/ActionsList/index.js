@@ -1,5 +1,4 @@
-import Checkbox from 'components/Form/Checkbox';
-import Details from 'components/Form/Details';
+import { Button, ButtonGroup, Checkbox, Details } from 'components/Form';
 import DueDate from './DueDate';
 import Heading from 'components/Heading';
 import Table, {
@@ -10,9 +9,14 @@ import Table, {
   TableData
 } from 'components/Table';
 import styles from './index.module.scss';
-import { Button } from '../../Form';
+import ReactMarkdown from 'react-markdown/with-html';
 
-const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
+const ActionsList = ({
+  actions,
+  onActionToggled,
+  onEditAction,
+  onActionDeleted
+}) => {
   return (
     <>
       <Heading as="h2" size="m">
@@ -64,7 +68,7 @@ const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
                   </Heading>
                   {action.description && (
                     <Details title="Show details" color="#00513f">
-                      {action.description}
+                      <ReactMarkdown source={action.description} />
                     </Details>
                   )}
                   <div
@@ -75,12 +79,24 @@ const ActionsList = ({ actions, onActionToggled, onEditAction }) => {
                 </TableData>
                 <TableData className={styles['lbh-actions-list__due-date']}>
                   <DueDate dateTime={action.dueDate} />
-                  <Button
-                    text="Edit action"
-                    isSecondary={true}
-                    data-testid="edit-action-button-test"
-                    onClick={() => onEditAction(action.id)}
-                  />
+                  <ButtonGroup>
+                    {onEditAction && (
+                      <Button
+                        text="Edit"
+                        isSecondary={true}
+                        data-testid="edit-action-button-test"
+                        onClick={() => onEditAction(action.id)}
+                      />
+                    )}
+                    {onActionDeleted && (
+                      <Button
+                        text="Delete"
+                        isSecondary={true}
+                        data-testid={`actions-list-button-delete-${action.id}`}
+                        onClick={() => onActionDeleted({ actionId: action.id })}
+                      />
+                    )}
+                  </ButtonGroup>
                 </TableData>
               </TableRow>
             ))}
