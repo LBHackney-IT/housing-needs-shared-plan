@@ -1,11 +1,9 @@
-const format = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric'
-});
+import moment from 'moment';
 
 const DueDate = ({ dateTime }) => (
-  <time data-testid="due-date-test" dateTime={dateTime}>{format.format(new Date(dateTime))}</time>
+  <time data-testid="due-date-test" dateTime={dateTime}>
+    {moment(dateTime).format('DD MMMM YYYY')}
+  </time>
 );
 
 export default DueDate;
