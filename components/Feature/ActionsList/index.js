@@ -9,6 +9,7 @@ import Table, {
   TableData
 } from 'components/Table';
 import styles from './index.module.scss';
+import ReactMarkdown from 'react-markdown/with-html';
 
 const ActionsList = ({
   actions,
@@ -67,7 +68,7 @@ const ActionsList = ({
                   </Heading>
                   {action.description && (
                     <Details title="Show details" color="#00513f">
-                      {action.description}
+                      <ReactMarkdown source={action.description} />
                     </Details>
                   )}
                   <div
