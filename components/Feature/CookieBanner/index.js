@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const deleteCookies = () => {
-  // document.cookie = '_ga= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; domain=.data.gov.uk';
-  // document.cookie = '_gid= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; domain=.data.gov.uk';
-};
-
-const setCookies = () => {
-  // window.ga('create', 'UA-161400643-1', 'auto');
-  // window.ga('set', 'anonymizeIp', true);
-  // window.ga('set', 'allowAdFeatures', false);
-  // window.ga('create', 'UA-145652997-1', 'auto', 'govuk_shared', { 'allowLinker': true });
-  // window.ga('govuk_shared.require', 'linker');
-  // window.ga('govuk_shared.set', 'anonymizeIp', true);
-  // window.ga('govuk_shared.set', 'allowAdFeatures', false);
-  // window.ga('govuk_shared.linker:autoLink', ['www.gov.uk']);
-  // window.ga('send', 'pageview');
-  // window.ga('govuk_shared.send', 'pageview')
+  document.cookie = '_ga=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+  document.cookie = '_gid=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+  document.cookie = '_gat_UA-168604600-1=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
 };
 
 const CookieBanner = () => {
@@ -28,18 +16,6 @@ const CookieBanner = () => {
       ?.split('=')?.[1];
 
     if (cookiesPreferencesSet === 'true') {
-      const cookiesPolicyRaw = cookies
-        .find(c => c.trim().startsWith('cookies_policy'))
-        ?.split('=')?.[1];
-      if (cookiesPolicyRaw) {
-        const cookiesPolicy = JSON.parse(decodeURIComponent(cookiesPolicyRaw));
-
-        if (!cookiesPolicy.usage) {
-          deleteCookies();
-        } else {
-          setCookies();
-        }
-      }
       setCookieState('set');
     } else {
       setCookieState('unset');
@@ -55,19 +31,9 @@ const CookieBanner = () => {
       ],
       cookieExpiryDate = new Date(year + 1, month, day).toUTCString();
 
-    if (cookieState === 'set') {
-      document.cookie = `cookies_policy=${encodeURIComponent(
-        '{"essential":true,"usage":true}'
-      )}; expires=${cookieExpiryDate};`;
-      setCookies();
-    } else {
-      document.cookie = `cookies_policy=${encodeURIComponent(
-        '{"essential":true,"usage":false}'
-      )}; expires=${cookieExpiryDate};`;
-      deleteCookies();
-    }
-
     document.cookie = `cookies_preferences_set=true; expires=${cookieExpiryDate};`;
+    document.cookie = `cookies_accepted=true; expires=${cookieExpiryDate};`;
+    window['ga-disable-UA-168604600-1'] = false;
     setCookieState('accept');
   };
 
@@ -83,7 +49,9 @@ const CookieBanner = () => {
         today.getDate()
       ],
       cookieExpiryDate = new Date(year + 1, month, day).toUTCString();
+    deleteCookies();
     document.cookie = `cookies_preferences_set=true; expires=${cookieExpiryDate};`;
+    document.cookie = `cookies_accepted=false; expires=${cookieExpiryDate};`;
     setCookieState('decline');
   };
 
@@ -148,7 +116,6 @@ const CookieBanner = () => {
   if (cookieState === 'accept') {
     return (
       <div
-        {...props}
         id="global-cookie-message"
         className="gem-c-cookie-banner govuk-clearfix"
         data-module="cookie-banner"
@@ -183,6 +150,38 @@ const CookieBanner = () => {
     );
   }
 
+  if (cookieState === 'decline') {
+    return (
+      <div
+        id="global-cookie-message"
+        className="gem-c-cookie-banner govuk-clearfix"
+        data-module="cookie-banner"
+        role="region"
+        aria-label="cookie banner"
+        data-nosnippet=""
+        style={{ display: 'block' }}
+      >
+        <div
+          className="gem-c-cookie-banner__confirmation govuk-width-container"
+          tabIndex="-1"
+        >
+          <p className="gem-c-cookie-banner__confirmation-message govuk-body">
+            You’ve declined cookies.
+          </p>
+          <button
+            className="gem-c-cookie-banner__hide-button govuk-link"
+            data-hide-cookie-banner="true"
+            data-module="track-click"
+            data-track-category="cookieBanner"
+            data-track-action="Hide cookie banner"
+            onClick={handleHide}
+          >
+            Hide
+          </button>
+        </div>
+      </div>
+    );
+  }
   return null;
 };
 
