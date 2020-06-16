@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import ButtonGroup from '../../Form/ButtonGroup';
 
 const deleteCookies = () => {
   document.cookie = '_ga=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
   document.cookie = '_gid=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
-  document.cookie = '_gat_UA-168604600-1=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+  document.cookie =
+    '_gat_UA-168604600-1=; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
 };
 
 const CookieBanner = () => {
@@ -34,10 +36,6 @@ const CookieBanner = () => {
     document.cookie = `cookies_preferences_set=true; expires=${cookieExpiryDate};`;
     document.cookie = `cookies_accepted=true; expires=${cookieExpiryDate};`;
     window['ga-disable-UA-168604600-1'] = false;
-    setCookieState('accept');
-  };
-
-  const handleHide = () => {
     setCookieState('set');
   };
 
@@ -52,7 +50,7 @@ const CookieBanner = () => {
     deleteCookies();
     document.cookie = `cookies_preferences_set=true; expires=${cookieExpiryDate};`;
     document.cookie = `cookies_accepted=false; expires=${cookieExpiryDate};`;
-    setCookieState('decline');
+    setCookieState('set');
   };
 
   if (cookieState === 'unset') {
@@ -86,98 +84,30 @@ const CookieBanner = () => {
                 </p>
               </div>
               <div className="gem-c-cookie-banner__buttons gem-c-cookie-banner__buttons--flex">
-                <button
-                  className="gem-c-button govuk-button gem-c-button--inline"
-                  type="submit"
-                  data-module="track-click"
-                  data-accept-cookies="true"
-                  data-track-category="cookieBanner"
-                  onClick={handleAccept}
-                >
-                  Yes
-                </button>
-                <button
-                  className="gem-c-button govuk-button gem-c-button--inline"
-                  type="submit"
-                  data-module="track-click"
-                  data-track-category="cookieBanner"
-                  onClick={handleDecline}
-                >
-                  No
-                </button>
+                <ButtonGroup>
+                  <button
+                    className="gem-c-button govuk-button gem-c-button--inline"
+                    type="submit"
+                    data-module="track-click"
+                    data-accept-cookies="true"
+                    data-track-category="cookieBanner"
+                    onClick={handleAccept}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="gem-c-button govuk-button gem-c-button--inline"
+                    type="submit"
+                    data-module="track-click"
+                    data-track-category="cookieBanner"
+                    onClick={handleDecline}
+                  >
+                    No
+                  </button>
+                </ButtonGroup>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (cookieState === 'accept') {
-    return (
-      <div
-        id="global-cookie-message"
-        className="gem-c-cookie-banner govuk-clearfix"
-        data-module="cookie-banner"
-        role="region"
-        aria-label="cookie banner"
-        data-nosnippet=""
-        style={{ display: 'block' }}
-      >
-        <div
-          className="gem-c-cookie-banner__confirmation govuk-width-container"
-          tabIndex="-1"
-        >
-          <p className="gem-c-cookie-banner__confirmation-message govuk-body">
-            You’ve accepted all cookies. You can{' '}
-            <a href="/cookies" className="govuk-link">
-              change your cookie settings
-            </a>{' '}
-            at any time.
-          </p>
-          <button
-            className="gem-c-cookie-banner__hide-button govuk-link"
-            data-hide-cookie-banner="true"
-            data-module="track-click"
-            data-track-category="cookieBanner"
-            data-track-action="Hide cookie banner"
-            onClick={handleHide}
-          >
-            Hide
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (cookieState === 'decline') {
-    return (
-      <div
-        id="global-cookie-message"
-        className="gem-c-cookie-banner govuk-clearfix"
-        data-module="cookie-banner"
-        role="region"
-        aria-label="cookie banner"
-        data-nosnippet=""
-        style={{ display: 'block' }}
-      >
-        <div
-          className="gem-c-cookie-banner__confirmation govuk-width-container"
-          tabIndex="-1"
-        >
-          <p className="gem-c-cookie-banner__confirmation-message govuk-body">
-            You’ve declined cookies.
-          </p>
-          <button
-            className="gem-c-cookie-banner__hide-button govuk-link"
-            data-hide-cookie-banner="true"
-            data-module="track-click"
-            data-track-category="cookieBanner"
-            data-track-action="Hide cookie banner"
-            onClick={handleHide}
-          >
-            Hide
-          </button>
         </div>
       </div>
     );
