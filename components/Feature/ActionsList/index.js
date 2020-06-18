@@ -68,7 +68,12 @@ const ActionsList = ({
                   </Heading>
                   {action.description && (
                     <Details title="Show details" color="#00513f">
-                      <ReactMarkdown source={action.description} />
+                      <ReactMarkdown
+                        source={action.description.replace(
+                          new RegExp('\n', 'g'),
+                          '  \n'
+                        )}
+                      />
                     </Details>
                   )}
                   <div
