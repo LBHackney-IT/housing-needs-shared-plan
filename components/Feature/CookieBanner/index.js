@@ -31,11 +31,8 @@ const CookieBanner = () => {
         <div
           id="global-cookie-message"
           className="gem-c-cookie-banner govuk-clearfix"
-          data-module="cookie-banner"
           role="region"
           aria-label="cookie banner"
-          data-nosnippet=""
-          style={{ display: 'block' }}
         >
           <div className="gem-c-cookie-banner__wrapper govuk-width-container">
             <div className="govuk-grid-row">
@@ -61,9 +58,6 @@ const CookieBanner = () => {
                     <button
                       className="gem-c-button govuk-button gem-c-button--inline"
                       type="submit"
-                      data-module="track-click"
-                      data-accept-cookies="true"
-                      data-track-category="cookieBanner"
                       data-testid="cookies-yes-button-test"
                       onClick={handleAccept}
                     >
@@ -72,8 +66,6 @@ const CookieBanner = () => {
                     <button
                       className="gem-c-button govuk-button gem-c-button--inline"
                       type="submit"
-                      data-module="track-click"
-                      data-track-category="cookieBanner"
                       data-testid="cookies-no-button-test"
                       onClick={handleDecline}
                     >
