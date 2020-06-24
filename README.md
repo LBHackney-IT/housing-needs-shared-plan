@@ -2,7 +2,38 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies using yarn:
+
+```bash
+yarn
+```
+
+Using npm:
+
+```bash
+npm install
+```
+
+Create a .env file, based on the .env.sample file
+
+```bash
+touch .env # then go fill it in!
+```
+
+Then, we need to set up DynamoDB local
+
+```bash
+brew cask install java # if you don't already have Java
+npm run dynamo-install
+```
+
+Create local DynamoDB plans table
+
+```bash
+aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -10,9 +41,69 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Unit tests
+
+Run jest tests:
+
+```bash
+npm run unit-test
+# or
+yarn unit-test
+```
+
+## Integration tests
+
+Set these env vars in .env file:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+SMS_API_URL=http://localhost:8080
+```
+
+Run cypress integration tests headlessly:
+Set these env vars to the same values as your local aws cli config:
+
+```bash
+CYPRESS_AWS_ACCESS_KEY_ID
+CYPRESS_AWS_SECRET_ACCESS_KEY
+CYPRESS_AWS_REGION
+```
+
+Run the tests:
+
+```bash
+yarn run int-test
+```
+
+Run tests in cypress test runner:
+Start shared-plan and mock-sms servers:
+
+```bash
+yarn start-cypress-servers
+# or
+npm run start-cypress-servers
+```
+
+Open the test runner:
+
+```bash
+yarn cypress-open
+# or
+npm run cypress-open
+```
+
+## Routes/pages?
+
+/
+home page
+
+/plans/[id]
+Plan summary
+
+/plan/[id]/share
+Sharing page of the plan
 
 ## Learn More
 
