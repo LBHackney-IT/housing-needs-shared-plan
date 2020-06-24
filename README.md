@@ -2,44 +2,35 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-Install dependencies using yarn:
+1. Install dependencies:
+  ```bash
+  yarn
+  # or
+  npm install
+  ```
 
-```bash
-yarn
-```
+2. Create a .env file, based on the .env.sample file:
+  ```bash
+  touch .env # then go fill it in!
+  ```
 
-Using npm:
+3. Set up DynamoDB local:
+  ```bash
+  brew cask install java # if you don't already have Java
+  npm run dynamo-install
+  ```
 
-```bash
-npm install
-```
+4. Create local DynamoDB plans table
+  ```bash
+  aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
+  ```
 
-Create a .env file, based on the .env.sample file
-
-```bash
-touch .env # then go fill it in!
-```
-
-Then, we need to set up DynamoDB local
-
-```bash
-brew cask install java # if you don't already have Java
-npm run dynamo-install
-```
-
-Create local DynamoDB plans table
-
-```bash
-aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
-```
-
-Run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
+5. Run the development server:
+  ```bash
+  npm run dev
+  # or
+  yarn dev
+  ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
 
@@ -62,47 +53,49 @@ NEXT_PUBLIC_API_URL=http://localhost:3000/api
 SMS_API_URL=http://localhost:8080
 ```
 
-Run cypress integration tests headlessly:
-Set these env vars to the same values as your local aws cli config:
+#### Run cypress integration tests headlessly:
+1. Set these env vars to the same values as your local aws cli config:
+  ```bash
+  CYPRESS_AWS_ACCESS_KEY_ID
+  CYPRESS_AWS_SECRET_ACCESS_KEY
+  CYPRESS_AWS_REGION
+  ```
+
+2. Run the tests:
+  ```bash
+  yarn run int-test
+  ```
+
+#### Run tests in cypress test runner:
+1. Start shared-plan and mock-sms servers:
+  ```bash
+  yarn start-cypress-servers
+  # or
+  npm run start-cypress-servers
+  ```
+
+2. Open the test runner:
+  ```bash
+  yarn cypress-open
+  # or
+  npm run cypress-open
+  ```
+
+## Pages
 
 ```bash
-CYPRESS_AWS_ACCESS_KEY_ID
-CYPRESS_AWS_SECRET_ACCESS_KEY
-CYPRESS_AWS_REGION
-```
-
-Run the tests:
-
-```bash
-yarn run int-test
-```
-
-Run tests in cypress test runner:
-Start shared-plan and mock-sms servers:
-
-```bash
-yarn start-cypress-servers
-# or
-npm run start-cypress-servers
-```
-
-Open the test runner:
-
-```bash
-yarn cypress-open
-# or
-npm run cypress-open
-```
-
-## Routes/pages?
-
 /
-home page
+```
+Home page
 
+```bash
 /plans/[id]
+```
 Plan summary
 
+```bash
 /plan/[id]/share
+```
 Sharing page of the plan
 
 ## Learn More
