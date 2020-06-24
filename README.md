@@ -82,21 +82,21 @@ SMS_API_URL=http://localhost:8080
   ```
 
 ## Pages
+Home page
 
 ```bash
 /
 ```
-Home page
 
+Plan summary
 ```bash
 /plans/[id]
 ```
-Plan summary
 
+Sharing page of the plan
 ```bash
 /plan/[id]/share
 ```
-Sharing page of the plan
 
 ## Learn More
 
