@@ -74,7 +74,7 @@ context('Share the plan with collaborator', () => {
       cy.get('#content > h2')
         .should('contain', 'Share with collaborators');
 
-      cy.get('#content > table > thead > tr')
+      cy.get('[data-testid=share-plan-header-row]')
         .should('contain', 'Collaborators')
         .and('contain', 'Share by SMS')
         .and('contain', 'Share by email')

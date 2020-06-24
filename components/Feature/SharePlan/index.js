@@ -52,6 +52,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
       </Heading>
       <div
         className={`${css['share-plan__grid']} ${css['share-plan__collaborators-list-header-row']}`}
+        data-testid="share-plan-header-row"
       >
         <div className={css['collaborator']}>Collaborators</div>
         <div className={css['sms']}>Share by SMS</div>
