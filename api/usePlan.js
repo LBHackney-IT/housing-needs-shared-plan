@@ -5,7 +5,8 @@ import {
   requestAddGoal,
   requestAddAction,
   requestSharePlan,
-  requestUpdateAction
+  requestUpdateAction,
+  requestDeleteAction
 } from './api';
 
 export function usePlan(planId, { initialPlan, token, ...options } = {}) {
@@ -43,14 +44,27 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
         }
       });
     }),
+    updateAction: withErrorHandling(async updatedAction => {
+      await requestUpdateAction(planId, updatedAction.id, updatedAction, { token });
+      mutate();
+    }),
     toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
       await requestUpdateAction(planId, actionId, { isCompleted }, { token });
       mutate();
     }),
-    sharePlan: withErrorHandling(async collaborator => {
-      const newToken = await requestSharePlan(planId, collaborator, {
-        token
-      });
+    deleteAction: withErrorHandling(async ({ actionId }) => {
+      await requestDeleteAction(planId, actionId, { token });
+      mutate();
+    }),
+    sharePlan: withErrorHandling(async (collaborator, customerPlanUrl) => {
+      const newToken = await requestSharePlan(
+        planId,
+        collaborator,
+        customerPlanUrl,
+        {
+          token
+        }
+      );
       mutate({
         ...data,
         customerTokens: data.customerTokens.concat([newToken])

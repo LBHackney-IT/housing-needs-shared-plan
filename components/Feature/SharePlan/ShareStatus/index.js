@@ -1,41 +1,17 @@
 import css from '../index.module.scss';
-
-const suffixes = new Map([
-  ['one', 'st'],
-  ['two', 'nd'],
-  ['few', 'rd'],
-  ['other', 'th']
-]);
-
-const formatOrdinals = n => {
-  const rule = new Intl.PluralRules('en-GB', {
-    type: 'ordinal'
-  }).select(n);
-
-  const suffix = suffixes.get(rule);
-  return `${n}${suffix}`;
-};
-
-const formatDate = date => {
-  return `${formatOrdinals(date.getDay())} 
-    ${new Intl.DateTimeFormat('en-GB', {
-      hour: 'numeric',
-      minute: 'numeric',
-      month: 'long'
-    }).format(date)}`;
-};
+import moment from 'moment';
 
 const ShareStatus = ({ name, customerTokens }) => {
   let shareStatus = `Not yet shared with ${name}`;
 
-  if (customerTokens?.length > 0) {
-    const dateTimes = customerTokens
-      .map(token => new Date(token.createdDate))
-      .sort((a, b) => {
-        return Date.parse(b) - Date.parse(a);
-      });
+  const sharedTokens = customerTokens?.filter(token => token.sharedDate);
 
-    const shareTime = formatDate(dateTimes[0]);
+  if (sharedTokens?.length > 0) {
+    const sortedTokens = sharedTokens.sort((a, b) => {
+      return Date.parse(b.sharedDate) - Date.parse(a.sharedDate);
+    });
+
+    const shareTime = moment(sortedTokens[0].sharedDate).format('Do MMM, h:mm');
 
     shareStatus = `Last shared with ${name} on ${shareTime}`;
   }

@@ -16,6 +16,9 @@ async function request(path, { token, ...options }) {
   });
 
   if (response.ok) {
+    if (response.status === 204) {
+      return;
+    }
     return response.json();
   } else {
     logger.error(`Fetching ${url} failed`, response.status);
@@ -43,18 +46,36 @@ export function requestAddAction(planId, action, options) {
   });
 }
 
-export function requestSharePlan(planId, collaborator, options) {
+export function requestSharePlan(
+  planId,
+  collaborator,
+  customerPlanUrl,
+  options
+) {
   return request(`/plans/${planId}/share`, {
     method: 'POST',
-    body: collaborator,
+    body: { collaborator, customerPlanUrl },
     ...options
   });
 }
 
+export function requestCustomerUrl(planId, options) {
+  return request(`/plans/${planId}/customerUrl`, {
+    method: 'POST',
+    ...options
+  });
+}
 export function requestUpdateAction(planId, actionId, updates, options) {
   return request(`/plans/${planId}/actions/${actionId}`, {
     method: 'PATCH',
     body: updates,
+    ...options
+  });
+}
+
+export function requestDeleteAction(planId, actionId, options) {
+  return request(`/plans/${planId}/actions/${actionId}`, {
+    method: 'DELETE',
     ...options
   });
 }

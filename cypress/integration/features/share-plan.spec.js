@@ -15,7 +15,7 @@ context('Share the plan with collaborator', () => {
       },
       numbers: ["070000000"],
       emails: ["example@plan.com"],
-      customerTokens: []
+      customerTokens: [{ token: 'one', sharedDate: null }]
     });
 
     cy.task('createPlan', {
@@ -36,14 +36,32 @@ context('Share the plan with collaborator', () => {
       customerTokens: []
     });
 
+    cy.task('createPlan', {
+      id: '3',
+      firstName: 'Dwayn',
+      lastName: 'Johnson',
+      queryFirstName: 'dwayn',
+      queryLastName: 'johnson',
+      goal: {
+        targetReviewDate: '2022-05-29T00:00:00.000Z',
+        text: 'The goal',
+        useAsPhp: true,
+        actions: []
+      },
+      numbers: [],
+      emails: [],
+      customerTokens: []
+    });
+
     cy.setHackneyCookie(true);
     cy.visit(`http://localhost:3000/plans/1`);
-  }
+  },
 
-  afterEach(() => {
-    cy.task('deletePlan', '1');
-    cy.task('deletePlan', '2');
-  });
+    afterEach(() => {
+      cy.task('deletePlan', '1');
+      cy.task('deletePlan', '2');
+      cy.task('deletePlan', '3');
+    });
 
   describe('Share the plan with resident', () => {
     it('Shares the plan via SMS', () => {
@@ -83,9 +101,10 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=share-link-to-plan-row-test] > span')
         .should('contain', 'Not yet shared with Bart');
 
-      cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+      cy.get('[data-testid=share-plan-button]')
         .should('contain', 'Share')
-      cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+      cy.get('[data-testid=share-plan-button]')
+        .first()
         .click();
       cy.get('#content').should('contain', 'Last shared with');
     });
@@ -96,20 +115,55 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
         .click();
 
-      cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+      cy.get('[data-testid=share-plan-button]')
+        .first()
         .click();
 
       cy.get('#content').should('contain', 'Something went wrong. The plan could not be shared.');
     })
 
-
     it('Shows a warning when no sharing option is selected', () => {
       cy.visit('http://localhost:3000/plans/2/share');
 
 
-      cy.get('[data-testid=share-link-to-plan-row-test] > div > button')
+      cy.get('[data-testid=share-plan-button]')
+        .first()
         .click();
 
       cy.get('#content').should('contain', 'Please select at least one sharing option');
+    })
+
+    it('Shows disabled checkbox when phone numbers do not exist', () => {
+      cy.visit('http://localhost:3000/plans/3/share');
+
+
+      cy.get('[data-testid=share-plan-button]')
+        .first()
+        .click();
+
+      cy.get('#share-by-sms').should('be.disabled');
+      cy.get('[data-testid=share-by-sms-row-test]').should('contain', 'No numbers found.');
+    })
+
+    it('Shows disabled checkbox when emails do not exist', () => {
+      cy.visit('http://localhost:3000/plans/3/share');
+
+
+      cy.get('[data-testid=share-plan-button]')
+        .first()
+        .click();
+
+      cy.get('#share-by-email').should('be.disabled');
+      cy.get('[data-testid=share-by-email-row-test]').should('contain', 'No emails found.');
+    })
+
+    it('Shows a unique shareable link', () => {
+      cy.visit('http://localhost:3000/plans/3/share');
+
+      cy.get('[data-testid=share-plan-button]')
+        .last()
+        .click();
+
+      cy.get('[data-testid=shareable-link_test]').should('contain', '/c/plans/3?token=');
     })
   }

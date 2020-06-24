@@ -43,7 +43,7 @@ const authoriseStaffHandler = (req, res, next) => {
 
 // private customer routes
 server.all(
-  '/customer/plans/:id',
+  '/c/plans/:id',
   (req, res, next) => authoriseCustomerHandler(req, res, next),
   (req, res) => nextRequestHandler(req, res)
 );

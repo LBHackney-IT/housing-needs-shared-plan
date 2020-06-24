@@ -2,47 +2,60 @@
 
 .share-link-to-plan__button {
   margin: 0 0 10px 0;
+  width: 6em;
 }
 
 .share-plan_status {
   font-size: 0.8em;
 }
 
-.share-plan__table {
-  tr {
-    td,
-    th {
-      padding: 1em 0;
-    }
-  }
-}
-
-.share-plan__collaborators-list {
-  @media (max-width: #{$screen-sm-min}) {
-    width: 100%;
-  }
-}
-.share-plan__collaborators-list-button,
-.share-plan__collaborators-list {
-  width: 12rem;
-  border-bottom: none;
+.share-plan__grid {
+  display: grid;
+  width: 100%;
+  grid-template-areas: 'collaborator sms email share';
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 
   @media (max-width: #{$screen-sm-min}) {
-    float: left;
-    clear: left;
+    grid-template-areas: 'collaborator' 'sms' 'email' 'share';
+    grid-template-columns: 1fr;
+  }
+  .collaborator {
+    grid-area: collaborator;
+  }
+  .sms {
+    grid-area: sms;
+  }
+  .email {
+    grid-area: email;
+  }
+  .share {
+    grid-area: share;
   }
 }
-.share-plan__collaborators-list-headers {
-  width: 12rem;
 
+.share-plan__collaborators-list-header-row {
+  font-weight: bold;
+  font-size: large;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   @media (max-width: #{$screen-sm-min}) {
     display: none;
   }
 }
 
-.share-plan__collaborators-list-row {
-  margin-left: auto;
-  margin-right: auto;
-  height: auto;
-  width: auto;
+.customer-link-to-plan__link {
+  font-size: medium;
+  overflow-wrap: anywhere;
+  background: none;
+  padding: 0 0 0 0;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #222222;
+  text-align: left;
+}
+
+.customer-link-to-plan__label {
+  font-weight: bold;
 }

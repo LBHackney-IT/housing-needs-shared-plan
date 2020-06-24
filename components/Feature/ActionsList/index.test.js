@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 
 describe('<ActionsList />', () => {
   const onActionToggled = jest.fn();
+  const onActionDeleted = jest.fn();
 
   const component = (
     <ActionsList
@@ -10,7 +11,7 @@ describe('<ActionsList />', () => {
         {
           id: 'PPBqWA9',
           summary: 'Run a test',
-          description: 'This will check if it works',
+          description: 'This will check if it works https://google.com',
           dueDate: '2020-05-26T09:00:00+0000',
           isCompleted: true
         },
@@ -22,6 +23,7 @@ describe('<ActionsList />', () => {
         }
       ]}
       onActionToggled={onActionToggled}
+      onActionDeleted={onActionDeleted}
     />
   );
 
@@ -72,5 +74,19 @@ describe('<ActionsList />', () => {
       actionId: 'PPBqWA9',
       isCompleted: false
     });
+  });
+
+  it('triggers "onActionDeleted" when delete button clicked', () => {
+    const { getByTestId } = render(component);
+    getByTestId('actions-list-button-delete-PPBqWA9').click();
+    expect(onActionDeleted).toHaveBeenCalledWith({ actionId: 'PPBqWA9' });
+  });
+
+  it('renders links in action description', () => {
+    const { getByText } = render(component);
+    expect(getByText('https://google.com')).toHaveAttribute(
+      'href',
+      'https://google.com'
+    );
   });
 });

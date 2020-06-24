@@ -36,4 +36,8 @@
   @media (max-width: #{$screen-sm-min}) {
     display: none;
   }
+
+  button {
+    margin-top: 0.5em;
+  }
 }
