@@ -127,6 +127,118 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
           )}
         </div>
       </div>
+
+      <div className="govuk-form-group">
+        <fieldset className="govuk-fieldset" aria-describedby="waste-hint">
+          <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 className="govuk-fieldset__heading">
+              Which types of waste do you transport?
+            </h1>
+          </legend>
+          <span id="waste-hint" className="govuk-hint">
+            Select all that apply.
+          </span>
+          <div className="govuk-checkboxes">
+            <Checkbox
+              name="share-by-sms"
+              label={getNumber(plan.numbers[0])}
+              value={getNumber(plan.numbers[0])}
+              disabled={!plan.numbers[0]}
+              onClick={handleSelectNumber}
+            />
+            <Checkbox
+              name="share-by-email"
+              label={plan.emails[0] || 'No emails found.'}
+              value={plan.emails[0] || 'No emails found.'}
+              onClick={handleSelectEmail}
+              disabled
+            />
+          </div>
+        </fieldset>
+      </div>
+
+      <main className="govuk-main-wrapper">
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-one-quarter">
+            <Heading as="h3" size="s">
+              Collaborators
+            </Heading>
+            <div
+              className={css['collaborator']}
+              data-testid="collaborator-name-row-test"
+            >
+              <div>
+                {plan.firstName} {plan.lastName}
+              </div>
+            </div>
+          </div>
+          <div className="govuk-grid-column-one-quarter">
+            <Heading as="h3" size="s">
+              Collaborators
+            </Heading>
+            <Checkbox
+              name="share-by-sms"
+              label={getNumber(plan.numbers[0])}
+              value={getNumber(plan.numbers[0])}
+              disabled={!plan.numbers[0]}
+              onClick={handleSelectNumber}
+            />
+          </div>
+          <div className="govuk-grid-column-one-quarter">
+            <Heading as="h3" size="s">
+              Collaborators
+            </Heading>
+            <Checkbox
+              name="share-by-email"
+              label={plan.emails[0] || 'No emails found.'}
+              value={plan.emails[0] || 'No emails found.'}
+              onClick={handleSelectEmail}
+              disabled
+            />
+          </div>
+          <div className="govuk-grid-column-one-quarter">
+            <Heading as="h3" size="s">
+              Collaborators
+            </Heading>
+            <div>
+              <Button
+                className={`govuk-button ${css['share-link-to-plan__button']}`}
+                data-module="govuk-button"
+                data-testid="share-plan-button"
+                onClick={shareThePlan}
+                text="Share"
+              />
+              <div>
+                <span className={`${css['customer-link-to-plan__label']}`}>
+                  Unique customer link:{' '}
+                </span>
+                <a
+                  href={customerUrl}
+                  data-testid="shareable-link_test"
+                  className={`${css['customer-link-to-plan__link']}`}
+                >
+                  {customerUrl}
+                </a>
+              </div>
+              <ShareStatus
+                name={plan.firstName}
+                customerTokens={plan.customerTokens}
+              />
+              {error && (
+                <span className="govuk-error-message">
+                  Something went wrong. The plan could not be shared.
+                </span>
+              )}
+              {hasError && (
+                <span id={`${name}-error`} className="govuk-error-message">
+                  <span className="govuk-visually-hidden">Error:</span> Please
+                  select at least one sharing option
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
     </>
   );
 };
