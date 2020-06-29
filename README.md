@@ -5,8 +5,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 1. Install dependencies:
   ```bash
   yarn
-  # or
-  npm install
   ```
 
 2. Create a .env file, based on the .env.sample file:
@@ -15,20 +13,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   ```
 
 3. Set up DynamoDB local:
+  Install Java if you don't already have it
+  Install dynamodb:
   ```bash
-  brew cask install java # if you don't already have Java
-  npm run dynamo-install
+  sls dynamodb install
   ```
 
-4. Create local DynamoDB plans table
+4. Create local DynamoDB plans table:
   ```bash
   aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
   ```
 
 5. Run the development server:
   ```bash
-  npm run dev
-  # or
   yarn dev
   ```
 
@@ -39,8 +36,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Run jest tests:
 
 ```bash
-npm run unit-test
-# or
 yarn unit-test
 ```
 
@@ -70,20 +65,15 @@ SMS_API_URL=http://localhost:8080
 1. Start shared-plan and mock-sms servers:
   ```bash
   yarn start-cypress-servers
-  # or
-  npm run start-cypress-servers
   ```
 
 2. Open the test runner:
   ```bash
   yarn cypress-open
-  # or
-  npm run cypress-open
   ```
 
 ## Pages
 Home page
-
 ```bash
 /
 ```
@@ -97,6 +87,49 @@ Sharing page of the plan
 ```bash
 /plan/[id]/share
 ```
+
+## Api routes
+
+Create a shared plan
+```bash
+/plans
+```
+
+Get the shared plan
+```bash
+/plans/[id]
+```
+
+Add goals to the shared plan
+```bash
+/plans/[id]/goals
+```
+
+Add actions to the shared plan
+```bash
+/plans/[id]/actions
+```
+
+Update and delete an action
+```bash
+/plans/[id]/actions/[actionId]
+```
+
+Share the plan with collaborator
+```bash
+/plans/[id]/share
+```
+
+Create/get shareable customer url
+```bash
+/plans/[id]/customerUrl
+```
+
+Find the shared plan with correct name and system IDs
+```bash
+/plans/[id]/find
+```
+
 
 ## Learn More
 
