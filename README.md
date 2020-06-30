@@ -106,5 +106,5 @@ Share the plan with collaborator:
 Create/get shareable customer url:  
   /plans/[id]/customerUrl
 
-Find the shared plan with correct name and system IDs:
+Find the shared plan with correct name and system IDs:  
   /plans/[id]/find
