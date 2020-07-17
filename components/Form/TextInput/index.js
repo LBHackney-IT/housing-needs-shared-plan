@@ -7,7 +7,7 @@ const TextInput = ({
   onChange,
   validate,
   value,
-  autoComplete
+  autoComplete,
 }) => {
   const [hasError, setHasError] = useState(false);
   useEffect(() => {

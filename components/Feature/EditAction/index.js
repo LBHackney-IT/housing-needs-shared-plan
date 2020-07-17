@@ -3,7 +3,7 @@ import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 import css from './index.module.scss';
 
-const EditAction = ({ action, onActionUpdated }) => {
+const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
   const [year, month, day] = action.dueDate.split('-');
   const [summary, setActionSummary] = useState(action.summary);
   const [dueDate, setDueDate] = useState({ day, month, year });
@@ -77,9 +77,9 @@ const EditAction = ({ action, onActionUpdated }) => {
         </h3>
         <form onSubmit={updateAction}>
           <TextInput
+            hint={`Example: '${residentName} to provide...' or '${officerName} to contact...'`}
             name="summary-text"
             label="Action title"
-            //hint={`Example: '${plan.firstName} to provide...' or '${label} to contact...'`}
             required
             onChange={handleActionSummaryChange}
             validate={validate}
@@ -94,9 +94,9 @@ const EditAction = ({ action, onActionUpdated }) => {
             value={description}
           />
           <DateInput
+            hint="Agreed date to complete the action"
             name="due-date"
             title="Due date"
-            hint="Agreed date to complete the action"
             onChange={handleDueDateChange}
             validate={validate}
             autoComplete="off"

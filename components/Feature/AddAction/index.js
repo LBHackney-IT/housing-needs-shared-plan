@@ -3,7 +3,7 @@ import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 import css from './index.module.scss';
 
-const AddAction = ({ onActionAdded }) => {
+const AddAction = ({ onActionAdded, residentName, officerName }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({ day: '', month: '', year: '' });
   const [description, setActionDescription] = useState('');
@@ -72,8 +72,9 @@ const AddAction = ({ onActionAdded }) => {
         </h3>
         <form onSubmit={addToPlan}>
           <TextInput
+            hint={`Example: '${residentName} to provide...' or '${officerName} to contact...'`}
             name="summary-text"
-            label="Summary"
+            label="Action title"
             required
             onChange={handleActionSummaryChange}
             validate={validate}
@@ -81,12 +82,14 @@ const AddAction = ({ onActionAdded }) => {
             value={summary}
           />
           <TextArea
+            hint="What you, or the resident will need to do to complete the action, including any required links, emails or phone numbers"
             name="full-description"
             label="Full description(optional)"
             onChange={handleActionDescriptionChange}
             value={description}
           />
           <DateInput
+            hint="Agreed date to complete the action"
             name="due-date"
             title="Due date"
             onChange={handleDueDateChange}
