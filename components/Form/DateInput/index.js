@@ -4,6 +4,7 @@ import moment from 'moment';
 const DateInput = ({
   autoComplete,
   day,
+  hint,
   month,
   name,
   onChange,
@@ -40,9 +41,14 @@ const DateInput = ({
           <h3 className="govuk-label">{title}</h3>
         </legend>
 
-        {showHint && (
-          <span id={`${name}-hint`} className="govuk-hint">
-            For example, 12 10 2025
+        {/*{showHint && (*/}
+        {/*  <span id={`${name}-hint`} className="govuk-hint">*/}
+        {/*    For example, 12 10 2025*/}
+        {/*  </span>*/}
+        {/*)}*/}
+        {hint && (
+          <span id={`${name}-hint`} className={'govuk-hint'}>
+            {hint}
           </span>
         )}
 

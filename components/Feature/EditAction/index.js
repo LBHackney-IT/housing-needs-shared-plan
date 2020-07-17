@@ -69,13 +69,17 @@ const EditAction = ({ action, onActionUpdated }) => {
   return (
     <div className={`govuk-grid-row ${css['row-add-new-action']}`}>
       <div className="govuk-grid-column-three-quarters">
-        <h3 className={`govuk-heading-m ${css['heading-add-new-action']}`} data-testsid="edit-action-heading-test">
+        <h3
+          className={`govuk-heading-m ${css['heading-add-new-action']}`}
+          data-testsid="edit-action-heading-test"
+        >
           Edit action
         </h3>
         <form onSubmit={updateAction}>
           <TextInput
             name="summary-text"
-            label="Summary"
+            label="Action title"
+            //hint={`Example: '${plan.firstName} to provide...' or '${label} to contact...'`}
             required
             onChange={handleActionSummaryChange}
             validate={validate}
@@ -83,14 +87,16 @@ const EditAction = ({ action, onActionUpdated }) => {
             value={summary}
           />
           <TextArea
+            hint="What you, or the resident will need to do to complete the action, including any required links, emails or phone numbers"
             name="full-description"
-            label="Full description(optional)"
+            label="Full description (optional)"
             onChange={handleActionDescriptionChange}
             value={description}
           />
           <DateInput
             name="due-date"
             title="Due date"
+            hint="Agreed date to complete the action"
             onChange={handleDueDateChange}
             validate={validate}
             autoComplete="off"
