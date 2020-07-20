@@ -83,6 +83,8 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
             await addAction(action);
             setShowAddAction(false);
           }}
+          officerName={goal.agreedWithName}
+          residentName={plan.firstName}
         />
       )}
       {editActionId && (
@@ -91,6 +93,8 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
             await updateAction(action);
             setEditActionId(false);
           }}
+          officerName={goal.agreedWithName}
+          residentName={plan.firstName}
           action={plan.goal.actions.find(action => action.id === editActionId)} />
       )}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
