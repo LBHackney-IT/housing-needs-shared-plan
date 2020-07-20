@@ -132,12 +132,12 @@ context('Add action form', () => {
       cy.get('[data-testid=details-summary]').should('not.exist');
     });
 
-    it('Shows a validation error when the summary text is empty', () => {
+    it('Shows a validation error when the action title text is empty', () => {
       createAction('', 'Action description', '1', '2', '2021');
       cy.get('[data-testid=add-action-button-test]').click();
       cy.get('#summary-text-error').should(
         'contain',
-        'The Summary is required'
+        'The Action title is required'
       );
     });
 

@@ -41,9 +41,9 @@ describe('DateInput', () => {
     expect(title).toBeInTheDocument();
   });
 
-  it('renders a hint if showHint is true', () => {
+  it('renders a hint if a hint was provided', () => {
     const { container } = render(
-      <DateInput name={inputName} showHint={true} />
+      <DateInput name={inputName} hint="Agreed date" />
     );
     const hint = container.querySelector(`#${inputName}-hint`);
 

@@ -75,10 +75,10 @@ context('Add-goal form', () => {
       );
     });
 
-    it('Shows a validation error when the goal text is empty', () => {
+    it('Shows a validation error when the overall resident goal text is empty', () => {
       createGoal('', '8', '11', '2025', false);
       cy.get('[data-testid=add-actions-button-test]').click();
-      cy.get('#goal-text-error').should('contain', 'The Goal is required');
+      cy.get('#goal-text-error').should('contain', 'The Overall resident goal is required');
     });
 
     it('Shows validation error when the day is empty', () => {

@@ -4,7 +4,7 @@ import AddGoal from './index';
 describe('AddGoal', () => {
   it('renders the add goal form', () => {
     const { getByLabelText, getByText } = render(<AddGoal plan={{ id: 1 }} />);
-    expect(getByLabelText('Goal')).toBeInTheDocument();
+    expect(getByLabelText('Overall resident goal')).toBeInTheDocument();
     expect(getByLabelText('Day')).toBeInTheDocument();
     expect(getByLabelText('Month')).toBeInTheDocument();
     expect(getByLabelText('Year')).toBeInTheDocument();
@@ -18,7 +18,7 @@ describe('AddGoal', () => {
       <AddGoal initialUseAsPhp={false} onGoalAdded={onGoalAdded} />
     );
 
-    fireEvent.change(getByLabelText('Goal'), {
+    fireEvent.change(getByLabelText('Overall resident goal'), {
       target: { value: 'this is my goal' }
     });
     fireEvent.change(getByLabelText('Day'), {
@@ -68,7 +68,7 @@ describe('AddGoal', () => {
 
   it('sets the goal input value if goal already exists', () => {
     const { getByLabelText } = render(<AddGoal goal={{ text: 'hello' }} />);
-    expect(getByLabelText('Goal').value).toEqual('hello');
+    expect(getByLabelText('Overall resident goal').value).toEqual('hello');
   });
 
   it('sets the target review date input value if goal already exists', () => {
