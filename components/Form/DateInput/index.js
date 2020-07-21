@@ -4,11 +4,11 @@ import moment from 'moment';
 const DateInput = ({
   autoComplete,
   day,
+  hint,
   month,
   name,
   onChange,
   required = true,
-  showHint,
   title,
   validate,
   year
@@ -32,7 +32,7 @@ const DateInput = ({
       <fieldset
         className="govuk-fieldset"
         role="group"
-        aria-describedby={`${showHint ? `${name}-hint` : ''}${
+        aria-describedby={`${hint ? `${name}-hint` : ''}${
           hasError ? ` ${name}-error` : ''
         }`}
       >
@@ -40,9 +40,9 @@ const DateInput = ({
           <h3 className="govuk-label">{title}</h3>
         </legend>
 
-        {showHint && (
-          <span id={`${name}-hint`} className="govuk-hint">
-            For example, 12 10 2025
+        {hint && (
+          <span id={`${name}-hint`} className={'govuk-hint'}>
+            {hint}
           </span>
         )}
 

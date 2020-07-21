@@ -6,7 +6,7 @@ describe('AddAction', () => {
   it('renders the add action form', () => {
     const { getByLabelText } = render(<AddAction />);
 
-    expect(getByLabelText('Summary')).toBeInTheDocument();
+    expect(getByLabelText('Action title')).toBeInTheDocument();
     expect(getByLabelText('Full description(optional)')).toBeInTheDocument();
     expect(getByLabelText('Day')).toBeInTheDocument();
     expect(getByLabelText('Month')).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe('OnClick', () => {
     const { getByLabelText, getByText } = render(
       <AddAction onActionAdded={onActionAdded} />
     );
-    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.type(getByLabelText('Action title'), 'Action title');
     await userEvent.type(
       getByLabelText('Full description(optional)'),
       'description'
@@ -31,7 +31,7 @@ describe('OnClick', () => {
     await getByText('Add to plan').click();
 
     expect(onActionAdded).toHaveBeenCalledWith({
-      summary: 'summary',
+      summary: 'Action title',
       description: 'description',
       dueDate: expect.stringContaining('2200-01-01')
     });
@@ -43,7 +43,7 @@ describe('OnClick', () => {
       <AddAction onActionAdded={onActionAdded} />
     );
 
-    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.type(getByLabelText('Action title'), 'Action title');
     await userEvent.type(getByLabelText('Day'), '99');
     await userEvent.type(getByLabelText('Month'), '40000');
     await userEvent.type(getByLabelText('Year'), '0');

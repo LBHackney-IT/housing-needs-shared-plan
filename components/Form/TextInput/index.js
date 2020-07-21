@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 
-const TextInput = ({ label, name, onChange, validate, value, autoComplete }) => {
+const TextInput = ({
+  hint,
+  label,
+  name,
+  onChange,
+  validate,
+  value,
+  autoComplete,
+}) => {
   const [hasError, setHasError] = useState(false);
   useEffect(() => {
     if (validate) setHasError(!value);
@@ -15,6 +23,12 @@ const TextInput = ({ label, name, onChange, validate, value, autoComplete }) => 
       <label className="govuk-label" htmlFor={name}>
         {label}
       </label>
+
+      {hint && (
+        <span id={`${name}-hint`} className="govuk-hint">
+          {hint}
+        </span>
+      )}
       {hasError && (
         <span id={`${name}-error`} className="govuk-error-message">
           <span className="govuk-visually-hidden">Error:</span> The {label} is

@@ -36,7 +36,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
       setHasError(true);
       return;
     }
-    onPlanShared(selectedContact);
+    onPlanShared(selectedContact, customerUrl);
   };
 
   const getNumber = number => {
