@@ -4,31 +4,31 @@ import AddAction from './index';
 
 describe('AddAction', () => {
   it('renders the add action form', () => {
-    const { getByLabelText } = render(<AddAction />);
+    const { getByTestId } = render(<AddAction />);
 
-    expect(getByLabelText('Action title')).toBeInTheDocument();
-    expect(getByLabelText('Full description(optional)')).toBeInTheDocument();
-    expect(getByLabelText('Day')).toBeInTheDocument();
-    expect(getByLabelText('Month')).toBeInTheDocument();
-    expect(getByLabelText('Year')).toBeInTheDocument();
+    expect(getByTestId('action-title-test')).toBeInTheDocument();
+    expect(getByTestId('description-test')).toBeInTheDocument();
+    expect(getByTestId('day-test')).toBeInTheDocument();
+    expect(getByTestId('month-test')).toBeInTheDocument();
+    expect(getByTestId('year-test')).toBeInTheDocument();
   });
 });
 
 describe('OnClick', () => {
   it('Adds an action', async () => {
     const onActionAdded = jest.fn();
-    const { getByLabelText, getByText } = render(
+    const { getByTestId } = render(
       <AddAction onActionAdded={onActionAdded} />
     );
-    await userEvent.type(getByLabelText('Action title'), 'Action title');
+    await userEvent.type(getByTestId('text-input-test'), 'Action title');
     await userEvent.type(
-      getByLabelText('Full description(optional)'),
+      getByTestId('text-area-input-test'),
       'description'
     );
-    await userEvent.type(getByLabelText('Day'), '01');
-    await userEvent.type(getByLabelText('Month'), '01');
-    await userEvent.type(getByLabelText('Year'), '2200');
-    await getByText('Add to plan').click();
+    await userEvent.type(getByTestId('day-test'), '01');
+    await userEvent.type(getByTestId('month-test'), '01');
+    await userEvent.type(getByTestId('year-test'), '2200');
+    await getByTestId('add-action-button-test').click();
 
     expect(onActionAdded).toHaveBeenCalledWith({
       summary: 'Action title',
@@ -39,15 +39,15 @@ describe('OnClick', () => {
 
   it('does not save the action if the form is not valid', async () => {
     const onActionAdded = jest.fn();
-    const { getByLabelText, getByText } = render(
+    const { getByTestId } = render(
       <AddAction onActionAdded={onActionAdded} />
     );
 
-    await userEvent.type(getByLabelText('Action title'), 'Action title');
-    await userEvent.type(getByLabelText('Day'), '99');
-    await userEvent.type(getByLabelText('Month'), '40000');
-    await userEvent.type(getByLabelText('Year'), '0');
-    await getByText('Add to plan').click();
+    await userEvent.type(getByTestId('text-input-test'), 'Action title');
+    await userEvent.type(getByTestId('day-test'), '99');
+    await userEvent.type(getByTestId('month-test'), '40000');
+    await userEvent.type(getByTestId('year-test'), '0');
+    await getByTestId('add-action-button-test').click();
 
     expect(onActionAdded).not.toHaveBeenCalled();
   });

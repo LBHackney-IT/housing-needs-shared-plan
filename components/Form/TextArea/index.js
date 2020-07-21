@@ -1,5 +1,5 @@
-const TextArea = ({ hint, label, name, onChange, value }) => (
-  <div className="govuk-form-group">
+const TextArea = ({ hint, label, name, onChange, value, ...others }) => (
+  <div className="govuk-form-group" {...others}>
     <label className="govuk-label" htmlFor={`${name}`}>
       {label}
     </label>
@@ -16,6 +16,7 @@ const TextArea = ({ hint, label, name, onChange, value }) => (
       rows="5"
       onChange={onChange}
       value={value}
+      data-testid="text-area-input-test"
     ></textarea>
   </div>
 );
