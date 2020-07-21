@@ -83,6 +83,7 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
             validate={validate}
             autoComplete="off"
             value={text}
+            data-testid="add-goal-text-test"
           />
           <DateInput
             name="target-review-date"

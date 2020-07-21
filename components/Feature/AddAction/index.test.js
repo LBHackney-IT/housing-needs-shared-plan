@@ -6,8 +6,8 @@ describe('AddAction', () => {
   it('renders the add action form', () => {
     const { getByTestId } = render(<AddAction />);
 
-    expect(getByTestId('action-title-test')).toBeInTheDocument();
-    expect(getByTestId('description-test')).toBeInTheDocument();
+    expect(getByTestId('add-action-title-test')).toBeInTheDocument();
+    expect(getByTestId('add-action-description-test')).toBeInTheDocument();
     expect(getByTestId('day-test')).toBeInTheDocument();
     expect(getByTestId('month-test')).toBeInTheDocument();
     expect(getByTestId('year-test')).toBeInTheDocument();
@@ -20,9 +20,9 @@ describe('OnClick', () => {
     const { getByTestId } = render(
       <AddAction onActionAdded={onActionAdded} />
     );
-    await userEvent.type(getByTestId('text-input-test'), 'Action title');
+    await userEvent.type(getByTestId('add-action-title-test'), 'Action title');
     await userEvent.type(
-      getByTestId('text-area-input-test'),
+      getByTestId('add-action-description-test'),
       'description'
     );
     await userEvent.type(getByTestId('day-test'), '01');
@@ -43,7 +43,7 @@ describe('OnClick', () => {
       <AddAction onActionAdded={onActionAdded} />
     );
 
-    await userEvent.type(getByTestId('text-input-test'), 'Action title');
+    await userEvent.type(getByTestId('add-action-title-test'), 'Action title');
     await userEvent.type(getByTestId('day-test'), '99');
     await userEvent.type(getByTestId('month-test'), '40000');
     await userEvent.type(getByTestId('year-test'), '0');

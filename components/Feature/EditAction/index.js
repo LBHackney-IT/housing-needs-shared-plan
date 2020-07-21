@@ -85,6 +85,7 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
             validate={validate}
             autoComplete="off"
             value={summary}
+            data-testid="edit-action-title-test"
           />
           <TextArea
             hint="What you, or the resident will need to do to complete the action, including any required links, emails or phone numbers"
@@ -92,6 +93,7 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
             label="Full description (optional)"
             onChange={handleActionDescriptionChange}
             value={description}
+            data-testid="edit-action-description-test"
           />
           <DateInput
             hint="Agreed date to complete the action"

@@ -20,7 +20,6 @@ const TextInput = ({
       className={`govuk-form-group${
         hasError ? ' govuk-form-group--error' : ''
       }`}
-      {...others}
     >
       <label className="govuk-label" htmlFor={name}>
         {label}
@@ -48,7 +47,7 @@ const TextInput = ({
         }}
         value={value}
         aria-describedby={hasError ? `${name}-error` : ''}
-        data-testid="text-input-test"
+        {...others}
       />
     </div>
   );

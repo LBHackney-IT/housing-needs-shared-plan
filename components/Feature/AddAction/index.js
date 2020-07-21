@@ -80,7 +80,7 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
             validate={validate}
             autoComplete="off"
             value={summary}
-            data-testid="action-title-test"
+            data-testid="add-action-title-test"
           />
           <TextArea
             hint="What you, or the resident will need to do to complete the action, including any required links, emails or phone numbers"
@@ -88,7 +88,7 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
             label="Full description(optional)"
             onChange={handleActionDescriptionChange}
             value={description}
-            data-testid="description-test"
+            data-testid="add-action-description-test"
           />
           <DateInput
             hint="Agreed date to complete the action"
