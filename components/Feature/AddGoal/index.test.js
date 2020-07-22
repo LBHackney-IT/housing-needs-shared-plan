@@ -3,13 +3,13 @@ import AddGoal from './index';
 
 describe('AddGoal', () => {
   it('renders the add goal form', () => {
-    const { getByLabelText, getByText } = render(<AddGoal plan={{ id: 1 }} />);
-    expect(getByLabelText('Overall resident goal')).toBeInTheDocument();
-    expect(getByLabelText('Day')).toBeInTheDocument();
-    expect(getByLabelText('Month')).toBeInTheDocument();
-    expect(getByLabelText('Year')).toBeInTheDocument();
-    expect(getByLabelText('Use as a PHP')).toBeInTheDocument();
-    expect(getByText('Add actions')).toBeInTheDocument();
+    const { getByTestId } = render(<AddGoal plan={{ id: 1 }} />);
+    expect(getByTestId('add-goal-text-test')).toBeInTheDocument();
+    expect(getByTestId('day-test')).toBeInTheDocument();
+    expect(getByTestId('month-test')).toBeInTheDocument();
+    expect(getByTestId('year-test')).toBeInTheDocument();
+    expect(getByTestId('use-as-php-test')).toBeInTheDocument();
+    expect(getByTestId('add-actions-button-test')).toBeInTheDocument();
   });
 
   it('saves the goal when add actions button is clicked', () => {

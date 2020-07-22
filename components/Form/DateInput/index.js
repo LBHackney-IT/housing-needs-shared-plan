@@ -11,7 +11,8 @@ const DateInput = ({
   required = true,
   title,
   validate,
-  year
+  year,
+  ...others
 }) => {
   const [hasError, setHasError] = useState(false);
 
@@ -81,6 +82,7 @@ const DateInput = ({
                 }}
                 value={day}
                 autoComplete={autoComplete}
+                data-testid="day-test"
               />
             </div>
           </div>
@@ -111,6 +113,7 @@ const DateInput = ({
                 }}
                 value={month}
                 autoComplete={autoComplete}
+                data-testid="month-test"
               />
             </div>
           </div>
@@ -142,6 +145,7 @@ const DateInput = ({
                 }}
                 value={year}
                 autoComplete={autoComplete}
+                data-testid="year-test"
               />
             </div>
           </div>

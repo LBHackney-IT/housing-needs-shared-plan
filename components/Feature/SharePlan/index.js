@@ -121,7 +121,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                 customerTokens={plan.customerTokens}
               />
               {error && (
-                <span className="govuk-error-message">
+                <span className="govuk-error-message" data-testid="plan-not-shared-error-test">
                   Something went wrong. The plan could not be shared.
                 </span>
               )}
