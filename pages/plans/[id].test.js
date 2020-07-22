@@ -40,7 +40,7 @@ describe('PlanSummary', () => {
     it('renders the add goal form if goal is falsy', () => {
       const plan = { id: '1', firstName: 'John', lastName: 'Musk' };
       const { getByLabelText } = render(<PlanSummary initialPlan={plan} />);
-      expect(getByLabelText('Goal')).toBeInTheDocument();
+      expect(getByLabelText('Overall resident goal')).toBeInTheDocument();
     });
 
     it('renders the legal text if useAsPhp is true', () => {

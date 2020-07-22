@@ -77,7 +77,8 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
         <form onSubmit={addTheGoal}>
           <TextInput
             name="goal-text"
-            label="Goal"
+            label="Overall resident goal"
+            hint="Example: 'Find settled accommodation in the private rental sector' "
             onChange={handleGoalTextChange}
             validate={validate}
             autoComplete="off"
@@ -86,6 +87,7 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
           <DateInput
             name="target-review-date"
             title="Target review date"
+            hint="Your next appointment to review progress"
             onChange={handleTargetReviewDateChange}
             validate={validate}
             autoComplete="off"

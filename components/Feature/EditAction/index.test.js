@@ -6,8 +6,8 @@ describe('EditAction', () => {
   it('renders the edit action form', () => {
     const { getByLabelText } = render(<EditAction action={{dueDate: '2025-11-28'}} />);
 
-    expect(getByLabelText('Summary')).toBeInTheDocument();
-    expect(getByLabelText('Full description(optional)')).toBeInTheDocument();
+    expect(getByLabelText('Action title')).toBeInTheDocument();
+    expect(getByLabelText('Full description (optional)')).toBeInTheDocument();
     expect(getByLabelText('Day')).toBeInTheDocument();
     expect(getByLabelText('Month')).toBeInTheDocument();
     expect(getByLabelText('Year')).toBeInTheDocument();
@@ -20,11 +20,11 @@ describe('OnClick', () => {
     const { getByLabelText, getByTestId } = render(
       <EditAction action={{dueDate: '2200-01-01', description: 'description', summary: 'summary'}} onActionUpdated={onActionUpdated} />
     );
-    await userEvent.clear(getByLabelText('Summary'));
-    await userEvent.type(getByLabelText('Summary'), 'summary');
-    await userEvent.clear(getByLabelText('Full description(optional)'));
+    await userEvent.clear(getByLabelText('Action title'));
+    await userEvent.type(getByLabelText('Action title'), 'Action title');
+    await userEvent.clear(getByLabelText('Full description (optional)'));
     await userEvent.type(
-      getByLabelText('Full description(optional)'),
+      getByLabelText('Full description (optional)'),
       'description'
     );
     await userEvent.clear(getByLabelText('Day'));
@@ -36,7 +36,7 @@ describe('OnClick', () => {
     await getByTestId('save-action-button-test').click();
 
     expect(onActionUpdated).toHaveBeenCalledWith({
-      summary: 'summary',
+      summary: 'Action title',
       description: 'description',
       dueDate: expect.stringContaining('2200-01-01')
     });
@@ -48,8 +48,8 @@ describe('OnClick', () => {
       <EditAction action={{description: 'description', summary: 'summary', dueDate: '2025-11-28'}} onActionUpdated={onActionUpdated} />
     );
 
-    await userEvent.clear(getByLabelText('Summary'));
-    await userEvent.type(getByLabelText('Summary'), 'summary');
+    await userEvent.clear(getByLabelText('Action title'));
+    await userEvent.type(getByLabelText('Action title'), 'Action title');
     await userEvent.clear(getByLabelText('Day'));
     await userEvent.type(getByLabelText('Day'), '99');
     await userEvent.clear(getByLabelText('Month'));
