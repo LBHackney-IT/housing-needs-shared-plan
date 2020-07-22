@@ -42,12 +42,12 @@ const TextInput = ({
         name={name}
         type="text"
         autoComplete={autoComplete}
+        {...others}
         onChange={e => {
           onChange(e);
         }}
         value={value}
         aria-describedby={hasError ? `${name}-error` : ''}
-        {...others}
       />
     </div>
   );
