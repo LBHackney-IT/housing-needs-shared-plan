@@ -10,6 +10,11 @@
 }
 
 .share-plan__table {
+  thead {
+    @media (max-width: #{$screen-sm-min}) {
+      display: none;
+    }
+  }
   tr {
     td,
     th {
@@ -17,12 +22,10 @@
     }
   }
 }
-
 .share-plan__collaborators-list {
   width: 12rem;
-
   @media (max-width: #{$screen-sm-min}) {
-    display: none;
+    display: inline;
   }
 }
 
