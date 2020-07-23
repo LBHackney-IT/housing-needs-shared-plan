@@ -6,7 +6,7 @@ import Table, {
   TableBody,
   TableData
 } from 'components/Table';
-import { Button, Checkbox } from 'components/Form';
+import { Button, Checkbox, TextInput } from "components/Form";
 import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
@@ -85,22 +85,24 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
               data-testid="share-by-sms-row-test"
             >
               {editNumber && (
-                <input
+                <TextInput
+                  name="edit-phone-number-text"
+                  label="Edit phone number"
                   onChange={handleNumberChange}
                   value={numberText}
                   autoFocus
+                  autoComplete="off"
+                  style={{ width: 'inherit' }}
                   data-testid="edit-number-input-test"
                 />
               )}
 
               {editNumber && (
-                <button
+                <Button
                   onClick={saveNumber}
-                  className="govuk-details__summary-text"
+                  text="Save"
                   data-testid="save-number-button-test"
-                >
-                  Save
-                </button>
+                />
               )}
 
               {!editNumber && (
