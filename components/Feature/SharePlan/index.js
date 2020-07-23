@@ -14,6 +14,8 @@ import ShareStatus from './ShareStatus';
 const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [hasError, setHasError] = useState(false);
+  const [editNumber, setEditNumber] = useState(false);
+  const [numberText, setNumberText] = useState(plan.numbers?.[0] || '');
 
   const handleSelectEmail = e => {
     if (!e.target.value) return;
@@ -45,6 +47,15 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
     else return number;
   };
 
+  const saveNumber = () => {
+    plan.numbers[0] = numberText;
+    setEditNumber(false);
+  };
+
+  const handleNumberChange = e => {
+    setNumberText(e.target.value);
+  };
+
   return (
     <>
       <Heading as="h2" size="m">
@@ -73,13 +84,41 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
               className={css['share-plan__collaborators-list']}
               data-testid="share-by-sms-row-test"
             >
-              <Checkbox
-                name="share-by-sms"
-                label={getNumber(plan.numbers[0])}
-                value={getNumber(plan.numbers[0])}
-                disabled={!plan.numbers[0]}
-                onClick={handleSelectNumber}
-              />
+              {editNumber && (
+                <input
+                  onChange={handleNumberChange}
+                  value={numberText}
+                  autoFocus
+                />
+              )}
+
+              {editNumber && (
+                <button
+                  onClick={saveNumber}
+                  className="govuk-details__summary-text linkStyle"
+                >
+                  Save
+                </button>
+              )}
+
+              {!editNumber && (
+                <Checkbox
+                  name="share-by-sms"
+                  label={getNumber(plan.numbers[0])}
+                  value={getNumber(plan.numbers[0])}
+                  disabled={!plan.numbers[0]}
+                  onClick={handleSelectNumber}
+                />
+              )}
+
+              {!editNumber && (
+                <button
+                  onClick={() => setEditNumber(true)}
+                  className="govuk-details__summary-text linkStyle"
+                >
+                  Edit phone number
+                </button>
+              )}
             </TableData>
             <TableData
               className={css['share-plan__collaborators-list']}
@@ -121,7 +160,10 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                 customerTokens={plan.customerTokens}
               />
               {error && (
-                <span className="govuk-error-message" data-testid="plan-not-shared-error-test">
+                <span
+                  className="govuk-error-message"
+                  data-testid="plan-not-shared-error-test"
+                >
                   Something went wrong. The plan could not be shared.
                 </span>
               )}
