@@ -1,30 +1,110 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+# Shared Plan
+A tool that helps create a shared plan of action between a Hackney resident and the professionals supporting them.
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies:
+  ```bash
+  yarn
+  ```
+
+2. Create a .env file, based on the .env.sample file:
+  ```bash
+  touch .env # then go fill it in!
+  ```
+
+3. Set up DynamoDB local:
+  Install Java if you don't already have it
+  Install dynamodb:
+  ```bash
+  sls dynamodb install
+  ```
+
+4. Create local DynamoDB plans table:
+  ```bash
+  aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
+  ```
+
+5. Run the development server:
+  ```bash
+  yarn dev
+  ```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
+
+## Unit tests
+
+Run jest tests:
 
 ```bash
-npm run dev
-# or
-yarn dev
+yarn unit-test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Integration tests
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Set these env vars in .env file:
 
-## Learn More
+  NEXT_PUBLIC_API_URL=http://localhost:3000/api  
+  SMS_API_URL=http://localhost:8080
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Run cypress integration tests headlessly:
+1. Set these env vars to the same values as your local aws cli config:
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
+  CYPRESS_AWS_ACCESS_KEY_ID  
+  CYPRESS_AWS_SECRET_ACCESS_KEY  
+  CYPRESS_AWS_REGION  
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Run the tests:
+  ```bash
+  yarn run int-test
+  ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Run tests in cypress test runner:
+1. Start shared-plan and mock-sms servers:
+  ```bash
+  yarn start-cypress-servers
+  ```
+
+2. Open the test runner:
+  ```bash
+  yarn cypress-open
+  ```
+
+## Pages
+Home page:  
+  /
+
+Plan summary:  
+  /plans/[id]
+
+Sharing page of the plan:  
+  /plan/[id]/share
+
+
+## Api routes
+
+Create a shared plan:  
+  /plans
+
+Get the shared plan:  
+  /plans/[id]
+
+Add goals to the shared plan:  
+  /plans/[id]/goals
+
+Add actions to the shared plan:  
+  /plans/[id]/actions
+
+Update and delete an action:  
+  /plans/[id]/actions/[actionId]
+
+Share the plan with collaborator:  
+  /plans/[id]/share
+
+Create/get shareable customer url:  
+  /plans/[id]/customerUrl
+
+Find the shared plan with correct name and system IDs:  
+  /plans/[id]/find
