@@ -110,7 +110,6 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                   value={getNumber(plan.numbers[0])}
                   disabled={!plan.numbers[0]}
                   onClick={handleSelectNumber}
-                  data-testid="phone-number-checkbox-test"
                 />
               )}
 
