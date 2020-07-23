@@ -34,10 +34,10 @@ describe('Share plan', () => {
       numbers: ['123'],
       emails: []
     };
-    const { getByLabelText, getByText } = render(<SharePlan plan={plan} />);
+    const { getByLabelText, getByTestId } = render(<SharePlan plan={plan} />);
     getByLabelText('123').click();
 
-    expect(getByText('Share').disabled).toBe(false);
+    expect(getByTestId('share-plan-button').disabled).toBe(false);
   });
 
   it('calls the onPlanShared handler when plan is shared', () => {
@@ -47,12 +47,12 @@ describe('Share plan', () => {
     };
     const onPlanShared = jest.fn();
 
-    const { getByLabelText, getByText } = render(
+    const { getByLabelText, getByTestId } = render(
       <SharePlan plan={plan} onPlanShared={onPlanShared} />
     );
 
     getByLabelText('123').click();
-    getByText('Share').click();
+    getByTestId('share-plan-button').click();
 
     expect(onPlanShared).toHaveBeenCalled();
   });
@@ -62,10 +62,10 @@ describe('Share plan', () => {
       numbers: ['123'],
       emails: []
     };
-    const { getByText } = render(<SharePlan error={true} plan={plan} />);
+    const { getByTestId } = render(<SharePlan error={true} plan={plan} />);
 
     expect(
-      getByText('Something went wrong. The plan could not be shared.')
+      getByTestId('plan-not-shared-error-test')
     ).toBeInTheDocument();
   });
 

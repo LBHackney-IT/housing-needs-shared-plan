@@ -8,6 +8,7 @@ const TextInput = ({
   validate,
   value,
   autoComplete,
+  ...others
 }) => {
   const [hasError, setHasError] = useState(false);
   useEffect(() => {
@@ -41,6 +42,7 @@ const TextInput = ({
         name={name}
         type="text"
         autoComplete={autoComplete}
+        {...others}
         onChange={e => {
           onChange(e);
         }}
