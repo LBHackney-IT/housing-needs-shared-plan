@@ -89,13 +89,15 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                   onChange={handleNumberChange}
                   value={numberText}
                   autoFocus
+                  data-testid="edit-number-input-test"
                 />
               )}
 
               {editNumber && (
                 <button
                   onClick={saveNumber}
-                  className="govuk-details__summary-text linkStyle"
+                  className="govuk-details__summary-text"
+                  data-testid="save-number-button-test"
                 >
                   Save
                 </button>
@@ -108,16 +110,18 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                   value={getNumber(plan.numbers[0])}
                   disabled={!plan.numbers[0]}
                   onClick={handleSelectNumber}
+                  data-testid="phone-number-checkbox-test"
                 />
               )}
 
               {!editNumber && (
-                <button
+                <a
                   onClick={() => setEditNumber(true)}
                   className="govuk-details__summary-text linkStyle"
+                  data-testid="edit-number-button-test"
                 >
                   Edit phone number
-                </button>
+                </a>
               )}
             </TableData>
             <TableData
