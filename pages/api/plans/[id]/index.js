@@ -24,6 +24,9 @@ export const endpoint = ({ getPlan, updatePlan }) =>
     async ({ method, params: { id }, body: updateFields }) => {
       if (method === 'GET') {
         const result = await getPlan.execute({ id });
+        if (!result) {
+          return Response.notFound();
+        }
         return Response.ok(createPlanModel(result));
       }
 
