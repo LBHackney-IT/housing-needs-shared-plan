@@ -74,7 +74,10 @@ describe('Get and Update Plan APIs', () => {
         params: { id },
         body: updateFields
       });
-      expect(updatePlan.execute).toHaveBeenCalledWith({ id, updateFields });
+      expect(updatePlan.execute).toHaveBeenCalledWith({
+        planId: id,
+        updateFields
+      });
       expect(response.statusCode).toBe(204);
     });
 
