@@ -6,12 +6,25 @@ import Table, {
   TableBody,
   TableData
 } from 'components/Table';
-import { Button, Checkbox, TextInput } from "components/Form";
+import { Button, Checkbox, TextInput } from 'components/Form';
 import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
+import { usePlan } from '../../../api';
 
-const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
+const SharePlan = ({
+  planId,
+  error,
+  plan,
+  customerUrl,
+  onPlanShared,
+  token
+}) => {
+  const { updatePlan } = usePlan(planId, {
+    initialPlan: plan,
+    token
+  });
+
   const [selectedContact, setSelectedContact] = useState({});
   const [hasError, setHasError] = useState(false);
   const [editNumber, setEditNumber] = useState(false);
@@ -47,8 +60,12 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
     else return number;
   };
 
-  const saveNumber = () => {
-    plan.numbers[0] = numberText;
+  const saveNumber = async () => {
+    const updateFields = {
+      numbers: plan.numbers
+    };
+    updateFields.numbers[0] = numberText;
+    await updatePlan(updateFields);
     setEditNumber(false);
   };
 

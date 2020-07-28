@@ -30,7 +30,7 @@ export const endpoint = ({ getPlan, updatePlan }) =>
         return Response.ok(createPlanModel(result));
       }
 
-      await updatePlan.execute({ id, updateFields });
+      await updatePlan.execute({ planId: id, updateFields });
       return Response.noContent();
     }
   );

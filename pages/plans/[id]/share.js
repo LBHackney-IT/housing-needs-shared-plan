@@ -17,10 +17,12 @@ const Share = ({ initialPlan, planId, token, customerUrl }) => {
     <>
       <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
       <SharePlan
+        planId={planId}
         error={error}
         plan={plan}
         customerUrl={customerUrl}
         onPlanShared={sharePlan}
+        token={token}
       />
     </>
   );
