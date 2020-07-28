@@ -10,17 +10,10 @@ import { Button, Checkbox, TextInput } from 'components/Form';
 import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
-import { usePlan } from '../../../api';
+import { usePlan } from 'api';
 
-const SharePlan = ({
-  planId,
-  error,
-  plan,
-  customerUrl,
-  onPlanShared,
-  token
-}) => {
-  const { updatePlan } = usePlan(planId, {
+const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
+  const { updatePlan } = usePlan(plan.id, {
     initialPlan: plan,
     token
   });
