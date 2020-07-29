@@ -1,5 +1,7 @@
 const server = require('restana')();
 const app = require('next')({ dev: false });
+import { getReminderPlans } from 'lib/dependencies';
+
 // const files = require('serve-static');
 // const path = require('path');
 // const nextRequestHandler = app.getRequestHandler();
@@ -46,15 +48,12 @@ service
   .all('/reminders', async (req, res) => {
     try {
       const plansToShare = await getReminderPlans.execute({});
-    
+
       plansToShare.forEach(element => {
-          await sharePlan.execute({
+          await sendReminder.execute({
               planId: element.id,
-              collaborator: element.collaborator,
-              customerPlanUrl: element.customerPlanUrl,
-              authHeader: element.authorization // ?????
+              authHeader: element.authorization
             });
-  
       });
       console.log(req);
       res.status(201).json({ success: 'whoop!' });
