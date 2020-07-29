@@ -95,7 +95,8 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           }}
           officerName={goal.agreedWithName}
           residentName={plan.firstName}
-          action={plan.goal.actions.find(action => action.id === editActionId)} />
+          action={plan.goal.actions.find(action => action.id === editActionId)}
+        />
       )}
       {!editGoal && goal && goal.useAsPhp && <LegalText />}
     </>
