@@ -1,29 +1,38 @@
-import { getPlan } from 'lib/dependencies';
-import { ArgumentError } from 'lib/domain';
-import { logger } from 'lib/infrastructure/logging';
+import Response from 'lib/api/response';
+import { createEndpoint } from 'lib/api/createEndpoint';
+import { getPlan, updatePlan } from 'lib/dependencies';
 import { createPlanModel } from 'lib/api/models';
 
-export const endpoint = ({ getPlan }) => async (req, res) => {
-  const id = req.url.split('/')[3];
+export const endpoint = ({ getPlan, updatePlan }) =>
+  createEndpoint(
+    {
+      allowedMethods: ['GET', 'PATCH'],
+      validators: [
+        {
+          name: 'planId',
+          failureMessage: 'planId is required',
+          validate: ({ params }) => params.id?.length > 0
+        },
+        {
+          name: 'body',
+          failureMessage: 'no updated fields were found in the body',
+          validate: ({ body, method }) =>
+            method === 'GET' || Object.keys(body ?? {}).length > 0
+        }
+      ]
+    },
+    async ({ method, params: { id }, body: updateFields }) => {
+      if (method === 'GET') {
+        const result = await getPlan.execute({ id });
+        if (!result) {
+          return Response.notFound();
+        }
+        return Response.ok(createPlanModel(result));
+      }
 
-  try {
-    const result = await getPlan.execute({ id });
-
-    if (!result) {
-      return res.status(404).end();
+      await updatePlan.execute({ planId: id, updateFields });
+      return Response.noContent();
     }
+  );
 
-    logger.info(`Success`, { result });
-    return res.status(200).json(createPlanModel(result));
-  } catch (err) {
-    logger.error(err.message, { err });
-
-    if (err instanceof ArgumentError) {
-      return res.status(400).json({ error: `could not get plan` });
-    }
-
-    res.status(500).json({ error: `could not get plan with id=${id}` });
-  }
-};
-
-export default endpoint({ getPlan });
+export default endpoint({ getPlan, updatePlan });

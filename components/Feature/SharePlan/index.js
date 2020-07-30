@@ -6,14 +6,22 @@ import Table, {
   TableBody,
   TableData
 } from 'components/Table';
-import { Button, Checkbox } from 'components/Form';
+import { Button, Checkbox, TextInput } from 'components/Form';
 import Heading from 'components/Heading';
 import css from './index.module.scss';
 import ShareStatus from './ShareStatus';
+import { usePlan } from 'api';
 
-const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
+const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
+  const { updatePlan } = usePlan(plan.id, {
+    initialPlan: plan,
+    token
+  });
+
   const [selectedContact, setSelectedContact] = useState({});
   const [hasError, setHasError] = useState(false);
+  const [editNumber, setEditNumber] = useState(false);
+  const [numberText, setNumberText] = useState(plan.numbers?.[0] || '');
 
   const handleSelectEmail = e => {
     if (!e.target.value) return;
@@ -45,6 +53,19 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
     else return number;
   };
 
+  const saveNumber = async () => {
+    const updateFields = {
+      numbers: plan.numbers
+    };
+    updateFields.numbers[0] = numberText;
+    await updatePlan(updateFields);
+    setEditNumber(false);
+  };
+
+  const handleNumberChange = e => {
+    setNumberText(e.target.value);
+  };
+
   return (
     <>
       <Heading as="h2" size="m">
@@ -73,13 +94,46 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
               className={css['share-plan__collaborators-list']}
               data-testid="share-by-sms-row-test"
             >
-              <Checkbox
-                name="share-by-sms"
-                label={getNumber(plan.numbers[0])}
-                value={getNumber(plan.numbers[0])}
-                disabled={!plan.numbers[0]}
-                onClick={handleSelectNumber}
-              />
+              {editNumber && (
+                <TextInput
+                  name="edit-phone-number-text"
+                  label="Edit phone number"
+                  onChange={handleNumberChange}
+                  value={numberText}
+                  autoFocus
+                  autoComplete="off"
+                  style={{ width: 'inherit' }}
+                  data-testid="edit-number-input-test"
+                />
+              )}
+
+              {editNumber && (
+                <Button
+                  onClick={saveNumber}
+                  text="Save"
+                  data-testid="save-number-button-test"
+                />
+              )}
+
+              {!editNumber && (
+                <Checkbox
+                  name="share-by-sms"
+                  label={getNumber(plan.numbers[0])}
+                  value={getNumber(plan.numbers[0])}
+                  disabled={!plan.numbers[0]}
+                  onClick={handleSelectNumber}
+                />
+              )}
+
+              {!editNumber && (
+                <a
+                  onClick={() => setEditNumber(true)}
+                  className="govuk-details__summary-text linkStyle"
+                  data-testid="edit-number-button-test"
+                >
+                  Edit phone number
+                </a>
+              )}
             </TableData>
             <TableData
               className={css['share-plan__collaborators-list']}
@@ -121,7 +175,10 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared }) => {
                 customerTokens={plan.customerTokens}
               />
               {error && (
-                <span className="govuk-error-message" data-testid="plan-not-shared-error-test">
+                <span
+                  className="govuk-error-message"
+                  data-testid="plan-not-shared-error-test"
+                >
                   Something went wrong. The plan could not be shared.
                 </span>
               )}
