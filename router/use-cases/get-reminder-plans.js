@@ -1,4 +1,4 @@
-export default class GetReminderPlans {
+module.exports = class GetReminderPlans {
   constructor({ getPlan, planGateway }) {
     this.getPlan = getPlan;
     this.planGateway = planGateway;
@@ -7,4 +7,4 @@ export default class GetReminderPlans {
   async execute() {
     return await this.planGateway.getReminderPlans();
   }
-}
+};

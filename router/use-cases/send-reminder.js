@@ -1,6 +1,6 @@
-import IsoDate from 'lib/domain/isodate';
+const IsoDate = require('../domain/isodate');
 
-export default class SendReminder {
+module.exports = class SendReminder {
   constructor({ planGateway, smsGateway }) {
     this.planGateway = planGateway;
     this.smsGateway = smsGateway;
@@ -26,6 +26,11 @@ export default class SendReminder {
           authHeader
         });
 
+        sortedTokens[0].previouslySharedOn = sortedTokens[0].previouslySharedOn
+          ? sortedTokens[0].previouslySharedOn.concat([
+              sortedTokens[0].sharedDate
+            ])
+          : [sortedTokens[0].sharedDate];
         sortedTokens[0].sharedDate = IsoDate.parse(new Date());
 
         existingPlan.customerTokens = sortedTokens;
@@ -37,4 +42,4 @@ export default class SendReminder {
       }
     }
   }
-}
+};

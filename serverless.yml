@@ -54,18 +54,18 @@ functions:
 
   hn-shared-plan-reminders:
     name: ${self:service}-reminders-${self:provider.stage}
-    handler: router/cloudwatch/reminders.handler
+    handler: build/router/router/cloudwatch/reminders.handler
     package:
       include:
-        - router/**
-        - next.config.js
-        - lib/**
+        #- router/**
+        #- next.config.js
+        #- lib/**
         # - pages/**
         # - public/**
-        # - build/_next/**
+        - build/router/**
         - node_modules/**
     events:
-      - schedule: cron(0 12 * * *) # < every day at 12, rate(1 minute) > every minute
+      - schedule: cron(0 12 * * ? *) # < every day at 12, rate(1 minute) > every minute
 
     environment:
       ENV: ${self:provider.stage}
@@ -179,3 +179,4 @@ custom:
   aliases:
     staging: staging.sharedplan.hackney.gov.uk
     production: sharedplan.hackney.gov.uk
+    kat-temp: kat-temp.sharedplan.hackney.gov.uk

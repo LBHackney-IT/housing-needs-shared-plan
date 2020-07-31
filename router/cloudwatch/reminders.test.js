@@ -1,4 +1,4 @@
-import { handler } from './reminders';
+const { handler } = require('./reminders');
 
 describe('reminders handler', () => {
   xit('sends sms reminders', () => {

@@ -1,4 +1,4 @@
-import GetReminderPlans from 'lib/use-cases/get-reminder-plans';
+const GetReminderPlans = require('./get-reminder-plans');
 
 describe('Get Reminder Plans Use Case', () => {
   const logger = { info: jest.fn(), error: jest.fn() };

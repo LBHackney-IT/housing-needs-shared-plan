@@ -1,7 +1,14 @@
-import { getReminderPlans } from 'lib/dependencies';
-import { createToken } from 'lib/utils/token';
+const { getReminderPlans, sendReminder } = require('../dependencies');
 
-export async function handler(event, context) {
+const createToken = () => {
+  const token = jwt.sign(
+    { groups: [process.env.ALLOWED_GROUPS] },
+    process.env.JWT_SECRET
+  );
+  return token;
+};
+
+async function handler(event, context) {
   try {
     const { planIds } = await getReminderPlans.execute({});
     const authHeader = createToken();
@@ -12,16 +19,10 @@ export async function handler(event, context) {
         authHeader
       });
     });
-    event.response.send('wub');
-    return 'wub';
-    //res.status(201).json({ success: 'whoop!' });
+    console.log(event);
+    console.log(context);
   } catch (err) {
-    logger.error(err.message, { err });
-    if (err instanceof ArgumentError) {
-      return res.status(400).json({ error: `could not send reminders` });
-    }
-    // res.status(500).json({
-    //   error: `could not send reminders`
-    // });
+    console.log(err);
   }
 }
+module.exports = { handler };

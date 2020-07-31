@@ -1,5 +1,5 @@
-import SendReminder from 'lib/use-cases/send-reminder';
-import IsoDate from 'lib/domain/isodate';
+const SendReminder = require('./send-reminder');
+const IsoDate = require('../domain/isodate');
 
 describe('Send reminder', () => {
   const planGateway = {};
@@ -31,7 +31,11 @@ describe('Send reminder', () => {
         lastName: 'White',
         numbers: ['123'],
         customerTokens: [
-          { token: 'abc', sharedDate: IsoDate.parse(new Date()) }
+          {
+            token: 'abc',
+            sharedDate: IsoDate.parse(new Date()),
+            previouslySharedOn: ['2020']
+          }
         ]
       })
     });
