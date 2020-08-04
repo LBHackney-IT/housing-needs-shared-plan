@@ -57,20 +57,5 @@ class DbGateway {
       console.log(`Could not get plans with actions due in 2 days: ${err}`);
     }
   }
-
-  async save({ plan }) {
-    const request = {
-      TableName: this.tableName,
-      Key: { id: plan.id },
-      UpdateExpression: 'set customerTokens = :t',
-      ExpressionAttributeValues: {
-        ':t': plan.customerTokens.map(createTokenModel)
-      },
-      ReturnValues: 'UPDATED_NEW'
-    };
-
-    await this.client.update(request).promise();
-    return plan;
-  }
 }
 module.exports = DbGateway;

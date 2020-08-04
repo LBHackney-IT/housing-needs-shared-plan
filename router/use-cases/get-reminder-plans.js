@@ -1,6 +1,5 @@
 module.exports = class GetReminderPlans {
-  constructor({ getPlan, planGateway }) {
-    this.getPlan = getPlan;
+  constructor({ planGateway }) {
     this.planGateway = planGateway;
   }
 

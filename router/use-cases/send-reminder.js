@@ -26,16 +26,6 @@ module.exports = class SendReminder {
           authHeader
         });
 
-        sortedTokens[0].previouslySharedOn = sortedTokens[0].previouslySharedOn
-          ? sortedTokens[0].previouslySharedOn.concat([
-              sortedTokens[0].sharedDate
-            ])
-          : [sortedTokens[0].sharedDate];
-        sortedTokens[0].sharedDate = IsoDate.parse(new Date());
-
-        existingPlan.customerTokens = sortedTokens;
-
-        await this.planGateway.save({ plan: existingPlan });
         return existingPlan;
       }
     } catch (err) {

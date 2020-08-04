@@ -15,29 +15,12 @@ describe('Send reminder', () => {
       numbers: ['123'],
       customerTokens: [{ token: 'abc', sharedDate: '2020' }]
     }));
-    planGateway.save = jest.fn();
 
     const sendReminder = new SendReminder({ planGateway, smsGateway });
 
     await sendReminder.execute({
       planId: '1',
       authHeader
-    });
-
-    expect(planGateway.save).toHaveBeenCalledWith({
-      plan: expect.objectContaining({
-        id: 1,
-        firstName: 'Alice',
-        lastName: 'White',
-        numbers: ['123'],
-        customerTokens: [
-          {
-            token: 'abc',
-            sharedDate: IsoDate.parse(new Date()),
-            previouslySharedOn: ['2020']
-          }
-        ]
-      })
     });
 
     expect(smsGateway.sendMessage).toHaveBeenCalledWith(

@@ -2,7 +2,6 @@ const DbGateway = require('./gateways/db-gateway');
 const CheckAuth = require('./use-cases/check-auth');
 const CheckCustomerToken = require('./use-cases/check-customer-token');
 const AWS = require('aws-sdk');
-const GetPlan = require('./use-cases/get-plan');
 const GetReminderPlans = require('./use-cases/get-reminder-plans');
 const SendReminder = require('./use-cases/send-reminder');
 const SmsGateway = require('./gateways/sms-gateway');
@@ -25,9 +24,7 @@ const checkAuth = new CheckAuth({
   allowedGroups: process.env.ALLOWED_GROUPS.split(',')
 });
 
-const getPlan = new GetPlan({ dbGateway });
 const getReminderPlans = new GetReminderPlans({
-  getPlan,
   planGateway: dbGateway
 });
 
