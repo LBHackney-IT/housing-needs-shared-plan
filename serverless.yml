@@ -174,4 +174,3 @@ custom:
   aliases:
     staging: staging.sharedplan.hackney.gov.uk
     production: sharedplan.hackney.gov.uk
-    kat-temp: kat-temp.sharedplan.hackney.gov.uk
