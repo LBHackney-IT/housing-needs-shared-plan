@@ -60,7 +60,7 @@ functions:
         - router/**
         - node_modules/**
     events:
-      - schedule: rate(2 minutes) # < every day at 12, rate(1 minute) > every minute
+      - schedule: cron(0 11 * * ? *) # < every day at 12, rate(1 minute) > every minute
 
     environment:
       ENV: ${self:provider.stage}
