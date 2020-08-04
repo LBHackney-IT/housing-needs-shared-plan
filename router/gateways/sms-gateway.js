@@ -8,7 +8,6 @@ module.exports = class SmsGateway {
       number,
       message
     };
-    console.log(`Fetching ${url}. ${body}`);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -18,7 +17,6 @@ module.exports = class SmsGateway {
       },
       body: JSON.stringify(body)
     });
-
     if (response.ok) {
       return message;
     } else {

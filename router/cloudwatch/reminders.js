@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const createToken = () => {
   const token = jwt.sign(
-    { groups: [process.env.ALLOWED_GROUPS] },
+    { groups: [process.env.ALLOWED_GROUPS], name: 'Housing Needs' },
     process.env.JWT_SECRET
   );
   return token;
@@ -15,12 +15,12 @@ async function handler(event, context) {
 
     const authHeader = createToken();
 
-    planIds.forEach(async id => {
+    for (const id of planIds) {
       await sendReminder.execute({
         planId: id,
         authHeader
       });
-    });
+    }
   } catch (err) {
     console.log(err);
   }

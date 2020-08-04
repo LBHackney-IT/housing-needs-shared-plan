@@ -39,7 +39,9 @@ class DbGateway {
       actionDueDate.setDate(actionDueDate.getDate() + 2);
 
       const sharedPlans = Items.filter(item => {
-        return item.customerTokens?.some(token => token.sharedDate);
+        if (item.customerTokens) {
+          return item.customerTokens.some(token => token.sharedDate);
+        } else return false;
       });
 
       const planIds = sharedPlans
@@ -52,6 +54,7 @@ class DbGateway {
         .map(match => match.id);
 
       console.log(`${planIds.length} plans have actions due in 2 days`);
+      if (planIds.length === 0) return [];
       return { planIds };
     } catch (err) {
       console.log(`Could not get plans with actions due in 2 days: ${err}`);

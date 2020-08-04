@@ -20,7 +20,7 @@ module.exports = class SendReminder {
         const message = `This is a reminder that your Shared Plan from Hackney Council has actions due in 2 days: ${customerPlanUrl}`;
 
         await this.smsGateway.sendMessage({
-          name: `Shared Plan Reminder`,
+          name: `${existingPlan.firstName} ${existingPlan.lastName}`,
           number: existingPlan.numbers[0],
           message,
           authHeader
