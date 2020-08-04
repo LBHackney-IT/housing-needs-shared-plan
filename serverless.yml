@@ -16,6 +16,11 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - events:putRule
+        - events:putTargets
+        - events:deleteRule
+        - events:removeTargets
+        - events:TagResource
       Resource: '*'
 
 package:
