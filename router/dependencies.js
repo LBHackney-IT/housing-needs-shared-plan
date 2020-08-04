@@ -2,6 +2,9 @@ const DbGateway = require('./gateways/db-gateway');
 const CheckAuth = require('./use-cases/check-auth');
 const CheckCustomerToken = require('./use-cases/check-customer-token');
 const AWS = require('aws-sdk');
+const GetReminderPlans = require('./use-cases/get-reminder-plans');
+const SendReminder = require('./use-cases/send-reminder');
+const SmsGateway = require('./gateways/sms-gateway');
 
 const dbConfig = {};
 if (process.env.ENV !== 'production' && process.env.ENV !== 'staging') {
@@ -21,4 +24,17 @@ const checkAuth = new CheckAuth({
   allowedGroups: process.env.ALLOWED_GROUPS.split(',')
 });
 
-module.exports = { checkAuth, checkCustomerToken };
+const getReminderPlans = new GetReminderPlans({
+  planGateway: dbGateway
+});
+
+const smsGateway = new SmsGateway();
+
+const sendReminder = new SendReminder({ planGateway: dbGateway, smsGateway });
+
+module.exports = {
+  checkAuth,
+  checkCustomerToken,
+  getReminderPlans,
+  sendReminder
+};

@@ -13,8 +13,8 @@ context('Share the plan with collaborator', () => {
         actions: [],
         agreedWithName: 'Ami Working'
       },
-      numbers: ["070000000"],
-      emails: ["example@plan.com"],
+      numbers: ['070000000'],
+      emails: ['example@plan.com'],
       customerTokens: [{ token: 'one', sharedDate: null }]
     });
 
@@ -31,8 +31,8 @@ context('Share the plan with collaborator', () => {
         actions: [],
         agreedWithName: 'Ami Working'
       },
-      numbers: ["123"],
-      emails: ["example2@plan.com"],
+      numbers: ['123'],
+      emails: ['example2@plan.com'],
       customerTokens: []
     });
 
@@ -55,24 +55,21 @@ context('Share the plan with collaborator', () => {
 
     cy.setHackneyCookie(true);
     cy.visit(`http://localhost:3000/plans/1`);
-  },
+  });
 
-    afterEach(() => {
-      cy.task('deletePlan', '1');
-      cy.task('deletePlan', '2');
-      cy.task('deletePlan', '3');
-    });
+  afterEach(() => {
+    cy.task('deletePlan', '1');
+    cy.task('deletePlan', '2');
+    cy.task('deletePlan', '3');
+  });
 
   describe('Share the plan with resident', () => {
     it('Shares the plan via SMS', () => {
-      cy.get('[data-testid=share-plan-button-test]')
-        .click()
+      cy.get('[data-testid=share-plan-button-test]').click();
 
-      cy.get('#content > h1')
-        .should('contain', 'Bart Simpson\'s shared plan');
+      cy.get('#content > h1').should('contain', "Bart Simpson's shared plan");
 
-      cy.get('#content > h2')
-        .should('contain', 'Share with collaborators');
+      cy.get('#content > h2').should('contain', 'Share with collaborators');
 
       cy.get('#content > table > thead > tr')
         .should('contain', 'Collaborators')
@@ -80,29 +77,37 @@ context('Share the plan with collaborator', () => {
         .and('contain', 'Share by email')
         .and('contain', 'Share link to plan');
 
-      cy.get('[data-testid=collaborator-name-row-test]')
-        .should('contain', 'Bart Simpson');
+      cy.get('[data-testid=collaborator-name-row-test]').should(
+        'contain',
+        'Bart Simpson'
+      );
 
-      cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
-        .should('have.attr', 'type', 'checkbox');
+      cy.get(
+        '[data-testid=share-by-sms-row-test] > div > div > div > input'
+      ).should('have.attr', 'type', 'checkbox');
 
-      cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
-        .click();
+      cy.get(
+        '[data-testid=share-by-sms-row-test] > div > div > div > input'
+      ).click();
 
-      cy.get('[data-testid=share-by-sms-row-test] > div > div > div > label')
-        .should('contain', '+4470000000');
+      cy.get(
+        '[data-testid=share-by-sms-row-test] > div > div > div > label'
+      ).should('contain', '+4470000000');
 
-      cy.get('[data-testid=share-by-email-row-test] > div > div > div > input')
-        .should('have.attr', 'type', 'checkbox');
+      cy.get(
+        '[data-testid=share-by-email-row-test] > div > div > div > input'
+      ).should('have.attr', 'type', 'checkbox');
 
-      cy.get('[data-testid=share-by-email-row-test] > div > div > div > label')
-        .should('contain', 'example@plan.com');
+      cy.get(
+        '[data-testid=share-by-email-row-test] > div > div > div > label'
+      ).should('contain', 'example@plan.com');
 
-      cy.get('[data-testid=share-link-to-plan-row-test] > span')
-        .should('contain', 'Not yet shared with Bart');
+      cy.get('[data-testid=share-link-to-plan-row-test] > span').should(
+        'contain',
+        'Not yet shared with Bart'
+      );
 
-      cy.get('[data-testid=share-plan-button]')
-        .should('contain', 'Share')
+      cy.get('[data-testid=share-plan-button]').should('contain', 'Share');
       cy.get('[data-testid=share-plan-button]')
         .first()
         .click();
@@ -112,50 +117,60 @@ context('Share the plan with collaborator', () => {
     it('Shows an error when the sms is not sent', () => {
       cy.visit('http://localhost:3000/plans/2/share');
 
-      cy.get('[data-testid=share-by-sms-row-test] > div > div > div > input')
-        .click();
+      cy.get(
+        '[data-testid=share-by-sms-row-test] > div > div > div > input'
+      ).click();
 
       cy.get('[data-testid=share-plan-button]')
         .first()
         .click();
 
-      cy.get('#content').should('contain', 'Something went wrong. The plan could not be shared.');
-    })
+      cy.get('#content').should(
+        'contain',
+        'Something went wrong. The plan could not be shared.'
+      );
+    });
 
     it('Shows a warning when no sharing option is selected', () => {
       cy.visit('http://localhost:3000/plans/2/share');
 
-
       cy.get('[data-testid=share-plan-button]')
         .first()
         .click();
 
-      cy.get('#content').should('contain', 'Please select at least one sharing option');
-    })
+      cy.get('#content').should(
+        'contain',
+        'Please select at least one sharing option'
+      );
+    });
 
     it('Shows disabled checkbox when phone numbers do not exist', () => {
       cy.visit('http://localhost:3000/plans/3/share');
-
 
       cy.get('[data-testid=share-plan-button]')
         .first()
         .click();
 
       cy.get('#share-by-sms').should('be.disabled');
-      cy.get('[data-testid=share-by-sms-row-test]').should('contain', 'No numbers found.');
-    })
+      cy.get('[data-testid=share-by-sms-row-test]').should(
+        'contain',
+        'No numbers found.'
+      );
+    });
 
     it('Shows disabled checkbox when emails do not exist', () => {
       cy.visit('http://localhost:3000/plans/3/share');
-
 
       cy.get('[data-testid=share-plan-button]')
         .first()
         .click();
 
       cy.get('#share-by-email').should('be.disabled');
-      cy.get('[data-testid=share-by-email-row-test]').should('contain', 'No emails found.');
-    })
+      cy.get('[data-testid=share-by-email-row-test]').should(
+        'contain',
+        'No emails found.'
+      );
+    });
 
     it('Shows a unique shareable link', () => {
       cy.visit('http://localhost:3000/plans/3/share');
@@ -164,8 +179,11 @@ context('Share the plan with collaborator', () => {
         .last()
         .click();
 
-      cy.get('[data-testid=shareable-link_test]').should('contain', '/c/plans/3?token=');
-    })
+      cy.get('[data-testid=shareable-link_test]').should(
+        'contain',
+        '/c/plans/3?token='
+      );
+    });
 
     it('Can edit the phone number', () => {
       cy.visit('http://localhost:3000/plans/3/share');
@@ -174,7 +192,7 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=edit-number-input-test]').clear();
       cy.get('[data-testid=edit-number-input-test]').type('12345');
       cy.get('[data-testid=save-number-button-test]').click();
-      cy.get('[data-testid=share-by-sms-row-test]').should('contain','12345');
-    })
-  })
-})
+      cy.get('[data-testid=share-by-sms-row-test]').should('contain', '12345');
+    });
+  });
+});
