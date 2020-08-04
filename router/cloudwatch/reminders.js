@@ -1,4 +1,5 @@
 const { getReminderPlans, sendReminder } = require('../dependencies');
+const jwt = require('jsonwebtoken');
 
 const createToken = () => {
   const token = jwt.sign(
@@ -11,16 +12,15 @@ const createToken = () => {
 async function handler(event, context) {
   try {
     const { planIds } = await getReminderPlans.execute({});
+
     const authHeader = createToken();
 
-    planIds.forEach(async element => {
+    planIds.forEach(async id => {
       await sendReminder.execute({
-        planId: element.id,
+        planId: id,
         authHeader
       });
     });
-    console.log(event);
-    console.log(context);
   } catch (err) {
     console.log(err);
   }

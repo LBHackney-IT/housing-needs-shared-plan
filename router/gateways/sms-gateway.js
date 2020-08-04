@@ -1,21 +1,14 @@
-// const logger = require('../logging/logger');
-// const { HttpStatusError } = require('api/HttpStatusError');
-// const { ArgumentError } = require('../domain');
+const fetch = require('node-fetch');
 
 module.exports = class SmsGateway {
   async sendMessage({ name, number, message, authHeader }) {
-    // if (!name) throw new ArgumentError('name cannot be null.');
-    // if (!number) throw new ArgumentError('number cannot be null.');
-    // if (!message) throw new ArgumentError('message cannot be null.');
-
     const url = `${process.env.SMS_API_URL}/messages`;
     const body = {
       name,
       number,
       message
     };
-    console.log(`Fetching ${url}`, body);
-    // logger.info(`Fetching ${url}`, body);
+    console.log(`Fetching ${url}. ${body}`);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -29,9 +22,7 @@ module.exports = class SmsGateway {
     if (response.ok) {
       return message;
     } else {
-      console.log(`Fetching ${url} failed`, response.status);
-      // logger.error(`Fetching ${url} failed`, response.status);
-      // throw new HttpStatusError(response.status);
+      console.log(`Fetching ${url} failed. ${response.status}`);
     }
   }
 };

@@ -7,17 +7,17 @@ module.exports = class SendReminder {
   }
 
   async execute({ planId, authHeader }) {
-    const existingPlan = await this.planGateway.get({ id: planId });
+    try {
+      const existingPlan = await this.planGateway.get({ id: planId });
 
-    if (existingPlan.numbers && existingPlan.numbers[0]) {
-      const sortedTokens = existingPlan.customerTokens.sort((a, b) => {
-        return Date.parse(b.sharedDate) - Date.parse(a.sharedDate);
-      });
+      if (existingPlan.numbers && existingPlan.numbers[0]) {
+        const sortedTokens = existingPlan.customerTokens.sort((a, b) => {
+          return Date.parse(b.sharedDate) - Date.parse(a.sharedDate);
+        });
 
-      const customerPlanUrl = `${process.env.NEXT_PUBLIC_URL}/c/plans/${existingPlan.id}?token=${sortedTokens[0].token}`;
+        const customerPlanUrl = `${process.env.NEXT_PUBLIC_URL}/c/plans/${existingPlan.id}?token=${sortedTokens[0].token}`;
 
-      try {
-        const message = `Reminder: ${customerPlanUrl}`;
+        const message = `This is a reminder that your Shared Plan from Hackney Council has actions due in 2 days: ${customerPlanUrl}`;
 
         await this.smsGateway.sendMessage({
           name: `${existingPlan.firstName} ${existingPlan.lastName}`,
@@ -37,9 +37,9 @@ module.exports = class SendReminder {
 
         await this.planGateway.save({ plan: existingPlan });
         return existingPlan;
-      } catch (err) {
-        console.log(err);
       }
+    } catch (err) {
+      console.log(err);
     }
   }
 };
