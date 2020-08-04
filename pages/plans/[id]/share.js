@@ -21,6 +21,7 @@ const Share = ({ initialPlan, planId, token, customerUrl }) => {
         plan={plan}
         customerUrl={customerUrl}
         onPlanShared={sharePlan}
+        token={token}
       />
     </>
   );
