@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import SharePlan from './index';
+import userEvent from '@testing-library/user-event';
 
 describe('Share plan', () => {
   it('renders the share plan options', () => {
@@ -64,9 +65,7 @@ describe('Share plan', () => {
     };
     const { getByTestId } = render(<SharePlan error={true} plan={plan} />);
 
-    expect(
-      getByTestId('plan-not-shared-error-test')
-    ).toBeInTheDocument();
+    expect(getByTestId('plan-not-shared-error-test')).toBeInTheDocument();
   });
 
   it('renders disabled checkbox when phone numbers and emails do not exist ', () => {
@@ -80,5 +79,19 @@ describe('Share plan', () => {
 
     expect(getByLabelText('No numbers found.').disabled).toBe(true);
     expect(getByLabelText('No emails found.').disabled).toBe(true);
+  });
+
+  it('renders input field and save button when edit phone number is clicked', () => {
+    const plan = {
+      firstName: 'Sally',
+      lastName: 'West',
+      numbers: [],
+      emails: []
+    };
+    const { getByTestId } = render(<SharePlan plan={plan} />);
+    getByTestId('edit-number-button-test').click();
+
+    expect(getByTestId('edit-number-input-test')).toBeInTheDocument();
+    expect(getByTestId('save-number-button-test')).toBeInTheDocument();
   });
 });

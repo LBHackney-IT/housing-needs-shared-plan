@@ -166,4 +166,15 @@ context('Share the plan with collaborator', () => {
 
       cy.get('[data-testid=shareable-link_test]').should('contain', '/c/plans/3?token=');
     })
-  }
+
+    it('Can edit the phone number', () => {
+      cy.visit('http://localhost:3000/plans/3/share');
+
+      cy.get('[data-testid=edit-number-button-test]').click();
+      cy.get('[data-testid=edit-number-input-test]').clear();
+      cy.get('[data-testid=edit-number-input-test]').type('12345');
+      cy.get('[data-testid=save-number-button-test]').click();
+      cy.get('[data-testid=share-by-sms-row-test]').should('contain','12345');
+    })
+  })
+})
