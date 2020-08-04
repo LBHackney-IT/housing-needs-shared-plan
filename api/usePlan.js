@@ -6,7 +6,8 @@ import {
   requestAddAction,
   requestSharePlan,
   requestUpdateAction,
-  requestDeleteAction
+  requestDeleteAction,
+  requestUpdatePlan
 } from './api';
 
 export function usePlan(planId, { initialPlan, token, ...options } = {}) {
@@ -45,7 +46,9 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
       });
     }),
     updateAction: withErrorHandling(async updatedAction => {
-      await requestUpdateAction(planId, updatedAction.id, updatedAction, { token });
+      await requestUpdateAction(planId, updatedAction.id, updatedAction, {
+        token
+      });
       mutate();
     }),
     toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
@@ -54,6 +57,10 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
     }),
     deleteAction: withErrorHandling(async ({ actionId }) => {
       await requestDeleteAction(planId, actionId, { token });
+      mutate();
+    }),
+    updatePlan: withErrorHandling(async updatedPlan => {
+      await requestUpdatePlan(planId, updatedPlan, { token });
       mutate();
     }),
     sharePlan: withErrorHandling(async (collaborator, customerPlanUrl) => {

@@ -73,6 +73,14 @@ export function requestUpdateAction(planId, actionId, updates, options) {
   });
 }
 
+export function requestUpdatePlan(planId, updateFields, options) {
+  return request(`/plans/${planId}`, {
+    method: 'PATCH',
+    body: updateFields,
+    ...options
+  });
+}
+
 export function requestDeleteAction(planId, actionId, options) {
   return request(`/plans/${planId}/actions/${actionId}`, {
     method: 'DELETE',
