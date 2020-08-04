@@ -44,7 +44,7 @@ describe('Send reminder', () => {
       expect.objectContaining({
         authHeader: 'bearer token',
         message: `This is a reminder that your Shared Plan from Hackney Council has actions due in 2 days: ${process.env.NEXT_PUBLIC_URL}/c/plans/1?token=abc`,
-        name: 'Alice White',
+        name: 'Shared Plan Reminder',
         number: '123'
       })
     );
