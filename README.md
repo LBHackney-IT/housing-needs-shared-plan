@@ -32,6 +32,11 @@ A tool that helps create a shared plan of action between a Hackney resident and 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
 
+## AWS permissions
+
+In order to schedule reminders, sls deploy requires EventBridge permissions.
+EventBridge permissions can be set in AWS management console > Identity and Access Management (IAM) > Policies.
+
 ## Unit tests
 
 Run jest tests:
