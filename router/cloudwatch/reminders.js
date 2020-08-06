@@ -9,7 +9,7 @@ const createToken = () => {
   return token;
 };
 
-async function handler(event, context, callback) {
+async function handler(event, context) {
   try {
     const { planIds } = await getReminderPlans.execute({});
 
