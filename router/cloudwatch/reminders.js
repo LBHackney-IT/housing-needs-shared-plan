@@ -9,7 +9,7 @@ const createToken = () => {
   return token;
 };
 
-async function handler(event, context) {
+async function handler(event, context, callback) {
   try {
     const { planIds } = await getReminderPlans.execute({});
 
@@ -21,6 +21,7 @@ async function handler(event, context) {
         authHeader
       });
     }
+    return true;
   } catch (err) {
     console.log(err);
   }
