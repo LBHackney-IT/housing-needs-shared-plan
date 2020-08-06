@@ -21,6 +21,7 @@ async function handler(event, context) {
         authHeader
       });
     }
+    return true;
   } catch (err) {
     console.log(err);
   }
