@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import TagManager from 'react-gtm-module';
 import ButtonGroup from '../../Form/ButtonGroup';
 import {
   acceptedCookieIsSet,
-  setAcceptedCookie
+  setAcceptedCookie,
+  userHasAcceptedCookies
 } from 'lib/utils/acceptCookies';
 
 const CookieBanner = () => {
@@ -10,18 +12,21 @@ const CookieBanner = () => {
 
   useEffect(() => {
     const cookieIsSet = acceptedCookieIsSet(document.cookie);
+    if (!cookieIsSet || userHasAcceptedCookies(document.cookie)) {
+      TagManager.initialize({
+        gtmId: process.env.NEXT_PUBLIC_GTM_ID
+      });
+    }
     setShow(!cookieIsSet);
   });
 
   const handleAccept = () => {
     setAcceptedCookie(true);
-    window['ga-disable-UA-168604600-1'] = false;
     setShow(false);
   };
 
   const handleDecline = () => {
     setAcceptedCookie(false);
-    window['ga-disable-UA-168604600-1'] = true;
     setShow(false);
   };
 
