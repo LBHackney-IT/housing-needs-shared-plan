@@ -4,9 +4,7 @@ export default class AppDocument extends Document {
   render() {
     return (
       <Html className="govuk-template lbh-template">
-        <Head>
-          <script type="text/javascript" src="/js/ga.js"></script>
-        </Head>
+        <Head />
         <body className="govuk-template__body lbh-template__body js-enabled">
           <Main />
           <NextScript />
