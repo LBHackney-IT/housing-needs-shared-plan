@@ -3,8 +3,12 @@ import userEvent from '@testing-library/user-event';
 import EditAction from './index';
 
 describe('EditAction', () => {
+  window.HTMLElement.prototype.scrollIntoView = jest.fn();
+
   it('renders the edit action form', () => {
-    const { getByTestId } = render(<EditAction action={{dueDate: '2025-11-28'}} />);
+    const { getByTestId } = render(
+      <EditAction action={{ dueDate: '2025-11-28' }} />
+    );
 
     expect(getByTestId('edit-action-title-test')).toBeInTheDocument();
     expect(getByTestId('edit-action-description-test')).toBeInTheDocument();
@@ -18,7 +22,14 @@ describe('OnClick', () => {
   it('Edits an action', async () => {
     const onActionUpdated = jest.fn();
     const { getByTestId } = render(
-      <EditAction action={{dueDate: '2200-01-01', description: 'description', summary: 'summary'}} onActionUpdated={onActionUpdated} />
+      <EditAction
+        action={{
+          dueDate: '2200-01-01',
+          description: 'description',
+          summary: 'summary'
+        }}
+        onActionUpdated={onActionUpdated}
+      />
     );
     await userEvent.clear(getByTestId('edit-action-title-test'));
     await userEvent.type(getByTestId('edit-action-title-test'), 'Action title');
@@ -45,7 +56,14 @@ describe('OnClick', () => {
   it('does not save the action if the form is not valid', async () => {
     const onActionUpdated = jest.fn();
     const { getByTestId } = render(
-      <EditAction action={{description: 'description', summary: 'summary', dueDate: '2025-11-28'}} onActionUpdated={onActionUpdated} />
+      <EditAction
+        action={{
+          description: 'description',
+          summary: 'summary',
+          dueDate: '2025-11-28'
+        }}
+        onActionUpdated={onActionUpdated}
+      />
     );
 
     await userEvent.clear(getByTestId('edit-action-title-test'));
