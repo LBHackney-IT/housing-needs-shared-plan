@@ -10,13 +10,16 @@ describe('<ActionsList />', () => {
       actions={[
         {
           id: 'PPBqWA9',
+          created: '2020-05-20T09:00:00+0000',
           summary: 'Run a test',
           description: 'This will check if it works https://google.com',
           dueDate: '2020-05-26T09:00:00+0000',
-          isCompleted: true
+          isCompleted: true,
+          completedDate: '2020-05-24T09:00:00+0000'
         },
         {
           id: '23TplPdS',
+          created: '2020-05-20T09:00:00+0000',
           summary: 'Complete this action',
           dueDate: '2020-05-26T09:00:00+0000',
           isCompleted: false
@@ -56,6 +59,19 @@ describe('<ActionsList />', () => {
     );
 
     expect(container.querySelector('Details')).not.toBeInTheDocument();
+  });
+
+  it('shows the added date if there is one', () => {
+    const { getAllByText } = render(component);
+    expect(getAllByText('20 May 2020')[0]).toBeInTheDocument();
+    expect(getAllByText('20 May 2020')[1]).toBeInTheDocument();
+  });
+
+  it('shows the completed date if there is one', () => {
+    const { getAllByText } = render(component);
+    const dates = getAllByText('24 May 2020');
+    expect(dates[0]).toBeInTheDocument();
+    expect(dates.length).toBe(1);
   });
 
   it('displays a checkbox with the "isCompleted" state', () => {
