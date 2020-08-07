@@ -1,3 +1,5 @@
+@import '../../../pages/stylesheets/vars.scss';
+
 .lbh-details {
   margin-bottom: 0;
 }
@@ -8,4 +10,8 @@
 
 .lbh-details__text {
   border-left: 0;
+
+  a {
+    word-break: break-word;
+  }
 }

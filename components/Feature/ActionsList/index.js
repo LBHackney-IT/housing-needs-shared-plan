@@ -80,6 +80,26 @@ const ActionsList = ({
                     className={styles['lbh-actions-list__descriptions-mobile']}
                   >
                     Due <DueDate dateTime={action.dueDate} />
+                    <ButtonGroup>
+                      {onEditAction && (
+                        <Button
+                          text="Edit"
+                          isSecondary={true}
+                          data-testid="edit-action-button-mobile-test"
+                          onClick={() => onEditAction(action.id)}
+                        />
+                      )}
+                      {onActionDeleted && (
+                        <Button
+                          text="Delete"
+                          isSecondary={true}
+                          data-testid={`actions-list-button-mobile-delete-${action.id}`}
+                          onClick={() =>
+                            onActionDeleted({ actionId: action.id })
+                          }
+                        />
+                      )}
+                    </ButtonGroup>
                   </div>
                 </TableData>
                 <TableData className={styles['lbh-actions-list__due-date']}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 import css from './index.module.scss';
@@ -9,6 +9,12 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
   const [dueDate, setDueDate] = useState({ day, month, year });
   const [description, setActionDescription] = useState(action.description);
   const [validate, setValidate] = useState(true);
+
+  const containerRef = createRef();
+
+  useEffect(() => {
+    containerRef.current.scrollIntoView({ behavior: 'smooth' });
+  });
 
   const handleActionSummaryChange = e => {
     setActionSummary(e.target.value);
@@ -67,7 +73,10 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
   };
 
   return (
-    <div className={`govuk-grid-row ${css['row-add-new-action']}`}>
+    <div
+      className={`govuk-grid-row ${css['row-add-new-action']}`}
+      ref={containerRef}
+    >
       <div className="govuk-grid-column-three-quarters">
         <h3
           className={`govuk-heading-m ${css['heading-add-new-action']}`}
