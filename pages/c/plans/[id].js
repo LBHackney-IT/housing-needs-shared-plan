@@ -24,6 +24,8 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
       <ActionsList
         actions={plan.goal?.actions || []}
         onActionToggled={toggleAction}
+        officerName={plan.goal?.agreedWithName}
+        userName={`${plan.firstName} ${plan.lastName}`}
       />
       <LegalText />
     </>

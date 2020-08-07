@@ -15,7 +15,9 @@ const ActionsList = ({
   actions,
   onActionToggled,
   onEditAction,
-  onActionDeleted
+  onActionDeleted,
+  officerName,
+  userName
 }) => {
   return (
     <>
@@ -75,6 +77,18 @@ const ActionsList = ({
                         )}
                       />
                     </Details>
+                  )}
+                  {action.created && (
+                    <div>
+                      Added on <DueDate dateTime={action.created} /> by{' '}
+                      {officerName}.
+                    </div>
+                  )}
+                  {action.isCompleted && (
+                    <div>
+                      Marked as complete on{' '}
+                      <DueDate dateTime={action.completedDate} /> by {userName}.
+                    </div>
                   )}
                   <div
                     className={styles['lbh-actions-list__descriptions-mobile']}
