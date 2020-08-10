@@ -47,7 +47,7 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
       `${dueDate.day}-${dueDate.month}-${dueDate.year}`,
       'DD-MM-YYYY'
     );
-    return summary && date.isValid() && date.isAfter();
+    return summary && date.isValid();
   };
 
   const updateAction = event => {
