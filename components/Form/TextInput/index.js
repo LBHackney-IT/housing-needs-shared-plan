@@ -47,7 +47,7 @@ const TextInput = ({
           onChange(e);
         }}
         value={value}
-        aria-describedby={hasError ? `${name}-error` : ''}
+        aria-describedby={hasError ? `${name}-error` : name}
       />
     </div>
   );
