@@ -177,6 +177,23 @@ context('Add action form', () => {
       );
     });
 
+    it('Does not show an error when the date is today', () => {
+      const today = new Date(Date.now());
+      createAction(
+        'Action summary',
+        'Action description',
+        today.getDate(),
+        today.getMonth() + 1,
+        today.getFullYear()
+      );
+
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('#due-date-error').should(
+        'not.contain',
+        'The Due date must be valid and in the future'
+      );
+    });
+
     it('Checks the form is hidden after adding an action', () => {
       createAction('Action summary', 'Action description', '4', '12', '2025');
       cy.get('[data-testid=add-action-button-test]').click();
