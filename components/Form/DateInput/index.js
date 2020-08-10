@@ -10,32 +10,29 @@ const DateInput = ({
   onChange,
   required = true,
   title,
-  validate,
   year,
-  ...others
+  hasError,
+  onInvalid
 }) => {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    if (validate) {
-      const date = moment(`${day}-${month}-${year}`, 'DD-MM-YYYY');
-      const isValid = day && month && year && date.isValid() && date.isAfter();
-      setHasError(!isValid);
+  const handleInvalid = event => {
+    event.preventDefault();
+    if (typeof onInvalid === 'function') {
+      onInvalid(event);
     }
-  }, [day, month, year, validate]);
+  };
 
   return (
     <div
       className={`govuk-form-group${
         hasError ? ' govuk-form-group--error' : ''
-      }`}
+        }`}
     >
       <fieldset
         className="govuk-fieldset"
         role="group"
         aria-describedby={`${hint ? `${name}-hint` : ''}${
           hasError ? ` ${name}-error` : ''
-        }`}
+          }`}
       >
         <legend>
           <h3 className="govuk-label">{title}</h3>
@@ -66,7 +63,7 @@ const DateInput = ({
               <input
                 className={`govuk-input govuk-date-input__input govuk-input--width-2${
                   hasError ? ' govuk-input--error' : ''
-                }`}
+                  }`}
                 id={`${name}-day`}
                 name={`${name}-day`}
                 type="text"
@@ -76,10 +73,7 @@ const DateInput = ({
                 onChange={e => {
                   onChange(e);
                 }}
-                onInvalid={e => {
-                  e.preventDefault();
-                  setHasError(true);
-                }}
+                onInvalid={handleInvalid}
                 value={day}
                 autoComplete={autoComplete}
                 data-testid="day-test"
@@ -97,7 +91,7 @@ const DateInput = ({
               <input
                 className={`govuk-input govuk-date-input__input govuk-input--width-2${
                   hasError ? ' govuk-input--error' : ''
-                }`}
+                  }`}
                 id={`${name}-month`}
                 name={`${name}-month`}
                 type="text"
@@ -107,10 +101,7 @@ const DateInput = ({
                 onChange={e => {
                   onChange(e);
                 }}
-                onInvalid={e => {
-                  e.preventDefault();
-                  setHasError(true);
-                }}
+                onInvalid={handleInvalid}
                 value={month}
                 autoComplete={autoComplete}
                 data-testid="month-test"
@@ -128,7 +119,7 @@ const DateInput = ({
               <input
                 className={`govuk-input govuk-date-input__input govuk-input--width-4${
                   hasError ? ' govuk-input--error' : ''
-                }`}
+                  }`}
                 id={`${name}-year`}
                 name={`${name}-year`}
                 type="text"
@@ -136,13 +127,9 @@ const DateInput = ({
                 required={required}
                 inputMode="numeric"
                 onChange={e => {
-                  setHasError(false);
                   onChange(e);
                 }}
-                onInvalid={e => {
-                  e.preventDefault();
-                  setHasError(true);
-                }}
+                onInvalid={handleInvalid}
                 value={year}
                 autoComplete={autoComplete}
                 data-testid="year-test"

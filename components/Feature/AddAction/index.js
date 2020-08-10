@@ -8,6 +8,7 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
   const [dueDate, setDueDate] = useState({ day: '', month: '', year: '' });
   const [description, setActionDescription] = useState('');
   const [validate, setValidate] = useState(false);
+  const [isValidDate, setValidDate] = useState(true);
 
   const handleActionSummaryChange = e => {
     setActionSummary(e.target.value);
@@ -40,7 +41,9 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
       `${dueDate.day}-${dueDate.month}-${dueDate.year}`,
       'DD-MM-YYYY'
     );
-    return summary && date.isValid() && date.isSameOrAfter(moment(), 'date');
+    const isValidDate = date.isValid() && date.isSameOrAfter(moment(), 'date');
+    setValidDate(isValidDate);
+    return summary && isValidDate;
   };
 
   const addToPlan = event => {
@@ -94,7 +97,8 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
             name="due-date"
             title="Due date"
             onChange={handleDueDateChange}
-            validate={validate}
+            hasError={!isValidDate}
+            onInvalid={() => setValidDate(false)}
             autoComplete="off"
             day={dueDate.day}
             month={dueDate.month}
