@@ -48,10 +48,12 @@ const ActionsList = ({
               <TableRow key={action.id}>
                 <TableData className={styles['lbh-actions-list__complete']}>
                   <Checkbox
-                    aria-label="Completed?"
+                    aria-labeledby={`completed-${action.id}`}
                     checked={action.isCompleted}
                     data-testid="action-checkbox"
-                    name="completed"
+                    name={`completed-${action.id}`}
+                    label={`Completed ${action.summary} checkbox`}
+                    hidden={true}
                     disabled={!onActionToggled}
                     onChange={event => {
                       onActionToggled({
