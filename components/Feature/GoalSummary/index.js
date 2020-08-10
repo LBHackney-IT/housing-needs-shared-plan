@@ -10,7 +10,7 @@ const GoalSummary = ({ plan }) => {
       <div className={`govuk-grid-row ${css['goal-summary']}`}>
         <div className="govuk-grid-column-two-thirds">
           <div className={css['grid-column-group']}>
-            <h3 data-testid="goal-label-test">Goal</h3>
+            <h2 data-testid="goal-label-test">Goal</h2>
             <p className={css['data-text']} data-testid="goal-text-test">
               {plan.goal.text}
             </p>
@@ -35,7 +35,7 @@ const GoalSummary = ({ plan }) => {
           </div>
         </div>
         <div className="govuk-grid-column-one-third">
-          <h3>Shared with</h3>
+          <h2>Shared with</h2>
           <p data-testid="resident-name-test">
             {plan.firstName} {plan.lastName}
           </p>
