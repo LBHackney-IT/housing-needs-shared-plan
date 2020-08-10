@@ -48,7 +48,7 @@ const ActionsList = ({
               <TableRow key={action.id}>
                 <TableData className={styles['lbh-actions-list__complete']}>
                   <Checkbox
-                    aria-label={`completed-${action.id}`}
+                    aria-labeledby={`completed-${action.id}`}
                     checked={action.isCompleted}
                     data-testid="action-checkbox"
                     name={`completed-${action.id}`}
