@@ -16,7 +16,7 @@ const Checkbox = ({ checked, label, name, onClick, ...others }) => {
             {...others}
           />
           <label className="govuk-label govuk-checkboxes__label" htmlFor={name}>
-            {label}
+            <span hidden>{label}</span>
           </label>
         </div>
       </div>

@@ -15,6 +15,7 @@ const Share = ({ initialPlan, planId, token, customerUrl }) => {
 
   return (
     <>
+      <title>Share the plan</title>
       <PlanHeader firstName={plan.firstName} lastName={plan.lastName} />
       <SharePlan
         error={error}

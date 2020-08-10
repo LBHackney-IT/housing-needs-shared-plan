@@ -31,6 +31,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
   const { firstName, lastName, goal, initialUseAsPhp } = plan;
   return (
     <>
+      <title>Shared Plan</title>
       <PlanHeader firstName={firstName} lastName={lastName} />
       {editGoal && (
         <AddGoal
