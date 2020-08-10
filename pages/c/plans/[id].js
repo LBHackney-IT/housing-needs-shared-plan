@@ -19,7 +19,6 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
 
   return (
     <>
-      <title>Shared Plan</title>
       <PlanHeader firstName={firstName} lastName={lastName} />
       <GoalSummary plan={plan} />
       <ActionsList

@@ -21,7 +21,7 @@ const TextInput = ({
         hasError ? ' govuk-form-group--error' : ''
       }`}
     >
-      <label className="govuk-label" htmlFor={name}>
+      <label id={`${name}-label`} className="govuk-label" htmlFor={name}>
         {label}
       </label>
 
@@ -47,7 +47,7 @@ const TextInput = ({
           onChange(e);
         }}
         value={value}
-        aria-describedby={hasError ? `${name}-error` : name}
+        aria-describedby={hasError ? `${name}-error` : `${name}-label`}
       />
     </div>
   );

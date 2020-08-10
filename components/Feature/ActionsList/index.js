@@ -52,7 +52,8 @@ const ActionsList = ({
                     checked={action.isCompleted}
                     data-testid="action-checkbox"
                     name={`completed-${action.id}`}
-                    label={`completed-${action.summary}`}
+                    label={`Completed ${action.summary} checkbox`}
+                    hidden={true}
                     disabled={!onActionToggled}
                     onChange={event => {
                       onActionToggled({
