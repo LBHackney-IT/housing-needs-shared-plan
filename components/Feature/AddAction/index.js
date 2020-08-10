@@ -40,7 +40,7 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
       `${dueDate.day}-${dueDate.month}-${dueDate.year}`,
       'DD-MM-YYYY'
     );
-    return summary && date.isValid() && date.isAfter();
+    return summary && date.isValid() && date.isSameOrAfter(moment(), 'date');
   };
 
   const addToPlan = event => {
