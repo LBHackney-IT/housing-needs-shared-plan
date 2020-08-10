@@ -15,6 +15,7 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
   );
   const [validate, setValidate] = useState(false);
   const actions = goal?.actions || [];
+  const [isValidDate, setValidDate] = useState(true);
 
   const handleGoalTextChange = e => {
     setGoalText(e.target.value);
@@ -55,7 +56,10 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
       `${targetReviewDate.day}-${targetReviewDate.month}-${targetReviewDate.year}`,
       'DD-MM-YYYY'
     );
-    return text && date.isValid() && date.isAfter();
+
+    const isValidDate = date.isValid() && date.isAfter();
+    setValidDate(isValidDate);
+    return text && isValidDate;
   };
 
   const addTheGoal = event => {
@@ -90,7 +94,8 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
             title="Target review date"
             hint="Your next appointment to review progress"
             onChange={handleTargetReviewDateChange}
-            validate={validate}
+            hasError={!isValidDate}
+            onInvalid={() => setValidDate(false)}
             autoComplete="off"
             day={targetReviewDate.day}
             month={targetReviewDate.month}
