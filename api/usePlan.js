@@ -9,6 +9,7 @@ import {
   requestDeleteAction,
   requestUpdatePlan
 } from './api';
+import { getUsername } from 'lib/utils/token';
 
 export function usePlan(planId, { initialPlan, token, ...options } = {}) {
   const [error, setError] = useState(null);
@@ -52,7 +53,12 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
       mutate();
     }),
     toggleAction: withErrorHandling(async ({ actionId, isCompleted }) => {
-      await requestUpdateAction(planId, actionId, { isCompleted }, { token });
+      await requestUpdateAction(
+        planId,
+        actionId,
+        { isCompleted, completedBy: isCompleted ? getUsername(token) : null },
+        { token }
+      );
       mutate();
     }),
     deleteAction: withErrorHandling(async ({ actionId }) => {

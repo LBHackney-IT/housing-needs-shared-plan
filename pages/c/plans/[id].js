@@ -25,7 +25,6 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
         actions={plan.goal?.actions || []}
         onActionToggled={toggleAction}
         officerName={plan.goal?.agreedWithName}
-        userName={`${plan.firstName} ${plan.lastName}`}
       />
       <LegalText />
     </>
@@ -36,10 +35,11 @@ CustomerPlanSummary.getInitialProps = async ({ query: { id }, req, res }) => {
   try {
     const token = createToken();
     const plan = await requestPlan(id, { token });
+    const tokenWithName = createToken(`${plan.firstName} ${plan.lastName}`);
     return {
       planId: id,
       initialPlan: plan,
-      token
+      token: tokenWithName
     };
   } catch (err) {
     res.writeHead(err instanceof HttpStatusError ? err.statusCode : 500).end();
