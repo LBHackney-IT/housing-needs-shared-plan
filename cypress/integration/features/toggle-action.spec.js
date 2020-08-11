@@ -23,7 +23,7 @@ context('with no completed actions', () => {
       }
     });
 
-    cy.setHackneyCookie(true);
+    cy.setHackneyCookie(true, 'a ghost');
     cy.visit('http://localhost:3000/plans/1');
   });
 
@@ -35,7 +35,10 @@ context('with no completed actions', () => {
     it('can complete an action', () => {
       cy.get('[data-testid=action-checkbox]').check();
       cy.reload();
-
+      cy.get('[data-testid=completion-message]').should(
+        'contain',
+        'by a ghost'
+      );
       cy.get('[data-testid=action-checkbox]').should('have.attr', 'checked');
     });
   });

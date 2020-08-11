@@ -16,8 +16,7 @@ const ActionsList = ({
   onActionToggled,
   onEditAction,
   onActionDeleted,
-  officerName,
-  userName
+  officerName
 }) => {
   return (
     <>
@@ -87,9 +86,10 @@ const ActionsList = ({
                     </div>
                   )}
                   {action.isCompleted && (
-                    <div>
+                    <div data-testid="completion-message">
                       Marked as complete on{' '}
-                      <DueDate dateTime={action.completedDate} /> by {userName}.
+                      <DueDate dateTime={action.completedDate} /> by{' '}
+                      {action.completedBy}.
                     </div>
                   )}
                   <div

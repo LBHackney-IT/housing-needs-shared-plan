@@ -59,7 +59,6 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
           onActionToggled={toggleAction}
           onActionDeleted={deleteAction}
           officerName={plan.goal?.agreedWithName}
-          userName={`${plan.firstName} ${plan.lastName}`}
         />
       )}
       {!editGoal && !showAddAction && (
