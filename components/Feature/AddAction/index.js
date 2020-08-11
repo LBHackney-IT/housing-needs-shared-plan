@@ -3,7 +3,7 @@ import { DateInput, TextInput, Button, TextArea } from 'components/Form';
 import moment from 'moment';
 import css from './index.module.scss';
 
-const AddAction = ({ onActionAdded, residentName, addedBy }) => {
+const AddAction = ({ onActionAdded, residentName, officerName }) => {
   const [summary, setActionSummary] = useState('');
   const [dueDate, setDueDate] = useState({ day: '', month: '', year: '' });
   const [description, setActionDescription] = useState('');
@@ -58,7 +58,7 @@ const AddAction = ({ onActionAdded, residentName, addedBy }) => {
       summary,
       description,
       dueDate: new Date(Date.UTC(year, month - 1, day)).toISOString(),
-      addedBy
+      addedBy: officerName
     });
 
     setActionSummary('');

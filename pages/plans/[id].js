@@ -85,7 +85,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
             await addAction(action);
             setShowAddAction(false);
           }}
-          addedBy={getUsername(token)}
+          officerName={getUsername(token)}
           residentName={plan.firstName}
         />
       )}
