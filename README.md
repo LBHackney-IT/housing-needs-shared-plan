@@ -34,8 +34,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## AWS permissions
 
-In order to schedule reminders, sls deploy requires EventBridge permissions.
-EventBridge permissions can be set in AWS management console > Identity and Access Management (IAM) > Policies.
+In order to schedule reminders, the user running `sls deploy` requires AWS EventBridge permissions. These may not be set already if the user was created prior to EventBridge being generally available.
+
+You can add these permissions to the policy assigned to the IAM user or group in the AWS console.
 
 ## Unit tests
 
@@ -48,18 +49,29 @@ yarn unit-test
 ## Integration tests
 
 Set these env vars in .env file:
+```
+NEXT_PUBLIC_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000/api  SMS_API_URL=http://localhost:8080
+ENV=dev
 
-  NEXT_PUBLIC_API_URL=http://localhost:3000/api  
-  SMS_API_URL=http://localhost:8080
+# must match the name of the DynamoDB table
+PLANS_TABLE_NAME=plans
 
+# for authentication, any values are fine
+JWT_SECRET=secret
+ALLOWED_GROUPS=any_value_is_fine
+
+# for Google Tag Manager, can be left blank
+NEXT_PUBLIC_GTM_ID=
+```
 
 #### Run cypress integration tests headlessly:
 1. Set these env vars to the same values as your local aws cli config:
-
+  ```
   CYPRESS_AWS_ACCESS_KEY_ID  
   CYPRESS_AWS_SECRET_ACCESS_KEY  
   CYPRESS_AWS_REGION  
-
+  ```
 
 2. Run the tests:
   ```bash
