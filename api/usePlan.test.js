@@ -2,6 +2,7 @@ import { usePlan } from './usePlan';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { renderHook } from '@testing-library/react-hooks';
 import { act } from 'react-test-renderer';
+import jwt from 'jsonwebtoken';
 
 describe('usePlan', () => {
   const expectedPlan = {
@@ -118,7 +119,7 @@ describe('usePlan', () => {
 
   it('updates the completed state of an action', async () => {
     const actionId = 'PPBqWA9';
-    const token = 'a.very.secure.jwt';
+    const token = jwt.sign({ name: 'Person' }, 'secret');
     const { result } = renderHook(() => usePlan(expectedPlan.id, { token }));
 
     await act(() =>
@@ -132,7 +133,7 @@ describe('usePlan', () => {
       expect.stringContaining(`/plans/${expectedPlan.id}/actions/${actionId}`),
       expect.objectContaining({
         method: 'PATCH',
-        body: JSON.stringify({ isCompleted: true }),
+        body: JSON.stringify({ isCompleted: true, completedBy: 'Person' }),
         headers: expect.objectContaining({
           authorization: `Bearer ${token}`
         })
