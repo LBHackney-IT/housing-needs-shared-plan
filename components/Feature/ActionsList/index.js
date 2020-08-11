@@ -80,9 +80,9 @@ const ActionsList = ({
                     </Details>
                   )}
                   {action.created && (
-                    <div>
+                    <div data-testid="action-added-message">
                       Added on <DueDate dateTime={action.created} /> by{' '}
-                      {officerName}.
+                      {action.addedBy || officerName}.
                     </div>
                   )}
                   {action.isCompleted && (

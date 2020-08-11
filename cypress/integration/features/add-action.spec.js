@@ -199,5 +199,11 @@ context('Add action form', () => {
       cy.get('[data-testid=add-action-button-test]').click();
       cy.get('#full-description').should('not.exist');
     });
+
+    it('Displays who added the action', () => {
+      createAction('Action summary', 'Action description', '4', '12', '2025');
+      cy.get('[data-testid=add-action-button-test]').click();
+      cy.get('[data-testid=action-added-message]').should('contain', 'My name');
+    });
   });
 });

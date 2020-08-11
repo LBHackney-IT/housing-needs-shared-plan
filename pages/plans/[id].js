@@ -8,7 +8,7 @@ import ActionsList from 'components/Feature/ActionsList';
 import GoalSummary from 'components/Feature/GoalSummary';
 import LegalText from 'components/Feature/LegalText';
 import { Button, ButtonGroup } from 'components/Form';
-import { getToken } from 'lib/utils/token';
+import { getToken, getUsername } from 'lib/utils/token';
 
 const PlanSummary = ({ planId, initialPlan, token }) => {
   const {
@@ -84,7 +84,7 @@ const PlanSummary = ({ planId, initialPlan, token }) => {
             await addAction(action);
             setShowAddAction(false);
           }}
-          officerName={goal.agreedWithName}
+          officerName={getUsername(token)}
           residentName={plan.firstName}
         />
       )}
