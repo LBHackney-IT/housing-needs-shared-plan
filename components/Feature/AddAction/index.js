@@ -77,7 +77,7 @@ const AddAction = ({ onActionAdded, residentName, officerName }) => {
         <form onSubmit={addToPlan}>
           <TextInput
             hint={`Example: '${residentName} to provide...' or '${
-              addedBy?.split(' ')[0]
+              officerName?.split(' ')[0]
             } to contact...'`}
             name="summary-text"
             label="Action title"
