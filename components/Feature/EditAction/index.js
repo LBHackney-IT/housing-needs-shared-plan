@@ -9,6 +9,7 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
   const [dueDate, setDueDate] = useState({ day, month, year });
   const [description, setActionDescription] = useState(action.description);
   const [validate, setValidate] = useState(true);
+  const [isValidDate, setValidDate] = useState(true);
 
   const containerRef = createRef();
 
@@ -47,6 +48,7 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
       `${dueDate.day}-${dueDate.month}-${dueDate.year}`,
       'DD-MM-YYYY'
     );
+    setValidDate(date.isValid());
     return summary && date.isValid();
   };
 
@@ -109,7 +111,8 @@ const EditAction = ({ action, onActionUpdated, residentName, officerName }) => {
             name="due-date"
             title="Due date"
             onChange={handleDueDateChange}
-            validate={validate}
+            hasError={!isValidDate}
+            onInvalid={() => setValidDate(false)}
             autoComplete="off"
             day={dueDate.day}
             month={dueDate.month}

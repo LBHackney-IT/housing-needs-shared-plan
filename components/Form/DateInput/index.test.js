@@ -84,58 +84,12 @@ describe('DateInput', () => {
     expect(year).toEqual('2021');
   });
 
-  it('shows an error message if validation is required and day is empty', () => {
+  it('shows an error message if hasError is set to true', () => {
     const { container, getByTestId } = render(
-      <DateInput name={inputName} validate={true} />
+      <DateInput name={inputName} hasError={true} />
     );
-    fireEvent.change(getByTestId('day-test'), {
-      target: { value: '' }
-    });
+
     expect(container.querySelector('.govuk-error-message')).toBeInTheDocument();
-  });
-
-  it('shows an error message if validation is required and month is empty', () => {
-    const { container, getByTestId } = render(
-      <DateInput name={inputName} validate={true} />
-    );
-    fireEvent.change(getByTestId('month-test'), {
-      target: { value: '' }
-    });
-    expect(container.querySelector('.govuk-error-message')).toBeInTheDocument();
-  });
-
-  it('shows an error message if validation is required and year is empty', () => {
-    const { container, getByTestId } = render(
-      <DateInput name={inputName} validate={true} />
-    );
-    fireEvent.change(getByTestId('year-test'), {
-      target: { value: '' }
-    });
-    expect(container.querySelector('.govuk-error-message')).toBeInTheDocument();
-  });
-
-  it('shows an error message if validation is required and date is invalid', () => {
-    const { container } = render(
-      <DateInput name={inputName} validate={true} onChange={() => {}} day={99} month={10} year={2021} />
-    );
-    expect(container.querySelector('.govuk-error-message')).toBeInTheDocument();
-  });
-
-  it('shows an error message if validation is required and date is in the past', () => {
-    const { container } = render(
-      <DateInput name={inputName} validate={true} onChange={() => {}} day={10} month={10} year={1999}/>
-    );
-    expect(container.querySelector('.govuk-error-message')).toBeInTheDocument();
-  });
-
-  it('does not show an error message if validation is required and date is all good', () => {
-    const { container } = render(
-      <DateInput name={inputName} validate={true} onChange={() => {}} day={10} month={10} year={2030} />
-    );
-
-    expect(
-      container.querySelector('.govuk-error-message')
-    ).not.toBeInTheDocument();
   });
 
   it('sets the day input value', () => {
