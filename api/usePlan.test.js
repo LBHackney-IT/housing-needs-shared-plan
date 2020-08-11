@@ -132,7 +132,7 @@ describe('usePlan', () => {
       expect.stringContaining(`/plans/${expectedPlan.id}/actions/${actionId}`),
       expect.objectContaining({
         method: 'PATCH',
-        body: JSON.stringify({ isCompleted: true }),
+        body: JSON.stringify({ isCompleted: true, completedBy: '' }),
         headers: expect.objectContaining({
           authorization: `Bearer ${token}`
         })

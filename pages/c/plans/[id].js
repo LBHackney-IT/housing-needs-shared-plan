@@ -33,11 +33,9 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
 
 CustomerPlanSummary.getInitialProps = async ({ query: { id }, req, res }) => {
   try {
-    const token = createToken({ name: '' });
+    const token = createToken('');
     const plan = await requestPlan(id, { token });
-    const tokenWithName = createToken({
-      name: `${plan.firstName} ${plan.lastName}`
-    });
+    const tokenWithName = createToken(`${plan.firstName} ${plan.lastName}`);
     return {
       planId: id,
       initialPlan: plan,
