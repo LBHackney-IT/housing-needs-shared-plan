@@ -26,7 +26,7 @@ const CustomerPlanSummary = ({ planId, initialPlan, token }) => {
         onActionToggled={toggleAction}
         officerName={plan.goal?.agreedWithName}
       />
-      <LegalText />
+      {plan.goal.useAsPhp && <LegalText />}
     </>
   );
 };
