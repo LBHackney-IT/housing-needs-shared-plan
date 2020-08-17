@@ -47,6 +47,7 @@ context('Customer Summary page', () => {
 
   afterEach(() => {
     cy.task('deletePlan', '1');
+    cy.task('deletePlan', '2');
   });
 
   describe('Loads page', () => {
