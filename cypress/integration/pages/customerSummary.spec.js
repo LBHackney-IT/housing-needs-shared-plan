@@ -8,6 +8,12 @@ context('Customer Summary page', () => {
       lastName: 'Simpson',
       queryFirstName: 'bart',
       queryLastName: 'simpson',
+      customerTokens: [
+        {
+          token: '123',
+          createdDate: '2020-06-08T17:44:38.705Z'
+        }
+      ],
       goal: {
         targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'some text',
@@ -29,6 +35,12 @@ context('Customer Summary page', () => {
       lastName: 'Simpson',
       queryFirstName: 'homer',
       queryLastName: 'simpson',
+      customerTokens: [
+        {
+          token: '123',
+          createdDate: '2020-06-08T17:44:38.705Z'
+        }
+      ],
       goal: {
         targetReviewDate: '2022-05-29T00:00:00.000Z',
         text: 'some text',
@@ -52,20 +64,20 @@ context('Customer Summary page', () => {
 
   describe('Loads page', () => {
     it('has shared plan heading', () => {
-      cy.visit(`http://localhost:3000/c/plans/1`);
+      cy.visit(`http://localhost:3000/c/plans/1?token=123`);
       cy.get('h1').should('have.text', "Bart Simpson's shared plan");
     });
   });
 
   describe('Legal Text', () => {
     it('Does not display legal text if plan is not used as a PHP', () => {
-      cy.visit(`http://localhost:3000/c/plans/1`);
+      cy.visit(`http://localhost:3000/c/plans/1?token=123`);
 
       cy.get('[data-testid=legal-text-test]').should('not.exist');
     });
 
     it('Displays legal text if plan is used as a PHP', () => {
-      cy.visit(`http://localhost:3000/c/plans/2`);
+      cy.visit(`http://localhost:3000/c/plans/2?token=123`);
 
       cy.get('[data-testid=legal-text-test]').should('exist');
     });
