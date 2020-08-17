@@ -71,6 +71,8 @@ jobs:
             export NEXT_PUBLIC_API_URL=http://localhost:3000/api
             export SMS_API_URL=http://localhost:8080
             export PLANS_TABLE_NAME=plans
+            export JWT_SECRET=secret
+            export ALLOWED_GROUPS=allowed_group
             CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
 
       - store_artifacts:
