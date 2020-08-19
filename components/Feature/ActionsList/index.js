@@ -88,8 +88,8 @@ const ActionsList = ({
                   {action.isCompleted && (
                     <div data-testid="completion-message">
                       Marked as complete on{' '}
-                      <DueDate dateTime={action.completedDate} /> by{' '}
-                      {action.completedBy}.
+                      <DueDate dateTime={action.completedDate} />
+                      {action.completedBy && <> by {action.completedBy}</>}.
                     </div>
                   )}
                   <div
