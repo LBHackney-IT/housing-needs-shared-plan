@@ -9,7 +9,7 @@ const Layout = ({ children }) => (
     <Header serviceName="Shared Plan" />
     <div className="govuk-width-container app-width-container">
       <PhaseBanner
-        phase="beta"
+        phase="alpha"
         feedbackUrl="https://docs.google.com/forms/d/1sWACcL_WUTpQkiCe3PU2Sg_qksQXfP8UPHQXYAnFxPs"
       />
       <main
