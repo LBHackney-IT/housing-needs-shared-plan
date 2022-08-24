@@ -14,10 +14,8 @@ A tool that helps create a shared plan of action between a Hackney resident and 
   ```
 
 3. Set up DynamoDB local:
-  Install Java if you don't already have it
-  Install dynamodb:
   ```bash
-  sls dynamodb install
+  docker-compose up
   ```
 
 4. Create local DynamoDB plans table:
