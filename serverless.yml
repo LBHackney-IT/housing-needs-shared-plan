@@ -40,7 +40,8 @@ functions:
       - http:
           path: api/{proxy+}
           method: ANY
-          authorizer: ${self:custom.authorizer.${self:service}-authorizer}
+          private: true
+        # authorizer: ${self:custom.authorizer.${self:service}-authorizer}
       - http: ANY /
       - http: ANY /{proxy+}
     environment:
@@ -159,12 +160,12 @@ resources:
                 OriginProtocolPolicy: https-only
 
 custom:
-  authorizer:
-    hn-shared-plan-authorizer:
-      name: ${self:service}-authorizer
-      type: request
-      identitySource: ''
-      resultTtlInSeconds: 0
+  # authorizer:
+  #   hn-shared-plan-authorizer:
+  #     name: ${self:service}-authorizer
+  #     type: request
+  #     identitySource: ''
+  #     resultTtlInSeconds: 0
   domain-name:
     Fn::Join:
       - '.'
