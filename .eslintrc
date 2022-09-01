@@ -19,9 +19,11 @@
       "version": "detect"
     }
   },
-  // "rules": {
-  //   "linebreak-style": ["error", "unix"],
-  //   "require-atomic-updates": "off",
-  //   "no-unused-vars": "off"
-  // }
+  "rules": {
+    "linebreak-style": ["error", "unix"],
+    "require-atomic-updates": "off",
+    "no-unused-vars": "off",
+    "no-control-regex": 0,
+    "no-useless-escape": 0
+  }
 }
