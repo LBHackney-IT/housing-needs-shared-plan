@@ -126,9 +126,9 @@ workflows:
           stage_name: staging
           API_URL: ${NEXT_PUBLIC_API_URL_STAGING}
           GTM_ID: ${NEXT_PUBLIC_GTM_ID}
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
           # requires:
           #   - run-integration-tests
       - permit-deploy-production:
