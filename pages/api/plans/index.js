@@ -5,6 +5,7 @@ import { logger } from 'lib/infrastructure/logging';
 export const endpoint = ({ createPlan }) => async (req, res) => {
   if (req.method === 'POST') {
     try {
+      logger.info(`request being received is ${JSON.stringify(req)}`)
       const result = await createPlan.execute({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
