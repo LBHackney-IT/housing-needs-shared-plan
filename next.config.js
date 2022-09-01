@@ -1,7 +1,10 @@
 module.exports = {
-  webpack: (config, { webpack }) => {
-    config.plugins.push(new webpack.IgnorePlugin(/.*\.test\.js$/));
-    return config;
+  // webpack: (config, { webpack }) => {
+  //   config.plugins.push(new webpack.IgnorePlugin(/.*\.test\.js$/));
+  //   return config;
+  // },
+  experimental: {
+    forceSwcTransforms: true,
   },
   distDir: 'build/_next',
   target: 'server'
