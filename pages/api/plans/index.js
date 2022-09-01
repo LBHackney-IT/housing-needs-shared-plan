@@ -7,12 +7,12 @@ export const endpoint = ({ createPlan }) => async (req, res) => {
     try {
       logger.info(`request body being received is ${JSON.stringify(req.body)}`)
       const result = await createPlan.execute({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        systemIds: req.body.systemIds,
-        numbers: req.body.numbers,
-        emails: req.body.emails,
-        initialUseAsPhp: req.body.hasPhp
+        firstName: req.body.data.firstName,
+        lastName: req.body.data.lastName,
+        systemIds: req.body.data.systemIds,
+        numbers: req.body.data.numbers,
+        emails: req.body.data.emails,
+        initialUseAsPhp: req.body.data.hasPhp
       });
       logger.info(`Success`, { result });
 
