@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { render } from '@testing-library/react';
 import CustomerPlanSummary from 'pages/plans/[id]';

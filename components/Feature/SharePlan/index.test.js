@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { render } from '@testing-library/react';
 import SharePlan from './index';
 import userEvent from '@testing-library/user-event';
