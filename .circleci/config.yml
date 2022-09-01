@@ -46,44 +46,44 @@ jobs:
           root: ~/repo
           paths: .
 
-  run-integration-tests:
-    executor: integration-test
+  # run-integration-tests:
+  #   executor: integration-test
 
-    working_directory: ~/repo
+  #   working_directory: ~/repo
 
-    steps:
-      - attach_workspace:
-          at: ~/repo
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/repo
 
-      - aws-cli/setup:
-          aws-access-key-id: CYPRESS_AWS_ACCESS_KEY_ID
-          aws-secret-access-key: CYPRESS_AWS_SECRET_ACCESS_KEY
-          aws-region: CYPRESS_AWS_REGION
+  #     - aws-cli/setup:
+  #         aws-access-key-id: CYPRESS_AWS_ACCESS_KEY_ID
+  #         aws-secret-access-key: CYPRESS_AWS_SECRET_ACCESS_KEY
+  #         aws-region: CYPRESS_AWS_REGION
 
-      - run:
-          name: Create local DynamoDB plans table
-          command: aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000 > /dev/null
+  #     - run:
+  #         name: Create local DynamoDB plans table
+  #         command: aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000 > /dev/null
 
-      - run:
-          name: Run integration tests
-          command: |
-            export NEXT_PUBLIC_GTM_ID=
-            export NEXT_PUBLIC_API_URL=http://localhost:3000/api
-            export SMS_API_URL=http://localhost:8080
-            export PLANS_TABLE_NAME=plans
-            export JWT_SECRET=secret
-            export ALLOWED_GROUPS=allowed_group
-            CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
+  #     - run:
+  #         name: Run integration tests
+  #         command: |
+  #           export NEXT_PUBLIC_GTM_ID=
+  #           export NEXT_PUBLIC_API_URL=http://localhost:3000/api
+  #           export SMS_API_URL=http://localhost:8080
+  #           export PLANS_TABLE_NAME=plans
+  #           export JWT_SECRET=secret
+  #           export ALLOWED_GROUPS=allowed_group
+  #           CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
 
-      - store_artifacts:
-          path: ~/repo/cypress/screenshots
+  #     - store_artifacts:
+  #         path: ~/repo/cypress/screenshots
 
-      - store_artifacts:
-          path: ~/repo/cypress/videos
+  #     - store_artifacts:
+  #         path: ~/repo/cypress/videos
 
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
+  #     - persist_to_workspace:
+  #         root: ~/repo
+  #         paths: .
 
   deploy:
     executor: aws-cli/default
