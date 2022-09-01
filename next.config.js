@@ -1,8 +1,11 @@
 module.exports = {
-  // webpack: (config, { webpack }) => {
-  //   config.plugins.push(new webpack.IgnorePlugin(/.*\.test\.js$/));
-  //   return config;
-  // },
+  webpack: (
+    config,
+    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+  ) => {
+    // Important: return the modified config
+    return config
+  },
   experimental: {
     forceSwcTransforms: true,
   },
