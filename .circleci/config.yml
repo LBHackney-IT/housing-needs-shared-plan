@@ -129,8 +129,8 @@ workflows:
           filters:
             branches:
               only: master
-          requires:
-            - run-integration-tests
+          # requires:
+          #   - run-integration-tests
       - permit-deploy-production:
           type: approval
           requires:
