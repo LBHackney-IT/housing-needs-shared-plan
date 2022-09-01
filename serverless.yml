@@ -5,6 +5,9 @@ provider:
   runtime: nodejs16.x
   region: eu-west-2
   stage: ${opt:stage}
+  apiGateway:
+    apiKeys:
+      - name: api-key-${self:service}-${self:provider.stage}
   environment:
     PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
   iamRoleStatements:
