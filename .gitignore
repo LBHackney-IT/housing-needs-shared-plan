@@ -26,6 +26,9 @@
 .idea
 .dynamodb
 .serverless
+.next
+my-dynamodb-data
+
 
 # debug
 npm-debug.log*
