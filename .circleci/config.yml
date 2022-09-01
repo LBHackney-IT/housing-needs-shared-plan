@@ -38,9 +38,9 @@ jobs:
           name: Run unit tests
           command: yarn run unit-test
 
-      - run:
-          name: Run linting
-          command: yarn lint
+      # - run:
+      #     name: Run linting
+      #     command: yarn lint
 
       - persist_to_workspace:
           root: ~/repo
