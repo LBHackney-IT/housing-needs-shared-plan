@@ -1,16 +1,16 @@
 version: 2.1
 
 orbs:
-  aws-cli: circleci/aws-cli@1.0.0
+  aws-cli: circleci/aws-cli@3.1.3
 
 executors:
   unit-test:
     docker:
-      - image: circleci/node:12.13
+      - image: cimg/node:16.15.1
     working_directory: ~/repo
   integration-test:
     docker:
-      - image: circleci/node:12.13-browsers
+      - image: cimg/node:16.15.1-browsers
       - image: circleci/dynamodb
         entrypoint: ['java', '-Xmx1G', '-jar', 'DynamoDBLocal.jar', '-sharedDb']
     working_directory: ~/repo
