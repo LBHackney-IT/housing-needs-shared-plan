@@ -146,5 +146,6 @@ workflows:
           stage_name: production
           API_URL: ${NEXT_PUBLIC_API_URL_PRODUCTION}
           GTM_ID: ${NEXT_PUBLIC_GTM_ID}
+          API_KEY: ${NEXT_PUBLIC_API_KEY_STAGING}
           requires:
             - permit-deploy-production
