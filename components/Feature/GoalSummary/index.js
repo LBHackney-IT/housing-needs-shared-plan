@@ -1,8 +1,10 @@
 import Panel from 'components/Form/Panel';
+import { logger } from 'lib/infrastructure/logging';
 import { convertIsoDateToString } from 'lib/utils/date';
 import css from './index.module.scss';
 
 const GoalSummary = ({ plan }) => {
+  logger.info(`inside the goal summary. the plan looks like this: ${JSON.Stringify(plan)}`)
   const agreedWith = plan.goal.agreedWithName;
 
   return (
