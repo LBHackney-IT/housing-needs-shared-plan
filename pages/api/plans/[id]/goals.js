@@ -5,6 +5,7 @@ import { getUsername, getToken } from 'lib/utils/token';
 
 export const endpoint = ({ addGoal }) => async (req, res) => {
   try {
+    logger.info(`-------- currentUsername is ${getUsername(getToken(req))} -----------`)
     const result = await addGoal.execute({
       planId: req.query.id,
       goal: req.body,
