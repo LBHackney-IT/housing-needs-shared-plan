@@ -327,7 +327,7 @@
     "@babel/helper-annotate-as-pure" "^7.18.6"
     "@babel/helper-plugin-utils" "^7.18.6"
 
-"@babel/plugin-transform-runtime@^7.9.6":
+"@babel/plugin-transform-runtime@^7.18.10":
   version "7.18.10"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.18.10.tgz#37d14d1fa810a368fd635d4d1476c0154144a96f"
   integrity sha512-q5mMeYAdfEbpBAgzl7tBre/la3LeCxmDO1+wMXRdPWbcoMjR3GiXlCLk7JBZVVye0bqTGNMbt0yYVXX1B1jEWQ==
@@ -1923,6 +1923,11 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
+axe-core@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.3.tgz#11c74d23d5013c0fa5d183796729bc3482bd2f6f"
+  integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
+
 axios@^0.19.2:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
@@ -3111,10 +3116,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.0.tgz#4ddcac3718d787cf9df0d1b7d15033925c8f29f2"
   integrity sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==
 
-cypress-axe@^0.8.1:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-0.8.2.tgz#6f18084dd1399d6334aa0ca97315bc96829eb625"
-  integrity sha512-Gz7UUHfENfTUfgtv9cu4xctg5JsSpdZ6eTWIyoBQI42DdebJO6lZUEXX/paVDPVeSU0YVl6WWmTzQduUzaWuAw==
+cypress-axe@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-1.0.0.tgz#ab4e9486eaa3bb956a90a1ae40d52df42827b4f0"
+  integrity sha512-QBlNMAd5eZoyhG8RGGR/pLtpHGkvgWXm2tkP68scJ+AjYiNNOlJihxoEwH93RT+rWOLrefw4iWwEx8kpEcrvJA==
 
 cypress@^4.5.0:
   version "4.12.1"
