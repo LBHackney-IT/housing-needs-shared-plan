@@ -82,7 +82,7 @@ functions:
 
     environment:
       ENV: ${self:provider.stage}
-      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'single-view-uat-access'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
       SMS_API_URL: ${ssm:/shared-plan/SMS_API_URL}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
@@ -98,7 +98,7 @@ functions:
         - authorizer.js
         - node_modules/**
     environment:
-      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'single-view-uat-access'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
 
 resources:
