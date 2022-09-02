@@ -5,7 +5,7 @@ import css from './index.module.scss';
 
 const GoalSummary = ({ plan }) => {
   logger.info(`inside the goal summary. the plan looks like this: ${JSON.stringify(plan)}`)
-  const agreedWith = plan.goal.agreedWithName;
+  const agreedWith = plan.goal?.agreedWithName;
 
   return (
     <Panel>

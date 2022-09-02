@@ -4,12 +4,13 @@ import { HttpStatusError } from './HttpStatusError';
 async function request(path, { token, ...options }) {
   const url = `${process.env.NEXT_PUBLIC_API_URL}${path}`;
   logger.info(`Fetching ${url}`, options?.body);
+  logger.info(`fetching environment variables... url: ${url}, api key ${process.env.API_KEY}`)
   const response = await fetch(url, {
     ...options,
     credentials: 'same-origin',
     headers: {
       accept: 'application/json',
-      'x-api-key': process.env.API_KEY,
+      'x-api-key': `${process.env.API_KEY}`,
       'content-type': 'application/json'
     },
     body: options?.body ? JSON.stringify(options.body) : null
