@@ -121,9 +121,9 @@ workflows:
   continuous-delivery:
     jobs:
       - install-dependencies-and-unit-tests
-      # - run-integration-tests:
-      #     requires:
-      #       - install-dependencies-and-unit-tests
+      - run-integration-tests:
+          requires:
+            - install-dependencies-and-unit-tests
       - deploy:
           name: deploy-staging
           stage_name: staging
