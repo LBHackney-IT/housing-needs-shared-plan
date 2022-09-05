@@ -64,20 +64,20 @@ context('Customer Summary page', () => {
 
   describe('Loads page', () => {
     it('has shared plan heading', () => {
-      cy.visit(`http://localhost:3000/c/plans/1?token=123`);
+      cy.visit(`http://localhost:3000/plans/1?token=123`);
       cy.get('h1').should('have.text', "Bart Simpson's shared plan");
     });
   });
 
   describe('Legal Text', () => {
     it('Does not display legal text if plan is not used as a PHP', () => {
-      cy.visit(`http://localhost:3000/c/plans/1?token=123`);
+      cy.visit(`http://localhost:3000/plans/1?token=123`);
 
       cy.get('[data-testid=legal-text-test]').should('not.exist');
     });
 
     it('Displays legal text if plan is used as a PHP', () => {
-      cy.visit(`http://localhost:3000/c/plans/2?token=123`);
+      cy.visit(`http://localhost:3000/plans/2?token=123`);
 
       cy.get('[data-testid=legal-text-test]').should('exist');
     });

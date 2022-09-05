@@ -7,11 +7,12 @@
     "jest/globals": true
   },
   "plugins": ["jest"],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2018
+    "ecmaVersion": 2018,
+    "requireConfigFile": false
   },
   "settings": {
     "react": {
@@ -21,6 +22,9 @@
   "rules": {
     "linebreak-style": ["error", "unix"],
     "require-atomic-updates": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-control-regex": 0,
+    "no-useless-escape": 0,
+    "prettier/prettier": 0
   }
 }

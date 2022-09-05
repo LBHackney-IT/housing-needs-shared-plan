@@ -2,9 +2,12 @@ service: hn-shared-plan
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: eu-west-2
   stage: ${opt:stage}
+  apiGateway:
+    apiKeys:
+      - name: api-key-${self:service}-${self:provider.stage}
   environment:
     PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
   iamRoleStatements:
@@ -40,17 +43,31 @@ functions:
       - http:
           path: api/{proxy+}
           method: ANY
-          authorizer: ${self:custom.authorizer.${self:service}-authorizer}
+          private: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - If-Match
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - x-correlation-id
+            allowCredentials: true
+        # authorizer: ${self:custom.authorizer.${self:service}-authorizer}
       - http: ANY /
       - http: ANY /{proxy+}
     environment:
       ENV: ${self:provider.stage}
-      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'single-view-uat-access'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
       SMS_API_URL: ${ssm:/shared-plan/SMS_API_URL}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
-      NEXT_PUBLIC_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
-      NEXT_PUBLIC_URL: https://${self:custom.aliases.${self:provider.stage}}
+      NEXT_PUBLIC_API_KEY: ${ssm:/shared-plan/${self:provider.stage}/API_KEY}
+      NEXT_PUBLIC_API_URL: ${ssm:/shared-plan/${self:provider.stage}/API_BASE_URL}
+      NEXT_PUBLIC_URL: ${ssm:/shared-plan/${self:provider.stage}/BASE_URL}
 
   hn-shared-plan-reminders:
     name: ${self:service}-reminders-${self:provider.stage}
@@ -65,12 +82,13 @@ functions:
 
     environment:
       ENV: ${self:provider.stage}
-      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'single-view-uat-access'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
       SMS_API_URL: ${ssm:/shared-plan/SMS_API_URL}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
-      NEXT_PUBLIC_API_URL: https://${self:custom.aliases.${self:provider.stage}}/api
-      NEXT_PUBLIC_URL: https://${self:custom.aliases.${self:provider.stage}}
+      NEXT_PUBLIC_API_KEY: ${ssm:/shared-plan/${self:provider.stage}/API_KEY}
+      NEXT_PUBLIC_API_URL: ${ssm:/shared-plan/${self:provider.stage}/API_BASE_URL}
+      NEXT_PUBLIC_URL: ${ssm:/shared-plan/${self:provider.stage}/BASE_URL}
 
   hn-shared-plan-authorizer:
     name: ${self:service}-authorizer-${self:provider.stage}
@@ -80,7 +98,7 @@ functions:
         - authorizer.js
         - node_modules/**
     environment:
-      ALLOWED_GROUPS: 'housingneeds-singleview-beta'
+      ALLOWED_GROUPS: 'single-view-uat-access'
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
 
 resources:
@@ -159,12 +177,12 @@ resources:
                 OriginProtocolPolicy: https-only
 
 custom:
-  authorizer:
-    hn-shared-plan-authorizer:
-      name: ${self:service}-authorizer
-      type: request
-      identitySource: ''
-      resultTtlInSeconds: 0
+  # authorizer:
+  #   hn-shared-plan-authorizer:
+  #     name: ${self:service}-authorizer
+  #     type: request
+  #     identitySource: ''
+  #     resultTtlInSeconds: 0
   domain-name:
     Fn::Join:
       - '.'

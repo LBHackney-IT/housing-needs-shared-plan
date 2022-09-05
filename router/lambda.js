@@ -2,10 +2,12 @@ const server = require('restana')();
 const app = require('next')({ dev: false });
 const files = require('serve-static');
 const path = require('path');
+const bodyParser = require('body-parser');
 const nextRequestHandler = app.getRequestHandler();
 const { checkAuth, checkCustomerToken } = require('./dependencies');
 
 server.use(require('cookie-parser')());
+server.use(bodyParser.json());
 server.use(files(path.join(__dirname, 'build')));
 server.use(files(path.join(__dirname, 'public')));
 

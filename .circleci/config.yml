@@ -1,16 +1,16 @@
 version: 2.1
 
 orbs:
-  aws-cli: circleci/aws-cli@1.0.0
+  aws-cli: circleci/aws-cli@3.1.3
 
 executors:
   unit-test:
     docker:
-      - image: circleci/node:12.13
+      - image: cimg/node:16.15.1
     working_directory: ~/repo
   integration-test:
     docker:
-      - image: circleci/node:12.13-browsers
+      - image: cimg/node:16.15.1-browsers
       - image: circleci/dynamodb
         entrypoint: ['java', '-Xmx1G', '-jar', 'DynamoDBLocal.jar', '-sharedDb']
     working_directory: ~/repo
@@ -95,6 +95,8 @@ jobs:
         type: string
       GTM_ID:
         type: string
+      API_KEY:
+        type: string
     steps:
       - attach_workspace:
           at: ~/repo
@@ -107,6 +109,7 @@ jobs:
           command: |
             export NEXT_PUBLIC_API_URL=<< parameters.API_URL >>
             export NEXT_PUBLIC_GTM_ID=<< parameters.GTM_ID >>
+            export NEXT_PUBLIC_API_KEY=<< parameters.API_KEY >>
             cd ../repo
             yarn build
             yarn --production=true
@@ -126,11 +129,13 @@ workflows:
           stage_name: staging
           API_URL: ${NEXT_PUBLIC_API_URL_STAGING}
           GTM_ID: ${NEXT_PUBLIC_GTM_ID}
+          API_KEY: ${NEXT_PUBLIC_API_KEY_STAGING}
+          requires:
+            - install-dependencies-and-unit-tests
+            - run-integration-tests
           filters:
             branches:
               only: master
-          requires:
-            - run-integration-tests
       - permit-deploy-production:
           type: approval
           requires:
@@ -140,5 +145,6 @@ workflows:
           stage_name: production
           API_URL: ${NEXT_PUBLIC_API_URL_PRODUCTION}
           GTM_ID: ${NEXT_PUBLIC_GTM_ID}
+          API_KEY: ${NEXT_PUBLIC_API_KEY_STAGING}
           requires:
             - permit-deploy-production
