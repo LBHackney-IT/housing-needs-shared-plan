@@ -9,7 +9,7 @@ import Table, {
   TableData
 } from 'components/Table';
 import styles from './index.module.scss';
-import ReactMarkdown from 'react-markdown/with-html';
+import ReactMarkdown from 'react-markdown';
 
 const ActionsList = ({
   actions,
