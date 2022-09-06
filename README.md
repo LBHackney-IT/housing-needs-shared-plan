@@ -17,23 +17,19 @@ touch .env # then go fill it in!
 ```
 
 3. Set up DynamoDB local:
-   Install Java if you don't already have it
-   Install dynamodb:
-
-```bash
-sls dynamodb install
-```
+  ```bash
+  docker-compose up
+  ```
 
 4. Create local DynamoDB plans table:
-
-```bash
-aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
-```
+  ```bash
+  aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
+  ```
 
 5. Run the development server:
-
-```bash
-yarn dev
+  ```bash
+  yarn dev
+  ```
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
