@@ -1,18 +1,26 @@
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const router = jsonServer.router({});
-const middlewares = jsonServer.defaults();
+const express = require('express')
+const bodyParser = require('body-parser');
 
-server.use(middlewares);
-server.use(router);
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-server.listen(8080, () => {
-  console.log('JSON Server is running');
-});
 
-router.render = (req, res) => {
+app.get('/', function (req, res) {
+  res.send('Fake SMS Server is running')
+})
+
+app.post('/messages', function (req, res) {
+  console.log(req.body)
   if (req.body.name === 'John Cena') {
-    res.status(500).end();
+    console.log('calling 500')
+    res.statusCode = 500;
+
+    res.sendStatus(500);
+  } else {
+    res.sendStatus(200);
+
   }
-  res.status(200).end();
-};
+})
+
+app.listen(8080)
