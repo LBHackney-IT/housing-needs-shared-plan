@@ -17,6 +17,7 @@
     "dynamo-admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin",
     "lint": "eslint --fix --ext js lib/ pages/ && echo 'Lint complete.'"
   },
+
   "dependencies": {
     "@babel/eslint-parser": "^7.18.9",
     "body-parser": "^1.20.0",
@@ -52,7 +53,7 @@
     "axe-core": "^4.4.3",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.5.1",
+    "babel-jest": "^29.0.2",
     "cypress": "^4.5.0",
     "cypress-axe": "^1.0.0",
     "dynamodb-admin": "^4.0.0",
@@ -62,7 +63,8 @@
     "eslint-plugin-prettier": "^3.1.1",
     "govuk-frontend": "^3.6.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^25.5.4",
+    "jest": "^29.0.2",
+    "jest-environment-jsdom": "^29.0.2",
     "jest-fetch-mock": "^3.0.3",
     "mockdate": "^3.0.2",
     "prettier": "^1.18.2",

@@ -1,7 +1,9 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import EditAction from './index';
-
+/**
+ * @jest-environment jsdom
+ */
 describe('EditAction', () => {
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
 

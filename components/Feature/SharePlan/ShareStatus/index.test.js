@@ -1,6 +1,10 @@
 import { render } from '@testing-library/react';
 import ShareStatus from './index';
 
+/**
+ * @jest-environment jsdom
+ */
+
 describe('Share status', () => {
   it('renders correct share status when not shared', () => {
     const firstName = 'Jon';

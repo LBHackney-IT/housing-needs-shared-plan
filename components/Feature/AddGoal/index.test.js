@@ -1,7 +1,10 @@
+/**
+ * @jest-environment jsdom
+ */
 // import { fireEvent, render } from '@testing-library/react';
 // import AddGoal from './index';
 
-it('passes', () => {
+xit('re-enable tests', () => {
   expect(1).toEqual(1);
 })
 

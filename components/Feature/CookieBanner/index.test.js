@@ -1,6 +1,10 @@
 import { render } from '@testing-library/react';
 import CookieBanner from './index';
 import { acceptedCookieIsSet } from 'lib/utils/acceptCookies';
+
+/**
+ * @jest-environment jsdom
+ */
 jest.mock('lib/utils/acceptCookies');
 
 describe('CookieBanner', () => {

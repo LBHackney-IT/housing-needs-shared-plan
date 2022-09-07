@@ -1,7 +1,9 @@
 import { render } from '@testing-library/react';
 import SharePlan from './index';
 import userEvent from '@testing-library/user-event';
-
+/**
+ * @jest-environment jsdom
+ */
 describe('Share plan', () => {
   it('renders the share plan options', () => {
     const plan = {
