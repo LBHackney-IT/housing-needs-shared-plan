@@ -58,7 +58,7 @@ context('Summary page', () => {
   });
 
   describe('Action list', () => {
-    it('Can render a clickable link in action description', () => {
+    xit('Can render a clickable link in action description', () => {
       cy.get('[data-testid=details-summary]').click({ force: true });
 
       cy.get('[data-testid=action-details-test] > details > div > p >  a')

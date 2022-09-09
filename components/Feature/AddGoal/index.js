@@ -64,10 +64,8 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
   };
 
   const addTheGoal = event => {
-    console.log('adding the goal...')
     event.preventDefault();
     if (!formIsValid()) {
-      console.log('form is not valid')
       setValidate(true);
       return;
     }
