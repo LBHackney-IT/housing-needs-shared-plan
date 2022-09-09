@@ -5,9 +5,9 @@ provider:
   runtime: nodejs16.x
   region: eu-west-2
   stage: ${opt:stage}
-  apiGateway:
-    apiKeys:
-      - name: api-key-${self:service}-${self:provider.stage}
+  # apiGateway:
+  #   apiKeys:
+  #     - name: api-key-${self:service}-${self:provider.stage}
   environment:
     PLANS_TABLE: '${self:service}-${self:provider.stage}-plans'
   iamRoleStatements:
@@ -43,7 +43,7 @@ functions:
       - http:
           path: api/{proxy+}
           method: ANY
-          private: true
+          # private: true
           cors:
             origin: '*'
             headers:
@@ -55,7 +55,7 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
               - x-correlation-id
-            allowCredentials: true
+            # allowCredentials: true
         # authorizer: ${self:custom.authorizer.${self:service}-authorizer}
       - http: ANY /
       - http: ANY /{proxy+}
