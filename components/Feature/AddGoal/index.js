@@ -2,6 +2,7 @@ import { useState } from 'react';
 import moment from 'moment';
 import { Button, Checkbox, DateInput, TextInput } from 'components/Form';
 import { convertIsoDateToObject } from 'lib/utils/date';
+import ReactMarkdown from 'react-markdown'
 
 const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
   const [text, setGoalText] = useState(goal?.text || '');
@@ -63,8 +64,10 @@ const AddGoal = ({ goal, initialUseAsPhp, onGoalAdded }) => {
   };
 
   const addTheGoal = event => {
+    console.log('adding the goal...')
     event.preventDefault();
     if (!formIsValid()) {
+      console.log('form is not valid')
       setValidate(true);
       return;
     }

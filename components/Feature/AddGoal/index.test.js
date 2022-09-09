@@ -2,11 +2,9 @@
  * @jest-environment jsdom
  */
 import { fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import AddGoal from './index';
 
-// xit('re-enable tests', () => {
-//   expect(1).toEqual(1);
-// })
 
 describe('AddGoal', () => {
   it('renders the add goal form', () => {
@@ -19,38 +17,31 @@ describe('AddGoal', () => {
     expect(getByTestId('add-actions-button-test')).toBeInTheDocument();
   });
 
-  xit('saves the goal when add actions button is clicked', () => {
+  it('saves the goal when add actions button is clicked', async () => {
     const onGoalAdded = jest.fn();
     const { getByLabelText, getByText, getByTestId } = render(
       <AddGoal initialUseAsPhp={false} onGoalAdded={onGoalAdded} />
     );
 
-    fireEvent.change(getByTestId('add-goal-text-test'), {
-      target: { value: 'this is my goal' }
-    });
-    fireEvent.change(getByLabelText('Day'), {
-      target: { value: '12' }
-    });
-    fireEvent.change(getByLabelText('Month'), {
-      target: { value: '10' }
-    });
-    fireEvent.change(getByLabelText('Year'), {
-      target: { value: '2021' }
-    });
+    const goalInput = getByTestId('add-goal-text-test');
+    const day = getByLabelText('Day');
+    const month = getByLabelText('Month')
+    const year = getByLabelText('Year')
 
-    fireEvent(
-      getByText('Add actions'),
-      new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true
-      })
-    );
+    await userEvent.type(goalInput, 'this is my goal')
+    await userEvent.type(day, '12')
+    await userEvent.type(month, '10')
+    await userEvent.type(year, '2022')
+    
+
+    userEvent.click(getByText('Add actions'))
+
 
     expect(onGoalAdded).toHaveBeenCalledWith({
       targetReviewDate: {
         day: 12,
         month: 10,
-        year: 2021
+        year: 2022
       },
       text: 'this is my goal',
       useAsPhp: false,
@@ -58,7 +49,7 @@ describe('AddGoal', () => {
     });
   });
 
-  xit('does not save the goal if the form is not valid', () => {
+  it('does not save the goal if the form is not valid', () => {
     const onGoalAdded = jest.fn();
     const { getByText } = render(<AddGoal onGoalAdded={onGoalAdded} />);
 

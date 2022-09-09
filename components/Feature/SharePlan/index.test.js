@@ -83,7 +83,7 @@ describe('Share plan', () => {
     expect(getByLabelText('No emails found.').disabled).toBe(true);
   });
 
-  xit('renders input field and save button when edit phone number is clicked', () => {
+  it('renders input field and save button when edit phone number is clicked', async () => {
     const plan = {
       firstName: 'Sally',
       lastName: 'West',
@@ -92,6 +92,8 @@ describe('Share plan', () => {
     };
     const { getByTestId } = render(<SharePlan plan={plan} />);
     getByTestId('edit-number-button-test').click();
+
+    await new Promise((r) => setTimeout(r, 500));
 
     expect(getByTestId('edit-number-input-test')).toBeInTheDocument();
     expect(getByTestId('save-number-button-test')).toBeInTheDocument();
