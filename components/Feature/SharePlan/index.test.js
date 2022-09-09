@@ -83,7 +83,7 @@ describe('Share plan', () => {
     expect(getByLabelText('No emails found.').disabled).toBe(true);
   });
 
-  it('renders input field and save button when edit phone number is clicked', () => {
+  xit('renders input field and save button when edit phone number is clicked', () => {
     const plan = {
       firstName: 'Sally',
       lastName: 'West',

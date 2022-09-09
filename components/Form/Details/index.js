@@ -12,7 +12,7 @@ const Details = ({ color, children, title }) => (
     >
       <span className="govuk-details__summary-text">{title}</span>
     </summary>
-    <div className={`govuk-details__text ${css['lbh-details__text']}`}>
+    <div className={`govuk-details__text ${css['lbh-details__text']}`} data-testid="details_text">
       {children}
     </div>
   </details>
