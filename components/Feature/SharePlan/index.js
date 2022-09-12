@@ -21,7 +21,9 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
   const [selectedContact, setSelectedContact] = useState({});
   const [hasError, setHasError] = useState(false);
   const [editNumber, setEditNumber] = useState(false);
+  const [editEmail, setEditEmail] = useState(false);
   const [numberText, setNumberText] = useState(plan.numbers?.[0] || '');
+  const [email, setEmail] = useState(plan.emails?.[0] || '');
 
   const handleSelectEmail = e => {
     if (!e.target.value) return;
@@ -44,7 +46,12 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
       setHasError(true);
       return;
     }
-    onPlanShared(selectedContact, customerUrl);
+    if (selectedContact['email']) {
+      onPlanShared.email(selectedContact, customerUrl);
+    }
+    if (selectedContact['number']) {
+      onPlanShared.sms(selectedContact, customerUrl);
+    }
   };
 
   const getNumber = number => {
@@ -61,9 +68,20 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
     await updatePlan(updateFields);
     setEditNumber(false);
   };
+  const saveEmail = async () => {
+    const updateFields = {
+      emails: plan.emails
+    };
+    updateFields.emails[0] = email;
+    await updatePlan(updateFields);
+    setEditEmail(false);
+  };
 
   const handleNumberChange = e => {
     setNumberText(e.target.value);
+  };
+  const handleEmailChange = e => {
+    setEmail(e.target.value);
   };
 
   return (
@@ -139,13 +157,45 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
               className={css['share-plan__collaborators-list']}
               data-testid="share-by-email-row-test"
             >
-              <Checkbox
-                name="share-by-email"
-                label={plan.emails[0] || 'No emails found.'}
-                value={plan.emails[0] || 'No emails found.'}
-                onClick={handleSelectEmail}
-                disabled
-              />
+              {editEmail && (
+                  <TextInput
+                      name="edit-email"
+                      label="Edit email"
+                      onChange={handleEmailChange}
+                      value={email}
+                      autoFocus
+                      autoComplete="off"
+                      style={{ width: 'inherit' }}
+                      data-testid="edit-email-input-test"
+                  />
+              )}
+
+              {editEmail && (
+                  <Button
+                      onClick={saveEmail}
+                      text="Save"
+                      data-testid="save-number-button-test"
+                  />
+              )}
+
+              {!editEmail && (
+                  <Checkbox
+                      name="share-by-email"
+                      label={plan.emails[0] || 'No emails found.'}
+                      value={plan.emails[0] || 'No emails found.'}
+                      onClick={handleSelectEmail}
+                  />
+              )}
+
+              {!editEmail && (
+                  <a
+                      onClick={() => setEditEmail(true)}
+                      className="govuk-details__summary-text linkStyle"
+                      data-testid="edit-number-button-test"
+                  >
+                    Edit email
+                  </a>
+              )}
             </TableData>
             <TableData
               className={css['share-plan__collaborators-list']}

@@ -4,7 +4,7 @@ import { usePlan, requestPlan, HttpStatusError, requestCustomerUrl } from 'api';
 import { getToken } from 'lib/utils/token';
 
 const Share = ({ initialPlan, planId, token, customerUrl }) => {
-  const { error, loading, sharePlan, plan } = usePlan(planId, {
+  const { error, loading, sharePlan, shareEmailPlan, plan } = usePlan(planId, {
     initialPlan,
     token
   });
@@ -20,7 +20,7 @@ const Share = ({ initialPlan, planId, token, customerUrl }) => {
         error={error}
         plan={plan}
         customerUrl={customerUrl}
-        onPlanShared={sharePlan}
+        onPlanShared={{email: shareEmailPlan, sms: sharePlan}}
         token={token}
       />
     </>

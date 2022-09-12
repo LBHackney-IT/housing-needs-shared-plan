@@ -3,7 +3,7 @@ import { HttpStatusError } from './HttpStatusError';
 
 async function request(path, { token, ...options }) {
   const url = `${process.env.NEXT_PUBLIC_API_URL}${path}`;
-  logger.info(`Fetching ${url}`, options?.body);  
+  logger.info(`Fetching ${url}`, options?.body);
   const response = await fetch(url, {
     ...options,
     credentials: 'same-origin',
@@ -54,6 +54,19 @@ export function requestSharePlan(
   options
 ) {
   return request(`/plans/${planId}/share`, {
+    method: 'POST',
+    body: { collaborator, customerPlanUrl },
+    ...options
+  });
+}
+
+export function requestShareEmailPlan(
+    planId,
+    collaborator,
+    customerPlanUrl,
+    options
+) {
+  return request(`/plans/${planId}/emailShare`, {
     method: 'POST',
     body: { collaborator, customerPlanUrl },
     ...options
