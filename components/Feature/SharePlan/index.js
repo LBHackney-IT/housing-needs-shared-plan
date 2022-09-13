@@ -70,9 +70,9 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
   };
   const saveEmail = async () => {
     const updateFields = {
-      emails: plan.emails
+      "emails": plan.emails
     };
-    updateFields.emails[0] = email;
+    updateFields["emails"][0] = email;
     await updatePlan(updateFields);
     setEditEmail(false);
   };
