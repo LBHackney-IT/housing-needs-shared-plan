@@ -184,6 +184,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
                       label={plan.emails[0] || 'No emails found.'}
                       value={plan.emails[0] || 'No emails found.'}
                       onClick={handleSelectEmail}
+                      disabled={!plan.emails[0]}
                   />
               )}
 
@@ -191,7 +192,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
                   <a
                       onClick={() => setEditEmail(true)}
                       className="govuk-details__summary-text linkStyle"
-                      data-testid="edit-number-button-test"
+                      data-testid="edit-email-button-test"
                   >
                     Edit email
                   </a>
