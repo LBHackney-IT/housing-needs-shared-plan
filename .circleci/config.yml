@@ -134,7 +134,7 @@ workflows:
           API_KEY: ${NEXT_PUBLIC_API_KEY_STAGING}
           requires:
             - install-dependencies-and-unit-tests
-            - run-integration-tests
+#            - run-integration-tests
 #          filters:
 #            branches:
 #              only: master
