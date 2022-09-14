@@ -174,7 +174,7 @@ const SharePlan = ({ error, plan, customerUrl, onPlanShared, token }) => {
                   <Button
                       onClick={saveEmail}
                       text="Save"
-                      data-testid="save-number-button-test"
+                      data-testid="save-email-button-test"
                   />
               )}
 
