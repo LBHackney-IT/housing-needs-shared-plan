@@ -194,5 +194,14 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=save-number-button-test]').click();
       cy.get('[data-testid=share-by-sms-row-test]').should('contain', '12345');
     });
+    it('Can edit the email address', () => {
+      cy.visit('http://localhost:3000/plans/3/share');
+
+      cy.get('[data-testid=edit-email-button-test]').click();
+      cy.get('[data-testid=edit-email-input-test]').clear();
+      cy.get('[data-testid=edit-email-input-test]').type('e@mail.com');
+      cy.get('[data-testid=save-email-button-test]').click();
+      cy.get('[data-testid=share-by-email-row-test]').should('contain', 'e@mail.com');
+    });
   });
 });

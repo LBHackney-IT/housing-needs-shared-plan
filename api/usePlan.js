@@ -5,6 +5,7 @@ import {
   requestAddGoal,
   requestAddAction,
   requestSharePlan,
+  requestShareEmailPlan,
   requestUpdateAction,
   requestDeleteAction,
   requestUpdatePlan
@@ -71,6 +72,20 @@ export function usePlan(planId, { initialPlan, token, ...options } = {}) {
     }),
     sharePlan: withErrorHandling(async (collaborator, customerPlanUrl) => {
       const newToken = await requestSharePlan(
+        planId,
+        collaborator,
+        customerPlanUrl,
+        {
+          token
+        }
+      );
+      mutate({
+        ...data,
+        customerTokens: data.customerTokens.concat([newToken])
+      });
+    }),
+    shareEmailPlan: withErrorHandling(async (collaborator, customerPlanUrl) => {
+      const newToken = await requestShareEmailPlan(
         planId,
         collaborator,
         customerPlanUrl,

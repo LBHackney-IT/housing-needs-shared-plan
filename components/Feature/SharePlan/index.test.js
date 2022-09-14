@@ -43,7 +43,7 @@ describe('Share plan', () => {
     expect(getByTestId('share-plan-button').disabled).toBe(false);
   });
 
-  it('calls the onPlanShared handler when plan is shared', () => {
+  it('calls the onPlanShared handler when plan is shared via sms', () => {
     const plan = {
       numbers: ['123'],
       emails: []
@@ -51,13 +51,50 @@ describe('Share plan', () => {
     const onPlanShared = jest.fn();
 
     const { getByLabelText, getByTestId } = render(
-      <SharePlan plan={plan} onPlanShared={onPlanShared} />
+      <SharePlan plan={plan} onPlanShared={{sms: onPlanShared}} />
     );
 
     getByLabelText('123').click();
     getByTestId('share-plan-button').click();
 
     expect(onPlanShared).toHaveBeenCalled();
+  });
+
+  it('calls the onPlanShared handler when plan is shared via email', () => {
+    const plan = {
+      numbers: [],
+      emails: ['e@mail.com']
+    };
+    const onPlanShared = jest.fn();
+
+    const { getByLabelText, getByTestId } = render(
+        <SharePlan plan={plan} onPlanShared={{email: onPlanShared}} />
+    );
+
+    getByLabelText('e@mail.com').click();
+    getByTestId('share-plan-button').click();
+
+    expect(onPlanShared).toHaveBeenCalled();
+  });
+
+  it('calls the onPlanShared handler when plan is shared via email and sms', () => {
+    const plan = {
+      numbers: ['123'],
+      emails: ['e@mail.com']
+    };
+    const onPlanSharedEmail = jest.fn();
+    const onPlanSharedSms = jest.fn();
+
+    const { getByLabelText, getByTestId } = render(
+        <SharePlan plan={plan} onPlanShared={{email: onPlanSharedEmail, sms: onPlanSharedSms}} />
+    );
+
+    getByLabelText('e@mail.com').click();
+    getByLabelText('123').click();
+    getByTestId('share-plan-button').click();
+
+    expect(onPlanSharedEmail).toHaveBeenCalled();
+    expect(onPlanSharedSms).toHaveBeenCalled();
   });
 
   it('shows error message when there is an error', () => {
