@@ -67,6 +67,7 @@ functions:
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}
       GOV_NOTIFY_API_KEY: ${ssm:/shared-plan/${self:provider.stage}/GOV_NOTIFY_API_KEY}
       EMAIL_TEMPLATE_ID: ${ssm:/shared-plan/${self:provider.stage}/EMAIL_TEMPLATE_ID}
+      SMS_TEMPLATE_ID: ${ssm:/shared-plan/${self:provider.stage}/SMS_TEMPLATE_ID}
       NEXT_PUBLIC_API_KEY: ${ssm:/shared-plan/${self:provider.stage}/API_KEY}
       NEXT_PUBLIC_API_URL: ${ssm:/shared-plan/${self:provider.stage}/API_BASE_URL}
       NEXT_PUBLIC_URL: ${ssm:/shared-plan/${self:provider.stage}/BASE_URL}
@@ -87,6 +88,7 @@ functions:
       ALLOWED_GROUPS: ${ssm:/shared-plan/${self:provider.stage}/ALLOWED_GROUPS}
       GOV_NOTIFY_API_KEY: ${ssm:/shared-plan/${self:provider.stage}/GOV_NOTIFY_API_KEY}
       EMAIL_TEMPLATE_ID: ${ssm:/shared-plan/${self:provider.stage}/EMAIL_TEMPLATE_ID}
+      SMS_TEMPLATE_ID: ${ssm:/shared-plan/${self:provider.stage}/SMS_TEMPLATE_ID}
       JWT_SECRET: ${ssm:/common/hackney-jwt-secret}
       SMS_API_URL: ${ssm:/shared-plan/SMS_API_URL}
       PLANS_TABLE_NAME: ${self:provider.environment.PLANS_TABLE}

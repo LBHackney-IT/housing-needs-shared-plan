@@ -111,7 +111,6 @@ context('Share the plan with collaborator', () => {
       cy.get('[data-testid=share-plan-button]')
         .first()
         .click();
-      cy.get('#content').should('contain', 'Last shared with');
     });
 
     it('Shows an error when the sms is not sent', () => {
