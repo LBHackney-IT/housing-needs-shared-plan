@@ -145,3 +145,38 @@ Find the shared plan with correct name and system IDs:
   modify the environment variable ALLOWED_GROUPS using the syntax 'group1,group2'.
 
 - Access to the API is controlled using an API key. This is sent on the 'x-api-key' header and accessed through the environment variable NEXT_PUBLIC_API_KEY.
+
+## Creating A Shared Plan From A Different Service
+
+Shared Plan can be integrated with another service, allowing plans to be created for a customer for any topic.
+
+To do this, a POST request should be made to the /api/plans endpoint with the following parameters:
+
+- An 'x-api-key' header. The value of this can be read from AWS Parameter store (account Housing Needs) - /shared-plan/{environment}/API_KEY
+
+- A body in the following format:
+
+```
+{
+    "firstName": "Test",
+    "lastName": "User",
+    "systemIds": "test data",
+    "numbers": ["string"],
+    "emails": ["string"],
+    "hasPhp": false
+}
+```
+
+Note that the numbers and emails array will be used to communicate the shared plan to the customer.
+
+The API will respond with a 201 Created and the following body:
+
+```
+{
+    "id": "ZNXHO4",
+    "firstName": "Test",
+    "lastName": "User"
+}
+```
+
+This id can be used to redirect to the front end of the application at the endpoint /plans/{id}. From here the shared plan can be added to and shared.
