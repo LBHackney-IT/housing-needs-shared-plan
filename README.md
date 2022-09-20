@@ -17,20 +17,24 @@ touch .env # then go fill it in!
 ```
 
 3. Set up DynamoDB local:
-  ```bash
-  docker-compose up
-  ```
+
+```bash
+docker-compose up
+```
 
 4. Create local DynamoDB plans table:
-  ```bash
-  aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
-  ```
+
+```bash
+aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
+```
 
 5. Run the development server:
-  ```bash
-  yarn dev
-  ```
+
+```bash
+yarn dev
 ```
+
+````
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
 
@@ -46,7 +50,7 @@ Run jest tests:
 
 ```bash
 yarn unit-test
-```
+````
 
 ## Integration tests
 
@@ -54,7 +58,7 @@ Set these env vars in .env file:
 
 ```
 NEXT_PUBLIC_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:3000/api  SMS_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
 ENV=dev
 
 # must match the name of the DynamoDB table
