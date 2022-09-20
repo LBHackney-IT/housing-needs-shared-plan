@@ -67,7 +67,7 @@ PLANS_TABLE_NAME=plans
 # for authentication, any values are fine
 JWT_SECRET=secret
 ALLOWED_GROUPS=any_value_is_fine
-
+SMS_API_URL=http://localhost:8080
 # for Google Tag Manager, can be left blank
 NEXT_PUBLIC_GTM_ID=
 ```
