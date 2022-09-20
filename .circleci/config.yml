@@ -74,7 +74,6 @@ jobs:
             export JWT_SECRET=secret
             export GOV_NOTIFY_API_KEY=gov-notify-api-key
             export EMAIL_TEMPLATE_ID=email-template-id
-            export SMS_TEMPLATE_ID=sms-template-id
             export ALLOWED_GROUPS=allowed_group
             CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
 
