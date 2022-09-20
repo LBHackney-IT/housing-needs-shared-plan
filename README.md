@@ -17,20 +17,24 @@ touch .env # then go fill it in!
 ```
 
 3. Set up DynamoDB local:
-  ```bash
-  docker-compose up
-  ```
+
+```bash
+docker-compose up
+```
 
 4. Create local DynamoDB plans table:
-  ```bash
-  aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
-  ```
+
+```bash
+aws dynamodb create-table --cli-input-json file://./config/tables/plans.json --endpoint-url http://localhost:8000
+```
 
 5. Run the development server:
-  ```bash
-  yarn dev
-  ```
+
+```bash
+yarn dev
 ```
+
+````
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the home page.
 
@@ -46,7 +50,7 @@ Run jest tests:
 
 ```bash
 yarn unit-test
-```
+````
 
 ## Integration tests
 
@@ -54,7 +58,7 @@ Set these env vars in .env file:
 
 ```
 NEXT_PUBLIC_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:3000/api  SMS_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
 ENV=dev
 
 # must match the name of the DynamoDB table
@@ -141,3 +145,38 @@ Find the shared plan with correct name and system IDs:
   modify the environment variable ALLOWED_GROUPS using the syntax 'group1,group2'.
 
 - Access to the API is controlled using an API key. This is sent on the 'x-api-key' header and accessed through the environment variable NEXT_PUBLIC_API_KEY.
+
+## Creating A Shared Plan From A Different Service
+
+Shared Plan can be integrated with another service, allowing plans to be created for a customer for any topic.
+
+To do this, a POST request should be made to the /api/plans endpoint with the following parameters:
+
+- An 'x-api-key' header. The value of this can be read from AWS Parameter store (account Housing Needs) - /shared-plan/{environment}/API_KEY
+
+- A body in the following format:
+
+```
+{
+    "firstName": "Test",
+    "lastName": "User",
+    "systemIds": "test data",
+    "numbers": ["string"],
+    "emails": ["string"],
+    "hasPhp": false
+}
+```
+
+Note that the numbers and emails array will be used to communicate the shared plan to the customer.
+
+The API will respond with a 201 Created and the following body:
+
+```
+{
+    "id": "ZNXHO4",
+    "firstName": "Test",
+    "lastName": "User"
+}
+```
+
+This id can be used to redirect to the front end of the application at the endpoint /plans/{id}. From here the shared plan can be added to and shared.
