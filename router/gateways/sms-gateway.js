@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 module.exports = class SmsGateway {
   async sendMessage({ name, number, message, authHeader }) {
@@ -9,14 +9,13 @@ module.exports = class SmsGateway {
       message
     };
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
+    const headers = {
         Authorization: authHeader,
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
+      }
+
+    const response = await axios.post(url, body, { headers } );
+
     if (response.ok) {
       return message;
     } else {
