@@ -2,6 +2,14 @@
 
 A tool that helps create a shared plan of action between a Hackney resident and the professionals supporting them.
 
+![Architecture diagram](docs/diagram.png)
+
+| Dependencies       | What it's used for                   |
+|--------------------|--------------------------------------|
+| Gov Notify         | Used for sharing the plans via email |
+| Proto Collab Tools | Used for sharing plans via sms       |
+
+
 ## Getting Started
 
 1. Install dependencies:
