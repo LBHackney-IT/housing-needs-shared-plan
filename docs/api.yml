@@ -1,7 +1,5 @@
 openapi: 3.0.0
-info:
-  title: Shared Plan API
-  version: "1.0"
+
 paths:
   /plans:
     post:
@@ -13,42 +11,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                  description: The customers given name
-                  example: Anand
-                lastName:
-                  type: string
-                  description: The customers family name
-                  example: Patel
-                systemIds:
-                  type: array
-                  items:
-                    type: string
-                  description: List of person's system IDs from other systems
-                  example: [ABCD-726387123, "27238", HH02872913]
-                numbers:
-                  type: array
-                  items:
-                    type: string
-                  description: A list of phone numbers
-                  example: ["0777 777777", "(+077) 77 77777"]
-                emails:
-                  type: array
-                  items:
-                    type: string
-                  description: A list of email addresses
-                  example: ["fake12.fake@fakedomain.fe"]
-                hasPhp:
-                  type: boolean
-                  description: Whether the person has a personal housing plan
-                  example: false
-              required:
-                - firstName
-                - lastName
-                - systemIds
+              $ref: "#/components/schemas/PlanCreateModel"
       responses:
         "201":
           description: Created
@@ -74,15 +37,15 @@ paths:
                     description: Last name for person's plan
               example:
                 id: d6BQiWGGhOrF8mFdPp4T
-                firstName: Anand
-                lastName: Patel
+                firstName: Sherlock
+                lastName: Holmes
         "400":
           description: Bad request
 
   /plans/{planId}:
     get:
       operationId: get-plan-by-id
-      summary: Gets a plan using the plan id
+      summary: Gets a plan with attached goal and actions
       tags:
         - Plans
       parameters:
@@ -93,14 +56,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/plan"
+                $ref: "#/components/schemas/Plan"
         "404":
           description: Plan not found
 
   /plans/find:
     post:
       operationId: find-plan
-      summary: Find matching plans using known person details
+      summary: Find matching plans
       tags:
         - Plans
       requestBody:
@@ -112,19 +75,17 @@ paths:
                 firstName:
                   type: string
                   description: First name for the system to find matching plans for
-                  example: "Jean-Luc"
+                  example: "Sherlock"
                 lastName:
                   type: string
                   description: Last name for the system to find matching plans for
-                  example: "Picard"
-                systemIds: 
+                  example: "Holmes"
+                systemIds:
                   type: array
                   description: IDs for the system to find matching plans for
-                  example: [
-                    "systemIdOne",
-                    "systemIdTwo",
-                    "systemIdThree"
-                  ]
+                  items:
+                    type: string
+                  example: ["systemIdOne", "systemIdTwo", "systemIdThree"]
       responses:
         "200":
           description: OK
@@ -136,10 +97,9 @@ paths:
                   planIds:
                     type: array
                     description: Matched IDs
-                    example: [
-                      "planIdOne",
-                      "planIdTwo"
-                    ]
+                    items:
+                      type: string
+                    example: ["planIdOne", "planIdTwo"]
 
   /plans/{planId}/goals:
     post:
@@ -153,15 +113,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/goal-create-request"
-              
+              $ref: "#/components/schemas/GoalCreateModel"
       responses:
         "200":
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/goal-action-create-response"
+                $ref: "#/components/schemas/Plan"
         "500":
           description: Could not add goal to plan (Invalid Plan ID)
 
@@ -177,18 +136,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/create-action"
+              $ref: "#/components/schemas/ActionCreateModel"
       responses:
         "201":
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/plan"
+                $ref: "#/components/schemas/Plan"
         "500":
           description: Could not add action to plan (Invalid Plan ID)
 
-  /plans/{planId}/goal/actions/{actionId}:
+  /plans/{planId}/actions/{actionId}:
     patch:
       operationId: update-action
       summary: Updates an action
@@ -205,7 +164,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: "#/components/schemas/action"
+              $ref: "#/components/schemas/Action"
             example:
               summary: This is an updated summary!
               dueOn: 2020-06-15
@@ -247,8 +206,7 @@ components:
         type: string
 
   schemas:
-
-    plan:
+    Plan:
       type: object
       description: A plan
       properties:
@@ -262,7 +220,7 @@ components:
           description: The date and time at which the plan was created
           example: 2020-06-02T09:21:16Z
         goal:
-          $ref: "#/components/schemas/goal"
+          $ref: "#/components/schemas/Goal"
         firstName:
           type: string
           example: "Alex"
@@ -271,15 +229,23 @@ components:
           example: "Test"
         systemIds:
           type: array
+          items:
+            type: string
           example: ["1010", "2020"]
         numbers:
           type: array
+          items:
+            type: string
           example: ["0777 777777", "(+077) 77 77777"]
         emails:
           type: array
+          items:
+            type: string
           example: ["1010", "2020"]
         customerTokens:
           type: array
+          items:
+            type: string
           example: ["1010", "2020"]
         initialUseAsPhp:
           type: boolean
@@ -289,7 +255,7 @@ components:
         - customer
         - createdAt
 
-    goal:
+    Goal:
       type: object
       description: A goal to achieve in the plan
       properties:
@@ -324,7 +290,7 @@ components:
           type: array
           description: List of actions against the goal
           items:
-            $ref: "#/components/schemas/action"
+            $ref: "#/components/schemas/Action"
       required:
         - text
         - agreedOn
@@ -332,7 +298,7 @@ components:
         - isPHP
         - actions
 
-    action:
+    Action:
       type: object
       description: An action to take to achieve a goal
       properties:
@@ -368,8 +334,48 @@ components:
         - dueOn
         - isCompleted
 
-    goal-create-request:
+    PlanCreateModel:
       type: object
+      description: Object used to create a plan
+      properties:
+        firstName:
+          type: string
+          description: The customers given name
+          example: Sherlock
+        lastName:
+          type: string
+          description: The customers family name
+          example: Holmes
+        systemIds:
+          type: array
+          items:
+            type: string
+          description: List of person's system IDs from other systems
+          example: [ABCD-726387123, "27238", HH02872913]
+        numbers:
+          type: array
+          items:
+            type: string
+          description: A list of phone numbers
+          example: ["0777 777777", "(+077) 77 777727"]
+        emails:
+          type: array
+          items:
+            type: string
+          description: A list of email addresses
+          example: ["fake12.fake@fakedomain.fe"]
+        hasPhp:
+          type: boolean
+          description: Whether the person has a personal housing plan
+          example: false
+      required:
+        - firstName
+        - lastName
+        - systemIds
+
+    GoalCreateModel:
+      type: object
+      description: Object used to create a goal
       properties:
         text:
           type: string
@@ -393,55 +399,14 @@ components:
         actions:
           type: array
           items:
-            $ref: "#/components/schemas/action"
-          
+            $ref: "#/components/schemas/Action"
+
       required:
         - text
         - reviewOn
         - isPHP
 
-    goal-action-create-response:
-      type: object
-      properties:
-        id:
-          $ref: "#/components/parameters/planId"
-        created:
-          type: string
-          format: iso8601
-          description: The date on which this action is due to be completed
-          example: 2020-05-20
-        firstName:
-          type: string
-          example: "Test"
-        lastName:
-          type: string
-          example: "Test"
-        goal:
-          $ref: "#/components/schemas/goal"
-        systemIds:
-          type: array
-          example: [
-            "1010",
-            "2020"
-          ]
-        numbers:
-          type: array
-          example: [
-            "077 777777"
-          ]
-        emails:
-          type: array
-          example: [
-            "test@test.com"
-          ]
-        customerTokens:
-          type: array
-          example: []
-        initialUseAsPhp:
-          type: boolean
-          example: false
-          
-    create-action:
+    ActionCreateModel:
       type: object
       properties:
         summary:
@@ -469,3 +434,10 @@ components:
 servers:
   - url: https://virtserver.swaggerhub.com/Hackney/sharedPlanApi/1.0
     description: Mock Server
+  - url: https://api.example2.com
+    description: New Server 2
+info:
+  description: |
+    API for the shared plan application - to create, manage, and share plans with residents
+  version: "1.0"
+  title: Shared Plan API
