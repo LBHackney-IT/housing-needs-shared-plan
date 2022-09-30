@@ -30,6 +30,9 @@ touch .env # then go fill it in!
 docker-compose up
 ```
 
+For Linux desktop users make sure you're running **rootless** Docker Engine and
+do `docker compose up` (no dash) or install `docker-compose` explicitly otherwise you will face permissions issues.
+
 4. Create local DynamoDB plans table:
 
 ```bash
